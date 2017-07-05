@@ -1,0 +1,1212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml" lang="en-US"><head profile="http://gmpg.org/xfn/11">
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<!-- added by jigar -->
+
+
+<meta name="keywords" content="C programming language,C++ programming language,Embedded system,MatLab programming,Android application,Linux,Wordpress theme and plugin,php programming,Interview question for embedded software engineering,Share youre project">
+
+
+
+<!-- added by jigar -->
+
+<title>Convert file descriptor to file pointer | Convert file pointer to
+ file descriptor in Linux by C programming | Share Programming Tips</title>
+
+<!-- begin fevicon -->
+<link rel="shortcut icon" href="http://shareprogrammingtips.com/c-language-programming-tips/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming/favicon.ico" type="image/x-icon">
+<!-- begin fevicon -->
+
+	<link rel="stylesheet" type="text/css" media="all" href="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/style_002.css">
+
+	
+	<link rel="stylesheet" href="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/blue.css" media="screen">
+
+	
+	<link rel="stylesheet" href="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/jquery.css" media="screen">
+
+	 <link rel="stylesheet" href="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/superfish.css" media="screen">	 
+
+	 <!--[if gte IE 7]>
+
+    <link rel="stylesheet" media="screen" type="text/css" href="http://shareprogrammingtips.com/wp-content/themes/colorbold/ie7.css" />
+
+    <![endif]-->
+
+	<script async="" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/cbgapi.loaded_0"></script><script src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/ga.js" async="" type="text/javascript"></script><script language="JavaScript" type="text/javascript" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/jquery-1_002.js"></script>
+
+	<script language="JavaScript" type="text/javascript" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/jquery_003.js"></script>
+
+	<script language="JavaScript" type="text/javascript" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/jquery_002.js">
+
+	</script>
+
+    <script type="text/javascript" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/superfish.js"></script>
+
+	
+
+	<!-- lightbox initialize script -->
+
+	<script type="text/javascript">
+
+		$(function() {
+
+		   $('a.lightbox').lightBox();
+
+		});
+
+	 </script>
+
+	<!-- ajax contact form -->
+
+	 <script type="text/javascript">
+
+		 $(document).ready(function(){
+
+			  $('#contact').ajaxForm(function(data) {
+
+				 if (data==1){
+
+					 $('#success').fadeIn("slow");
+
+					 $('#bademail').fadeOut("slow");
+
+					 $('#badserver').fadeOut("slow");
+
+					 $('#contact').resetForm();
+
+					 }
+
+				 else if (data==2){
+
+						 $('#badserver').fadeIn("slow");
+
+					  }
+
+				 else if (data==3)
+
+					{
+
+					 $('#bademail').fadeIn("slow");
+
+					}
+
+					});
+
+				 });
+
+		</script>
+
+		<script type="text/javascript"> 
+
+			$(document).ready(function(){ 
+
+				$("ul.sf-menu").superfish({
+
+					autoArrows:  false,
+
+					delay:       200,                             // one second delay on mouseout 
+
+					animation:   {opacity:'show',height:'show'},  // fade-in and slide-down animation 
+
+					speed:       'fast',                          // faster animation speed 
+
+					autoArrows:  true,                           // disable generation of arrow mark-up 
+
+					dropShadows: true                            // disable drop shadows 			
+
+					}); 
+
+			});
+
+		</script>
+
+
+
+	<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://shareprogrammingtips.com/feed/">
+
+	<link rel="alternate" type="text/xml" title="RSS .92" href="http://shareprogrammingtips.com/feed/rss/">
+
+	<link rel="alternate" type="application/atom+xml" title="Atom 1.0" href="http://shareprogrammingtips.com/feed/atom/">
+
+
+
+	<link rel="pingback" href="http://shareprogrammingtips.com/xmlrpc.php">
+
+		<link rel="archives" title="September 2012" href="http://shareprogrammingtips.com/2012/09/">
+	<link rel="archives" title="April 2012" href="http://shareprogrammingtips.com/2012/04/">
+	<link rel="archives" title="March 2012" href="http://shareprogrammingtips.com/2012/03/">
+	<link rel="archives" title="February 2012" href="http://shareprogrammingtips.com/2012/02/">
+	<link rel="archives" title="January 2012" href="http://shareprogrammingtips.com/2012/01/">
+	<link rel="archives" title="December 2011" href="http://shareprogrammingtips.com/2011/12/">
+	<link rel="archives" title="November 2011" href="http://shareprogrammingtips.com/2011/11/">
+	<link rel="archives" title="October 2011" href="http://shareprogrammingtips.com/2011/10/">
+	<link rel="archives" title="September 2011" href="http://shareprogrammingtips.com/2011/09/">
+
+	
+	
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.2.8.4 - http://yoast.com/wordpress/seo/ -->
+<meta name="description" content="Convert file descriptor to file pointer | Convert file pointer to file descriptor in Linux by C programming
+Whats is difference between file descriptor and file pointer?">
+<link rel="canonical" href="http://shareprogrammingtips.com/c-language-programming-tips/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming/">
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="Share Programming Tips » Convert file descriptor to file pointer | Convert file pointer to file descriptor in Linux by C programming Comments Feed" href="http://shareprogrammingtips.com/c-language-programming-tips/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming/feed/">
+<link rel="stylesheet" id="jmetc-css-css" href="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/tooltip.css" type="text/css" media="all">
+<link rel="stylesheet" id="contact-form-7-css" href="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/styles.css" type="text/css" media="all">
+<link rel="stylesheet" id="thickbox-css" href="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/thickbox.css" type="text/css" media="all">
+<link rel="stylesheet" id="wpdm-front-css" href="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/front.css" type="text/css" media="all">
+<link rel="stylesheet" id="wp-polls-css" href="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/polls-css.css" type="text/css" media="all">
+<link rel="stylesheet" id="commentluv_style-css" href="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/commentluv.css" type="text/css" media="all">
+<link rel="stylesheet" id="wp-author-bio-css" href="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/wp-about-author.css" type="text/css" media="all">
+<link rel="stylesheet" id="wp-syntax-css-css" href="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/wp-syntax.css" type="text/css" media="all">
+<script type="text/javascript" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/jquery.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var RMRH_VALUES = {"loaderImageURL":"http:\/\/shareprogrammingtips.com\/wp-content\/plugins\/read-more-right-here\/loader\/ajax-loader.gif","duplicateLink":"","animateSpeed":"1000","expandedText":"","loadDebugScript":"","pluginUrl":"http:\/\/shareprogrammingtips.com\/wp-content\/plugins\/read-more-right-here\/"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/wt_rmrh.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var cl_settings = {"name":"author","url":"url","comment":"comment","email":"email","infopanel":"on","default_on":"on","default_on_admin":"on","cl_version":"2.90.9.9.3","images":"http:\/\/shareprogrammingtips.com\/wp-content\/plugins\/commentluv\/images\/","api_url":"http:\/\/shareprogrammingtips.com\/wp-admin\/admin-ajax.php","_fetch":"d8d085e9b4","_info":"b9bcc8c40f","infoback":"white","infotext":"black","template_insert":"","logged_in":"","refer":"http:\/\/shareprogrammingtips.com\/c-language-programming-tips\/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming\/","no_url_message":"Please enter a URL and then click the CommentLuv checkbox if you want to add your last blog post","no_http_message":"Please use http:\/\/ in front of your url","no_url_logged_in_message":"You need to visit your profile in the dashboard and update your details with your site URL","no_info_message":"No info was available or an error occured"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/commentluv.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://shareprogrammingtips.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://shareprogrammingtips.com/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress 3.5">
+<link rel="shortlink" href="http://wp.me/p1ShE2-cW">
+
+<!-- All in One SEO Pack 1.6.15 by Michael Torbert of Semper Fi Web Design[683,820] -->
+<meta name="description" content="&nbsp;If you all ready know the difference between&nbsp;file descriptor and file pointer then good otherwise please read this post Whats is difference between file">
+<meta name="keywords" content="fdopen(),fileno(),c,linux,tips">
+<link rel="canonical" href="http://shareprogrammingtips.com/c-language-programming-tips/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming/">
+<!-- /all in one seo pack -->
+
+
+<!-- Start Of Code Generated By DamnSexyBookmarks 1.0 -->
+<link rel="stylesheet" id="damn-sexy-bookmarks-css" href="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/style.css" type="text/css" media="all">
+<!-- End Of Code Generated By DamnSexyBookmarks 1.0 -->
+
+    <script language="JavaScript">
+    <!--
+      jQuery(function(){
+          
+          jQuery('.wpdm-popup').click(function(){
+              tb_show(jQuery(this).html(),this.href+'&modal=1&width=600&height=400');
+              return false;
+          });
+          
+          jQuery('.haspass').click(function(){
+              var url = jQuery(this).attr('href');
+              var id = jQuery(this).attr('rel');
+              var password = jQuery('#pass_'+id).val();
+              jQuery.post('http://shareprogrammingtips.com/',{download:id,password:password},function(res){
+                  
+                  if(res=='error') {
+                    
+                      jQuery('#wpdm_file_'+id+' .perror').html('Wrong Password');
+                      setTimeout("jQuery('#wpdm_file_"+id+" .perror').html('');",3000);
+                      return false;
+                  } else {
+                      location.href = 'http://shareprogrammingtips.com/?wpdmact=process&did='+res;
+                  }
+                  //if(res.url!='undefined') location.href=res.url;
+                                           
+              });
+               
+              return false;
+          });
+      })
+    //-->
+    </script>
+    <link rel="shortcut icon" href="http://shareprogrammingtips.com/favicon.ico" type="image/x-icon"><!-- Favi -->
+
+<!-- Social Ring: Facebook Open Graph Meta Start -->
+<meta property="og:url" content="http://shareprogrammingtips.com/c-language-programming-tips/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming/">
+<meta property="og:title" content="Convert file descriptor to file pointer | Convert file pointer to file descriptor in Linux by C programming">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Share Programming Tips">
+<meta property="og:description" content="&nbsp;If you all ready know the difference between&nbsp;file descriptor and file pointer then good otherwise please read this post Whats is difference between file descriptor and file pointer? &nbsp; &nbsp; File descriptor to file pointer : for converting file descriptor to file pointer in linux fdopen() function is used #include &lt;stdio.h&gt;&nbsp; FILE *fdopen(int fildes, const char *mode); fildes is file descriptor mode is the character value which indicate the mode of file operation (same as we use in fopen() function) Example :  #include &lt;stdio.h&gt; #include &lt;fcntl.h&gt; &nbsp; int main(){ int fd; FILE *fp; fd = open(&quot;shareprogrammingtips.txt&quot;,O_WRONLY | O_CREAT | O_TRUNC); if(fd&lt;0) {    printf(&quot;open call fail&quot;);    return -1; } &nbsp; fp=fdopen(fd,&quot;w&quot;); fprintf(fp,&quot;we got file pointer fp bu using File descriptor fd&quot;); fclose(fp); close(fd); return 0; }    &nbsp;File pointer to file descriptor: for converting file pointer &nbsp;to file descriptor&nbsp;in linux&nbsp;fdopen() function&nbsp;is used #include [...]">
+<meta property="og:image" content="http://shareprogrammingtips.com/wp-content/uploads/2011/10/C-gods-programming-language-150x150.jpg">
+<!-- Social Ring: Facebook Open Graph Meta End -->
+
+ 
+
+		<style type="text/css">
+		
+			.social-ring:after {
+			    clear: both;
+			    content: " ";
+			    display: block;
+			    font-size: 0;
+			    height: 0;
+			    line-height: 0;
+			    visibility: hidden;
+			    width: 0;
+			}
+			
+			.social-ring {
+				margin: 0 !important;
+				padding: 0 !important;
+				line-height: 20px !important;
+				height: 30px !important;
+				font-size: 11px;
+				
+			}
+			
+			.social-ring-button {
+				float: left !important;
+				margin: 0 !important;
+				padding: 0 !important;
+			}
+			
+		</style>
+
+<style type="text/css">
+.wp-polls .pollbar {
+	margin: 1px;
+	font-size: 6px;
+	line-height: 8px;
+	height: 8px;
+	background-image: url('http://shareprogrammingtips.com/wp-content/plugins/wp-polls/images/default/pollbg.gif');
+	border: 1px solid #c8c8c8;
+}
+</style>
+	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+
+
+
+
+
+<style type="text/css">a.PIN_1358850228324_pin_it_button {  background-image: url(http://passets-cdn.pinterest.com/images/pidgets/bps1.png)!important; background-repeat: none!important; background-size: 40px 60px!important; display: inline-block!important; height: 20px!important; margin: 0!important; position: relative!important; padding: 0!important; vertical-align: baseline!important; text-decoration: none!important; width: 40px!important; background-position: 0 -20px }
+a.PIN_1358850228324_pin_it_button:hover { background-position: 0 0px}
+a.PIN_1358850228324_pin_it_button:active, a.PIN_1358850228324_pin_it_button.PIN_1358850228324_hazClick { background-position: 0 -40px}
+a.PIN_1358850228324_pin_it_button span.PIN_1358850228324_pin_it_button_count { position: absolute!important; color: #777!important; text-align: center!important;  }
+a.PIN_1358850228324_pin_it_above span.PIN_1358850228324_pin_it_button_count { background: transparent url(http://passets-cdn.pinterest.com/images/pidgets/fpa1.png) 0 0 no-repeat!important; background-size: 40px 29px!important; position: absolute!important; bottom: 21px!important; left: 0px!important; height: 29px!important; width: 40px!important; font: 12px Arial, Helvetica, sans-serif!important; line-height: 24px!important; }
+a.PIN_1358850228324_pin_it_beside span.PIN_1358850228324_pin_it_button_count, a.PIN_1358850228324_pin_it_beside span.PIN_1358850228324_pin_it_button_count i { background-color: transparent!important; background-repeat: no-repeat!important; background-image: url(http://passets-cdn.pinterest.com/images/pidgets/fpb1.png)!important; }
+a.PIN_1358850228324_pin_it_beside span.PIN_1358850228324_pin_it_button_count { padding: 0 3px 0 10px!important; background-size: 45px 20px!important; background-position: 0 0!important; position: absolute!important; top: 0!important; left: 41px!important; height: 20px!important; font: 10px Arial, Helvetica, sans-serif!important; line-height: 20px!important; }
+a.PIN_1358850228324_pin_it_beside span.PIN_1358850228324_pin_it_button_count i { background-position: 100% 0!important; position: absolute!important; top: 0!important; right: -2px!important; height: 20px!important; width: 2px!important; }
+a.PIN_1358850228324_pin_it_button.PIN_1358850228324_pin_it_above { margin-top: 20px!important; }
+a.PIN_1358850228324_follow_me_button, a.PIN_1358850228324_follow_me_button i { background: transparent url(http://passets-cdn.pinterest.com/images/pidgets/bfs1.png) 0 0 no-repeat }
+a.PIN_1358850228324_follow_me_button { color: #444!important; display: inline-block!important; font: bold normal normal 11px/20px "Helvetica Neue",helvetica,arial,san-serif!important; height: 20px!important; margin: 0!important; padding: 0!important; position: relative!important; text-decoration: none!important; text-indent: 19px!important; vertical-align: baseline!important;}
+a.PIN_1358850228324_follow_me_button:hover { background-position: 0 -20px}
+a.PIN_1358850228324_follow_me_button:active  { background-position: 0 -40px}
+a.PIN_1358850228324_follow_me_button b { position: absolute!important; top: 3px!important; left: 3px!important; height: 14px!important; width: 14px!important; background-size: 14px 14px!important; background-image: url(http://passets-cdn.pinterest.com/images/pidgets/log1.png)!important; }
+a.PIN_1358850228324_follow_me_button i { position: absolute!important; top: 0!important; right: -4px!important; height: 20px!important; width: 4px!important; background-position: 100% 0px!important; }
+a.PIN_1358850228324_follow_me_button:hover i { background-position: 100% -20px!important;  }
+a.PIN_1358850228324_follow_me_button:active i { background-position: 100% -40px!important; }
+span.PIN_1358850228324_embed_pin { display: inline-block!important; padding: 15px 0!important; text-align: center!important; width: 225px!important; }
+span.PIN_1358850228324_embed_pin.PIN_1358850228324_fancy { background: #fff!important; box-shadow: 0 0 3px #aaa!important; border-radius: 3px!important; }
+span.PIN_1358850228324_embed_pin a.PIN_1358850228324_embed_pin_link { display: block!important;  margin: 0 auto 10px!important; padding: 0!important; position: relative!important;  line-height: 0!important;}
+span.PIN_1358850228324_embed_pin a.PIN_1358850228324_embed_pin_link img.PIN_1358850228324_embed_pin_img { box-shadow: 0 0 1px #aaa!important; margin: 0!important;}
+span.PIN_1358850228324_embed_pin a.PIN_1358850228324_embed_pin_link img.PIN_1358850228324_embed_pin_video { left: 50%!important; margin-left: -25px!important; margin-top: -25px!important; position: absolute!important; top: 50%!important; }
+span.PIN_1358850228324_embed_pin span.PIN_1358850228324_embed_pin_attrib, span.PIN_1358850228324_embed_pin span.PIN_1358850228324_embed_pin_description { display: block!important; font: normal 11px/14.85px "Helvetica Neue", arial, sans-serif!important; margin: 0 15px!important; text-align: left!important; }
+span.PIN_1358850228324_embed_pin span.PIN_1358850228324_embed_pin_attrib { color: #ad9c9c!important; margin-bottom: 10px!important; height: 16px!important; line-height: 16px!important;}
+span.PIN_1358850228324_embed_pin span.PIN_1358850228324_embed_pin_attrib a.PIN_1358850228324_embed_pin_attrib_author { color: #ad9c9c!important; font-weight: bold!important; text-decoration: none!important; }
+span.PIN_1358850228324_embed_pin span.PIN_1358850228324_embed_pin_attrib a.PIN_1358850228324_embed_pin_attrib_author:hover { text-decoration: underline!important; }
+span.PIN_1358850228324_embed_pin span.PIN_1358850228324_embed_pin_attrib img.PIN_1358850228324_embed_pin_attrib_icon { margin: 0 5px 0 0!important; height: 16px!important; width: 16px!important; vertical-align: middle!important; display: inline-block!important; }
+span.PIN_1358850228324_embed_board { display: inline-block!important; margin: 0!important; padding:10px 0!important; position: relative!important; text-align: center}
+span.PIN_1358850228324_embed_board.PIN_1358850228324_fancy { background: #fff!important; box-shadow: 0 0 3px #aaa!important; border-radius: 3px!important; }
+span.PIN_1358850228324_embed_board span.PIN_1358850228324_embed_board_hd { display: block!important; margin: 0 10px!important; padding: 0!important; line-height: 20px!important; height: 25px!important; position: relative!important;  }
+span.PIN_1358850228324_embed_board span.PIN_1358850228324_embed_board_hd a { cursor: pointer!important; background: inherit!important; text-decoration: none!important; width: 48%!important; white-space: nowrap!important; position: absolute!important; top: 0!important; overflow: hidden!important;  text-overflow: ellipsis!important; }
+span.PIN_1358850228324_embed_board span.PIN_1358850228324_embed_board_hd a:hover { text-decoration: none!important; background: inherit!important; }
+span.PIN_1358850228324_embed_board span.PIN_1358850228324_embed_board_hd a:active { text-decoration: none!important; background: inherit!important; }
+span.PIN_1358850228324_embed_board span.PIN_1358850228324_embed_board_hd a.PIN_1358850228324_embed_board_title { width: 100%!important; position: absolute!important; left: 0!important; text-align: left!important; font-family: Georgia!important; font-size: 16px!important; color:#2b1e1e!important;}
+span.PIN_1358850228324_embed_board span.PIN_1358850228324_embed_board_hd a.PIN_1358850228324_embed_board_name { position: absolute!important; left: 0!important; text-align: left!important; font-family: Georgia!important; font-size: 16px!important; color:#2b1e1e!important;}
+span.PIN_1358850228324_embed_board span.PIN_1358850228324_embed_board_hd a.PIN_1358850228324_embed_board_author { position: absolute!important; right: 0!important; text-align: right!important; font-family: Helvetica!important; font-size: 11px!important; color: #746d6a!important; font-weight: bold!important;}
+span.PIN_1358850228324_embed_board span.PIN_1358850228324_embed_board_hd a.PIN_1358850228324_embed_board_author::before { content:"by "!important; font-weight: normal!important; }
+span.PIN_1358850228324_embed_board span.PIN_1358850228324_embed_board_bd { display:block!important; margin: 0 10px!important; overflow: hidden!important; border-radius: 2px!important; position: relative!important; }
+span.PIN_1358850228324_embed_board span.PIN_1358850228324_embed_board_bd a.PIN_1358850228324_embed_board_th { cursor: pointer!important; display: inline-block!important; position: absolute!important; overflow: hidden!important; }
+span.PIN_1358850228324_embed_board span.PIN_1358850228324_embed_board_bd a.PIN_1358850228324_embed_board_th::before { position: absolute!important; content:""!important; z-index: 2!important; top: 0!important; left: 0!important; right: 0!important; bottom: 0!important; box-shadow: inset 0 0 2px #888!important; }
+span.PIN_1358850228324_embed_board span.PIN_1358850228324_embed_board_bd a.PIN_1358850228324_embed_board_th img.PIN_1358850228324_embed_board_img { position: absolute!important; top: 50%!important; left: 0!important; }
+a.PIN_1358850228324_embed_board_ft { text-shadow: 0 1px #fff!important; display: block!important; text-align: center!important; border: 1px solid #ccc!important; margin: 10px 10px 0!important; height: 31px!important; line-height: 30px!important;border-radius: 2px!important; text-decoration: none!important; font-family: Helvetica!important; font-weight: bold!important; font-size: 13px!important; color: #746d6a!important; background: #f4f4f4 url(http://passets-cdn.pinterest.com/images/pidgets/board_button_link.png) 0 0 repeat-x}
+a.PIN_1358850228324_embed_board_ft:hover { text-decoration: none!important; background: #fefefe url(http://passets-cdn.pinterest.com/images/pidgets/board_button_hover.png) 0 0 repeat-x}
+a.PIN_1358850228324_embed_board_ft:active { text-decoration: none!important; background: #e4e4e4 url(http://passets-cdn.pinterest.com/images/pidgets/board_button_active.png) 0 0 repeat-x}
+a.PIN_1358850228324_embed_board_ft span.PIN_1358850228324_embed_board_ft_logo { vertical-align: top!important; display: inline-block!important; margin-left: 2px!important; height: 30px!important; width: 66px!important; background: transparent url(http://passets-cdn.pinterest.com/images/pidgets/board_button_logo.png) 50% 48% no-repeat!important; }
+.PIN_1358850228324_hidden { display:none!important; }</style><!-- begin SI CAPTCHA Anti-Spam - comment form style --><style type="text/css">div#captchaImgDiv { display:block; }.captchaSizeDivSmall { width:175px; height:45px; padding-top:10px; }.captchaSizeDivLarge { width:250px; height:60px; padding-top:10px; }img#si_image_com,#si_image_reg,#si_image_log,#si_image_side_login { border-style:none; margin:0; padding-right:5px; float:left; }.captchaImgRefresh { border-style:none; margin:0; vertical-align:bottom; }div#captchaInputDiv { display:block; padding-top:15px; padding-bottom:5px; }label#captcha_code_label { margin:0; }input#captcha_code { width:65px; }</style><!-- end SI CAPTCHA Anti-Spam - comment form style --><style type="text/css">.fb_hidden{position:absolute;top:-10000px;z-index:10001}
+.fb_invisible{display:none}
+.fb_reset{background:none;border-spacing:0;border:0;color:#000;cursor:auto;direction:ltr;font-family:"lucida grande", tahoma, verdana, arial, sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}
+.fb_link img{border:none}
+.fb_dialog{background:rgba(82, 82, 82, .7);position:absolute;top:-10000px;z-index:10001}
+.fb_dialog_advanced{padding:10px;-moz-border-radius:8px;-webkit-border-radius:8px;border-radius:8px}
+.fb_dialog_content{background:#fff;color:#333}
+.fb_dialog_close_icon{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yA/x/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;_background-image:url(http://static.ak.fbcdn.net/rsrc.php/v2/y6/x/s816eWC-2sl.gif);cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px;top:8px\9;right:7px\9}
+.fb_dialog_mobile .fb_dialog_close_icon{top:5px;left:5px;right:auto}
+.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}
+.fb_dialog_close_icon:hover{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yA/x/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent;_background-image:url(http://static.ak.fbcdn.net/rsrc.php/v2/y6/x/s816eWC-2sl.gif)}
+.fb_dialog_close_icon:active{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yA/x/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent;_background-image:url(http://static.ak.fbcdn.net/rsrc.php/v2/y6/x/s816eWC-2sl.gif)}
+.fb_dialog_loader{background-color:#f2f2f2;border:1px solid #606060;font-size:24px;padding:20px}
+.fb_dialog_top_left,
+.fb_dialog_top_right,
+.fb_dialog_bottom_left,
+.fb_dialog_bottom_right{height:10px;width:10px;overflow:hidden;position:absolute}
+/* @noflip */
+.fb_dialog_top_left{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yR/x/8YeTNIlTZjm.png) no-repeat 0 0;left:-10px;top:-10px}
+/* @noflip */
+.fb_dialog_top_right{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yR/x/8YeTNIlTZjm.png) no-repeat 0 -10px;right:-10px;top:-10px}
+/* @noflip */
+.fb_dialog_bottom_left{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yR/x/8YeTNIlTZjm.png) no-repeat 0 -20px;bottom:-10px;left:-10px}
+/* @noflip */
+.fb_dialog_bottom_right{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yR/x/8YeTNIlTZjm.png) no-repeat 0 -30px;right:-10px;bottom:-10px}
+.fb_dialog_vert_left,
+.fb_dialog_vert_right,
+.fb_dialog_horiz_top,
+.fb_dialog_horiz_bottom{position:absolute;background:#525252;filter:alpha(opacity=70);opacity:.7}
+.fb_dialog_vert_left,
+.fb_dialog_vert_right{width:10px;height:100%}
+.fb_dialog_vert_left{margin-left:-10px}
+.fb_dialog_vert_right{right:0;margin-right:-10px}
+.fb_dialog_horiz_top,
+.fb_dialog_horiz_bottom{width:100%;height:10px}
+.fb_dialog_horiz_top{margin-top:-10px}
+.fb_dialog_horiz_bottom{bottom:0;margin-bottom:-10px}
+.fb_dialog_iframe{line-height:0}
+.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #3b5998;color:#fff;font-size:14px;font-weight:bold;margin:0}
+.fb_dialog_content .dialog_title > span{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yD/x/Cou7n-nqK52.gif)
+no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}
+body.fb_hidden{-webkit-transform:none;height:100%;margin:0;left:-10000px;overflow:visible;position:absolute;top:-10000px;width:100%
+}
+.fb_dialog.fb_dialog_mobile.loading{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yc/x/3rhSv5V8j3o.gif)
+white no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}
+.fb_dialog.fb_dialog_mobile.loading.centered{max-height:590px;min-height:590px;max-width:500px;min-width:500px}
+#fb-root #fb_dialog_ipad_overlay{background:rgba(0, 0, 0, .45);position:absolute;left:0;top:0;width:100%;min-height:100%;z-index:10000}
+#fb-root #fb_dialog_ipad_overlay.hidden{display:none}
+.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}
+.fb_dialog_content .dialog_header{-webkit-box-shadow:white 0 1px 1px -1px inset;background:-webkit-gradient(linear, 0 0, 0 100%, from(#738ABA), to(#2C4987));border-bottom:1px solid;border-color:#1d4088;color:#fff;font:14px Helvetica, sans-serif;font-weight:bold;text-overflow:ellipsis;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0;vertical-align:middle;white-space:nowrap}
+.fb_dialog_content .dialog_header table{-webkit-font-smoothing:subpixel-antialiased;height:43px;width:100%
+}
+.fb_dialog_content .dialog_header td.header_left{font-size:12px;padding-left:5px;vertical-align:middle;width:60px
+}
+.fb_dialog_content .dialog_header td.header_right{font-size:12px;padding-right:5px;vertical-align:middle;width:60px
+}
+.fb_dialog_content .touchable_button{background:-webkit-gradient(linear, 0 0, 0 100%, from(#4966A6),
+color-stop(0.5, #355492), to(#2A4887));border:1px solid #29447e;-webkit-background-clip:padding-box;-webkit-border-radius:3px;-webkit-box-shadow:rgba(0, 0, 0, .117188) 0 1px 1px inset,
+rgba(255, 255, 255, .167969) 0 1px 0;display:inline-block;margin-top:3px;max-width:85px;line-height:18px;padding:4px 12px;position:relative}
+.fb_dialog_content .dialog_header .touchable_button input{border:none;background:none;color:#fff;font:12px Helvetica, sans-serif;font-weight:bold;margin:2px -12px;padding:2px 6px 3px 6px;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}
+.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:16px;font-weight:bold;line-height:18px;text-align:center;vertical-align:middle}
+.fb_dialog_content .dialog_content{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yJ/x/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #555;border-bottom:0;border-top:0;height:150px}
+.fb_dialog_content .dialog_footer{background:#f2f2f2;border:1px solid #555;border-top-color:#ccc;height:40px}
+#fb_dialog_loader_close{float:left}
+.fb_dialog.fb_dialog_mobile .fb_dialog_close_button{text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}
+.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}
+.fb_iframe_widget{position:relative;display:-moz-inline-block;display:inline-block}
+.fb_iframe_widget iframe{position:absolute}
+.fb_iframe_widget_lift{z-index:1}
+.fb_iframe_widget span{position:relative;display:inline-block;vertical-align:text-bottom;text-align:justify}
+.fb_hide_iframes iframe{position:relative;left:-10000px}
+.fb_iframe_widget_loader{position:relative;display:inline-block}
+.fb_iframe_widget_fluid{display:inline}
+.fb_iframe_widget_fluid span{width:100%}
+.fb_iframe_widget_loader iframe{min-height:32px;z-index:2;zoom:1}
+.fb_iframe_widget_loader .FB_Loader{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yJ/x/jKEcVPZFk-2.gif) no-repeat;height:32px;width:32px;margin-left:-16px;position:absolute;left:50%;z-index:4}
+.fb_button_simple,
+.fb_button_simple_rtl{background-image:url(http://static.ak.fbcdn.net/rsrc.php/v2/yH/x/eIpbnVKI9lR.png);background-repeat:no-repeat;cursor:pointer;outline:none;text-decoration:none}
+.fb_button_simple_rtl{background-position:right 0}
+.fb_button_simple .fb_button_text{margin:0 0 0 20px;padding-bottom:1px}
+.fb_button_simple_rtl .fb_button_text{margin:0 10px 0 0}
+a.fb_button_simple:hover .fb_button_text,
+a.fb_button_simple_rtl:hover .fb_button_text,
+.fb_button_simple:hover .fb_button_text,
+.fb_button_simple_rtl:hover .fb_button_text{text-decoration:underline}
+.fb_button,
+.fb_button_rtl{background:#29447e url(http://static.ak.fbcdn.net/rsrc.php/v2/yl/x/FGFbc80dUKj.png);background-repeat:no-repeat;cursor:pointer;display:inline-block;padding:0 0 0 1px;text-decoration:none;outline:none}
+.fb_button .fb_button_text,
+.fb_button_rtl .fb_button_text{background:#5f78ab url(http://static.ak.fbcdn.net/rsrc.php/v2/yl/x/FGFbc80dUKj.png);border-top:solid 1px #879ac0;border-bottom:solid 1px #1a356e;color:#fff;display:block;font-family:"lucida grande",tahoma,verdana,arial,sans-serif;font-weight:bold;padding:2px 6px 3px 6px;margin:1px 1px 0 21px;text-shadow:none}
+a.fb_button,
+a.fb_button_rtl,
+.fb_button,
+.fb_button_rtl{text-decoration:none}
+a.fb_button:active .fb_button_text,
+a.fb_button_rtl:active .fb_button_text,
+.fb_button:active .fb_button_text,
+.fb_button_rtl:active .fb_button_text{border-bottom:solid 1px #29447e;border-top:solid 1px #45619d;background:#4f6aa3;text-shadow:none}
+.fb_button_xlarge,
+.fb_button_xlarge_rtl{background-position:left -60px;font-size:24px;line-height:30px}
+.fb_button_xlarge .fb_button_text{padding:3px 8px 3px 12px;margin-left:38px}
+a.fb_button_xlarge:active{background-position:left -99px}
+.fb_button_xlarge_rtl{background-position:right -268px}
+.fb_button_xlarge_rtl .fb_button_text{padding:3px 8px 3px 12px;margin-right:39px}
+a.fb_button_xlarge_rtl:active{background-position:right -307px}
+.fb_button_large,
+.fb_button_large_rtl{background-position:left -138px;font-size:13px;line-height:16px}
+.fb_button_large .fb_button_text{margin-left:24px;padding:2px 6px 4px 6px}
+a.fb_button_large:active{background-position:left -163px}
+.fb_button_large_rtl{background-position:right -346px}
+.fb_button_large_rtl .fb_button_text{margin-right:25px}
+a.fb_button_large_rtl:active{background-position:right -371px}
+.fb_button_medium,
+.fb_button_medium_rtl{background-position:left -188px;font-size:11px;line-height:14px}
+a.fb_button_medium:active{background-position:left -210px}
+.fb_button_medium_rtl{background-position:right -396px}
+.fb_button_text_rtl,
+.fb_button_medium_rtl .fb_button_text{padding:2px 6px 3px 6px;margin-right:22px}
+a.fb_button_medium_rtl:active{background-position:right -418px}
+.fb_button_small,
+.fb_button_small_rtl{background-position:left -232px;font-size:10px;line-height:10px}
+.fb_button_small .fb_button_text{padding:2px 6px 3px;margin-left:17px}
+a.fb_button_small:active,
+.fb_button_small:active{background-position:left -250px}
+.fb_button_small_rtl{background-position:right -440px}
+.fb_button_small_rtl .fb_button_text{padding:2px 6px;margin-right:18px}
+a.fb_button_small_rtl:active{background-position:right -458px}
+.fb_share_count_wrapper{position:relative;float:left}
+.fb_share_count{background:#b0b9ec none repeat scroll 0 0;color:#333;font-family:"lucida grande", tahoma, verdana, arial, sans-serif;text-align:center}
+.fb_share_count_inner{background:#e8ebf2;display:block}
+.fb_share_count_right{margin-left:-1px;display:inline-block}
+.fb_share_count_right .fb_share_count_inner{border-top:solid 1px #e8ebf2;border-bottom:solid 1px #b0b9ec;margin:1px 1px 0 1px;font-size:10px;line-height:10px;padding:2px 6px 3px;font-weight:bold}
+.fb_share_count_top{display:block;letter-spacing:-1px;line-height:34px;margin-bottom:7px;font-size:22px;border:solid 1px #b0b9ec}
+.fb_share_count_nub_top{border:none;display:block;position:absolute;left:7px;top:35px;margin:0;padding:0;width:6px;height:7px;background-repeat:no-repeat;background-image:url(http://static.ak.fbcdn.net/rsrc.php/v2/yP/x/bSOHtKbCGYI.png)}
+.fb_share_count_nub_right{border:none;display:inline-block;padding:0;width:5px;height:10px;background-repeat:no-repeat;background-image:url(http://static.ak.fbcdn.net/rsrc.php/v2/yL/x/i_oIVTKMYsL.png);vertical-align:top;background-position:right 5px;z-index:10;left:2px;margin:0 2px 0 0;position:relative}
+.fb_share_no_count{display:none}
+.fb_share_size_Small .fb_share_count_right .fb_share_count_inner{font-size:10px}
+.fb_share_size_Medium .fb_share_count_right .fb_share_count_inner{font-size:11px;padding:2px 6px 3px;letter-spacing:-1px;line-height:14px}
+.fb_share_size_Large .fb_share_count_right .fb_share_count_inner{font-size:13px;line-height:16px;padding:2px 6px 4px;font-weight:normal;letter-spacing:-1px}
+.fb_share_count_hidden .fb_share_count_nub_top,
+.fb_share_count_hidden .fb_share_count_top,
+.fb_share_count_hidden .fb_share_count_nub_right,
+.fb_share_count_hidden .fb_share_count_right{visibility:hidden}
+.fb_connect_bar_container div,
+.fb_connect_bar_container span,
+.fb_connect_bar_container a,
+.fb_connect_bar_container img,
+.fb_connect_bar_container strong{background:none;border-spacing:0;border:0;direction:ltr;font-style:normal;font-variant:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal;vertical-align:baseline}
+.fb_connect_bar_container{position:fixed;left:0 !important;right:0 !important;height:42px !important;padding:0 25px !important;margin:0 !important;vertical-align:middle !important;border-bottom:1px solid #333 !important;background:#3b5998 !important;z-index:99999999 !important;overflow:hidden !important}
+.fb_connect_bar_container_ie6{position:absolute;top:expression(document.compatMode=="CSS1Compat"? document.documentElement.scrollTop+"px":body.scrollTop+"px")}
+.fb_connect_bar{position:relative;margin:auto;height:100%;width:100%;padding:6px 0 0 0 !important;background:none;color:#fff !important;font-family:"lucida grande", tahoma, verdana, arial, sans-serif !important;font-size:13px !important;font-style:normal !important;font-variant:normal !important;font-weight:normal !important;letter-spacing:normal !important;line-height:1 !important;text-decoration:none !important;text-indent:0 !important;text-shadow:none !important;text-transform:none !important;white-space:normal !important;word-spacing:normal !important}
+.fb_connect_bar a:hover{color:#fff}
+.fb_connect_bar .fb_profile img{height:30px;width:30px;vertical-align:middle;margin:0 6px 5px 0}
+.fb_connect_bar div a,
+.fb_connect_bar span,
+.fb_connect_bar span a{color:#bac6da;font-size:11px;text-decoration:none}
+.fb_connect_bar .fb_buttons{float:right;margin-top:7px}
+.fb_edge_widget_with_comment{position:relative;*z-index:1000}
+.fb_edge_widget_with_comment span.fb_edge_comment_widget{position:absolute}
+.fb_edge_widget_with_comment span.fb_send_button_form_widget{z-index:1}
+.fb_edge_widget_with_comment span.fb_send_button_form_widget .FB_Loader{left:0;top:1px;margin-top:6px;margin-left:0;background-position:50% 50%;background-color:#fff;height:150px;width:394px;border:1px #666 solid;border-bottom:2px solid #283e6c;z-index:1}
+.fb_edge_widget_with_comment span.fb_send_button_form_widget.dark .FB_Loader{background-color:#000;border-bottom:2px solid #ccc}
+.fb_edge_widget_with_comment span.fb_send_button_form_widget.siderender
+.FB_Loader{margin-top:0}
+.fbpluginrecommendationsbarleft,
+.fbpluginrecommendationsbarright{position:fixed !important;bottom:0;z-index:999}
+/* @noflip */
+.fbpluginrecommendationsbarleft{left:10px}
+/* @noflip */
+.fbpluginrecommendationsbarright{right:10px}</style></head>
+
+<body>
+
+
+
+<!-- begin mainWrapper -->
+
+<div id="mainWrapper">
+
+	<!-- begin wrapper -->
+
+	<div id="wrapper">
+
+	<!-- begin header -->
+
+	<div id="header">
+
+	<a href="http://shareprogrammingtips.com/feed/" title="RSS" class="rssTag">RSS Feeds</a>
+
+	<!-- logo -->
+
+		<div id="logo"><a href="http://shareprogrammingtips.com/"><img src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/Untitled-Copy.jpg" alt="share programming tips"></a></div>
+
+		<!-- begin topmenu -->
+
+				<div id="topMenu">
+			<ul>
+				<li><a href="http://shareprogrammingtips.com/">Home</a></li>
+				<li class="page_item page-item-8"><a href="http://shareprogrammingtips.com/about-us/">About Us</a></li>
+<li class="page_item page-item-17"><a href="http://shareprogrammingtips.com/contact-us/">Contact Us</a></li>
+<li class="page_item page-item-14"><a href="http://shareprogrammingtips.com/share-your-project/">Share Your Project</a></li>
+			</ul>
+		</div>
+
+		<!-- end topmenu -->
+
+		<!-- begin mainMenu -->
+
+					<div id="mainMenu">
+				<ul class="sf-menu">
+					<li class="cat-item cat-item-30"><a href="http://shareprogrammingtips.com/category/android/" title="View all posts filed under Android">Android</a>
+<ul class="children">
+	<li class="cat-item cat-item-33"><a href="http://shareprogrammingtips.com/category/android/sample-programme-android/" title="View all posts filed under sample programme">sample programme</a>
+</li>
+	<li class="cat-item cat-item-32"><a href="http://shareprogrammingtips.com/category/android/tips-android/" title="View all posts filed under Tips">Tips</a>
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-4"><a href="http://shareprogrammingtips.com/category/c-language-programming-tips/" title="View all posts filed under c">c</a>
+<ul class="children">
+	<li class="cat-item cat-item-12"><a href="http://shareprogrammingtips.com/category/c-language-programming-tips/projects/" title="View all posts filed under projects">projects</a>
+</li>
+	<li class="cat-item cat-item-11"><a href="http://shareprogrammingtips.com/category/c-language-programming-tips/sample-programme/" title="View all posts filed under sample programme">sample programme</a>
+</li>
+	<li class="cat-item cat-item-13"><a href="http://shareprogrammingtips.com/category/c-language-programming-tips/tips/" title="View all posts filed under Tips">Tips</a>
+</li>
+	<li class="cat-item cat-item-10"><a href="http://shareprogrammingtips.com/category/c-language-programming-tips/tutorials/" title="View all posts filed under tutorials">tutorials</a>
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://shareprogrammingtips.com/category/c-language-programming-tips-2/" title="View all posts filed under c++">c++</a>
+<ul class="children">
+	<li class="cat-item cat-item-14"><a href="http://shareprogrammingtips.com/category/c-language-programming-tips-2/projects-c-language-programming-tips-2/" title="View all posts filed under projects">projects</a>
+</li>
+	<li class="cat-item cat-item-15"><a href="http://shareprogrammingtips.com/category/c-language-programming-tips-2/sample-programme-c-language-programming-tips-2/" title="View all posts filed under sample programme">sample programme</a>
+</li>
+	<li class="cat-item cat-item-16"><a href="http://shareprogrammingtips.com/category/c-language-programming-tips-2/tips-c-language-programming-tips-2/" title="View all posts filed under tips">tips</a>
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-6"><a href="http://shareprogrammingtips.com/category/linux-based-tips/" title="View all posts filed under linux">linux</a>
+<ul class="children">
+	<li class="cat-item cat-item-18"><a href="http://shareprogrammingtips.com/category/linux-based-tips/tips-linux-based-tips/" title="View all posts filed under tips">tips</a>
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://shareprogrammingtips.com/category/matlab-related-stuff/" title="post related to matlab programming tips ">Matlab</a>
+<ul class="children">
+	<li class="cat-item cat-item-20"><a href="http://shareprogrammingtips.com/category/matlab-related-stuff/projects-matlab-related-stuff/" title="View all posts filed under Projects">Projects</a>
+</li>
+	<li class="cat-item cat-item-21"><a href="http://shareprogrammingtips.com/category/matlab-related-stuff/tips-matlab-related-stuff/" title="View all posts filed under tips">tips</a>
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-51"><a href="http://shareprogrammingtips.com/category/php-framwork/" title="View all posts filed under PHP &amp; PHP Framworks">PHP &amp; PHP Framworks</a>
+<ul class="children">
+	<li class="cat-item cat-item-85"><a href="http://shareprogrammingtips.com/category/php-framwork/php-php-framwork/" title="View all posts filed under PHP">PHP</a>
+	<ul class="children">
+	<li class="cat-item cat-item-86"><a href="http://shareprogrammingtips.com/category/php-framwork/php-php-framwork/tips-php-php-framwork/" title="View all posts filed under Tips">Tips</a>
+</li>
+	</ul>
+</li>
+	<li class="cat-item cat-item-52"><a href="http://shareprogrammingtips.com/category/php-framwork/wordpress-information/" title="View all posts filed under wordpress">wordpress</a>
+	<ul class="children">
+	<li class="cat-item cat-item-82"><a href="http://shareprogrammingtips.com/category/php-framwork/wordpress-information/tips-wordpress-information/" title="View all posts filed under Tips">Tips</a>
+</li>
+	</ul>
+</li>
+</ul>
+</li>
+				</ul>
+		</div>
+
+		<!-- end mainMenu -->
+
+	</div>
+
+
+
+<!-- google add -->
+
+&nbsp;&nbsp;
+
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-9305198422091733";
+/* header_add(728&#42;90) */
+google_ad_slot = "6173046383";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/show_ads.js">
+</script><ins style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px"><ins id="aswift_0_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px"><iframe allowtransparency="true" hspace="0" marginwidth="0" marginheight="0" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){w.location.replace(h)}}" vspace="0" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;" frameborder="0" height="90" scrolling="no" width="728"></iframe></ins></ins>
+
+&nbsp;&nbsp;
+&nbsp;&nbsp;
+&nbsp;&nbsp;
+&nbsp;&nbsp;
+&nbsp;&nbsp;
+&nbsp;&nbsp;
+
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-9305198422091733";
+/* header _link */
+google_ad_slot = "0706396337";
+google_ad_width = 120;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/show_ads.js">
+</script><ins style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:120px"><ins id="aswift_1_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:120px"><iframe allowtransparency="true" hspace="0" marginwidth="0" marginheight="0" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){w.location.replace(h)}}" vspace="0" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;" frameborder="0" height="90" scrolling="no" width="120"></iframe></ins></ins>
+
+<!-- google add -->
+	<!-- end header -->
+
+	<!-- begin content -->
+
+	<div id="content" class="clearfix">
+<!-- begin col left -->
+
+	<div id="colLeft">		
+
+		
+		<!-- begin post -->
+
+		<div class="blogPost clearfix">
+
+			<div class="metaLeft">
+
+				<div class="month">Jan</div>
+
+				<div class="day">30</div>
+
+				<div class="comments"><a href="http://shareprogrammingtips.com/c-language-programming-tips/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming/#comments" title="Comment on Convert file descriptor to file pointer | Convert file pointer to file descriptor in Linux by C programming">1</a></div>
+
+			</div>
+
+			<div class="postRight">
+
+				<div class="titBullet"></div>
+
+				<h1><a href="http://shareprogrammingtips.com/c-language-programming-tips/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming/">Convert file descriptor to file pointer | Convert file pointer to file descriptor in Linux by C programming</a></h1>
+
+				<div class="metaRight">
+
+				<img src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/ico_user.png" alt="Author"> <a href="http://shareprogrammingtips.com/" title="Visit JIGAR PATEL’s website" rel="author external">JIGAR PATEL</a>&nbsp;&nbsp;&nbsp; <img src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/ico_folder.png" alt="Category"> <a href="http://shareprogrammingtips.com/category/c-language-programming-tips/" title="View all posts in c" rel="category tag">c</a>, <a href="http://shareprogrammingtips.com/category/linux-based-tips/" title="View all posts in linux" rel="category tag">linux</a>, <a href="http://shareprogrammingtips.com/category/c-language-programming-tips/tips/" title="View all posts in Tips" rel="category tag">Tips</a>, <a href="http://shareprogrammingtips.com/category/linux-based-tips/tips-linux-based-tips/" title="View all posts in tips" rel="category tag">tips</a>	&nbsp;&nbsp;&nbsp; <img src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/ico_tag.png" alt="Tags">  <a href="http://shareprogrammingtips.com/tag/fdopen/" rel="tag">fdopen()</a>, <a href="http://shareprogrammingtips.com/tag/fileno/" rel="tag">fileno()</a></div>
+
+<!-- google add -->
+
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-9305198422091733";
+/* post inside */
+google_ad_slot = "3165390321";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/show_ads.js">
+</script><ins style="display:inline-table;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:336px"><ins id="aswift_2_anchor" style="display:block;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:336px"><iframe allowtransparency="true" hspace="0" marginwidth="0" marginheight="0" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){w.location.replace(h)}}" vspace="0" id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;" frameborder="0" height="280" scrolling="no" width="336"></iframe></ins></ins>
+
+<!-- google add --> 
+
+				<p><a href="http://shareprogrammingtips.com/wp-content/uploads/2011/10/C-gods-programming-language.jpg"><img class="alignleft size-thumbnail wp-image-608" title="C-programming-language" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/C-gods-programming-language-150x150.jpg" alt="" height="150" width="150"></a>&nbsp;If
+ you all ready know the difference between&nbsp;file descriptor and file
+ pointer then good otherwise please read this post</p>
+<h1><a href="http://shareprogrammingtips.com/c-language-programming-tips/whats-is-difference-between-file-descriptor-and-file-pointer/">Whats is difference between file descriptor and file pointer?</a></h1>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>File descriptor to file pointer :</h2>
+<p>for converting file descriptor to file pointer in linux <strong>fdopen() function</strong> is used</p>
+<pre><code>#include &lt;<a href="http://pubs.opengroup.org/onlinepubs/7908799/xsh/stdio.h.html">stdio.h</a>&gt;&nbsp;</code></pre>
+<pre><code>FILE *fdopen(int <em>fildes</em>, const char *<em>mode</em>);</code></pre>
+<p><strong>fildes</strong> is file descriptor</p>
+<p><strong>mode</strong> is the character value which indicate the mode of file operation (same as we use in fopen() function)</p>
+<p><span style="color: #3366ff;">Example :</span></p>
+
+<div class="wp_syntax"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;"><span style="color: #339933;">#include &lt;stdio.h&gt;</span>
+<span style="color: #339933;">#include &lt;fcntl.h&gt;</span>
+&nbsp;
+<span style="color: #993333;">int</span> main<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #009900;">{</span>
+<span style="color: #993333;">int</span> fd<span style="color: #339933;">;</span>
+FILE <span style="color: #339933;">*</span>fp<span style="color: #339933;">;</span>
+fd <span style="color: #339933;">=</span> open<span style="color: #009900;">(</span><span style="color: #ff0000;">"shareprogrammingtips.txt"</span><span style="color: #339933;">,</span>O_WRONLY <span style="color: #339933;">|</span> O_CREAT <span style="color: #339933;">|</span> O_TRUNC<span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+<span style="color: #b1b100;">if</span><span style="color: #009900;">(</span>fd<span style="color: #339933;">&lt;</span><span style="color: #0000dd;">0</span><span style="color: #009900;">)</span>
+<span style="color: #009900;">{</span>
+   <span style="color: #000066;">printf</span><span style="color: #009900;">(</span><span style="color: #ff0000;">"open call fail"</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+   <span style="color: #b1b100;">return</span> <span style="color: #339933;">-</span><span style="color: #0000dd;">1</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span>
+&nbsp;
+fp<span style="color: #339933;">=</span><span style="color: #000066;">fdopen</span><span style="color: #009900;">(</span>fd<span style="color: #339933;">,</span><span style="color: #ff0000;">"w"</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+<span style="color: #000066;">fprintf</span><span style="color: #009900;">(</span>fp<span style="color: #339933;">,</span><span style="color: #ff0000;">"we got file pointer fp bu using File descriptor fd"</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+<span style="color: #000066;">fclose</span><span style="color: #009900;">(</span>fp<span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+close<span style="color: #009900;">(</span>fd<span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+<span style="color: #b1b100;">return</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span></pre></td></tr></tbody></table></div>
+
+<p><span id="more-802"></span></p>
+<hr>
+<h2>&nbsp;File pointer to file descriptor:</h2>
+<p>for converting file pointer &nbsp;to file descriptor&nbsp;in linux&nbsp;<strong>fdopen() function</strong>&nbsp;is used</p>
+<p><tt>#include &lt;<a href="http://pubs.opengroup.org/onlinepubs/009604499/basedefs/stdio.h.html">stdio.h</a>&gt;</tt></p><tt>
+</tt><p><tt>int fileno(FILE *</tt><em>stream</em><tt>);</tt></p>
+<p><strong>stream</strong> is file pointer</p>
+<p><span style="color: #3366ff;">Example:</span></p>
+
+<div class="wp_syntax"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;"><span style="color: #339933;">#include &lt;stdio.h&gt;</span>
+<span style="color: #339933;">#include &lt;stdlib.h&gt;</span>
+<span style="color: #339933;">#include &lt;unistd.h&gt;</span>
+&nbsp;
+<span style="color: #993333;">int</span> main<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #009900;">{</span>
+<span style="color: #993333;">int</span> fd<span style="color: #339933;">;</span>
+FILE <span style="color: #339933;">*</span>fp<span style="color: #339933;">;</span>
+<span style="color: #993333;">int</span> size<span style="color: #339933;">;</span>
+<span style="color: #993333;">char</span> <span style="color: #339933;">*</span>buffer<span style="color: #339933;">;</span>
+fp <span style="color: #339933;">=</span> <span style="color: #000066;">fopen</span><span style="color: #009900;">(</span><span style="color: #ff0000;">"shareprogrammingtips.txt"</span><span style="color: #339933;">,</span><span style="color: #ff0000;">"r"</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+<span style="color: #b1b100;">if</span><span style="color: #009900;">(</span>fp<span style="color: #339933;">==</span>NULL<span style="color: #009900;">)</span>
+<span style="color: #009900;">{</span>
+   <span style="color: #000066;">printf</span><span style="color: #009900;">(</span><span style="color: #ff0000;">"open call fail"</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+   <span style="color: #b1b100;">return</span> <span style="color: #339933;">-</span><span style="color: #0000dd;">1</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span>
+<span style="color: #808080; font-style: italic;">/* Logic for calculating size of file*/</span>
+<span style="color: #000066;">fseek</span><span style="color: #009900;">(</span>fp<span style="color: #339933;">,</span><span style="color: #0000dd;">0</span><span style="color: #339933;">,</span>SEEK_END<span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+size <span style="color: #339933;">=</span> <span style="color: #000066;">ftell</span><span style="color: #009900;">(</span>fp<span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+<span style="color: #000066;">fseek</span><span style="color: #009900;">(</span>fp<span style="color: #339933;">,</span><span style="color: #0000dd;">0</span><span style="color: #339933;">,</span><span style="color: #0000dd;">0</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+&nbsp;
+<span style="color: #b1b100;">if</span><span style="color: #009900;">(</span><span style="color: #009900;">(</span>buffer<span style="color: #339933;">=</span><span style="color: #000066;">malloc</span><span style="color: #009900;">(</span>size<span style="color: #009900;">)</span><span style="color: #009900;">)</span> <span style="color: #339933;">==</span> NULL<span style="color: #009900;">)</span>
+<span style="color: #009900;">{</span>
+<span style="color: #000066;">printf</span><span style="color: #009900;">(</span><span style="color: #ff0000;">"Malloc fail"</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+<span style="color: #b1b100;">return</span> <span style="color: #339933;">-</span><span style="color: #0000dd;">1</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span>
+&nbsp;
+fd<span style="color: #339933;">=</span>fileno<span style="color: #009900;">(</span>fp<span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+read<span style="color: #009900;">(</span>fd<span style="color: #339933;">,</span> <span style="color: #009900;">(</span><span style="color: #993333;">void</span><span style="color: #339933;">*</span><span style="color: #009900;">)</span>buffer<span style="color: #339933;">,</span> size<span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+<span style="color: #000066;">printf</span><span style="color: #009900;">(</span><span style="color: #ff0000;">"size is %d Buffer is %s "</span><span style="color: #339933;">,</span>size<span style="color: #339933;">,</span>buffer<span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+<span style="color: #000066;">fclose</span><span style="color: #009900;">(</span>fp<span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+close<span style="color: #009900;">(</span>fd<span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+<span style="color: #b1b100;">return</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span></pre></td></tr></tbody></table></div>
+
+<div class="damn-sexy-bookmarks" style="background:url(http://shareprogrammingtips.com/wp-content/plugins/damnsexybookmarks/images/sexy-trans.png) no-repeat left top;margin:20px 0 20px 0 !important;
+padding:25px 0 0 10px !important;
+height:29px;/*the height of the icons (29px)*/
+display:block !important;
+clear:both !important;"><ul class="socials"><li class="damn-sexy-yahoomyweb"><a href="http://myweb2.search.yahoo.com/myresults/bookmarklet?t=Convert+file+descriptor+to+file+pointer+%7C+Convert+file+pointer+to+file+descriptor+in+Linux+by+C+programming&amp;u=http://shareprogrammingtips.com/c-language-programming-tips/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming/" target="_blank" rel="nofollow" title="Array">Array</a></li><li class="damn-sexy-facebook"><a href="http://www.facebook.com/share.php?u=http://shareprogrammingtips.com/c-language-programming-tips/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming/&amp;amp;t=Convert+file+descriptor+to+file+pointer+%7C+Convert+file+pointer+to+file+descriptor+in+Linux+by+C+programming" target="_blank" rel="nofollow" title="Array">Array</a></li><li class="damn-sexy-twitter"><a href="http://www.twitter.com/home?status=+Convert+file+descriptor+to+file+pointer+%7C+Convert+file+pointer+to+file+descriptor+in+Linux+by+C+programming+-+http://%E2%9E%A1.ws/%E8%99%AB%E2%9D%9D" target="_blank" rel="nofollow" title="Array">Array</a></li><li class="damn-sexy-mail"><a href="mailto:?&amp;subject=Convert%20file%20descriptor%20to%20file%20pointer%20%7C%20Convert%20file%20poi...&amp;body=%20-%20http://shareprogrammingtips.com/c-language-programming-tips/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming/" target="_blank" rel="nofollow" title="Array">Array</a></li><li class="damn-sexy-comfeed"><a href="http://shareprogrammingtips.com/c-language-programming-tips/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming/feed" target="_blank" rel="nofollow" title="Array">Array</a></li><li class="damn-sexy-linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=http://shareprogrammingtips.com/c-language-programming-tips/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming/&amp;title=Convert+file+descriptor+to+file+pointer+%7C+Convert+file+pointer+to+file+descriptor+in+Linux+by+C+programming&amp;summary=&amp;source=Share%20Programming%20Tips" target="_blank" rel="nofollow" title="Array">Array</a></li><li class="damn-sexy-google"><a href="http://www.google.com/bookmarks/mark?op=add&amp;bkmk=http://shareprogrammingtips.com/c-language-programming-tips/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming/title=Convert+file+descriptor+to+file+pointer+%7C+Convert+file+pointer+to+file+descriptor+in+Linux+by+C+programming" target="_blank" rel="nofollow" title="Array">Array</a></li></ul></div><!-- Social Ring Buttons Start --><div class="social-ring"><div class="social-ring-button"><a href="http://twitter.com/share" data-url="http://shareprogrammingtips.com/c-language-programming-tips/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming/" data-text="Convert file descriptor to file pointer | Convert file pointer to file descriptor in Linux by C programming" data-count="horizontal" class="sr-twitter-button twitter-share-button"></a></div><div class="social-ring-button"><div id="___plusone_0" style="height: 20px; width: 90px; display: inline-block; text-indent: 0px; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% transparent; border-style: none; float: none; line-height: normal; font-size: 1px; vertical-align: baseline;"><iframe title="+1" data-gapiattached="true" allowtransparency="true" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/fastbutton.htm" name="I0_1358850209740" id="I0_1358850209740" vspace="0" tabindex="0" style="position: static; top: 0px; width: 90px; margin: 0px; border-style: none; left: 0px; visibility: visible; height: 20px;" marginwidth="0" marginheight="0" hspace="0" frameborder="0" scrolling="no" width="100%"></iframe></div></div><div class="social-ring-button"><iframe allowtransparency="true" hspace="0" marginheight="0" marginwidth="0" style="width: 70px; height: 21px; position: static; left: 0px; top: 0px; visibility: visible; " tabindex="-1" vspace="0" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/share.htm" frameborder="0" scrolling="no" width="100%"></iframe></div><div class="social-ring-button"><fb:like class=" fb_edge_widget_with_comment fb_iframe_widget" fb-xfbml-state="parsed" href="http://shareprogrammingtips.com/c-language-programming-tips/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming/" width="140" send="false" showfaces="false" layout="button_count" action="like"><span style="height: 21px; width: 140px;"><iframe src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/like.xhtml" class="fb_ltr" title="Like this content on Facebook." style="border: medium none; overflow: hidden; height: 21px; width: 140px;" name="f7ea5fa408d3de" id="f1c99194e9144da" scrolling="no"></iframe></span></fb:like></div></div><div style="clear:both;">&nbsp;</div><!-- Social Ring Buttons End --><div class="wp-about-author-containter-around" style="background-color:#CDCDCD;"><div class="wp-about-author-pic"><img alt="" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/e61e860e1454db9dcdae1fd72815a060.jpg" class="avatar avatar-100 photo" height="100" width="100"></div><div class="wp-about-author-text"><h3><a href="http://shareprogrammingtips.com/author/admin/" title="JIGAR PATEL">JIGAR PATEL</a></h3><p>hey
+ I am an Artist who love to write code…!
+Well I am an EC graduate From Ganpat University and now i am working  as
+ Embedded software engineer in one private firm.. find me at here 
+<a href="https://plus.google.com/112719832120658610603">JigAr Patel</a></p><p class="wpa-nomargin"><a href="http://shareprogrammingtips.com/author/admin/" title="More posts by JIGAR PATEL">More Posts</a>  – <a href="http://shareprogrammingtips.com/" title="JIGAR PATEL">Website</a>  – <a href="http://www.twitter.com/jigar_32">Twitter</a> – <a href="http://www.facebook.com/jigar32">Facebook</a></p></div></div><h3 class="related_post_title">You may like to read this also....</h3><ul class="related_post"><li><a href="http://shareprogrammingtips.com/uncategorized/how-to-root-your-htc-incredible-s/" title="How To Root Your HTC Incredible S">How To Root Your HTC Incredible S</a><br><small>
+
+&nbsp;
+
+The HTC Incredible S is a beast, but it’s more like one that’s chained and caged. To r...</small></li><li><a href="http://shareprogrammingtips.com/android/backend-service-provider-stackmob-comes-to-android/" title="Backend Service Provider StackMob Comes To Android">Backend Service Provider StackMob Comes To Android</a><br><small>StackMob, the backend service provider for mobile developers, has big news today: it’s now available...</small></li><li><a href="http://shareprogrammingtips.com/c-language-programming-tips/most-common-directory-layout-seen-in-all-cc-based-projectpackagelibrary/" title="Most common directory layout seen in all C/C++ based Project/Package/Library  ">Most common directory layout seen in all C/C++ based Project/Package/Library  </a><br><small>I have been with lots of projects package or library written in C or C++ programming language has On...</small></li><li><a href="http://shareprogrammingtips.com/android/top-10-best-selling-android-phones-in-india/" title="Top Selling Best Android phones in India.">Top Selling Best Android phones in India.</a><br><small>1) Samsung Galaxy S II (I9100)
+
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp; &nbsp;
+
+&nbsp;
+
+Specifi...</small></li><li><a href="http://shareprogrammingtips.com/linux-based-tips/whether-should-i-use-processes-or-threads-in-linux/" title="Whether should i use processes or threads in Linux?">Whether should i use processes or threads in Linux?</a><br><small>
+
+While designing any system usually we might confuse between thread and process usage . We think ...</small></li></ul><script type="text/javascript">
+		setTimeout(function () {
+			var link = document.createElement("link");
+			link.rel = "stylesheet";
+			link.href= "http://dtmvdvtzf8rz0.cloudfront.net/static/css/plain.css";
+			link.type= "text/css";
+			document.getElementsByTagName("body")[0].appendChild(link);
+		}, 1);
+		</script>
+		<!-- Social Sharing Icons -->
+
+		<div class="social clearfix">
+
+			 <span>If you enjoyed this article please consider <strong>sharing it!</strong></span>
+
+				<a href="http://twitter.com/home/?status=Convert%20file%20descriptor%20to%20file%20pointer%20%7C%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20:%20http://shareprogrammingtips.com/c-language-programming-tips/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming/" title="Tweet this!">
+
+				<img src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/twitter.png" alt="Tweet this!">
+
+				</a>
+
+				
+
+				<a href="http://www.stumbleupon.com/submit?url=http://shareprogrammingtips.com/c-language-programming-tips/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming/&amp;amp;title=Convert%20file%20descriptor%20to%20file%20pointer%20%7C%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming" title="StumbleUpon.">
+
+				<img src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/stumbleupon.png" alt="StumbleUpon">
+
+				</a>
+
+				
+
+				<a href="http://www.reddit.com/submit?url=http://shareprogrammingtips.com/c-language-programming-tips/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming/&amp;amp;title=Convert%20file%20descriptor%20to%20file%20pointer%20%7C%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming" title="Vote on Reddit.">
+
+				<img src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/reddit.png" alt="Reddit">
+
+				</a>
+
+				<a href="http://digg.com/submit?phase=2&amp;amp;url=http://shareprogrammingtips.com/c-language-programming-tips/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming/&amp;amp;title=Convert%20file%20descriptor%20to%20file%20pointer%20%7C%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming" title="Digg this!">
+
+				<img src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/digg.png" alt="Digg This!">
+
+				</a>
+
+				
+
+				<a href="http://del.icio.us/post?url=http://shareprogrammingtips.com/c-language-programming-tips/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming/&amp;amp;title=Convert%20file%20descriptor%20to%20file%20pointer%20%7C%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming" title="Bookmark on Delicious.">
+
+				<img src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/delicious.png" alt="Bookmark on Delicious">
+
+				</a>
+
+				
+
+				<a href="http://www.facebook.com/sharer.php?u=http://shareprogrammingtips.com/c-language-programming-tips/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming/&amp;amp;t=Convert%20file%20descriptor%20to%20file%20pointer%20%7C%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming" title="Share on Facebook.">
+
+				<img src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/facebook.png" alt="Share on Facebook" id="sharethis-last">
+
+				</a>
+
+				
+
+			</div>
+
+		
+
+		<!-- end Social Sharing Icons -->
+
+			</div>
+
+		</div>
+
+		<!-- end post -->
+
+		
+
+		
+
+		
+
+        
+<!-- You can start editing here. -->
+
+	<h2 class="comments">1 Comment to “Convert file descriptor to file pointer | Convert file pointer to file descriptor in Linux by C programming”</h2>
+
+	<ul class="commentlist clearfix">
+	   <li class="pingback even thread-even depth-1" id="li-comment-453">
+  	
+
+     <div id="comment-453">
+	 
+	 <div class="comment-metaLeft">
+						</div>
+			<div class="commentRight">
+			<div class="commentBullet"></div>
+				 <span><strong><a href="http://shareprogrammingtips.com/c-language-programming-tips/whats-is-difference-between-file-descriptor-and-file-pointer/" rel="external nofollow" class="url">Whats is difference between file descriptor and file pointer, file descriptor and file pointer, Share Programming Tips</a></strong> </span>January 30, 2012 at 5:12 pm 				
+				  <div class="text"><p>[...] Convert file descriptor to file pointer
+ | Convert file pointer to file descriptor in Linux by C prog… 
+&nbsp;JIGAR PATELhey I am an Artist who love to write code…! Well I am 
+an EC graduate From Ganpat University and now i am working as Embedded 
+software engineer in one private firm.. find me at here GoogleWebsite – 
+Twitter – Facebook – More Posts You may like to read this also….Embedded
+ Jobs and Careers | embeddedcareers.comHey&nbsp;friends,&nbsp;after 
+having some experience in embedded field i always get to know about 
+recent&nbsp;trades…Concept of Octal literal in COne day while 
+debugging&nbsp; one code i got one interesting things ..let me explain 
+you by bellow's&nbsp; exa…Full Specifications of Leaked Samsung Galaxy 
+S3Samsung is planning to launch 3D Android smartphones next year. 
+Company is actively working on the n…Implementation limitation of c 
+programming language One day i thought , "What is the maximum number of 
+arguments we can pass to a function in C ?" …How to set, clear ,toggle 
+and check a single bit in C?As being an embedded software engineer i 
+would really suggest you this tricks. ..!&nbsp; In many&nbsp; applica…  
+ If you enjoyed this article please consider sharing it! [...]</p>
+ </div>
+				   			<div class="reply">
+					 <a class="comment-reply-link" href="http://shareprogrammingtips.com/c-language-programming-tips/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming/?replytocom=453#respond" onclick='return addComment.moveForm("comment-453", "453", "respond", "802")'>Reply</a>				  </div>
+			</div>
+	 
+      
+     </div>
+</li>
+	</ul>
+
+	<div class="navigation">
+		<div class="alignleft"></div>
+		<div class="alignright"></div>
+	</div>
+ 
+
+
+<div id="respond">
+
+<h2>Post comment</h2>
+
+<div class="cancel-comment-reply">
+	<small><a rel="nofollow" id="cancel-comment-reply-link" href="http://shareprogrammingtips.com/c-language-programming-tips/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming/#respond" style="display:none;">Click here to cancel reply.</a></small>
+</div>
+
+
+<form action="http://shareprogrammingtips.com/wp-comments-post.php" method="post" id="commentform">
+
+
+<p><label for="author">Name (required)</label>
+<input name="author" id="author" size="22" tabindex="1" aria-required="true" type="text">
+</p>
+
+<p><label for="email">Mail (will not be published) (required)</label>
+<input name="email" id="email" size="22" tabindex="2" aria-required="true" type="text">
+</p>
+
+<p><label for="url">Website</label>
+<input name="url" id="url" size="22" tabindex="3" type="text">
+</p>
+
+
+<!--<p><small><strong>XHTML:</strong> You can use these tags: <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; </code></small></p>-->
+
+<p><label for="comment">Comment</label>
+<textarea name="comment" id="comment" cols="100%" rows="10" tabindex="4"></textarea><div id="captchaImgDiv">
+
+<div class="captchaSizeDivLarge"><img id="si_image_com" class="si-captcha" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/securimage_show.png" alt="CAPTCHA Image" title="CAPTCHA Image" height="60" width="175">
+    <input id="si_code_com" name="si_code_com" value="nktWakSddfwRw8oS" type="hidden">
+    <div id="si_refresh_com">
+<a href="#" rel="nofollow" title="Refresh Image" onclick="si_captcha_refresh('si_image_com','com','/wp-content/plugins/si-captcha-for-wordpress/captcha','http://shareprogrammingtips.com/wp-content/plugins/si-captcha-for-wordpress/captcha/securimage_show.php?si_form_id=com&amp;prefix='); return false;">
+      <img class="captchaImgRefresh" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/refresh.png" alt="Refresh Image" onclick="this.blur();" height="20" width="22"></a>
+  </div>
+  </div>
+<div id="captchaInputDiv"><input id="captcha_code" name="captcha_code" tabindex="4" type="text">
+ <label id="captcha_code_label" for="captcha_code">CAPTCHA Code</label><span class="required"> *</span>
+ </div>
+</div></p>
+
+<p><input name="submit" id="submit" tabindex="5" value="Send »" type="submit">
+<input name="comment_post_ID" value="802" id="comment_post_ID" type="hidden">
+<input name="comment_parent" id="comment_parent" value="0" type="hidden">
+</p>
+
+
+      <script type="text/javascript">
+          var sUrlInput = document.getElementById("comment");
+                  var oParent = sUrlInput.parentNode;
+          var sSubstitue = document.getElementById("captchaImgDiv");
+                  oParent.appendChild(sSubstitue, sUrlInput);
+      </script>
+            <noscript>
+          <style type='text/css'>#submit {display:none;}</style><br />           <input name="submit" type="submit" id="submit-alt" tabindex="6" value="Submit Comment" />
+          </noscript>
+  <p style="display: none;"><input id="akismet_comment_nonce" name="akismet_comment_nonce" value="b11a144f97" type="hidden"></p><input name="cl_post_title" id="cl_post_title" type="hidden"><input name="cl_post_url" id="cl_post_url" type="hidden"><input name="cl_prem" id="cl_prem" type="hidden"><div id="commentluv"><div id="cl_messages"></div><input id="doluv" name="doluv" checked="checked" type="checkbox"><span id="mylastpost"><img alt="CommentLuv badge" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/CL91_default.png"></span><span id="showmorespan"><img class="clarrow" id="showmore" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/down-arrow.gif" alt="Show more posts" title="Show more posts" style="display:none;"></span></div><div id="lastposts" style="display:none;"></div>
+</form>
+
+</div>
+
+
+		
+			
+
+			</div>
+
+			<!-- end col left -->
+
+	
+
+<!-- begin col right -->
+
+		<div id="colRight" class="clearfix">
+
+			
+
+		<!-- begin adsBox -->
+				<!-- end adsBox -->
+		
+		<!-- begin twitter box -->
+				
+		<div id="twitter">
+			<a href="http://twitter.com/shareprograms" title="Follow us on Twitter!"><img src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/ico_twitter.png" alt="Follow us on Twitter!"></a>
+			<span>Follow us on Twitter!</span><br>		</div>
+				<!-- end twitter box -->
+		
+		<h2>Search in this website</h2>			<div class="textwidget"></div>
+		<h2>our sponsors</h2>			<div class="textwidget"><script type="text/javascript"><!--
+google_ad_client = "ca-pub-9305198422091733";
+/* rightside 250x250 image */
+google_ad_slot = "7147838557";
+google_ad_width = 250;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/show_ads.js">
+</script><ins style="display:inline-table;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:250px"><ins id="aswift_3_anchor" style="display:block;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:250px"><iframe allowtransparency="true" hspace="0" marginwidth="0" marginheight="0" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){w.location.replace(h)}}" vspace="0" id="aswift_3" name="aswift_3" style="left:0;position:absolute;top:0;" frameborder="0" height="250" scrolling="no" width="250"></iframe></ins></ins></div>
+		<h2>latest comments</h2><ul id="recentcomments"><li class="recentcomments">Shah Dhaval on <a href="http://shareprogrammingtips.com/c-language-programming-tips/how-to-detect-memory-leackage-in-c-program/#comment-743">How to detect memory leakage in C program?</a></li><li class="recentcomments"><a href="http://fikeolberol.com/" rel="external nofollow" class="url">ruunyytikkil</a> on <a href="http://shareprogrammingtips.com/c-language-programming-tips/how-can-i-write-applications-in-c-or-c-for-android/#comment-741">how can I write applications in C or C++ for Android?</a></li><li class="recentcomments">anonym on <a href="http://shareprogrammingtips.com/php-framwork/php-php-framwork/how-to-convert-sql-to-excel-in-php/#comment-733">How to convert SQL to Excel in Php?</a></li><li class="recentcomments">Academic Projects and Tech interview on <a href="http://shareprogrammingtips.com/c-language-programming-tips/c-programming-interview-questions-and-answers-for-freshers/#comment-731">C programming interview questions and answers for freshers</a></li><li class="recentcomments">Motasim billah on <a href="http://shareprogrammingtips.com/c-language-programming-tips/list-of-all-standard-version-of-c-language/#comment-717">List of all standard version of c language</a></li></ul><h2>Find us on  Facebook</h2>			<div class="textwidget"><iframe src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/likebox.xhtml" style="border:none; overflow:hidden; width:280px; height:290px;" allowtransparency="true" frameborder="0" scrolling="no"></iframe></div>
+		<h2>Top Authors</h2><div class="top-contributors">
+<div class="list"><img alt="" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/e61e860e1454db9dcdae1fd72815a060_002.jpg" class="avatar avatar-40 photo" height="40" width="40"><div class="tc-user"><a href="http://shareprogrammingtips.com/">JIGAR PATEL</a></div><div class="tc-count">35 posts</div><div style="clear:both;"></div></div>
+<div class="list"><img alt="" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/b472e52404e24ae2efda80c50a29e765.png" class="avatar avatar-40 photo" height="40" width="40"><div class="tc-user">saurabh</div><div class="tc-count">21 posts</div><div style="clear:both;"></div></div>
+<div class="list"><img alt="" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/20eb37a012f279958b489a0d81b2f28c.jpg" class="avatar avatar-40 photo" height="40" width="40"><div class="tc-user"><a href="http://shareprogrammingtips.com/">Arpi</a></div><div class="tc-count">10 posts</div><div style="clear:both;"></div></div>
+</div>
+<h2>Find us on stackoverflow</h2>			<div class="textwidget">
+<script type="text/javascript" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/jquery-1.js"></script>
+<script type="text/javascript" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/so.htm"></script>
+
+<a href="http://stackoverflow.com/users/775964/mr-32">
+<img src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/775964.png" height="58" width="208">
+</a>
+
+<a rel="me" href="http://shareprogrammingtips.com/about-us/">  </a></div>
+		<h2>Polls</h2><div id="polls-2" class="wp-polls">
+	<form id="polls_form_2" class="wp-polls-form" action="/c-language-programming-tips/convert-file-descriptor-to-file-pointer-convert-file-pointer-to-file-descriptor-in-linux-by-c-programming/" method="post">
+		<p style="display: none;"><input id="poll_2_nonce" name="wp-polls-nonce" value="927d438da5" type="hidden"></p>
+		<p style="display: none;"><input name="poll_id" value="2" type="hidden"></p>
+		<p style="text-align: center;"><strong>Tell us who you are</strong></p><div id="polls-2-ans" class="wp-polls-ans"><ul class="wp-polls-ul">
+		<li><input id="poll-answer-6" name="poll_2" value="6" type="radio"> <label for="poll-answer-6">Web Developer</label></li>
+		<li><input id="poll-answer-7" name="poll_2" value="7" type="radio"> <label for="poll-answer-7">Web Designer</label></li>
+		<li><input id="poll-answer-8" name="poll_2" value="8" type="radio"> <label for="poll-answer-8">Software engineer</label></li>
+		<li><input id="poll-answer-9" name="poll_2" value="9" type="radio"> <label for="poll-answer-9">Embedded engineer</label></li>
+		<li><input id="poll-answer-10" name="poll_2" value="10" type="radio"> <label for="poll-answer-10">Any other Engineer</label></li>
+		<li><input id="poll-answer-11" name="poll_2" value="11" type="radio"> <label for="poll-answer-11">i am just regular user</label></li>
+		</ul><p style="text-align: center;"><input name="vote" value="   Vote   " class="Buttons" onclick="poll_vote(2);" type="button"></p><p style="text-align: center;"><a href="#ViewPollResults" onclick="poll_result(2); return false;" title="View Results Of This Poll">View Results</a></p></div>
+	</form>
+</div>
+<div id="polls-2-loading" class="wp-polls-loading"><img src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/loading.gif" alt="Loading ..." title="Loading ..." class="wp-polls-image" height="16" width="16">&nbsp;Loading ...</div>
+<ul><li><a href="http://shareprogrammingtips.com/pollsarchive">Polls Archive</a></li></ul><h2>My Bookmarks</h2>
+	<ul class="xoxo blogroll">
+<li><a href="http://shareprogrammingtips.com/matlab-related-stuff/audiovideo-recorder-player-application-based-on-matlab/" title="Audio/video Recorder &amp; player application based on MATLAB">Audio/video Recorder &amp; player application based on MATLAB</a></li>
+<li><a href="http://www.dependencywalker.com/" target="_blank">check dependency of your binary</a></li>
+<li><a href="http://www.cplusplus.com/reference/" target="_blank">defination of all standard c programming language function</a></li>
+<li><a href="http://stackoverflow.com/questions/tagged/c?sort=votes&amp;pagesize=50" target="_blank">Great Question-Answer on c programming</a></li>
+<li><a href="http://www.cdecl.org/" target="_blank">know what your c code means</a></li>
+<li><a href="http://shareprogrammingtips.com/c-language-programming-tips/implementation-limitation-of-c-programming-language/">Limition of c programming language</a></li>
+<li><a href="http://shareprogrammingtips.com/c-language-programming-tips/list-of-all-standard-version-of-c-language/" target="_blank">List of all version of c programming language</a></li>
+<li><a href="http://codepad.org/" target="_blank">Online c compiler</a></li>
+<li><a href="http://www.aadinathtech.com/" target="_blank">php freelancing work</a></li>
+<li><a href="http://www.mycfiles.com/" target="_blank">some more stuff on C programming language</a></li>
+<li><a href="http://rasmiranjanbabuknols.wordpress.com/article/volatile-keyword-in-embedded-system/#comment-54" target="_blank">Volatile Keyword in Embedded System</a></li>
+<li><a href="http://shareprogrammingtips.com/c-language-programming-tips/how-can-i-write-applications-in-c-or-c-for-android/" target="_blank">Write Android application in c language</a></li>
+
+	</ul>
+
+<h2>Sponsers Link</h2>			<div class="textwidget"><script type="text/javascript"><!--
+google_ad_client = "ca-pub-9305198422091733";
+/* side bar long */
+google_ad_slot = "0967738880";
+google_ad_width = 160;
+google_ad_height = 600;
+//-->
+</script>
+<script type="text/javascript" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/show_ads.js">
+</script><ins style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:160px"><ins id="aswift_4_anchor" style="display:block;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:160px"><iframe allowtransparency="true" hspace="0" marginwidth="0" marginheight="0" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){w.location.replace(h)}}" vspace="0" id="aswift_4" name="aswift_4" style="left:0;position:absolute;top:0;" frameborder="0" height="600" scrolling="no" width="160"></iframe></ins></ins></div>
+					<div class="textwidget"><!-- ADDFREESTATS.COM AUTOCODE V4.0 -->
+<script type="text/javascript">
+<!--
+var AFS_Account="00925859";
+var AFS_Tracker="auto";
+var AFS_Server="www9";
+var AFS_Page="DetectName";
+var AFS_Url="DetectUrl";
+// -->
+</script>
+<script type="text/javascript" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/afstrack.js">
+</script><a href="http://new.addfreestats.com/?usr=00925859"><img src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/connect.gif" alt="" rel="nofollow" border="0"></a>
+<noscript>
+<a href="http://www.addfreestats.com" >
+<img src="http://www9.addfreestats.com/cgi-bin/connect.cgi?usr=00925859Pauto" border=0 alt="AddFreeStats.com Free Web Stats!">Web Stats</a>
+</noscript>
+<!-- ENDADDFREESTATS.COM AUTOCODE V4.0  -->
+</div>
+					<div class="textwidget"><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-25838576-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></div>
+				
+	
+
+		</div>
+
+		<!-- end col right -->
+
+
+
+
+
+
+
+	</div>
+	<!-- end content -->
+	</div>
+	<!-- end wrapper -->
+	<!-- begin footer -->
+	<div id="footer">
+	© 2011 <strong>share programming tips</strong>. All Right Reserved. 
+	
+	<div id="site5bottom"><a href="http://www.site5.com/p/drupal/"> </a></div>
+<br>
+<!-- google code -->
+
+<!-- google code -->
+<!-- blogger
+<a href="http://bloggers.com/jigar32" rel="dofollow" ><img src="http://bloggers.com/u/99654/p/img_01.png" title="Shareprogrammingtips - Find me on Bloggers.com" alt="Shareprogrammingtips - Find me on Bloggers.com" /></a>
+ blogger-->
+
+<!-- pr check logo
+<a href="http://www.prchecker.info/" title="PageRank Checking Icon" target="_blank">
+<img src="http://pr.prchecker.info/getpr.php?codex=aHR0cDovL3NoYXJlcHJvZ3JhbW1pbmd0aXBzLmNvbS8=&tag=1" alt="PageRank Checking Icon" style="border:0;" /></a>
+ pr check logo-->
+<!-- alexa logo
+<A href="http://www.alexa.com/siteinfo/http://shareprogrammingtips.com/"><SCRIPT type='text/javascript' language='JavaScript' src='http://xslt.alexa.com/site_stats/js/s/a?url=http://shareprogrammingtips.com/'></SCRIPT></A>
+ alexa logo-->
+	</div>
+	<!-- end footer -->
+</div><link type="text/css" href="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/plain.txt" rel="stylesheet">
+<!-- end mainWrapper -->
+
+<script type="text/javascript" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/si_captcha.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+var si_captcha_styles = "\
+<!-- begin SI CAPTCHA Anti-Spam - comment form style -->\
+<style type='text/css'>\
+div#captchaImgDiv { display:block; }\
+.captchaSizeDivSmall { width:175px; height:45px; padding-top:10px; }\
+.captchaSizeDivLarge { width:250px; height:60px; padding-top:10px; }\
+img#si_image_com,#si_image_reg,#si_image_log,#si_image_side_login { border-style:none; margin:0; padding-right:5px; float:left; }\
+.captchaImgRefresh { border-style:none; margin:0; vertical-align:bottom; }\
+div#captchaInputDiv { display:block; padding-top:15px; padding-bottom:5px; }\
+label#captcha_code_label { margin:0; }\
+input#captcha_code { width:65px; }\
+</style>\
+<!-- end SI CAPTCHA Anti-Spam - comment form style -->\
+";
+jQuery(document).ready(function($) {
+$('head').append(si_captcha_styles);
+});
+//]]>
+</script>
+		<!-- Social Ring JS Start -->
+	<div class=" fb_reset" id="fb-root"><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div><iframe src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/xd_arbiter.xhtml" style="border: medium none;" tabindex="-1" name="fb_xdm_frame_http" frameborder="0" scrolling="no"></iframe><iframe src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/xd_arbiter.htm" style="border: medium none;" tabindex="-1" name="fb_xdm_frame_https" frameborder="0" scrolling="no"></iframe></div></div><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div></div></div></div><script src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/all.js"></script>
+	<script gapi_processed="true" type="text/javascript" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/plusone.js"></script>
+	<script type="text/javascript" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/widgets.js"></script>
+        
+		<!-- Social Ring JS End -->
+<script type="text/javascript" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/jquery.htm"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/shareprogrammingtips.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ..."};
+/* ]]> */
+</script>
+<script type="text/javascript" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/scripts.htm"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var thickboxL10n = {"next":"Next >","prev":"< Prev","image":"Image","of":"of","close":"Close","noiframes":"This feature requires inline frames. You have iframes disabled or your browser does not support them.","loadingAnimation":"http:\/\/shareprogrammingtips.com\/wp-includes\/js\/thickbox\/loadingAnimation.gif","closeImage":"http:\/\/shareprogrammingtips.com\/wp-includes\/js\/thickbox\/tb-close.png"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/thickbox.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var pollsL10n = {"ajax_url":"http:\/\/shareprogrammingtips.com\/wp-admin\/admin-ajax.php","text_wait":"Your last request is still being processed. Please wait a while ...","text_valid":"Please choose a valid poll answer.","text_multiple":"Maximum number of choices allowed: ","show_loading":"1","show_fading":"1"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/polls-js.js"></script>
+<!--stats_footer_test--><script src="Convert%20file%20descriptor%20to%20file%20pointer%20_%20Convert%20file%20pointer%20to%20file%20descriptor%20in%20Linux%20by%20C%20programming%20_%20Share%20Programming%20Tips_files/e-201304.js" type="text/javascript"></script>
+<script type="text/javascript">
+st_go({blog:'27713878',v:'ext',post:'802'});
+var load_cmc = function(){linktracker_init(27713878,802,2);};
+if ( typeof addLoadEvent != 'undefined' ) addLoadEvent(load_cmc);
+else load_cmc();
+</script>
+
+
+</body></html>

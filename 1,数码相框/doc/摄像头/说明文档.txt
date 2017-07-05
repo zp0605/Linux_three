@@ -1,0 +1,64 @@
+1，编译内核，支持zc301
+linux内核在2.6.35以后就已经很好的支持zc301摄像头了，所以我们在内核配置中启用zc301驱动即可
+首先进入飞凌官方的2.6.36内核源码包
+#cd /opt/linux-2.6.36.2
+#cp .config .configold   保存原始配置文件
+#cp FORLINX6410_CFG .config  使用飞凌配置文件
+#make menuconfig  进入配置界面增加zc301驱动
+进入配置界面后
+  Device Drivers -->
+     <*>Multimedia support --->
+          <*>Video For Linux
+          <*>Video capture adapters --->
+                <*>V4L USB devices --->
+                       <*>USB Video Class
+                              <*>UVC input events device support
+                       <*>GSPCA based webcams -->
+                                <*>ZC3XX USB Camera Driver
+然后配置USB选项
+  Device Drivers -->
+    <*>USB Support --->
+         <*>Support for Host_side USB
+         <*>USB announce new devices
+最后退出保存
+#make zImage
+然后在源码目录/arch/arm/boot/下找到zImage利用DNW将新内核下载至ok6410开发板即可
+
+开发板重起后，新内核就应该自带了zc301驱动，而且我们刚才配置USB时设定了有新设备接入会自动显示
+插入zc301摄像头后，PC端minicom显示如下：
+new full speed USB device using s3c2410-ohci and address 2
+usb 1-1: New USB device found, idVendor=0ac8, idProduct=301b
+usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+usb 1-1: Product: PC Camera
+usb 1-1: Manufacturer: Vimicro Corp.
+gspca: probing 0ac8:301b
+zc3xx: probe sensor -> 000a
+zc3xx: Find Sensor PB0330. Chip revision 0
+input: zc3xx as /class/input/input2
+gspca: video2 created
+系统已经识别出摄像头zc301,sensor PB0330，自动为摄像头创建了设备文件video2
+
+接下来就是对这个摄像头进行测试了:
+[root@FORLINX6410]# cd /opt/video/       这个文件夹内有我自己写的一个测试摄像头的程序
+[root@FORLINX6410]# ls
+image_get-arm  image_get.c
+[root@FORLINX6410]# ./image_get-arm        运行该程序
+devicename -->PC Camera
+devicetape -->1
+channels -->1
+maxwidth -->640                                         zc301分辨率设置为640*480
+maxheith -->480
+minwidth -->48
+minheith -->32
+d8ff
+get BMP form video      [OK]     因为zc301采用硬件压缩芯片，传回来的图片是jpg格式的，所以此程序
+[root@FORLINX6410]# ls         将JPG解压了一遍并存储，这样文件夹下就有2个内容一样的图片了，BMP是24位图
+image.bmp      image.jpg      image_get-arm  image_get.c 
+
+[root@FORLINX6410]# ls -l       2个格式大小相差很大，毕竟JPG是压缩的，呵呵
+total 980
+-rw-r--r--    1 root     root        921654 Aug 11  2011 image.bmp
+-rw-r--r--    1 root     root         16331 Aug 11  2011 image.jpg
+-rwxr-xr-x    1 root     root         29824 Aug 11  2011 image_get-arm
+-rw-------    1 root     root         23059 Aug 11  2011 image_get.c
+[root@FORLINX6410]#

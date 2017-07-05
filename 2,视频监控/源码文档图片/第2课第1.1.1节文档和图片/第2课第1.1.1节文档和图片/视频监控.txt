@@ -1,0 +1,186 @@
+一. V4L2框架: video for linux version 2
+
+
+虚拟视频驱动vivi.c分析:
+1．分配video_device
+2．设置
+3．注册：video_register_device
+
+vivi_init
+    vivi_create_instance
+        v4l2_device_register   // 不是主要, 只是用于初始化一些东西，比如自旋锁、引用计数
+        video_device_alloc
+        // 设置
+          1. vfd:
+            .fops           = &vivi_fops,
+            .ioctl_ops 	= &vivi_ioctl_ops,
+            .release	= video_device_release,
+          2.
+            vfd->v4l2_dev = &dev->v4l2_dev;
+          3. 设置"ctrl属性"(用于APP的ioctl)：
+            	v4l2_ctrl_handler_init(hdl, 11);
+            	dev->volume = v4l2_ctrl_new_std(hdl, &vivi_ctrl_ops,
+            			V4L2_CID_AUDIO_VOLUME, 0, 255, 1, 200);
+            	dev->brightness = v4l2_ctrl_new_std(hdl, &vivi_ctrl_ops,
+            			V4L2_CID_BRIGHTNESS, 0, 255, 1, 127);
+            	dev->contrast = v4l2_ctrl_new_std(hdl, &vivi_ctrl_ops,
+            			V4L2_CID_CONTRAST, 0, 255, 1, 16);                        
+        video_register_device(video_device, type:VFL_TYPE_GRABBER, nr)
+            __video_register_device
+                vdev->cdev = cdev_alloc();
+                vdev->cdev->ops = &v4l2_fops;
+                cdev_add
+                
+                video_device[vdev->minor] = vdev;
+
+        		if (vdev->ctrl_handler == NULL)
+        			vdev->ctrl_handler = vdev->v4l2_dev->ctrl_handler;
+                
+                
+
+分析vivi.c的open,read,write,ioctl过程
+1. open
+app:     open("/dev/video0",....)
+---------------------------------------------------
+drv:     v4l2_fops.v4l2_open
+            vdev = video_devdata(filp);  // 根据次设备号从数组中得到video_device
+            ret = vdev->fops->open(filp);
+                        vivi_ioctl_ops.open
+                            v4l2_fh_open
+
+2. read
+app:    read ....
+---------------------------------------------------
+drv:    v4l2_fops.v4l2_read
+            struct video_device *vdev = video_devdata(filp);
+            ret = vdev->fops->read(filp, buf, sz, off);
+
+3. ioctl
+app:   ioctl
+----------------------------------------------------
+drv:   v4l2_fops.unlocked_ioctl
+            v4l2_ioctl
+                struct video_device *vdev = video_devdata(filp);
+                ret = vdev->fops->unlocked_ioctl(filp, cmd, arg);
+                            video_ioctl2
+                                video_usercopy(file, cmd, arg, __video_do_ioctl);
+                                    __video_do_ioctl
+                                        struct video_device *vfd = video_devdata(file);
+                                        根据APP传入的cmd来获得、设置"某些属性"
+
+v4l2_ctrl_handler的使用过程:
+    __video_do_ioctl
+        struct video_device *vfd = video_devdata(file);
+
+    	case VIDIOC_QUERYCTRL:
+    	{
+    		struct v4l2_queryctrl *p = arg;
+    
+    		if (vfh && vfh->ctrl_handler)
+    			ret = v4l2_queryctrl(vfh->ctrl_handler, p);
+    		else if (vfd->ctrl_handler)  // 在哪设置？在video_register_device
+    			ret = v4l2_queryctrl(vfd->ctrl_handler, p);
+    			            // 根据ID在ctrl_handler里找到v4l2_ctrl，返回它的值
+                                                
+                                                     
+
+        
+
+
+
+[585955.047776] usb 1-1: new high speed USB device using ehci_hcd and address 3
+[585955.269142] usb 1-1: configuration #1 chosen from 1 choice
+[585955.379843] uvcvideo: Found UVC 1.00 device USB2.0 Camera (1e4e:0102)
+[585955.440427] uvcvideo: UVC non compliance - GET_DEF(PROBE) not supported. Enabling workaround.
+[585955.554594] input: USB2.0 Camera as /devices/pci0000:00/0000:00:11.0/0000:02:02.0/usb1/1-1/1-1:1.0/input/input5
+
+
+
+
+
+http://blog.csdn.net/hongtao_liu/article/details/5867351
+http://blog.csdn.net/hongtao_liu/article/details/5894089
+基于V4L2的视频驱动开发
+
+概念：
+视频制式 : NTSC PAL V4L2_STD_NTSC V4L2_STD_PAL
+视频格式 ：RGB YCbCr 420,422 V4L2_PIX_FMT_UYVY
+
+
+
+ 
+[视频技术手册]中文第5版
+http://ishare.iask.sina.com.cn/f/21425721.html
+http://ishare.iask.sina.com.cn/f/21425722.html
+
+
+http://www.360doc.com/content/08/0926/11/14148_1678949.shtml
+
+数字视频的基本概念
+http://hi.baidu.com/fengbit/item/78a161375067f1c42f8ec24e
+
+USB协议
+http://www.usb.org/developers/devclass_docs
+
+USB Video Class Specification 笔记 
+http://blog.csdn.net/chinaunixj/article/details/7394315
+
+
+基于嵌入式Linux的视频采集系统---UVC驱动模型介绍
+http://blog.csdn.net/chinaunixj/article/details/7439870
+
+
+Class-specific VC Interface Descriptor
+e:\kernel_projects\linux-3.4.2\linux-3.4.2\include\linux\usb\Video.h
+#define DECLARE_UVC_HEADER_DESCRIPTOR(n)		\
+struct UVC_HEADER_DESCRIPTOR(n) {			\
+	__u8  bLength;					\
+	__u8  bDescriptorType;				\
+	__u8  bDescriptorSubType;			\
+	__u16 bcdUVC;					\
+	__u16 wTotalLength;				\
+	__u32 dwClockFrequency;				\
+	__u8  bInCollection;				\
+	__u8  baInterfaceNr[n];				\
+} __attribute__ ((packed))
+
+
+Input Terminal Descriptor (Camera)
+
+
+驱动框架分析：
+Structure of a driver
+---------------------
+
+All drivers have the following structure:
+
+1) A struct for each device instance containing the device state.
+
+2) A way of initializing and commanding sub-devices (if any).
+
+3) Creating V4L2 device nodes (/dev/videoX, /dev/vbiX and /dev/radioX)
+   and keeping track of device-node specific data.
+
+4) Filehandle-specific structs containing per-filehandle data;
+
+5) video buffer handling.
+
+This is a rough schematic of how it all relates:
+
+    device instances            : v4l2_device
+      |
+      +-sub-device instances    : v4l2_subdev
+      |
+      \-V4L2 device nodes       : video_device, stores V4L2 device node data, this will create the character device
+	  |
+	  \-filehandle instances    : v4l2_fh
+
+The framework closely resembles the driver structure: it has a v4l2_device
+struct for the device instance data, a v4l2_subdev struct to refer to
+sub-device instances, the video_device struct stores V4L2 device node data
+and in the future a v4l2_fh struct will keep track of filehandle instances
+(this is not yet implemented).
+
+The V4L2 framework also optionally integrates with the media framework. If a
+driver sets the struct v4l2_device mdev field, sub-devices and video nodes
+will automatically appear in the media framework as entities.

@@ -1,0 +1,558 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><style type="text/css"></style><script mod_name="inf-main" async="" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/main.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" charset="UTF-8">
+    <meta content="360doc" name="classification">
+    
+    <meta content="Linux定时器的使用" name="keywords">
+    <meta content="Linux定时器的使用" name="description">
+    <meta content="www.360doc.com" name="author">
+    
+    <title>
+        Linux定时器的使用
+    </title>
+    <script type="text/javascript" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/jquery.js"></script>
+    <script type="text/javascript" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/jQuery.js"></script>
+    <script type="text/javascript" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/flexpaper_flash.js"></script>
+    <script type="text/javascript" language="javascript">
+        window.onerror = ignoreError;
+        function ignoreError() {
+            return true;
+        }  
+    </script>
+ <link href="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/wz.css" rel="stylesheet" type="text/css">
+
+
+    <script type="text/javascript" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/showarticlefollow.js"></script>
+<script id="jsonp1359098536018" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/GetArtInfo20100301NewV.htm" type="text/javascript" language="Javascript"></script><script src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/relatedItems" type="text/javascript"></script><script src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/EssayforIE120425.js" type="text/javascript"></script></head>
+<body onmouseup="setDragEnd()" onmousemove="DragDiv();" onclick="delAllDiv(event)">
+<div class="containera">
+  <div class="headersmall">            
+            <div class="helpsmall"> 
+              <div class="help1 julink">
+                <span><a href="http://www.360doc.com/help.html" target="_blank">帮助</a></span><span>|</span><span><a target="_blank" href="http://www.360doc.com/advice.html">留言交流</a></span><span>|</span>
+                <span id="spanLogin">
+                <span id="loginstatus"><a href="http://www.360doc.com/login.aspx?reurl=http://www.360doc.com/content/09/0415/22/26398_3145658.shtml">登录</a></span>
+                </span>
+            </div>
+            </div>
+</div></div>
+ 
+ <div class="logebox">
+ <div class="logemain">
+ <div class="logeimg left"><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/logo2.gif"></div>
+ <div class=" left" style=" padding-top:27px;">
+  <table border="0" cellpadding="0" cellspacing="0" height="24">
+                <tbody><tr>
+                    <td width="70px">
+                    </td>
+                    <td class="navwz" width="88px">
+                        <a href="http://www.360doc.com/index.html">首&nbsp;页</a>
+                    </td>
+                    <td class="navwz" width="120px">
+                        <a href="http://www.360doc.com/readroom.html">阅览室</a>
+                         
+                    </td>
+                    <td class="navwz" width="94px">
+                        <a href="http://www.360doc.com/weekstar.html">馆友</a>
+                    </td>
+                    <td class="navwz" width="152px">
+                        <a href="http://www.360doc.com/my360doc.aspx">我的图书馆</a>
+                    </td>
+                </tr>
+            </tbody></table>
+ </div>
+<div class="right search"> 
+<div class=" left"><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/tb2.gif"></div>
+<div class=" left"><input name="input" class="scinput" onkeyup="showIntelliSense()" id="txtSearchword" value="  搜文章 找馆友" onblur="if(!this.value) {this.value='  搜文章 找馆友';this.style.color='#b2b2b2';}" ;="" onfocus="if(this.value=='  搜文章 找馆友') this.value='';this.style.color='#272727'" type="text"></div>
+<div class=" left"><a href="javascript:gosearch();"><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/tb3.gif" height="25" width="68"></a></div>
+
+</div>
+ </div>
+</div>
+ <div class="navxt both"></div>
+  <div class="both"></div>
+  <div class="mainzt">
+<table class="index_main" border="0" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td align="left" valign="top" width="727px">
+ <div id="ADAboveArtContent"><iframe marginwidth="0" marginheight="0" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/aboveConentAD.htm" frameborder="0" height="95" scrolling="no" width="728"></iframe></div>
+ <div style=" height:7px;"></div>
+<table class="mainbj6" id="docArtClass" border="0" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td>
+<div style=" padding-top:8px; color:#797b7a; padding-left:6px;">
+<div class=" left">来自：<span class="name" onclick="wzhit(1)"><a href="http://www.360doc.com/userhome/26398" target="_blank">womking</a></span> &gt; <span id="cname" onclick="wzhit(2)"><a href="http://www.360doc.com/userhome.aspx?userid=26398&amp;cid=7" target="_blank">Linux Programming</a></span></div>
+
+<div class=" right">
+<table style=" vertical-align: text-bottom;" border="0" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td width="40">配色：</td>
+<td width="21"><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/cr1.gif" id="docArtC1" onclick="ChangeArtClass(1,this)" style="cursor:pointer;"></td>
+<td width="21"><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/cr2.gif" id="docArtC2" onclick="ChangeArtClass(2,this)" style="cursor:pointer;"></td>
+<td width="21"><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/cr3.gif" id="docArtC3" onclick="ChangeArtClass(3,this)" style="cursor:pointer;"></td>
+<td width="21"><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/cr4.gif" id="docArtC4" onclick="ChangeArtClass(4,this)" style="cursor:pointer;"></td>
+<td width="21"><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/cr5.gif" id="docArtC5" onclick="ChangeArtClass(5,this)" style="cursor:pointer;"></td>
+<td width="28"><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/cr6-1.gif" id="docArtC6" onclick="ChangeArtClass(6,this)" style="cursor:pointer;"></td>
+<td class="zihao" width="95">字号：<span style="cursor:pointer;" onclick="ChangeArtSize(3,this)">大</span><span style="cursor:pointer;" onclick="ChangeArtSize(2,this)">中</span><span style="cursor:pointer;" onclick="ChangeArtSize(1,this)">小</span></td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<table style=" width:100%; text-align:center;" border="0" cellpadding="0" cellspacing="0">
+<tbody>
+<tr> 
+<td class="biaoti">Linux定时器的使用</td>
+</tr>
+<tr> 
+<td class="biaoqian">
+
+
+<table style="text-align:center;margin: 0px auto;" cellpadding="0" cellspacing="0"><tbody><tr><td>
+
+
+<div class="left">2009-04-15&nbsp;|&nbsp;阅：<span id="360doc_Readnum">11783</span>&nbsp;&nbsp;转：<span id="360doc_saverNum"><span style="cursor:pointer;" onclick="javascript:ShowSaverUser();">18</span><div id="sameArtOuter" style="display:none;position: absolute; height:305px;width:144px;margin-left:-30px;margin-top:15px;" class="box_6"><div id="sameArt" style=" overflow-y: auto;  height:300px;overflow-x: hidden; z-index: 100;right:0px;margin-top:-10px;" onclick="event.cancelBubble=true;"></div></div></span>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" onclick=" setTimeout(showShareLayer, 10);">分享</a>&nbsp;</div>
+
+<div class="left"><div style=" padding-top:3px;"><img style="cursor:pointer;" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/tb10.gif" onclick="  setTimeout(showShareLayer, 10);"></div>
+
+<div class="fenxiang" id="fenxiangLayer" style="display:none;"><ul><li><span class="sharelink"><a href="javascript:void(0);" onclick="wzhit(4);window.open('http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url='+encodeURIComponent(document.location.href));return false;" title="分享到QQ空间"><img style="vertical-align:middle;" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/qq.gif" alt="分享到QQ空间">腾讯空间</a></span></li><li><span class="sharelink" onclick="wzhit(5);"><a href="javascript:void((function(s,d,e){if(/renren.com/.test(d.location))return;var%20f='http://share.renren.com/share/buttonshare?link=',u=d.location,l=d.title,p=[e(u),'&amp;title=',e(l)].join('');function%20a(){if(!window.open([f,p].join(''),'xnshare',['toolbar=0,status=0,resizable=1,width=626,height=436,left=',(s.width-626)/2,',top=',(s.height-436)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent));" title="分享到人人"><img style="vertical-align:middle;" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/renren.gif">人人网</a></span></li><li><span class="sharelink"><a rel="nofollow" title="分享到开心" href="javascript:wzhit(6);window.open('http://www.kaixin001.com/repaste/bshare.php?rcontent='+getPageDes()+'&amp;rurl='+encodeURIComponent(document.location.href)+'&amp;rtitle='+encodeURIComponent(document.title));void(0)"><img style="vertical-align:middle;" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/kaixin.gif">开心网</a></span></li><li><span class="sharelink" onclick="wzhit(7);"><a href="javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f='http://v.t.sina.com.cn/share/share.php?appkey=',u=z||d.location,p=['&amp;url=',e(u),'&amp;title=',e(t||d.title),'&amp;source=',e(r),'&amp;sourceUrl=',e(l),'&amp;content=',c||'gb2312','&amp;pic=',e(p||'')].join('');function%20a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,'','','',getPageDes(),'',''));"><img style="vertical-align:middle;" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/sina.gif" alt="分享到新浪微博">新浪微博</a></span></li><li><span class="sharelink"><a rel="nofollow" href="javascript:void(0);" onclick="wzhit(8);(function(){var _t = encodeURI(document.title);var _url = encodeURI(window.location);var _appkey ='bf0f24baaebe44ce937e233818bd6d90';var _site = encodeURI;var _pic = '';var _u = 'http://v.t.qq.com/share/share.php?title='+_t+'&amp;url='+_url+'&amp;appkey='+_appkey+'&amp;site='+_site+'&amp;pic='+_pic;window.open( _u,'转播到腾讯微博', 'width=700, height=580, top=180, left=320, toolbar=no, menubar=no, scrollbars=no, location=yes, resizable=no, status=no' );})()"><img style="vertical-align:middle;" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/tqq.gif" alt="分享到腾讯微博">腾讯微博</a></span></li><li><span class="sharelink" onclick="wzhit(9);"><a title="分享到搜狐微博" href="javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f='http://t.sohu.com/third/post.jsp?',u=z||d.location,p=['&amp;url=',e(u),'&amp;title=',e(t||d.title),'&amp;content=',c||'gb2312','&amp;pic=',e(p||'')].join('');function%20a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=660,height=470,left=',(s.width-660)/2,',top=',(s.height-470)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,'','','',getPageDes(),'','utf-8'));"><img style="vertical-align:middle;" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/sohu.gif" alt="分享到搜狐微博">搜狐空间</a></span></li><li onmouseover="this.className='cllan'" onmouseout="this.className=' '" onclick="wzhit(10);showdivemail();"><span><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/tb35.gif"></span>推荐给朋友</li><li onmouseover="this.className='cllan'" onmouseout="this.className=' '" onclick="wzhit(11);showAlertLayer();"><span><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/tb36.gif"></span>举报</li></ul></div>
+<div id="AlertArt1" style="display:none; position:absolute;"></div>
+<div id="SendToFriends1" style="display:none;position:absolute;"></div>
+<div id="resavelayer1" class="left zcbutton"><a href="http://www.360doc.com/register.aspx?refer=57&amp;reurl=resaveArt.aspx?articleid=3145658&amp;isreg=1&amp;arttype=0" target="_blank" onclick="wzhit(3);"><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/zcbt.gif"></a></div>
+</div>
+
+<div class="left">&nbsp;&nbsp;<span id="savestatus"></span></div>
+
+
+</td></tr></tbody></table>
+
+
+
+</td>
+</tr>
+<tr>
+<td>
+<table class="wenzhangcss" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <tbody>
+                                        <tr><td style="height:29px;">
+                                        <div class="xiantao"></div>
+                                        </td></tr>
+                                            <tr>
+                                                <td style=" height:200px;" align="left" valign="top" width="670px">
+                                                    <span id="articlecontent" onmouseup="NewHighlight(event)"><table>
+                                                        <tbody><tr><td width="670px"><div class="intro">我
+们所使用的Linux下的定时器有两种，以下分别介绍： 1、alarm 如果不要求很精确的话，用alarm()和signal()就够了 
+unsigned int alarm(unsigned int seconds) 函数说明: 
+alarm()用来设置信号SIGALRM在经过参数seconds指定的秒数后传送给目前的进程。如果参数</div>
+<div class="content">　　
+<p>我们所使用的Linux下的定时器有两种，以下分别介绍： <br><br><br><br>1、alarm <br><br><br><br>如果不要求很精确的话，用alarm()和signal()就够了 <br><br><br><br>unsigned int alarm(unsigned int seconds) <br><br><br><br>函数说明: alarm()用来设置信号SIGALRM在经过参数seconds指定的秒数后传送给目前的进程。如果参数seconds为0，则之前设置的闹钟会被取消，并将剩下的时间返回。 <br><br><br><br>返回值: 返回之前闹钟的剩余秒数，如果之前未设闹钟则返回0。 <br><br><br><br>alarm()执行后，进程将继续执行，在后期(alarm以后)的执行过程中将会在seconds秒后收到信号SIGALRM并执行其处理函数。 <br>#include <br><br>#include <br><br>#include <br><br>void sigalrm_fn(int sig)<br><br>{<br><br>printf("alarm!\n");<br><br>alarm(2);<br><br>return;<br><br>}<br><br>int main(void)<br><br>{<br><br>signal(SIGALRM, sigalrm_fn);<br><br>alarm(1);<br><br>while(1) pause();<br><br>}<br>2、setitimer() <br><br>int setitimer(int which, const struct itimerval *value, struct itimerval *ovalue)); <br><br>setitimer()比alarm功能强大，支持3种类型的定时器： <br><br>ITIMER_REAL : 以系统真实的时间来计算，它送出SIGALRM信号。 <br><br>ITIMER_VIRTUAL : -以该进程在用户态下花费的时间来计算，它送出SIGVTALRM信号。 <br><br>ITIMER_PROF : 以该进程在用户态下和内核态下所费的时间来计算，它送出SIGPROF信号。 <br><br>setitimer()第一个参数which指定定时器类型（上面三种之一）；第二个参数是结构itimerval的一个实例；第三个参数可不做处理。 <br><br>setitimer()调用成功返回0，否则返回-1。 <br><br>下面是关于setitimer调用的一个简单示范</p>
+<p>在该例子中，每隔一秒发出一个SIGALRM，每隔0.5秒发出一个SIGVTALRM信号: <br>#include <br><br>#include <br><br>#include <br><br>#include <br><br>#include <br><br>#include <br><br>int sec;<br><br>void sigroutine(int signo){<br><br>switch (signo){<br><br>case SIGALRM:<br><br>printf("Catch a signal -- SIGALRM \n");<br><br>signal(SIGALRM, sigroutine);<br><br>break;<br><br>case SIGVTALRM:<br><br>printf("Catch a signal -- SIGVTALRM \n");<br><br>signal(SIGVTALRM, sigroutine);<br><br>break;<br><br>}<br><br>return;<br><br>}<br><br>int main()<br><br>{<br><br>struct itimerval value, ovalue, value2; //(1)<br><br>sec = 5;<br><br>printf("process id is %d\n", getpid());<br><br>signal(SIGALRM, sigroutine);<br><br>signal(SIGVTALRM, sigroutine);<br><br>value.it_value.tv_sec = 1;<br><br>value.it_value.tv_usec = 0;<br><br>value.it_interval.tv_sec = 1;<br><br>value.it_interval.tv_usec = 0;<br><br>setitimer(ITIMER_REAL, &amp;value, &amp;ovalue); //(2)<br><br>value2.it_value.tv_sec = 0;<br><br>value2.it_value.tv_usec = 500000;<br><br>value2.it_interval.tv_sec = 0;<br><br>value2.it_interval.tv_usec = 500000;<br><br>setitimer(ITIMER_VIRTUAL, &amp;value2, &amp;ovalue);<br><br>for(;;)<br><br>;<br><br>}<br>(1) struct itimerval <br>struct itimerval {<br><br>struct timeval it_interval; /* timer interval */<br><br>struct timeval it_value; /* current value */<br><br>};<br><br>itimerval: i --&gt; interval<br><br>val --&gt; value<br>itimerval结构中的it_value是减少的时间,当这个值为0的时候就发出相应的信号了. 然后再将it_value设置为it_interval值. <br><br>(2) setitimer() <br><br>setitimer()为其所在进程设置一个定时器，如果itimerval.it_interval不为0(it_interval的两个域都不为0)，则该定时器将持续有效(每隔一段时间就会发送一个信号) <br><br>注
+意：Linux信号机制基本上是从Unix系统中继承过来的。早期Unix系统中的信号机制比较简单和原始，后来在实践中暴露出一些问题，因此，把那些建
+立在早期机制上的信号叫做"不可靠信号"，信号值小于SIGRTMIN(SIGRTMIN=32，SIGRTMAX=63)的信号都是不可靠信号。这就
+是"不可靠信号"的来源。它的主要问题是：进程每次处理信号后，就将对信号的响应设置为默认动作。在某些情况下，将导致对信号的错误处理；因此，用户如果
+不希望这样的操作，那么就要在信号处理函数结尾再一次调用signal()，重新安装该信号。</p>
+</div></td></tr></tbody></table>
+                                                        <div id="viewerPlaceHolder" style="width: 717px; height: 700px; display: none;">
+                                                        </div>
+                                                   
+                                                     </span>
+                                                    <table>
+                                                        <tbody><tr>
+                                                            <td>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody></table>
+                                                </td>
+                                                </tr>
+                                                <tr><td><div class="left list" style=" text-align:left; font-size:14px;"><div id="lastart"><div class="shangyp">上一篇：<a href="http://www.360doc.com/content/09/0415/22/26398_3145643.shtml" target="_blank" onclick="wzhit(35);">Linux 中的计时方法</a></div></div>
+                                        <div id="nextart">下一篇：<a href="http://www.360doc.com/content/09/0415/22/26398_3146226.shtml" target="_blank" onclick="wzhit(36);">jiffies溢出与时间先后比较</a></div></div></td></tr>
+                                              <tr><td style="height:29px;">
+                                        <div style=" padding-top:20px;"><table style="  width:100%; " cellpadding="0" cellspacing="0">
+                                        <tbody>
+                                        <tr>
+                                        <td width="31%"></td>    
+                                        <td>
+                                         <table style=" margin:0px auto; " cellpadding="0" cellspacing="0">
+                                        <tbody>
+                                        <tr>
+                                       <td><div class=" left" style="cursor:pointer"><a href="javascript:void(0);" onclick="wzhit(22);SaveArt();"><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/tb11.gif"></a></div>    
+
+  <div class=" left xianhua" id="sendFlowerToUser" style="cursor:pointer" onclick='Showflowerlayer("sendedLayer1");'>献花(<span id="articleflowernum">0</span>)<div id="flowernumadd" class="addtionone">+1</div></div>
+
+                                        
+
+                                       
+                                        </td>
+                                        </tr></tbody>
+                                        </table>
+                                        </td>
+                                         <td style=" vertical-align:bottom;font-size:12px;" width="31%">
+                                         <div class="right" id="sharediv2"> <table style=" vertical-align: text-bottom;" border="0" cellpadding="0" cellspacing="0"><tbody><tr><td width="56">分享到：</td><td width="25"><a href="javascript:void(0);" onclick="wzhit(23);window.open('http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url='+encodeURIComponent(document.location.href));return false;" title="分享到QQ空间"><img style="vertical-align:middle;" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/qq.gif" alt="分享到QQ空间"></a></td><td onclick="wzhit(24);" width="22"><a href="javascript:void((function(s,d,e){if(/renren.com/.test(d.location))return;var%20f='http://share.renren.com/share/buttonshare?link=',u=d.location,l=d.title,p=[e(u),'&amp;title=',e(l)].join('');function%20a(){if(!window.open([f,p].join(''),'xnshare',['toolbar=0,status=0,resizable=1,width=626,height=436,left=',(s.width-626)/2,',top=',(s.height-436)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent));" title="分享到人人"><img style="vertical-align:middle;" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/renren.gif"></a></td><td width="24"><a rel="nofollow" title="分享到开心" href="javascript:wzhit(25);window.open('http://www.kaixin001.com/repaste/bshare.php?rcontent='+getPageDes()+'&amp;rurl='+encodeURIComponent(document.location.href)+'&amp;rtitle='+encodeURIComponent(document.title));void(0)"><img style="vertical-align:middle;" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/kaixin.gif"></a></td><td onclick="wzhit(26);" width="21"><a href="javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f='http://v.t.sina.com.cn/share/share.php?appkey=',u=z||d.location,p=['&amp;url=',e(u),'&amp;title=',e(t||d.title),'&amp;source=',e(r),'&amp;sourceUrl=',e(l),'&amp;content=',c||'gb2312','&amp;pic=',e(p||'')].join('');function%20a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,'','','',getPageDes(),'',''));"><img style="vertical-align:middle;" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/sina.gif" alt="分享到新浪微博"></a></td><td onclick="wzhit(27);" width="24"><a rel="nofollow" href="javascript:void(0);" onclick="(function(){var _t = encodeURI(document.title);var _url = encodeURI(window.location);var _appkey ='bf0f24baaebe44ce937e233818bd6d90';var _site = encodeURI;var _pic = '';var _u = 'http://v.t.qq.com/share/share.php?title='+_t+'&amp;url='+_url+'&amp;appkey='+_appkey+'&amp;site='+_site+'&amp;pic='+_pic;window.open( _u,'转播到腾讯微博', 'width=700, height=580, top=180, left=320, toolbar=no, menubar=no, scrollbars=no, location=yes, resizable=no, status=no' );})()"><img style="vertical-align:middle;" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/tqq.gif" alt="分享到腾讯微博"></a></td><td onclick="wzhit(28);" width="24"><a title="分享到搜狐微博" href="javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f='http://t.sohu.com/third/post.jsp?',u=z||d.location,p=['&amp;url=',e(u),'&amp;title=',e(t||d.title),'&amp;content=',c||'gb2312','&amp;pic=',e(p||'')].join('');function%20a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=660,height=470,left=',(s.width-660)/2,',top=',(s.height-470)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,'','','',getPageDes(),'','utf-8'));"><img style="vertical-align:middle;" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/sohu.gif" alt="分享到搜狐微博"></a></td><td width="24"><a><img style="cursor:pointer;" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/tb10.gif" onclick="setTimeout(showShareLayer2, 10);"></a><div id="fenxiangLayer1" class="fenxiang" style=" margin-left:-90px;*margin-left:-110px!important; margin-top:5px;*margin-top:16px!important;display:none;z-index:1000;"><ul><li onmouseover="this.className='cllan'" onmouseout="this.className=' '" onclick="wzhit(29);showdivemail1();"><span><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/tb35.gif"></span>推荐给朋友</li><li onmouseover="this.className='cllan'" onmouseout="this.className=' '" onclick="wzhit(30);showAlertLayer1();"><span><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/tb36.gif"></span>举报</li></ul></div></td></tr></tbody></table><div id="AlertArt2" style="display:none; position:absolute;"></div><div id="SendToFriends2" style="display:none;position:absolute;"></div></div>
+                                        
+                                        </td>  
+                                        </tr>
+                                        </tbody>
+                                        </table>
+
+
+                                    
+                                                                               </div>
+                                        </td></tr>
+                                                
+                                                <tr><td>
+                                                <div class="xiantao" style=" padding-top:5px;">
+                                        
+                                        </div>
+                                        </td></tr>
+                                            <tr><td class="xgiambox" style=" vertical-align:top; height:30px;padding-top:10px;"><div class="right">(本文系<span class="name"><a target="_blank" href="http://www.360doc.com/userhome/26398">womking</a></span>首藏<span id="docsource">&nbsp;&nbsp;<a href="http://blog.chinaunix.net/u2/60434/showart_471561.html" target="_blank">源文网址</a></span>)</div></td></tr>
+                                                </tbody>
+                                                </table>
+</td>
+</tr>
+
+</tbody>
+</table>
+
+
+</td>
+</tr>
+</tbody>
+</table>
+<div class="lswzbox">
+<div>
+<table cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td width="370"><div class="titwx">类似文章</div>
+ <div class="modlist left list" style=" width:310px;">
+   <ul>
+        
+                <li><span>
+                    <a href="http://www.360doc.com/content/11/0902/10/1162697_145184706.shtml" target="_blank" onclick="wzhit(37)">linux精通定时器</a></span></li>
+            
+                <li><span>
+                    <a href="http://www.360doc.com/content/08/0729/18/36491_1486302.shtml" target="_blank" onclick="wzhit(37)">(原创) 如何每间格一段时间就执行functi...</a></span></li>
+            
+                <li><span>
+                    <a href="http://www.360doc.com/content/10/1217/08/4910_78872402.shtml" target="_blank" onclick="wzhit(37)">setitimer函数使用笔记 - Jiwu Bu - C++...</a></span></li>
+            
+                <li><span>
+                    <a href="http://www.360doc.com/content/11/0210/15/5360366_91866702.shtml" target="_blank" onclick="wzhit(37)">linux c语言定时器_ljd_1986513的空间_百....</a></span></li>
+            
+                <li><span>
+                    <a href="http://www.360doc.com/content/12/0311/10/8302596_193423388.shtml" target="_blank" onclick="wzhit(37)">多线程中定时器的使用</a></span></li>
+            
+                <li><span>
+                    <a href="http://www.360doc.com/content/08/0813/13/36491_1537550.shtml" target="_blank" onclick="wzhit(37)">如何在Linux下实现定时器_zkheartboy's ...</a></span></li>
+            
+                <li><span>
+                    <a href="http://www.360doc.com/content/09/0420/08/27287_3195016.shtml" target="_blank" onclick="wzhit(37)">VC中定时器的使用_VC技术文章_VC_软件编...</a></span></li>
+            
+                <li><span>
+                    <a href="http://www.360doc.com/content/10/0428/11/496343_25245348.shtml" target="_blank" onclick="wzhit(37)">使用BusyBox制作linux根文件系统</a></span></li>
+            
+                <li><span>
+                    <a href="http://www.360doc.com/content/11/0323/12/6139921_103814532.shtml" target="_blank" onclick="wzhit(37)">stm32 定时器中断实验</a></span></li>
+            
+  </ul> 
+  <div class=" right"><a href="http://www.360doc.com/relevant/3145658_more.shtml" onclick="wzhit(38)">更多</a></div>
+  </div></td>
+<td><script type="text/javascript"><!--
+        google_ad_client = "ca-pub-5687840453193141";
+        /* 文章页正文下方广告 */
+        google_ad_slot = "0341528988";
+        google_ad_width = 300;
+        google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/show_ads.js"> 
+</script><ins style="display:inline-table;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px"><ins id="aswift_0_anchor" style="display:block;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px"><iframe allowtransparency="true" hspace="0" marginwidth="0" marginheight="0" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){w.location.replace(h)}}" vspace="0" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;" frameborder="0" height="250" scrolling="no" width="300"></iframe></ins></ins>
+</td>
+
+</tr>
+</tbody>
+</table>
+
+  <div class="wumii-hook"><div class="wumii-related-items-div" style="margin: 0; border: none; padding: 0; clear: both; overflow: hidden; *zoom: 1; *position: relative;">
+    <div class="wumii-internal" style="padding: 0; margin: 0; border: none; clear: both; display: block;">
+        <div class="wumii-widget-title" style="margin: 0; border: none; padding: 20px 0 5px; _padding-top:10px; text-indent: 0; text-align: left; font-weight: bold; color: #454545;">您可能会喜欢</div>
+            <div class="wumii-image-row" style="clear: both; border: none; margin: 0 0 0 -1px; padding: 0; overflow: hidden; _zoom: 1;">
+                    <a class="wumii-image-block" hidefocus="true" title="Linux 筆記" onmouseout="this.style.backgroundColor=''" onmouseover="this.style.backgroundColor='#f6f6f6'" style="display: block; float: left; text-decoration: none; border-bottom: none; cursor: pointer; position: relative; margin: 5px 0; padding: 5px; width: 123px; text-align: left; outline: none; background-image: none; border-left: 1px solid #ffffff !important;" href="http://www.360doc.com/content/07/0428/11/25127_471228.shtml" onmousedown="this.href='http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fwww.360doc.com%2Fcontent%2F07%2F0428%2F11%2F25127_471228.shtml&amp;ts=' + (new Date()).getTime() + '&amp;from=http%3A%2F%2Fwww.360doc.com%2Fcontent%2F09%2F0415%2F22%2F26398_3145658.shtml' + '&amp;ref=relatedItems'; return true;" onmouseup="t=this; setTimeout(function() {t.href='http://www.360doc.com/content/07/0428/11/25127_471228.shtml';}, 50); return true;">
+                        <div class="wumii-image-border" style="margin: 0; padding: 0; width: auto; height: 121px; border: 1px solid #ffffff;"></div>
+                        <img class="wumii-image" onload="wumiiImageResize(this, 117);" onerror="wumiiImageError(this);" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/47906341.gif" style="position: absolute; border: medium none; background: none repeat scroll 0% 0% transparent; visibility: visible; padding: 0px; margin: 0px; width: 117px; height: 117px; clip: rect(0px, 117px, 117px, 0px); left: 8px; top: 8px;">
+                        <div class="wumii-image-title" style="height: 30px; width: 100%; margin: 3px 0 0 0; padding: 0; text-indent: 0; border: none; font: 12px/15px arial; color: #3a6ba6; overflow: hidden;">Linux 筆記</div>
+                    </a>
+                    <a class="wumii-image-block" hidefocus="true" title="Linux 系統管理" onmouseout="this.style.backgroundColor=''" onmouseover="this.style.backgroundColor='#f6f6f6'" style="display: block; float: left; text-decoration: none; border-bottom: none; cursor: pointer; position: relative; margin: 5px 0; padding: 5px; width: 123px; text-align: left; outline: none; background-image: none; border-left: 1px solid #ffffff !important;" href="http://www.360doc.com/content/10/1228/21/5070753_82156021.shtml" onmousedown="this.href='http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fwww.360doc.com%2Fcontent%2F10%2F1228%2F21%2F5070753_82156021.shtml&amp;ts=' + (new Date()).getTime() + '&amp;from=http%3A%2F%2Fwww.360doc.com%2Fcontent%2F09%2F0415%2F22%2F26398_3145658.shtml' + '&amp;ref=relatedItems'; return true;" onmouseup="t=this; setTimeout(function() {t.href='http://www.360doc.com/content/10/1228/21/5070753_82156021.shtml';}, 50); return true;">
+                        <div class="wumii-image-border" style="margin: 0; padding: 0; width: auto; height: 121px; border: 1px solid #ffffff;"></div>
+                        <img class="wumii-image" onload="wumiiImageResize(this, 117);" onerror="wumiiImageError(this);" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/47687907.png" style="position: absolute; border: medium none; background: none repeat scroll 0% 0% transparent; visibility: visible; padding: 0px; margin: 0px; width: 117px; height: 117px; clip: rect(0px, 117px, 117px, 0px); left: 8px; top: 8px;">
+                        <div class="wumii-image-title" style="height: 30px; width: 100%; margin: 3px 0 0 0; padding: 0; text-indent: 0; border: none; font: 12px/15px arial; color: #3a6ba6; overflow: hidden;">Linux 系統管理</div>
+                    </a>
+                    <a class="wumii-image-block" hidefocus="true" title="Linux内存管理 下" onmouseout="this.style.backgroundColor=''" onmouseover="this.style.backgroundColor='#f6f6f6'" style="display: block; float: left; text-decoration: none; border-bottom: none; cursor: pointer; position: relative; margin: 5px 0; padding: 5px; width: 123px; text-align: left; outline: none; background-image: none; border-left: 1px solid #ffffff !important;" href="http://www.360doc.com/content/08/0922/18/73879_1665575.shtml" onmousedown="this.href='http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fwww.360doc.com%2Fcontent%2F08%2F0922%2F18%2F73879_1665575.shtml&amp;ts=' + (new Date()).getTime() + '&amp;from=http%3A%2F%2Fwww.360doc.com%2Fcontent%2F09%2F0415%2F22%2F26398_3145658.shtml' + '&amp;ref=relatedItems'; return true;" onmouseup="t=this; setTimeout(function() {t.href='http://www.360doc.com/content/08/0922/18/73879_1665575.shtml';}, 50); return true;">
+                        <div class="wumii-image-border" style="margin: 0; padding: 0; width: auto; height: 121px; border: 1px solid #ffffff;"></div>
+                        <img class="wumii-image" onload="wumiiImageResize(this, 117);" onerror="wumiiImageError(this);" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/50327679.bmp" style="position: absolute; border: medium none; background: none repeat scroll 0% 0% transparent; visibility: visible; padding: 0px; margin: 0px; width: 117px; height: 117px; clip: rect(0px, 117px, 117px, 0px); left: 8px; top: 8px;">
+                        <div class="wumii-image-title" style="height: 30px; width: 100%; margin: 3px 0 0 0; padding: 0; text-indent: 0; border: none; font: 12px/15px arial; color: #3a6ba6; overflow: hidden;">Linux内存管理 下</div>
+                    </a>
+                    <a class="wumii-image-block" hidefocus="true" title="从0开始复习linux" onmouseout="this.style.backgroundColor=''" onmouseover="this.style.backgroundColor='#f6f6f6'" style="display: block; float: left; text-decoration: none; border-bottom: none; cursor: pointer; position: relative; margin: 5px 0; padding: 5px; width: 123px; text-align: left; outline: none; background-image: none; border-left: 1px solid #ffffff !important;" href="http://www.360doc.com/content/12/0418/21/3446769_204754459.shtml" onmousedown="this.href='http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fwww.360doc.com%2Fcontent%2F12%2F0418%2F21%2F3446769_204754459.shtml&amp;ts=' + (new Date()).getTime() + '&amp;from=http%3A%2F%2Fwww.360doc.com%2Fcontent%2F09%2F0415%2F22%2F26398_3145658.shtml' + '&amp;ref=relatedItems'; return true;" onmouseup="t=this; setTimeout(function() {t.href='http://www.360doc.com/content/12/0418/21/3446769_204754459.shtml';}, 50); return true;">
+                        <div class="wumii-image-border" style="margin: 0; padding: 0; width: auto; height: 121px; border: 1px solid #ffffff;"></div>
+                        <img class="wumii-image" onload="wumiiImageResize(this, 117);" onerror="wumiiImageError(this);" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/61808488.jpg" style="position: absolute; border: medium none; background: none repeat scroll 0% 0% transparent; visibility: visible; padding: 0px; margin: 0px; width: 117px; height: 117px; clip: rect(0px, 117px, 117px, 0px); left: 8px; top: 8px;">
+                        <div class="wumii-image-title" style="height: 30px; width: 100%; margin: 3px 0 0 0; padding: 0; text-indent: 0; border: none; font: 12px/15px arial; color: #3a6ba6; overflow: hidden;">从0开始复习linux</div>
+                    </a>
+                    <a class="wumii-image-block" hidefocus="true" title="Linux以及各大发行版介绍|-Linux起点" onmouseout="this.style.backgroundColor=''" onmouseover="this.style.backgroundColor='#f6f6f6'" style="display: block; float: left; text-decoration: none; border-bottom: none; cursor: pointer; position: relative; margin: 5px 0; padding: 5px; width: 123px; text-align: left; outline: none; background-image: none; border-left: 1px solid #ffffff !important;" href="http://www.360doc.com/content/06/0528/21/1523_124047.shtml" onmousedown="this.href='http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fwww.360doc.com%2Fcontent%2F06%2F0528%2F21%2F1523_124047.shtml&amp;ts=' + (new Date()).getTime() + '&amp;from=http%3A%2F%2Fwww.360doc.com%2Fcontent%2F09%2F0415%2F22%2F26398_3145658.shtml' + '&amp;ref=relatedItems'; return true;" onmouseup="t=this; setTimeout(function() {t.href='http://www.360doc.com/content/06/0528/21/1523_124047.shtml';}, 50); return true;">
+                        <div class="wumii-image-border" style="margin: 0; padding: 0; width: auto; height: 121px; border: 1px solid #ffffff;"></div>
+                        <img class="wumii-image" onload="wumiiImageResize(this, 117);" onerror="wumiiImageError(this);" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/54276958.jpg" style="position: absolute; border: medium none; background: none repeat scroll 0% 0% transparent; visibility: visible; padding: 0px; margin: 0px; width: 117px; height: 117px; clip: rect(0px, 117px, 117px, 0px); left: 8px; top: 8px;">
+                        <div class="wumii-image-title" style="height: 30px; width: 100%; margin: 3px 0 0 0; padding: 0; text-indent: 0; border: none; font: 12px/15px arial; color: #3a6ba6; overflow: hidden;">Linux以及各大发行版介绍|-Linux起点</div>
+                    </a>
+            </div>
+    </div>
+        <div style="margin: 0px; border: medium none; padding: 5px 0px; clear: both; text-align: right; width: 669px;">
+            <a href="http://www.wumii.com/widget/relatedItems" target="_blank" title="无觅相关文章插件" style="font: 12px arial; color: rgb(187, 187, 187); border-bottom: medium none; word-wrap: normal; display: inline;">无觅</a>
+            
+        </div>
+</div>
+
+</div><script type="text/javascript" id="wumiiRelatedItems"></script>
+ 
+
+
+   <div id="Reflction">
+                                    <div style="display: none;" id="360docRefTN"></div>
+                                    <div id="360docRefCT"></div>
+                                    <div style="display: none;" id="360docRefPB" align="center"></div>
+                                </div>
+                                <a name="sf"></a>
+                              
+
+
+
+  <div id="ReflectionPart"><div style=" height:206px; margin:26px 0px;"><div class=" left"><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/tb22.gif"></div><div class="plbox left"><div class="plmain"><div class="titwx" style=" height:23px;">发表评论：</div><div class="deluwx">您好，请&nbsp;<span><a href="javascript:void(0);" onclick="ReflectionLoginform();">登录</a></span>&nbsp;或者&nbsp;<span><a href="http://www.360doc.com/register.aspx?refer=53&amp;reurl=showweb/0/0/3145658.aspx" onclick="InsertLogData(4);">注册</a></span>&nbsp;后再进行评论 </div><div class=" right"><table style=" vertical-align: text-bottom; color:#8f8f8f;" border="0" cellpadding="0" cellspacing="0"><tbody><tr><td width="111">使用合作网站登录：</td><td width="25"><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/tb25.gif"></td><td width="68"><div style=" padding-top:3px;cursor:pointer;" onclick="wzhit(32);toSNSLogin('smb')">新浪微博</div></td><td width="24"><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/tb26.gif"></td><td width="37"><div style=" padding-top:2px;cursor:pointer;" onclick="wzhit(33);toSNSLogin('qq')">QQ</div></td><td width="20"><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/tb27.gif"></td><td><div style=" padding-top:3px;cursor:pointer;" onclick="wzhit(34);toSNSLogin('rr')">人人</div></td></tr></tbody></table></div></div></div><div class=" left"><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/tb23.gif"></div> </div></div>
+  
+  </div>
+</div>
+
+
+
+
+
+</td>
+<td align="center" valign="top" width="18px">
+ 
+</td>
+<td align="left" valign="top" width="252px">
+
+
+<div style="background-color: #f5f5f5;">
+    <div style="padding: 11px 14px;">
+        <div>
+            <div class=" left head">
+                <a id="ArticleRight1_HyperLink2" onclick="wzhit(40);" href="http://www.360doc.com/userhome/26398" target="_blank"><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/006.gif" alt="" style="border-width:0px;"></a></div>
+            <div class="left" style="padding-left: 14px; padding-top: 3px; color: #6d6d6d;">
+                <div class="nametit name">
+                    <a id="ArticleRight1_HyperLink1" onclick="wzhit(39);" href="http://www.360doc.com/userhome/26398" target="_blank">womking</a></div>
+                <div style="height: 24px;">
+                    馆藏：<a href="http://www.360doc.com/userhome.aspx?userid=26398&amp;app=1" target="_blank" onclick="javascript:wzhit(41);">119</a></div>
+                <div>
+                    关注我：<a href="http://www.360doc.com/userhome.aspx?userid=26398&amp;app=2" target="_blank" onclick="javascript:wzhit(42);">13</a></div>
+            </div>
+        </div>
+        <div class="gxqianm both">
+            </div>
+        <div style="padding-top: 5px;">
+            <span id="spanfollowstatus"><a href="javascript:void(0);" onclick="gzuser(26398)"><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/tb20.gif"></a></span>&nbsp;<a href="javascript:void(0);" onclick="showMsDiv();wzhit(44);"><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/tb21.gif"></a></div>
+    </div>
+</div>
+<div class="pageqh">
+<div class="both">
+    <script type="text/javascript">
+        alimama_pid = "mm_11220363_1101997_10218757";
+        alimama_width = 250;
+        alimama_height = 250;
+    </script>
+    <script src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/inf.js" type="text/javascript"></script><iframe src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/alimama.htm" style="width: 250px; height: 250px; border: 0px none;" id="tanx-a-mm_11220363_1101997_10218757" marginwidth="0" marginheight="0" frameborder="0" scrolling="no"></iframe>
+    <div style="height:15px;"></div>
+</div>
+    <div id="qh" class="nav">
+        <span style="margin-left: 9px" class="checked" onclick="change('qh',0)">
+            最新文章</span>
+        
+    </div>
+    <div class="mokuaicontent">
+    </div>
+    <div style="clear: both;">
+        <div id="qh_ul_0" style="">
+            <div class="modlist left list rightlist">
+                <ul>
+                    
+                            <li><span>
+                                <a href="http://www.360doc.com/content/12/0216/22/26398_187210517.shtml" target="_blank" onclick="wzhit(45)">无线网络安全WEP/WPA/WPA2</a></span></li>
+                        
+                            <li><span>
+                                <a href="http://www.360doc.com/content/12/0112/22/26398_179056101.shtml" target="_blank" onclick="wzhit(45)">802.11基本传输方式-信道竞争机...</a></span></li>
+                        
+                            <li><span>
+                                <a href="http://www.360doc.com/content/12/0112/22/26398_179055753.shtml" target="_blank" onclick="wzhit(45)">802.11e Access Mode</a></span></li>
+                        
+                            <li><span>
+                                <a href="http://www.360doc.com/content/11/1202/00/26398_169037591.shtml" target="_blank" onclick="wzhit(45)">WLAN隐藏节点问题--RTS/CTS机制</a></span></li>
+                        
+                            <li><span>
+                                <a href="http://www.360doc.com/content/08/0324/09/9144_1140401.shtml" target="_blank" onclick="wzhit(45)">理解Windows中的路由表和默认网...</a></span></li>
+                        
+                            <li><span>
+                                <a href="http://www.360doc.com/content/07/0928/22/15540_777477.shtml" target="_blank" onclick="wzhit(45)">Linux 内核软中断执行分析|Linu...</a></span></li>
+                        
+                            <li><span>
+                                <a href="http://www.360doc.com/content/10/0515/22/26398_27790066.shtml" target="_blank" onclick="wzhit(45)">vim lookupfile plugin</a></span></li>
+                        
+                            <li><span>
+                                <a href="http://www.360doc.com/content/10/0512/01/26398_27154768.shtml" target="_blank" onclick="wzhit(45)">jeffy-vim 很强的一个vim插件及...</a></span></li>
+                        
+                            <li><span>
+                                <a href="http://www.360doc.com/content/10/0417/17/26398_23505331.shtml" target="_blank" onclick="wzhit(45)">WIDS(无线入侵检测)</a></span></li>
+                        
+                            <li><span>
+                                <a href="http://www.360doc.com/content/10/0416/21/26398_23396733.shtml" target="_blank" onclick="wzhit(45)">Vmware Workstation增加硬盘空间</a></span></li>
+                        
+                            <li><span>
+                                <a href="http://www.360doc.com/content/10/0416/21/26398_23396490.shtml" target="_blank" onclick="wzhit(45)">VmWare虚拟机增加硬盘容量</a></span></li>
+                        
+                            <li><span>
+                                <a href="http://www.360doc.com/content/10/0325/00/26398_20144969.shtml" target="_blank" onclick="wzhit(45)">GNU-ld链接脚本浅析</a></span></li>
+                        
+                </ul>
+                <div class=" right">
+                    <a href="http://www.360doc.com/userhome/26398" target="_blank">更多&gt;&gt;</a></div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<div class="both" style="padding-top: 9px;">
+    <script type="text/javascript">        var cpro_id = 'u1041292';</script>
+    <script src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/c.js" type="text/javascript"></script><script type="text/javascript" charset="utf-8" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/ecom"></script><div style="display:none">-</div> <iframe id="cproIframe1" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/uijs.htm" marginwidth="0" marginheight="0" allowtransparency="true" align="center,center" frameborder="0" height="250" scrolling="no" width="250"></iframe>
+</div>
+
+<div class="titwx" style="padding-top: 12px;">
+    热门文章</div>
+<div class="modlist left list rightlist">
+    <ul>
+        
+                <li><span>
+                    <a href="http://www.360doc.com/content/12/0513/17/0_210754574.shtml" target="_blank" onclick="wzhit(47)">高层住宅几层最好</a></span></li>
+            
+                <li><span>
+                    <a href="http://www.360doc.com/content/13/0121/12/0_261537763.shtml" target="_blank" onclick="wzhit(47)">[情情爱爱 ] 一人一半，是伴；...</a></span></li>
+            
+                <li><span>
+                    <a href="http://www.360doc.com/content/12/1117/23/0_248496802.shtml" target="_blank" onclick="wzhit(47)">视频 走遍中国11</a></span></li>
+            
+                <li><span>
+                    <a href="http://www.360doc.com/content/12/0810/15/0_229418331.shtml" target="_blank" onclick="wzhit(47)">退休工资计算方法</a></span></li>
+            
+                <li><span>
+                    <a href="http://www.360doc.com/content/11/0306/21/0_98745587.shtml" target="_blank" onclick="wzhit(47)">男淫女淫们，你是否觉得心里一震</a></span></li>
+            
+                <li><span>
+                    <a href="http://www.360doc.com/content/12/0619/20/0_219270849.shtml" target="_blank" onclick="wzhit(47)">得到大家赞赏的婚礼发言稿</a></span></li>
+            
+                <li><span>
+                    <a href="http://www.360doc.com/content/12/0705/07/0_222335039.shtml" target="_blank" onclick="wzhit(47)">史上最全的电脑常识大集合</a></span></li>
+            
+                <li><span>
+                    <a href="http://www.360doc.com/content/11/1018/08/0_157056367.shtml" target="_blank" onclick="wzhit(47)">李强 成功人际关系—让你成为顶...</a></span></li>
+            
+                <li><span>
+                    <a href="http://www.360doc.com/content/12/0818/11/0_230830244.shtml" target="_blank" onclick="wzhit(47)">衣服翻新技巧</a></span></li>
+            
+                <li><span>
+                    <a href="http://www.360doc.com/content/12/0530/17/0_214779653.shtml" target="_blank" onclick="wzhit(47)">七个爱情故事给你七种震撼</a></span></li>
+            
+                <li><span>
+                    <a href="http://www.360doc.com/content/10/0809/22/0_44868639.shtml" target="_blank" onclick="wzhit(47)">三只老鼠偷油引发的管理争吵_余...</a></span></li>
+            
+                <li><span>
+                    <a href="http://www.360doc.com/content/11/0621/22/0_128579397.shtml" target="_blank" onclick="wzhit(47)">最给力的5条人生定律</a></span></li>
+            
+    </ul>
+    <div class=" right">
+        <a href="http://www.360doc.com/readroom.html" target="_blank">更多&gt;&gt;</a></div>
+</div>
+
+<p>
+    &nbsp;
+</p>
+<p>
+    <script>
+        function change(pro_name, i) {
+            var pro = document.getElementById(pro_name);
+            var pro_arr = pro.getElementsByTagName("span");
+            for (var m = 0; m < pro_arr.length; m++) {
+                pro_arr[m].className = "unclecked link_black";
+                if (document.getElementById(pro_name + "_ul_" + m) != null) {
+                    document.getElementById(pro_name + "_ul_" + m).style.display = "none";
+                }
+            }
+            pro_arr[i].className = "checked link_bai";
+            if (document.getElementById(pro_name + "_ul_" + i) != null) {
+                document.getElementById(pro_name + "_ul_" + i).style.display = "block";
+            }
+        }
+    </script>
+</p>
+
+<div class="both" id="divad5" style="padding-top: 11px; position: fixed; top: 20px;">
+    <div id="divad4" style="">
+        <div>
+            <script type="text/javascript">
+                alimama_pid = "mm_11220363_1101997_10415986";
+                alimama_width = 250;
+                alimama_height = 250;
+            </script>
+            <script src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/inf.js" type="text/javascript"></script><iframe src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/alimama_002.htm" style="width: 250px; height: 250px; border: 0px none;" id="tanx-a-mm_11220363_1101997_10415986" marginwidth="0" marginheight="0" frameborder="0" scrolling="no"></iframe>
+        </div>
+        <div class="ggwz">
+            <a href="javascript:void(0);" onclick="closead(2);">关闭</a>
+        </div>
+        <div style="height:13px;"></div>
+    </div>
+    <div><a target="_blank" href="http://www.360doc.com/mobilapp.htm" onclick="wzhit(48);"><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/sj.gif"></a></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+ </div>
+
+ <script language="javascript" type="text/javascript">
+     var appName = navigator.appName.toLowerCase();
+     if (appName.indexOf("microsoft internet explorer") > -1) {
+         document.write("<scr" + "ipt type='text/javascript' src='http://www.360doc.com/js/StickySystemIENewVersion.js?t=20130102301'></sc" + "ript>");
+        
+      
+     }
+     else {
+         document.write("<scr" + "ipt type='text/javascript' src='http://www.360doc.com/js/StickySystemOtherNewVersion.js?t=2013012301'></sc" + "ript>");
+       
+     }
+         
+</script><script type="text/javascript" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/StickySystemOtherNewVersion.js"></script>
+<span id="LayerLogin">  <div style="width: 1424px; height: 5739px; display: none;" id="fullbg"></div><div style="top: 4580px; left: 362px; display: none;" id="dialog"> <div id="dialog_content"></div><div><div class="newtishibox"><div class="newguanbibt"><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/cha.gif" onclick="closeBg();" style="cursor:pointer;">&nbsp;&nbsp;<span onclick="closeBg();" style="cursor:pointer;">关闭</span></div><div class="tishi-img"><div class="tishi-zc"></div><div style=" height:32px;">1、请先&nbsp;<span style=" font-weight:bold;"><a href="http://www.360doc.com/register.aspx?refer=56&amp;reurl=resaveArt.aspx?articleid=3145658&amp;isreg=1&amp;arttype=0" onclick="InsertLogData(4);">注册</a></span>&nbsp;拥有自己的360doc图书馆；</div><div style=" line-height:30px;">2、点击文章左上角的&nbsp;&nbsp;<span style=" font-weight:bold;">转藏到我的图书馆</span>&nbsp;&nbsp;，将文章保存到您自己的个人图书馆中，然后可以拷贝自己文章的内容！</div><div style="text-align:center; padding-top:20px;"><a href="http://www.360doc.com/register.aspx?refer=56&amp;reurl=resaveArt.aspx?articleid=3145658&amp;isreg=1&amp;arttype=0" onclick="InsertLogData(4);"><img src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/tishi-3.gif"></a></div></div></div></div> </div></span>
+<script>GerLookingUserInfo(1,26398,1,0,'-1',-1,10);OutputSource('http://blog.chinaunix.net/u2/60434/showart_471561.html');OutputCategory(26398,7,'Linux Programming');OutputLastNextArt('Linux 中的计时方法','http://www.360doc.com/content/09/0415/22/26398_3145643.shtml',0);OutputLastNextArt('jiffies溢出与时间先后比较','http://www.360doc.com/content/09/0415/22/26398_3146226.shtml',1);var wumiiPermaLink = "";var wumiiTitle = "Linux定时器的使用";var wumiiTags = "";var wumiiSitePrefix = "http://www.360doc.com/";var wumiiParams = "&num=5&mode=2&pf=JAVASCRIPT";</script>
+
+
+<script type="text/javascript" src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/relatedItemsWidget"></script>
+<script type="text/javascript">
+    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fd86954201130d615136257dde062a503' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="Linux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/h.js" type="text/javascript"></script>
+
+
+<div style="left: 1222px; display: block;" id="goTop"><a href="#" id="go_top"></a></div></body></html>

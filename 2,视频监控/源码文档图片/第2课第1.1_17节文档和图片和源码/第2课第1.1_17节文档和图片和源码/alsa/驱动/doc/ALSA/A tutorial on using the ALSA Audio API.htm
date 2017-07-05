@@ -1,0 +1,755 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=gbk">
+<title>
+A tutorial on using the ALSA Audio API
+</title>
+</head>
+
+<body>
+
+<h1>A Tutorial on Using the ALSA Audio API</h1>
+
+This document attempts to provide an introduction to the
+ALSA Audio API. It is not a complete reference manual for
+the API, and it does not cover many specific issues that
+more complex software will need to address. However, it does
+try to provide enough background and information for a
+reasonably skilled programmer but who is new to ALSA to
+write a simple program that uses the API.
+<p></p>
+
+<p><i>All code in the document is licensed under the GNU Public
+License. If you plan to write software using ALSA under some other
+license, then I suggest you find some other documentation.
+</i></p>
+
+<h1>Contents</h1>
+
+<ul>
+<li><a href="#interfaces">Understanding Audio Interface</a>
+</li><li><a href="#basics">What a Typical Audio Application Does</a>
+</li><li><a href="#playex">A Minimal Playback Program</a>
+</li><li><a href="#captureex">A Minimal Capture Program</a>
+</li><li><a href="#interruptex">A Minimal interrupt-driven Program</a>
+</li><li><a href="#duplexex">A Minimal Duplex Program</a>
+</li><li><a href="#howto">How To Do It</a>
+  <ul>
+  <li><a href="#open">Opening The Device</a>
+  </li><li><a href="#params">Setting The Parameters</a>
+  </li><li><a href="#io">Receiving And Delivering Data</a>
+  </li></ul>
+</li><li><a href="#forget">Why You Might Want To Forget About All Of This</a>
+</li></ul>
+
+<h1><a name="interfaces">Understanding Audio Interfaces</a></h1>
+
+Let us first review the basic design of an audio interface.  As an
+application developer, you don't need to worry about this level of
+operation - its all taken care of by the device driver (which is one
+of the components that ALSA provides). But you do need to understand
+what is going at a conceptual level if you want to write efficient and
+flexible software.
+<p></p>
+
+An audio interface is a device that allows a computer to receive and
+to send audio data from/to the outside world. Inside of the computer,
+audio data is represented a stream of bits, just like any other kind
+of data. However, the audio interface may send and receive audio as
+either an analog signal (a time-varying voltage) or as a digital
+signal (some stream of bits). In either case, the set of bits that the
+computer uses to represent a particular sound will need to be
+transformed before it is delivered to the outside world, and likewise,
+the external signal received by the interface will need to be
+transformed before it is useful to the computer. These two
+transformations are the raison d'etre of the audio interface.
+<p></p>
+
+Within the audio interface is an area referred to as the "hardware
+buffer". As an audio signal arrives from the outside world, the
+interface converts it into a stream of bits usable by the computer and
+stores it in the part hardware buffer used to send data to the
+computer. When it has collected enough data in the hardware buffer,
+the interface interrupts the computer to tell it that it has data
+ready for it. A similar process happens in reverse for data being sent
+from the computer to the outside world. The interface interrupts the
+computer to tell it that there is space in the hardware buffer, and
+the computer proceeds to store data there. The interface later
+converts these bits into whatever form is needed to deliver it to the
+outside world, and delivers it. It is very important to understand
+that the interface uses this buffer as a "circular buffer". When it
+gets to the end of the buffer, it continues by wrapping around to the
+start. 
+<p></p>
+
+For this process to work correctly, there are a number of variables
+that need to be configured. They include:
+<p></p>
+
+<ul>
+<li> what format should the interface use when converting between
+     the bitstream used by the computer and the signal used
+     in the outside world?
+</li><li> at what rate should samples be moved between the interface
+     and the computer? 
+</li><li> how much data (and/or space) should there be before the device
+     interrupts the computer?
+</li><li> how big should the hardware buffer be?
+</li></ul>
+
+The first two questions are fundamental in governing the
+quality of the audio data. The second two questions affect
+the "latency" of the audio signal. This term refers to the
+delay between
+<p></p>
+
+<ol>
+<li> data arriving at the audio interface from the outside world,
+       and it being available to the computer ("input latency")
+</li><li> data being delivered by the computer, and it being 
+       delivered to the outside world ("output latency")
+</li></ol>
+
+Both of these are very important for many kinds of audio software,
+though some programs do not need be concerned with such matters.
+
+<h1><a name="basics">What a typical audio application does</a></h1>
+
+A typical audio application has this rough structure:
+
+<pre>
+      open_the_device();
+      set_the_parameters_of_the_device();
+      while (!done) {
+           /* one or both of these */
+           receive_audio_data_from_the_device();
+	   deliver_audio_data_to_the_device();
+      }
+      close the device
+
+</pre>
+
+<h1><a name="playex">A Minimal Playback Program</a></h1>
+
+This program opens an audio interface for playback,
+configures it for stereo, 16 bit, 44.1kHz, interleaved
+conventional read/write access. Then its delivers a chunk of
+random data to it, and exits. It represents about the
+simplest possible use of the ALSA Audio API, and isn't meant
+to be a real program.
+
+<pre>	#include &lt;stdio.h&gt;
+	#include &lt;stdlib.h&gt;
+	#include &lt;alsa/asoundlib.h&gt;
+	      
+	main (int argc, char *argv[])
+	{
+		int i;
+		int err;
+		short buf[128];
+		snd_pcm_t *playback_handle;
+		snd_pcm_hw_params_t *hw_params;
+	
+		if ((err = snd_pcm_open (&amp;playback_handle, argv[1], SND_PCM_STREAM_PLAYBACK, 0)) &lt; 0) {
+			fprintf (stderr, "cannot open audio device %s (%s)\n", 
+				 argv[1],
+				 snd_strerror (err));
+			exit (1);
+		}
+		   
+		if ((err = snd_pcm_hw_params_malloc (&amp;hw_params)) &lt; 0) {
+			fprintf (stderr, "cannot allocate hardware parameter structure (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+				 
+		if ((err = snd_pcm_hw_params_any (playback_handle, hw_params)) &lt; 0) {
+			fprintf (stderr, "cannot initialize hardware parameter structure (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+	
+		if ((err = snd_pcm_hw_params_set_access (playback_handle, hw_params, SND_PCM_ACCESS_RW_INTERLEAVED)) &lt; 0) {
+			fprintf (stderr, "cannot set access type (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+	
+		if ((err = snd_pcm_hw_params_set_format (playback_handle, hw_params, SND_PCM_FORMAT_S16_LE)) &lt; 0) {
+			fprintf (stderr, "cannot set sample format (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+	
+		if ((err = snd_pcm_hw_params_set_rate_near (playback_handle, hw_params, 44100, 0)) &lt; 0) {
+			fprintf (stderr, "cannot set sample rate (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+	
+		if ((err = snd_pcm_hw_params_set_channels (playback_handle, hw_params, 2)) &lt; 0) {
+			fprintf (stderr, "cannot set channel count (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+	
+		if ((err = snd_pcm_hw_params (playback_handle, hw_params)) &lt; 0) {
+			fprintf (stderr, "cannot set parameters (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+	
+		snd_pcm_hw_params_free (hw_params);
+	
+		if ((err = snd_pcm_prepare (playback_handle)) &lt; 0) {
+			fprintf (stderr, "cannot prepare audio interface for use (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+	
+		for (i = 0; i &lt; 10; ++i) {
+			if ((err = snd_pcm_writei (playback_handle, buf, 128)) != 128) {
+				fprintf (stderr, "write to audio interface failed (%s)\n",
+					 snd_strerror (err));
+				exit (1);
+			}
+		}
+	
+		snd_pcm_close (playback_handle);
+		exit (0);
+	}
+</pre>
+
+<h1><a name="captureex">A Minimal Capture Program</a></h1>
+
+This program opens an audio interface for capture,
+configures it for stereo, 16 bit, 44.1kHz, interleaved
+conventional read/write access. Then its reads a chunk of
+random data from it, and exits. It isn't meant to be a real
+program.
+
+<pre>	#include &lt;stdio.h&gt;
+	#include &lt;stdlib.h&gt;
+	#include &lt;alsa/asoundlib.h&gt;
+	      
+	main (int argc, char *argv[])
+	{
+		int i;
+		int err;
+		short buf[128];
+		snd_pcm_t *capture_handle;
+		snd_pcm_hw_params_t *hw_params;
+	
+		if ((err = snd_pcm_open (&amp;capture_handle, argv[1], SND_PCM_STREAM_CAPTURE, 0)) &lt; 0) {
+			fprintf (stderr, "cannot open audio device %s (%s)\n", 
+				 argv[1],
+				 snd_strerror (err));
+			exit (1);
+		}
+		   
+		if ((err = snd_pcm_hw_params_malloc (&amp;hw_params)) &lt; 0) {
+			fprintf (stderr, "cannot allocate hardware parameter structure (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+				 
+		if ((err = snd_pcm_hw_params_any (capture_handle, hw_params)) &lt; 0) {
+			fprintf (stderr, "cannot initialize hardware parameter structure (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+	
+		if ((err = snd_pcm_hw_params_set_access (capture_handle, hw_params, SND_PCM_ACCESS_RW_INTERLEAVED)) &lt; 0) {
+			fprintf (stderr, "cannot set access type (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+	
+		if ((err = snd_pcm_hw_params_set_format (capture_handle, hw_params, SND_PCM_FORMAT_S16_LE)) &lt; 0) {
+			fprintf (stderr, "cannot set sample format (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+	
+		if ((err = snd_pcm_hw_params_set_rate_near (capture_handle, hw_params, 44100, 0)) &lt; 0) {
+			fprintf (stderr, "cannot set sample rate (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+	
+		if ((err = snd_pcm_hw_params_set_channels (capture_handle, hw_params, 2)) &lt; 0) {
+			fprintf (stderr, "cannot set channel count (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+	
+		if ((err = snd_pcm_hw_params (capture_handle, hw_params)) &lt; 0) {
+			fprintf (stderr, "cannot set parameters (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+	
+		snd_pcm_hw_params_free (hw_params);
+	
+		if ((err = snd_pcm_prepare (capture_handle)) &lt; 0) {
+			fprintf (stderr, "cannot prepare audio interface for use (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+	
+		for (i = 0; i &lt; 10; ++i) {
+			if ((err = snd_pcm_readi (capture_handle, buf, 128)) != 128) {
+				fprintf (stderr, "read from audio interface failed (%s)\n",
+					 snd_strerror (err));
+				exit (1);
+			}
+		}
+	
+		snd_pcm_close (capture_handle);
+		exit (0);
+	}
+</pre>
+
+<h1><a name="interruptex">A Minimal Interrupt-Driven Program</a></h1>
+
+This program opens an audio interface for playback,
+configures it for stereo, 16 bit, 44.1kHz, interleaved
+conventional read/write access. It then waits till the
+interface is ready for playback data, and delivers random
+data to it at that time.  This design allows your program to
+be easily ported to systems that rely on a callback-driven
+mechanism, such as <a href="http://jackit.sf.net/">JACK</a>, <a href="http://www.ladspa.org/">LADSPA</a>, CoreAudio, VST and
+many others.
+
+<pre>	#include &lt;stdio.h&gt;
+	#include &lt;stdlib.h&gt;
+	#include &lt;errno.h&gt;
+	#include &lt;poll.h&gt;
+	#include &lt;alsa/asoundlib.h&gt;
+	      
+	snd_pcm_t *playback_handle;
+	short buf[4096];
+	
+	int
+	playback_callback (snd_pcm_sframes_t nframes)
+	{
+		int err;
+	
+		printf ("playback callback called with %u frames\n", nframes);
+	
+		/* ... fill buf with data ... */
+	
+		if ((err = snd_pcm_writei (playback_handle, buf, nframes)) &lt; 0) {
+			fprintf (stderr, "write failed (%s)\n", snd_strerror (err));
+		}
+	
+		return err;
+	}
+	      
+	main (int argc, char *argv[])
+	{
+	
+		snd_pcm_hw_params_t *hw_params;
+		snd_pcm_sw_params_t *sw_params;
+		snd_pcm_sframes_t frames_to_deliver;
+		int nfds;
+		int err;
+		struct pollfd *pfds;
+	
+		if ((err = snd_pcm_open (&amp;playback_handle, argv[1], SND_PCM_STREAM_PLAYBACK, 0)) &lt; 0) {
+			fprintf (stderr, "cannot open audio device %s (%s)\n", 
+				 argv[1],
+				 snd_strerror (err));
+			exit (1);
+		}
+		   
+		if ((err = snd_pcm_hw_params_malloc (&amp;hw_params)) &lt; 0) {
+			fprintf (stderr, "cannot allocate hardware parameter structure (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+				 
+		if ((err = snd_pcm_hw_params_any (playback_handle, hw_params)) &lt; 0) {
+			fprintf (stderr, "cannot initialize hardware parameter structure (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+	
+		if ((err = snd_pcm_hw_params_set_access (playback_handle, hw_params, SND_PCM_ACCESS_RW_INTERLEAVED)) &lt; 0) {
+			fprintf (stderr, "cannot set access type (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+	
+		if ((err = snd_pcm_hw_params_set_format (playback_handle, hw_params, SND_PCM_FORMAT_S16_LE)) &lt; 0) {
+			fprintf (stderr, "cannot set sample format (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+	
+		if ((err = snd_pcm_hw_params_set_rate_near (playback_handle, hw_params, 44100, 0)) &lt; 0) {
+			fprintf (stderr, "cannot set sample rate (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+	
+		if ((err = snd_pcm_hw_params_set_channels (playback_handle, hw_params, 2)) &lt; 0) {
+			fprintf (stderr, "cannot set channel count (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+	
+		if ((err = snd_pcm_hw_params (playback_handle, hw_params)) &lt; 0) {
+			fprintf (stderr, "cannot set parameters (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+	
+		snd_pcm_hw_params_free (hw_params);
+	
+		/* tell ALSA to wake us up whenever 4096 or more frames
+		   of playback data can be delivered. Also, tell
+		   ALSA that we'll start the device ourselves.
+		*/
+	
+		if ((err = snd_pcm_sw_params_malloc (&amp;sw_params)) &lt; 0) {
+			fprintf (stderr, "cannot allocate software parameters structure (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+		if ((err = snd_pcm_sw_params_current (playback_handle, sw_params)) &lt; 0) {
+			fprintf (stderr, "cannot initialize software parameters structure (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+		if ((err = snd_pcm_sw_params_set_avail_min (playback_handle, sw_params, 4096)) &lt; 0) {
+			fprintf (stderr, "cannot set minimum available count (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+		if ((err = snd_pcm_sw_params_set_start_threshold (playback_handle, sw_params, 0U)) &lt; 0) {
+			fprintf (stderr, "cannot set start mode (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+		if ((err = snd_pcm_sw_params (playback_handle, sw_params)) &lt; 0) {
+			fprintf (stderr, "cannot set software parameters (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+	
+		/* the interface will interrupt the kernel every 4096 frames, and ALSA
+		   will wake up this program very soon after that.
+		*/
+	
+		if ((err = snd_pcm_prepare (playback_handle)) &lt; 0) {
+			fprintf (stderr, "cannot prepare audio interface for use (%s)\n",
+				 snd_strerror (err));
+			exit (1);
+		}
+	
+		while (1) {
+	
+			/* wait till the interface is ready for data, or 1 second
+			   has elapsed.
+			*/
+	
+			if ((err = snd_pcm_wait (playback_handle, 1000)) &lt; 0) {
+			        fprintf (stderr, "poll failed (%s)\n", strerror (errno));
+			        break;
+			}	           
+	
+			/* find out how much space is available for playback data */
+	
+			if ((frames_to_deliver = snd_pcm_avail_update (playback_handle)) &lt; 0) {
+				if (frames_to_deliver == -EPIPE) {
+					fprintf (stderr, "an xrun occured\n");
+					break;
+				} else {
+					fprintf (stderr, "unknown ALSA avail update return value (%d)\n", 
+						 frames_to_deliver);
+					break;
+				}
+			}
+	
+			frames_to_deliver = frames_to_deliver &gt; 4096 ? 4096 : frames_to_deliver;
+	
+			/* deliver the data */
+	
+			if (playback_callback (frames_to_deliver) != frames_to_deliver) {
+			        fprintf (stderr, "playback callback failed\n");
+				break;
+			}
+		}
+	
+		snd_pcm_close (playback_handle);
+		exit (0);
+	}
+</pre>
+
+<h1><a name="duplexex">A Minimal Full-Duplex Program</a></h1>
+
+Full duplex can be implemented by combining the playback and capture
+designs show above.  Although many existing Linux audio applications
+use this kind of design, in this author's opinion, it is deeply
+flawed. The <a href="#interruptex">the interrupt-driven</a> example
+represents a fundamentally better design for many situations. It is,
+however, rather complex to extend to full duplex. This is why I
+suggest you <a href="#forget">forget about all of this.</a>
+
+<h1><a name="terms">Terminology</a></h1>
+
+<dl>
+<dt>capture
+</dt><dd>Receiving data from the outside world (different
+     from "recording" which implies storing that data
+     somewhere, and is not part of ALSA's API)<p></p>
+
+</dd><dt>playback
+</dt><dd>Delivering data to the outside world, presumably,
+    though not necessarily, so that it can be heard.<p></p>
+
+</dd><dt>duplex
+</dt><dd>A situation where capture and playback are occuring
+    on the same interface at the same time.<p></p>
+
+</dd><dt>xrun
+</dt><dd>Once the audio interface starts running, it continues
+    to do until told to stop. It will be generating data
+    for computer to use and/or sending data from the
+    computer to the outside world. For various reasons,
+    your program may not keep up with it. For playback, 
+    this can lead to a situation where the interface
+    needs new data from the computer, but it isn't there,
+    forcing it use old data left in the hardware
+    buffer. This is called an "underrun". For capture, the
+    interface may have data to deliver to the computer,
+    but nowhere to store it, so it has to overwrite part
+    of the hardware buffer that contains data the computer
+    has not received. This is called an "overrun". For
+    simplicity, we use the generic term "xrun" to refer
+    to either of these conditions<p></p>
+
+</dd><dt>PCM
+</dt><dd>Pulse Code Modulation. This phrase (and acronym) describes
+    one method of representing an analog signal in digital form. 
+    Its the method used by almost computer audio interfaces, and
+    it is used in the ALSA API as a shorthand for "audio".<p></p>
+
+</dd><dt>channel
+</dt><dd><p></p>
+
+</dd><dt>frame
+</dt><dd>A sample is a single value
+    that describes the amplitude of the audio signal at a single
+    point in time, on a <em>single channel</em>. When we talk
+    about working with digital audio, we often want to
+    talk about the data that represents all channels at a single
+    point in time. This is a collection of samples, one per channel,
+    and is generally called a "frame". When we talk about the passage
+    of time in terms of frames, its roughly equivalent to what people
+    when they measure in terms of samples, but is more accurate; more
+    importantly, when we're talking about the amount of data needed
+    to represent all the channels at a point in time, its the only
+    unit that makes sense. Almost every ALSA Audio API function uses frames
+    as its unit of measurement for data quantities.<p></p>
+
+</dd><dt>interleaved
+</dt><dd>a data layout arrangement where the samples of each channel
+    that will be played at the same time follow each other
+    sequentially. See "non-interleaved"<p></p>
+
+</dd><dt>non-interleaved
+</dt><dd>a data layout where the samples for a single channel 
+    follow each other sequentially; samples for another
+    channel are either in another buffer or another
+    part of this buffer. Contrast with "interleaved"<p></p>
+
+</dd><dt>sample clock
+</dt><dd>a timing source that is used to mark the times at which
+    a sample should be delivered and/or received to/from
+    the outside world. Some audio interfaces allow
+    you to use an external sample clock, either a "word clock"
+    signal (typically used in many studios), or "autosync"
+    which uses a clock signal present in incoming digital data. 
+    All audio interfaces have at least one sample clock
+    source that is present on the interface itself, typically
+    a small crystal clock. Some interfaces do not allow
+    the rate of the clock to be varied, and some have clocks
+    that do not actually run at precisely the rates you
+    would expect (44.1kHz, etc). No two sample clocks
+    can ever be expected to run at precisely the same rate - if
+    you need two sample streams to remain synchronized
+    with each other, they <em>MUST</em> be run from
+    the same sample clock.<p></p>
+
+</dd></dl>
+
+<h1><a name="howto">How to do it ...</a></h1>
+
+<h2><a name="open">Opening the device</a></h2>
+
+ALSA separates capture and playback ....
+
+
+<h2><a name="params">Setting parameters</a></h2>
+
+We mentioned <a name="interfaceparams">above</a> that there are number
+of parameters that need to be set in order for an audio interface to
+do its job. However, because your program will not actually be
+interacting with the hardware directly, but instead with a device
+driver that controls the hardware, there are really two distinct sets
+of parameters:
+
+<h3>Hardware Parameters</h3>
+
+These are parameters that directly affect the hardware of the audio
+interface.
+<p></p>
+
+<dl>
+<dt>Sample rate
+</dt><dd>This controls the rate at which either A/D/D/A
+    conversion is done, if the interface has analog I/O. For
+    fully digital interfaces, it controls the speed of
+    the clock used to move digital audio data to/from the
+    outside world. On some interfaces, other device-specific
+    configuration may mean that your program cannot
+    control this value (for example, when the interface has
+    been told to use an external word clock source to
+    determine the sample rate).<p></p>
+
+</dd><dt>Sample format
+</dt><dd>This controls the sample format used to transfer data to
+    and from the interface. It may or may not correspond
+    with a format directly supported by the hardware.<p></p>
+
+</dd><dt>Number of channels
+</dt><dd>Hopefully, this is fairly self-explanatory.<p></p>
+
+</dd><dt>Data access and layout
+</dt><dd>This controls the way that the program will
+    deliver/receive data from the interface. There are two
+    parameters controlled by 4 possible settings. One
+    parameter is whether or not a "read/write" model
+    will be used, in which explicit function calls
+    are used to transfer data. The other option here
+    is to use "mmap mode" in which data is transferred
+    by copying between areas of memory, and API calls
+    are only necessary to note when it has started
+    and finished.<p></p>
+    The other parameter is whether the data layout
+    will be interleaved or non-interleaved.
+    <p></p>
+
+</dd><dt>Interrupt interval
+</dt><dd>This determines how many interrupts the interface will
+    generate per complete traversal of its hardware
+    buffer. It can be set either by specifying a number of
+    periods, of the size of a period. Since this determines
+    the number of frames of space/data that have to
+    accumulate before the interface will interrupt the
+    computer. It is central in controlling latency.<p></p>
+
+
+</dd><dt>Buffer size
+</dt><dd>This determines how large the hardware buffer is. It
+    can be specified in units of time or frames.<p></p>
+
+</dd></dl>
+
+<h3>Software Parameters</h3>
+
+These are parameters that control the operation of the device driver
+rather than the hardware itself. Most programs that use the
+ALSA Audio API will not need to set any of these; a few will
+need set a subset of them.
+<p></p>
+
+<dl>
+<dt>When to start the device
+</dt><dd>When you open the audio interface, ALSA ensures that it
+    is not active - no data is being moved to or from
+    its external connectors. Presumably, at some point
+    you want this data transfer to begin. There are several
+    options for how to make this happen. <p></p>
+
+    The control point here the start threshold, which defines the
+    number of frames of space/data necessary to start the device
+    automatically. If set to some value other than zero for playback,
+    it is necessary to prefill the playback buffer before the device
+    will start. If set to zero, the first data written to the device
+    (or first attempt to read from a capture stream) will start the
+    device.<p></p>
+    
+    You can also start the device explicitly using <code>snd_pcm_start</code>,
+    but this requires buffer prefilling in the case of the playback
+    stream. If you attempt to start the stream without doing this,
+    you will get -EPIPE as a return code, indicating that there
+    is no data waiting to deliver to the playback hardware buffer.<p></p>
+
+	 
+</dd><dt>What to do about xruns
+</dt><dd>If an <a name="termxrun">xrun</a> occurs, the device
+    driver may, if requested, take certain steps to 
+    handle it. Options include stopping the device,
+    or silencing all or part of the hardware buffer
+    used for playback.<p></p>
+
+    <dl>
+    <dt>the stop threshold
+    </dt><dd>if the number of frames of data/space available
+	meets or exceeds this value, the driver will stop
+	the interface.
+  
+    </dd><dt>the silence threshold
+    </dt><dd>if the number of frames of space available
+        for a playback stream meets or exceeds this 
+	value, the driver will fill part of the
+	playback hardware buffer with silence.
+
+     </dd><dt>silence size
+     </dt><dd>when the silence threshold level is met,
+         this determines how many frames of silence
+	 are written into the playback hardware buffer
+	   	
+    </dd></dl><p></p>
+
+</dd><dt>Available minimum space/data for wakeup
+</dt><dd>Programs that use <code>poll(2)</code> or
+    <code>select(2)</code> to determine when
+    audio data may be transferred to/from the interface
+    may set this to control at what point
+    relative to the state of the hardware buffer,
+    they wish to be woken up.<p></p>
+
+</dd><dt>Transfer chunk size
+</dt><dd>this determines the number of frames used when
+    transferring data to/from the device hardware buffer.<p></p>
+
+</dd></dl>
+
+There are a couple of other software parameters but they
+need not concern us here.
+
+<h2><a name="io">Receiving and delivering data</a></h2>
+
+<i>NOT YET WRITTEN</i>
+
+<hr>
+<h1><a name="forget">Why you might want to forget about all of this</a></h1>
+
+<p>
+In a word: <a href="http://jackit.sf.net/">JACK</a>.
+</p>
+<hr>
+
+<p>
+<em>
+This document is Copyright (C) 2002 Paul Davis<br>
+All source code in the document is licensed under the GNU Public
+License (GPL), which may be read <a href="http://www.fsf.org/licenses/gpl.html">here</a>.
+</em>
+</p>
+
+
+</body></html>

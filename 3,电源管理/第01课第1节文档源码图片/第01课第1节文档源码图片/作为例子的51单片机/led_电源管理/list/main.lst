@@ -1,0 +1,148 @@
+C51 COMPILER V8.02   MAIN                                                                  09/03/2014 15:40:27 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\list\main.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c ROM(SMALL) BROWSE DEBUG OBJECTEXTEND PRINT(.\list\main.lst) OBJECT(.
+                    -\list\main.obj)
+
+line level    source
+
+   1          /*---------------------------------------------------------------------*/
+   2          /* --- STC MCU International Limited ----------------------------------*/
+   3          /* --- STC 1T Series MCU Demo Programme -------------------------------*/
+   4          /* --- Mobile: (86)13922805190 ----------------------------------------*/
+   5          /* --- Fax: 86-0513-55012956,55012947,55012969 ------------------------*/
+   6          /* --- Tel: 86-0513-55012928,55012929,55012966 ------------------------*/
+   7          /* --- Web: www.GXWMCU.com --------------------------------------------*/
+   8          /* --- QQ:  800003751 -------------------------------------------------*/
+   9          /* 如果要在程序中使用此代码,请在程序中注明使用了宏晶科技的资料及程序   */
+  10          /*---------------------------------------------------------------------*/
+  11          
+  12          #include        "config.h"
+  13          #include        "GPIO.h"
+  14          #include        "delay.h"
+  15          
+  16          /*************  功能说明        **************
+  17          
+  18          程序使用P4.7 P4.6 P1.6 P1.7 来演示跑马灯，输出低驱动。
+  19          
+  20          ******************************************/
+  21          
+  22          /*************  本地常量声明    **************/
+  23          
+  24          
+  25          /*************  本地变量声明    **************/
+  26          
+  27          
+  28          /*************  本地函数声明    **************/
+  29          
+  30          
+  31          
+  32          /*************  外部函数和变量声明 *****************/
+  33          
+  34          
+  35          
+  36          /******************** IO配置函数 **************************/
+  37          void    GPIO_config(void)
+  38          {
+  39   1              GPIO_InitTypeDef        GPIO_InitStructure;             //结构定义
+  40   1              GPIO_InitStructure.Pin  = GPIO_Pin_2 | GPIO_Pin_4;
+  41   1              GPIO_InitStructure.Mode = GPIO_OUT_PP;          //指定IO的输入或输出方式,GPIO_PullUp,GPIO_HighZ,GPIO_OUT_OD,GPIO_
+             -OUT_PP
+  42   1              GPIO_Inilize(GPIO_P1,&GPIO_InitStructure);      //初始化
+  43   1      
+  44   1              GPIO_InitStructure.Pin  = GPIO_Pin_2;           //指定要初始化的IO, GPIO_Pin_0 ~ GPIO_Pin_7, 或操作
+  45   1              GPIO_InitStructure.Mode = GPIO_HighZ;           //指定IO的输入或输出方式,GPIO_PullUp,GPIO_HighZ,GPIO_OUT_OD,GPIO_O
+             -UT_PP
+  46   1              GPIO_Inilize(GPIO_P3,&GPIO_InitStructure);      //初始化
+  47   1      
+  48   1              GPIO_InitStructure.Pin  = GPIO_Pin_1 | GPIO_Pin_3 | GPIO_Pin_5;         //指定要初始化的IO, GPIO_Pin_0 ~ GPIO_Pi
+             -n_7, 或操作
+  49   1              GPIO_InitStructure.Mode = GPIO_HighZ;           //指定IO的输入或输出方式,GPIO_PullUp,GPIO_HighZ,GPIO_OUT_OD,GPIO_O
+             -UT_PP
+  50   1              GPIO_Inilize(GPIO_P1,&GPIO_InitStructure);      //初始化
+C51 COMPILER V8.02   MAIN                                                                  09/03/2014 15:40:27 PAGE 2   
+
+  51   1      
+  52   1              GPIO_InitStructure.Pin  = GPIO_Pin_0 | GPIO_Pin_1;              //指定要初始化的IO, GPIO_Pin_0 ~ GPIO_Pin_7, 或操作
+  53   1              GPIO_InitStructure.Mode = GPIO_HighZ;           //指定IO的输入或输出方式,GPIO_PullUp,GPIO_HighZ,GPIO_OUT_OD,GPIO_O
+             -UT_PP
+  54   1              GPIO_Inilize(GPIO_P1,&GPIO_InitStructure);      //初始化
+  55   1      
+  56   1              GPIO_InitStructure.Pin  = GPIO_Pin_3 | GPIO_Pin_7 ;             //指定要初始化的IO, GPIO_Pin_0 ~ GPIO_Pin_7, 或操作
+  57   1              GPIO_InitStructure.Mode = GPIO_HighZ;           //指定IO的输入或输出方式,GPIO_PullUp,GPIO_HighZ,GPIO_OUT_OD,GPIO_O
+             -UT_PP
+  58   1              GPIO_Inilize(GPIO_P3,&GPIO_InitStructure);      //初始化
+  59   1      
+  60   1              GPIO_InitStructure.Pin  = GPIO_Pin_4 | GPIO_Pin_5;              //指定要初始化的IO, GPIO_Pin_0 ~ GPIO_Pin_7, 或操作
+  61   1              GPIO_InitStructure.Mode = GPIO_HighZ;           //指定IO的输入或输出方式,GPIO_PullUp,GPIO_HighZ,GPIO_OUT_OD,GPIO_O
+             -UT_PP
+  62   1              GPIO_Inilize(GPIO_P5,&GPIO_InitStructure);      //初始化
+  63   1      
+  64   1      
+  65   1      }
+  66          
+  67          
+  68          
+  69          /******************** 主函数 **************************/
+  70          
+  71          
+  72          
+  73          #define LED P14
+  74          
+  75          
+  76          void exint0() interrupt 0
+  77          {
+  78   1      
+  79   1      }
+  80          
+  81          void main(void)
+  82          {
+  83   1              GPIO_config();
+  84   1      
+  85   1              P12 = 0;  /* J2的引脚1输出低电平 */
+  86   1              P32 = 1;  /* 51单片机里, 输入引脚要先写入1才能读到引脚状态 */
+  87   1      
+  88   1              IT0 = 0;  /* 设置INT0为上升沿、下降沿触发 */
+  89   1              EX0 = 1;  /* 使能INT0 */
+  90   1              EA = 1;   /* 开中断 */
+  91   1      
+  92   1              while (1)
+  93   1              {
+  94   2                      if (P32 == 1)
+  95   2                      {
+  96   3                              LED = 1;
+  97   3                      }
+  98   2                      else
+  99   2                      {
+ 100   3                              LED = 0;
+ 101   3                      }
+ 102   2      
+ 103   2                      PCON |= 0x02;      /* MCU进入掉电模式 */
+ 104   2                      _nop_();
+ 105   2                      _nop_();
+ 106   2                      
+ 107   2      
+ 108   2                      delay_ms(20);  /* 延迟一会,因为用的是机械开关,有振动 */
+ 109   2              }
+C51 COMPILER V8.02   MAIN                                                                  09/03/2014 15:40:27 PAGE 3   
+
+ 110   1      }
+ 111          
+ 112          
+ 113          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    129    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

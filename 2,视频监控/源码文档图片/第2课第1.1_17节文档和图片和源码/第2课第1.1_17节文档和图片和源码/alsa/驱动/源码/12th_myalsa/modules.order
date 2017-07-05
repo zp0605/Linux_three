@@ -1,0 +1,4 @@
+kernel//work/nfs_root/fs_mini_mdev_new/alsa/driver/myalsa/machine/s3c2440_uda1341.ko
+kernel//work/nfs_root/fs_mini_mdev_new/alsa/driver/myalsa/platform/s3c2440_dma.ko
+kernel//work/nfs_root/fs_mini_mdev_new/alsa/driver/myalsa/platform/s3c2440_iis.ko
+kernel//work/nfs_root/fs_mini_mdev_new/alsa/driver/myalsa/codec/uda1341.ko

@@ -1,0 +1,2712 @@
+一. V4L2框架: video for linux version 2
+
+
+虚拟视频驱动vivi.c分析:
+1．分配video_device
+2．设置
+3．注册：video_register_device
+
+vivi_init
+    vivi_create_instance
+        v4l2_device_register   // 不是主要, 只是用于初始化一些东西，比如自旋锁、引用计数
+        video_device_alloc
+        // 设置
+          1. vfd:
+            .fops           = &vivi_fops,
+            .ioctl_ops 	= &vivi_ioctl_ops,
+            .release	= video_device_release,
+          2.
+            vfd->v4l2_dev = &dev->v4l2_dev;
+          3. 设置"ctrl属性"(用于APP的ioctl)：
+            	v4l2_ctrl_handler_init(hdl, 11);
+            	dev->volume = v4l2_ctrl_new_std(hdl, &vivi_ctrl_ops,
+            			V4L2_CID_AUDIO_VOLUME, 0, 255, 1, 200);
+            	dev->brightness = v4l2_ctrl_new_std(hdl, &vivi_ctrl_ops,
+            			V4L2_CID_BRIGHTNESS, 0, 255, 1, 127);
+            	dev->contrast = v4l2_ctrl_new_std(hdl, &vivi_ctrl_ops,
+            			V4L2_CID_CONTRAST, 0, 255, 1, 16);                        
+        video_register_device(video_device, type:VFL_TYPE_GRABBER, nr)
+            __video_register_device
+                vdev->cdev = cdev_alloc();
+                vdev->cdev->ops = &v4l2_fops;
+                cdev_add
+                
+                video_device[vdev->minor] = vdev;
+
+        		if (vdev->ctrl_handler == NULL)
+        			vdev->ctrl_handler = vdev->v4l2_dev->ctrl_handler;
+                
+                
+
+分析vivi.c的open,read,write,ioctl过程
+1. open
+app:     open("/dev/video0",....)
+---------------------------------------------------
+drv:     v4l2_fops.v4l2_open
+            vdev = video_devdata(filp);  // 根据次设备号从数组中得到video_device
+            ret = vdev->fops->open(filp);
+                        vivi_ioctl_ops.open
+                            v4l2_fh_open
+
+2. read
+app:    read ....
+---------------------------------------------------
+drv:    v4l2_fops.v4l2_read
+            struct video_device *vdev = video_devdata(filp);
+            ret = vdev->fops->read(filp, buf, sz, off);
+
+3. ioctl
+app:   ioctl
+----------------------------------------------------
+drv:   v4l2_fops.unlocked_ioctl
+            v4l2_ioctl
+                struct video_device *vdev = video_devdata(filp);
+                ret = vdev->fops->unlocked_ioctl(filp, cmd, arg);
+                            video_ioctl2
+                                video_usercopy(file, cmd, arg, __video_do_ioctl);
+                                    __video_do_ioctl
+                                        struct video_device *vfd = video_devdata(file);
+                                        根据APP传入的cmd来获得、设置"某些属性"
+
+v4l2_ctrl_handler的使用过程:
+    __video_do_ioctl
+        struct video_device *vfd = video_devdata(file);
+
+    	case VIDIOC_QUERYCTRL:
+    	{
+    		struct v4l2_queryctrl *p = arg;
+    
+    		if (vfh && vfh->ctrl_handler)
+    			ret = v4l2_queryctrl(vfh->ctrl_handler, p);
+    		else if (vfd->ctrl_handler)  // 在哪设置？在video_register_device
+    			ret = v4l2_queryctrl(vfd->ctrl_handler, p);
+    			            // 根据ID在ctrl_handler里找到v4l2_ctrl，返回它的值
+                                                
+
+二、测试虚拟驱动vivi
+准备工作：安装xawtv
+sudo apt-get install xawtv
+
+源码xawtv-3.95.tar.gz
+http://www.kraxel.org/releases/xawtv/
+
+在这个网站创建新的sources.list
+http://repogen.simplylinux.ch/
+1. 选择国家
+2．选择相邻的ubuntu版本
+3. 选择"Ubuntu Branches"
+4. 生成sources.list
+5. 把得到内容替换到/etc/apt/sources.list
+6. sudo apt-get update
+   sudo apt-get install xawtv
+
+测试USB摄像头：
+1．让VMWAER处于前台，接上USB摄像头，可以看到生成了/dev/video0
+2．执行 xawtv 即可看到图像
+
+测试虚拟摄像头vivi：
+1. 确实ubuntu的内核版本
+uname -a
+Linux book-desktop 2.6.31-14-generic #48-Ubuntu SMP Fri Oct 16 14:04:26 UTC 2009 i686 GNU/Linux
+2. 去www.kernel.org下载同版本的内核
+   解压后把drivers/media/video目录取出
+   修改它的Makefile为：
+
+KERN_DIR = /usr/src/linux-headers-2.6.31-14-generic
+
+all:
+        make -C $(KERN_DIR) M=`pwd` modules 
+
+clean:
+        make -C $(KERN_DIR) M=`pwd` modules clean
+        rm -rf modules.order
+
+obj-m   += vivi.o
+obj-m   += videobuf-core.o
+obj-m   += videobuf-vmalloc.o
+obj-m   += v4l2-common.o
+   
+3. make
+4. sudo modprobe vivi  
+   sudo rmmod vivi
+   sudo insmod ./vivi.ko
+
+5. ls /dev/video*
+6. xawtv -c /dev/videoX
+
+
+//
+3. ioctl(4, VIDIOC_G_FMT
+4. for()
+        ioctl(4, VIDIOC_ENUM_FMT
+5. ioctl(4, VIDIOC_QUERYCAP    // 列举性能
+6. ioctl(4, VIDIOC_G_INPUT     // 获得当前使用输入源
+7. ioctl(4, VIDIOC_ENUMINPUT   // 列举输入源
+8. ioctl(4, VIDIOC_QUERYCTRL   // 查询属性,比如亮度、对比度
+9. ioctl(4, VIDIOC_QUERYCAP
+10. ioctl(4, VIDIOC_ENUMINPUT
+
+三、根据虚拟驱动vivi的使用过程彻底分析摄像头驱动
+// 1~7都是在v4l2_open里调用
+1. open
+2. ioctl(4, VIDIOC_QUERYCAP
+
+// 3~7 都是在get_device_capabilities里调用
+3. for()
+        ioctl(4, VIDIOC_ENUMINPUT   // 列举输入源,VIDIOC_ENUMINPUT/VIDIOC_G_INPUT/VIDIOC_S_INPUT不是必需的
+4. for()
+        ioctl(4, VIDIOC_ENUMSTD  // 列举标准(制式), 不是必需的
+5. for()        
+        ioctl(4, VIDIOC_ENUM_FMT // 列举格式
+
+6. ioctl(4, VIDIOC_G_PARM
+7. for()
+        ioctl(4, VIDIOC_QUERYCTRL    // 查询属性(比如说亮度值最小值、最大值、默认值)
+
+// 8~10都是通过v4l2_read_attr来调用的        
+8. ioctl(4, VIDIOC_G_STD            // 获得当前使用的标准(制式), 不是必需的
+9. ioctl(4, VIDIOC_G_INPUT 
+10. ioctl(4, VIDIOC_G_CTRL           // 获得当前属性, 比如亮度是多少
+
+11. ioctl(4, VIDIOC_TRY_FMT          // 试试能否支持某种格式
+12. ioctl(4, VIDIOC_S_FMT            // 设置摄像头使用某种格式
+
+
+// 13~16在v4l2_start_streaming
+13. ioctl(4, VIDIOC_REQBUFS          // 请求系统分配缓冲区
+14. for()
+        ioctl(4, VIDIOC_QUERYBUF         // 查询所分配的缓冲区
+        mmap        
+15. for ()
+        ioctl(4, VIDIOC_QBUF             // 把缓冲区放入队列        
+16. ioctl(4, VIDIOC_STREAMON             // 启动摄像头
+
+
+// 17里都是通过v4l2_write_attr来调用的
+17. for ()
+        ioctl(4, VIDIOC_S_CTRL           // 设置属性
+    ioctl(4, VIDIOC_S_INPUT              // 设置输入源
+    ioctl(4, VIDIOC_S_STD                // 设置标准(制式), 不是必需的
+
+// v4l2_nextframe > v4l2_waiton    
+18. v4l2_queue_all
+    v4l2_waiton    
+        for ()
+        {
+            select(5, [4], NULL, NULL, {5, 0})      = 1 (in [4], left {4, 985979})
+            ioctl(4, VIDIOC_DQBUF                // de-queue, 把缓冲区从队列中取出
+            // 处理, 之以已经通过mmap获得了缓冲区的地址, 就可以直接访问数据        
+            ioctl(4, VIDIOC_QBUF                 // 把缓冲区放入队列
+        }
+
+xawtv的几大函数：
+1. v4l2_open
+2. v4l2_read_attr/v4l2_write_attr
+3. v4l2_start_streaming
+4. v4l2_nextframe/v4l2_waiton
+
+摄像头驱动程序必需的11个ioctl:
+    // 表示它是一个摄像头设备
+	.vidioc_querycap      = vidioc_querycap,
+
+    /* 用于列举、获得、测试、设置摄像头的数据的格式 */
+	.vidioc_enum_fmt_vid_cap  = vidioc_enum_fmt_vid_cap,
+	.vidioc_g_fmt_vid_cap     = vidioc_g_fmt_vid_cap,
+	.vidioc_try_fmt_vid_cap   = vidioc_try_fmt_vid_cap,
+	.vidioc_s_fmt_vid_cap     = vidioc_s_fmt_vid_cap,
+
+    /* 缓冲区操作: 申请/查询/放入队列/取出队列 */
+	.vidioc_reqbufs       = vidioc_reqbufs,
+	.vidioc_querybuf      = vidioc_querybuf,
+	.vidioc_qbuf          = vidioc_qbuf,
+	.vidioc_dqbuf         = vidioc_dqbuf,
+
+	// 启动/停止
+	.vidioc_streamon      = vidioc_streamon,
+	.vidioc_streamoff     = vidioc_streamoff,	
+     
+继续分析数据的获取过程：
+1. 请求分配缓冲区: ioctl(4, VIDIOC_REQBUFS          // 请求系统分配缓冲区
+                        videobuf_reqbufs(队列, v4l2_requestbuffers) // 队列在open函数用videobuf_queue_vmalloc_init初始化
+                        // 注意：这个IOCTL只是分配缓冲区的头部信息，真正的缓存还没有分配呢
+
+2. 查询映射缓冲区:
+ioctl(4, VIDIOC_QUERYBUF         // 查询所分配的缓冲区
+        videobuf_querybuf        // 获得缓冲区的数据格式、大小、每一行长度、高度            
+mmap(参数里有"大小")   // 在这里才分配缓存
+        v4l2_mmap
+            vivi_mmap
+                videobuf_mmap_mapper
+                    videobuf-vmalloc.c里的__videobuf_mmap_mapper
+                            mem->vmalloc = vmalloc_user(pages);   // 在这里才给缓冲区分配空间
+
+3. 把缓冲区放入队列:
+ioctl(4, VIDIOC_QBUF             // 把缓冲区放入队列        
+    videobuf_qbuf
+        q->ops->buf_prepare(q, buf, field);  // 调用驱动程序提供的函数做些预处理
+        list_add_tail(&buf->stream, &q->stream);  // 把缓冲区放入队列的尾部
+        q->ops->buf_queue(q, buf);           // 调用驱动程序提供的"入队列函数"
+        
+
+4. 启动摄像头
+ioctl(4, VIDIOC_STREAMON
+    videobuf_streamon
+        q->streaming = 1;
+        
+
+5. 用select查询是否有数据
+          // 驱动程序里必定有: 产生数据、唤醒进程
+          v4l2_poll
+                vdev->fops->poll
+                    vivi_poll   
+                        videobuf_poll_stream
+                            // 从队列的头部获得缓冲区
+                			buf = list_entry(q->stream.next, struct videobuf_buffer, stream);
+                            
+                            // 如果没有数据则休眠                			
+                			poll_wait(file, &buf->done, wait);
+
+    谁来产生数据、谁来唤醒它？
+    内核线程vivi_thread每30MS执行一次，它调用
+    vivi_thread_tick
+        vivi_fillbuff(fh, buf);  // 构造数据 
+        wake_up(&buf->vb.done);  // 唤醒进程
+          
+6. 有数据后从队列里取出缓冲区
+// 有那么多缓冲区，APP如何知道哪一个缓冲区有数据？调用VIDIOC_DQBUF
+ioctl(4, VIDIOC_DQBUF 
+    vidioc_dqbuf   
+        // 在队列里获得有数据的缓冲区
+        retval = stream_next_buffer(q, &buf, nonblocking);
+        
+        // 把它从队列中删掉
+        list_del(&buf->stream);
+        
+        // 把这个缓冲区的状态返回给APP
+        videobuf_status(q, b, buf, q->type);
+        
+7. 应用程序根据VIDIOC_DQBUF所得到缓冲区状态，知道是哪一个缓冲区有数据
+   就去读对应的地址(该地址来自前面的mmap)
+
+怎么写摄像头驱动程序:
+1. 分配video_device:video_device_alloc
+2. 设置
+   .fops
+   .ioctl_ops (里面需要设置11项)
+   如果要用内核提供的缓冲区操作函数，还需要构造一个videobuf_queue_ops
+3. 注册: video_register_device
+
+四、自己写一个虚拟摄像头驱动
+
+五、写一个USB摄像头驱动程序
+1.构造一个usb_driver
+2.设置
+   probe:
+        2.1. 分配video_device:video_device_alloc
+        2.2. 设置
+           .fops
+           .ioctl_ops (里面需要设置11项)
+           如果要用内核提供的缓冲区操作函数，还需要构造一个videobuf_queue_ops
+        2.3. 注册: video_register_device      
+  id_table: 表示支持哪些USB设备      
+3.注册： usb_register
+ 
+UVC: USB Video Class
+UVC驱动：drivers\media\video\uvc\
+
+uvc_driver.c分析:
+1. usb_register(&uvc_driver.driver);
+2. uvc_probe
+        uvc_register_video
+            vdev = video_device_alloc();
+            vdev->fops = &uvc_fops;
+            video_register_device
+
+在www.usb.org下载 uvc specification,
+UVC 1.5 Class specification.pdf : 有详细描述
+USB_Video_Example 1.5.pdf    : 有示例
+
+通过VideoControl Interface来控制，
+通过VideoStreaming Interface来读视频数据，
+VC里含有多个Unit/Terminal等功能模块，可以通过访问这些模块进行控制，比如调亮度
+            
+分析UVC驱动调用过程：
+const struct v4l2_file_operations uvc_fops = {
+	.owner		= THIS_MODULE,
+	.open		= uvc_v4l2_open,
+	.release	= uvc_v4l2_release,
+	.ioctl		= uvc_v4l2_ioctl,
+	.read		= uvc_v4l2_read,
+	.mmap		= uvc_v4l2_mmap,
+	.poll		= uvc_v4l2_poll,
+};
+
+1. open:
+        uvc_v4l2_open
+2. VIDIOC_QUERYCAP   // video->streaming->type 应该是在设备被枚举时分析描述符时设置的
+		if (video->streaming->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
+			cap->capabilities = V4L2_CAP_VIDEO_CAPTURE
+					  | V4L2_CAP_STREAMING;
+		else
+			cap->capabilities = V4L2_CAP_VIDEO_OUTPUT
+					  | V4L2_CAP_STREAMING;
+3. VIDIOC_ENUM_FMT // format数组应是在设备被枚举时设置的
+        format = &video->streaming->format[fmt->index];
+4. VIDIOC_G_FMT
+        uvc_v4l2_get_format  // USB摄像头支持多种格式fromat, 每种格式下有多种frame(比如分辨率)
+            	struct uvc_format *format = video->streaming->cur_format;
+            	struct uvc_frame *frame = video->streaming->cur_frame;
+5. VIDIOC_TRY_FMT
+        uvc_v4l2_try_format
+            /* Check if the hardware supports the requested format. */
+
+        	/* Find the closest image size. The distance between image sizes is
+        	 * the size in pixels of the non-overlapping regions between the
+        	 * requested size and the frame-specified size.
+        	 */
+6. VIDIOC_S_FMT  // 只是把参数保存起来，还没有发给USB摄像头
+        uvc_v4l2_set_format
+            uvc_v4l2_try_format
+        	video->streaming->cur_format = format;
+        	video->streaming->cur_frame = frame;
+7. VIDIOC_REQBUFS
+        uvc_alloc_buffers
+           	for (; nbuffers > 0; --nbuffers) {
+        		mem = vmalloc_32(nbuffers * bufsize);
+        		if (mem != NULL)
+        			break;
+        	}
+8. VIDIOC_QUERYBUF
+        uvc_query_buffer
+            __uvc_query_buffer
+                memcpy(v4l2_buf, &buf->buf, sizeof *v4l2_buf);  // 复制参数
+9. mmap
+        uvc_v4l2_mmap
+            
+10. VIDIOC_QBUF
+        uvc_queue_buffer
+        	list_add_tail(&buf->stream, &queue->mainqueue);
+        	list_add_tail(&buf->queue, &queue->irqqueue);
+
+11. VIDIOC_STREAMON
+        uvc_video_enable(video, 1)  // 把所设置的参数发给硬件,然后启动摄像头
+            /* Commit the streaming parameters. */
+            uvc_commit_video
+                uvc_set_video_ctrl  /* 设置格式fromat, frame */
+                    	ret = __uvc_query_ctrl(video->dev /* 哪一个USB设备 */, SET_CUR, 0,
+                    		video->streaming->intfnum  /* 哪一个接口: VS */,
+                    		probe ? VS_PROBE_CONTROL : VS_COMMIT_CONTROL, data, size,
+                    		uvc_timeout_param);
+                    
+            /* 启动：Initialize isochronous/bulk URBs and allocate transfer buffers. */
+            uvc_init_video(video, GFP_KERNEL);
+                    uvc_init_video_isoc / uvc_init_video_bulk
+                        urb->complete = uvc_video_complete; (收到数据后此函数被调用,它又调用video->decode(urb, video, buf); ==> uvc_video_decode_isoc/uvc_video_encode_bulk => uvc_queue_next_buffer => wake_up(&buf->wait);)
+                        
+                    usb_submit_urb                    	
+12. poll
+        uvc_v4l2_poll            
+            uvc_queue_poll
+                poll_wait(file, &buf->wait, wait);  // 休眠等待有数据
+
+13. VIDIOC_DQBUF
+        uvc_dequeue_buffer
+        	list_del(&buf->stream);
+
+14. VIDIOC_STREAMOFF            
+        uvc_video_enable(video, 0);
+    		usb_kill_urb(urb);
+    		usb_free_urb(urb);
+        
+分析设置亮度过程：
+ioctl: VIDIOC_S_CTRL
+            uvc_ctrl_set
+            uvc_ctrl_commit
+                __uvc_ctrl_commit(video, 0);
+                    uvc_ctrl_commit_entity(video->dev, entity, rollback);
+                			ret = uvc_query_ctrl(dev  /* 哪一个USB设备 */, SET_CUR, ctrl->entity->id  /* 哪一个unit/terminal */,
+                				dev->intfnum /* 哪一个接口: VC interface */, ctrl->info->selector,
+                				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
+                				ctrl->info->size);
+                        
+     
+总结：
+1. UVC设备有2个interface: VideoControl Interface, VideoStreaming Interface
+2. VideoControl Interface用于控制，比如设置亮度。它内部有多个Unit/Terminal(在程序里Unit/Terminal都称为entity)
+   可以通过类似的函数来访问：
+                			ret = uvc_query_ctrl(dev  /* 哪一个USB设备 */, SET_CUR, ctrl->entity->id  /* 哪一个unit/terminal */,
+                				dev->intfnum /* 哪一个接口: VC interface */, ctrl->info->selector,
+                				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
+                				ctrl->info->size);
+3. VideoStreaming Interface用于获得视频数据，也可以用来选择fromat/frame(VS可能有多种format, 一个format支持多种frame， frame用来表示分辨率等信息)
+   可以通过类似的函数来访问：
+                    	ret = __uvc_query_ctrl(video->dev /* 哪一个USB设备 */, SET_CUR, 0,
+                    		video->streaming->intfnum  /* 哪一个接口: VS */,
+                    		probe ? VS_PROBE_CONTROL : VS_COMMIT_CONTROL, data, size,
+                    		uvc_timeout_param);
+4. 我们在设置FORMAT时只是简单的使用video->streaming->format[fmt->index]等数据，
+   这些数据哪来的？
+   应是设备被枚举时设置的，也就是分析它的描述符时设置的。
+
+5. UVC驱动的重点在于：
+   描述符的分析
+   属性的控制: 通过VideoControl Interface来设置
+   格式的选择：通过VideoStreaming Interface来设置
+   数据的获得：通过VideoStreaming Interface的URB来获得
+
+六、从零写UVC驱动之分析描述符
+
+七、从零写UVC驱动之实现数据传输
+A. 设置ubuntu让它从串口0输出printk信息
+a. 设置vmware添加serial port, 使用文件作为串口
+b. 启动ubuntu，修改/etc/default/grub
+GRUB_CMDLINE_LINUX_DEFAULT=""
+GRUB_CMDLINE_LINUX="console=tty0 console=ttyS0,115200n8"
+
+sudo update-grub
+sudo reboot
+
+c. ubuntu禁止root用户登录
+先修改root密码: sudo passwd root
+然后执行"su root"就可以用root登录了
+
+d. echo "8 4 1 7" > /proc/sys/kernel/printk
+
+再次重启后，只要执行这2个命令就可以：
+su root
+echo "8 4 1 7" > /proc/sys/kernel/printk
+
+B. 写代码：
+1.构造一个usb_driver
+2.设置
+   probe:
+        2.1. 分配video_device:video_device_alloc
+        2.2. 设置
+           .fops
+           .ioctl_ops (里面需要设置11项)
+           如果要用内核提供的缓冲区操作函数，还需要构造一个videobuf_queue_ops
+        2.3. 注册: video_register_device      
+  id_table: 表示支持哪些USB设备      
+3.注册： usb_register
+ 
+USB摄像头型号:
+a. 视频里用的是: 环宇飞扬 6190 ,它输出的是原始YUV数据，不支持输出MJPEG压缩数据
+   大概35元
+b. 你也可以使用其它符合UVC规范的摄像头: 就是接到WINDOWS电脑上后不用装驱动的摄像头
+   如果你要从零写驱动，就需要你会变通。
+c. 我们也会生产一款摄像头, 有2个接口：USB、CMOS(ITU-R BT. 601/656)
+   支持输出MJPEG格式数据, 正在生产调试中, 2013年8月20号左右会在100ask.taobao.com发布
+   大概100元
+   生产出来后, 我会针对它补录一个视频，现场修改代码
+
+注意：即使不支持MJPEG格式的摄像头，也可以做完项目视频的所有实验，
+      只是进行远程视频传输时，需要用软件进行图像压缩，导致视频播放有些卡
+
+
+八、从零写UVC驱动之实现设置属性(比如亮度)
+1. 先看APP以确定需要实现哪些接口
+xawtv.c:
+    grabber_scan
+        ng_vid_open
+            v4l2_driver.open // v4l2_open
+                get_device_capabilities(h);
+                    // 调用VIDIOC_QUERYCTRL ioctl确定是否支持某个属性
+                    /* controls */
+                    for (i = 0; i < MAX_CTRL; i++) {
+                	h->ctl[i].id = V4L2_CID_BASE+i;
+                	if (-1 == xioctl(h->fd, VIDIOC_QUERYCTRL, &h->ctl[i], EINVAL) ||
+                	    (h->ctl[i].flags & V4L2_CTRL_FLAG_DISABLED))
+                	    h->ctl[i].id = -1;
+                    }
+怎么去获得/设置属性？
+看drv0-v4l2.c
+可见这2个函数:
+v4l2_read_attr  : VIDIOC_G_CTRL
+v4l2_write_attr : VIDIOC_S_CTRL
+
+所以: 视频驱动里要实现3个ioctl:
+VIDIOC_QUERYCTRL
+VIDIOC_G_CTRL
+VIDIOC_S_CTRL
+
+
+2. 硬件上怎么设置属性?
+2.1 UVC规范里定义了哪些属性 : uvc_ctrl.c里数组: static struct uvc_control_info uvc_ctrls[]
+
+	{
+		.entity		= UVC_GUID_UVC_PROCESSING, // 属于哪了个entity(比如PU)
+		.selector	= PU_BRIGHTNESS_CONTROL,   // 用于亮度
+		.index		= 0,                       // 对应Processing Unit Descriptor的bmControls[0]
+		.size		= 2,                       // 数据长度为2字节
+		.flags		= UVC_CONTROL_SET_CUR | UVC_CONTROL_GET_RANGE
+				| UVC_CONTROL_RESTORE,
+	},
+
+
+ 
+2.2 我们的设备支持哪些属性
+    这需要去看描述符, 比如 Processing Unit Descriptor的bmControls的值为7f 14
+    可知BIT0为1，表示支持BRIGHTNESS
+    
+    在代码里：
+uvc_drvier.c
+uvc_ctrl_init_device    
+    // 对于每一个entity(IT,PU,SU,OT等)
+	list_for_each_entry(entity, &dev->entities, list) {
+	    // 取出bmControls
+	    bmControls = ....
+	    
+	    // 计算bmControls里位值为1的个数，就是支持的属性个数
+	    ncontrols += hweight8(bmControls[i]);    
+	    
+	    // 为每一个属性分配一个struct uvc_control
+	    entity->controls = kzalloc..
+	    
+	    // 设置这些struct uvc_control
+	    ctrl = entity->controls;
+	    for (...)
+	    {
+    		ctrl->entity = entity;
+    		ctrl->index = i;
+		}
+
+        // 把uvc_control和uvc_control_info挂构
+        uvc_ctrl_add_ctrl(dev, info);
+            ctrl->info = 某个uvc_control_info数组项(同属于一个entity, index相同)
+
+2.3 怎么去操作这些属性
+    参考 uvc_query_v4l2_ctrl
+    uvc_find_control
+        找到一个uvc_control_mapping结构体: uvc_ctrl.c里有static struct uvc_control_mapping uvc_ctrl_mappings[] 
+        	{
+        		.id		= V4L2_CID_BRIGHTNESS,  // APP根据ID来找到对应的属性
+        		.name		= "Brightness",
+        		.entity		= UVC_GUID_UVC_PROCESSING,  // 属于哪了个entity(比如PU)
+        		.selector	= PU_BRIGHTNESS_CONTROL,    // 用于亮度
+        		.size		= 16,                       // 数据占多少位
+        		.offset		= 0,                        // 从哪位开始
+        		.v4l2_type	= V4L2_CTRL_TYPE_INTEGER,   // 属性类别
+        		.data_type	= UVC_CTRL_DATA_TYPE_SIGNED,// 数据类型
+        	},
+
+         uvc_control_mapping结构体 用来更加细致地描述属性
+
+    uvc_query_ctrl
+        usb_control_msg
+
+
+举例说明: 要设置亮度，怎么操作？
+a. 根据PU的描述符的bmControls, 从它的bit0等于1知道它支持调节亮度
+b. 在uvc_ctrls数组中根据entity和index找到这一项：
+	{
+		.entity		= UVC_GUID_UVC_PROCESSING,
+		.selector	= PU_BRIGHTNESS_CONTROL,
+		.index		= 0,
+		.size		= 2,
+		.flags		= UVC_CONTROL_SET_CUR | UVC_CONTROL_GET_RANGE
+				| UVC_CONTROL_RESTORE,
+	},
+
+知道了：这个设备支持SET_CUR, GET_CUR, GET_MIN等
+要设置时，可以向PU的selector发数据, 发的数据是2字节
+
+c. 在uvc_ctrl_mappings数组中根据ID找到对应的数组项
+   从而知道了更加细致的信息，
+   然后使用usb_control_msg读写数据
+   
+
+3. 怎么写代码？
+实现3个ioctl: vidioc_queryctrl/vidioc_g_ctrl/vidioc_s_ctrl
+vidioc_queryctrl : 发起USB控制传输获得亮度的最小值、最大值、默认值、步进值
+vidioc_s_ctrl    : 把APP传入的亮度值通过USB传输发给硬件
+vidioc_g_ctrl    : 发起USB传输获得当前亮度值
+
+要点：数据发给谁？发给usb_device的
+                          VideoControl Interface
+                                    里面的Processing Unit 
+                                            里面的PU_BRIGHTNESS_CONTROL
+
+九. 先在PC上把USB摄像头用起来: 修改PC LINUX的UVC驱动
+十. 在"从零写的UVC驱动"基础上修改, 让它支持这款摄像头
+十一. 修改开发板上的UVC驱动, 并且在LCD上显示摄像头图像
+(1)准备工作：
+1. 准备虚拟机
+2．安装工具链
+sudo tar xjf arm-linux-gcc-4.3.2.tar.bz2 -C /
+设置环境变量：
+sudo vi /etc/environment  ： PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/arm/4.3.2/bin"
+
+3. 编译内核
+tar xjf linux-3.4.2.tar.bz2
+cd linux-3.4.2
+
+可以使用我们制作好的补丁: 
+linux-3.4.2_camera_jz2440.patch
+linux-3.4.2_camera_mini2440.patch
+linux-3.4.2_camera_tq2440.patch
+
+patch -p1 < ../linux-3.4.2_camera_jz2440.patch
+cp config_ok .config
+make uImage
+
+也可以从毕业班的内核补丁、驱动程序，自己修改、编译:
+patch -p1 < ../linux-3.4.2_100ask.patch
+
+把 lcd_4.3.c 复制到 /work/projects/linux-3.4.2/drivers/video
+修改/work/projects/linux-3.4.2/drivers/video/Makefile
+#obj-$(CONFIG_FB_S3C2410)         += s3c2410fb.o
+obj-$(CONFIG_FB_S3C2410)          += lcd_4.3.o
+
+把dm9dev9000c.c、dm9000.h复制到/work/projects/linux-3.4.2/drivers/net/ethernet/davicom
+修改/work/projects/linux-3.4.2/drivers/net/ethernet/davicom/Makefile
+
+cp config_ok .config
+make menuconfig
+   <*> Multimedia support  --->
+       <*>   Video For Linux 
+       [*]   Video capture adapters (NEW)  --->
+              [*]   V4L USB devices (NEW)  --->
+                   <*>   USB Video Class (UVC) 
+
+// 如果你使用的是百问网自制的USB摄像头，
+// 还需要参考第2课1.1.9节视频修改UVC驱动
+                   
+make uImae
+
+
+cp arch/arm/boot/uImage /work/nfs_root/uImage_new
+ 
+4. 文件系统：
+cd /work/nfs_root
+sudo tar xjf fs_mini_mdev_new.tar.bz2
+sudo chown book:book fs_mini_mdev_new
+
+5. 用新内核、新文件系统启动开发板
+启动开发板至UBOOT
+设置UBOOT的环境变量：
+set ipaddr 192.168.1.17
+set bootcmd 'nfs 32000000 192.168.1.124:/work/nfs_root/uImage_new; bootm 32000000'
+set bootargs console=ttySAC0,115200 root=/dev/nfs nfsroot=192.168.1.124:/work/nfs_root/fs_mini_mdev_new ip=192.168.1.17
+save 
+boot
+
+(2)从零写代码
+(3)调试测试
+a. 编译成功
+b. 再测试
+
+(4) 在PC上显示
+执行时找不到libvga库，如下操作
+sudo cp /usr/local/lib/libvga* /lib -d
+
+
+参考文档:
+http://www.svgalib.org/jay/beginners_guide/beginners_guide.html
+
+十二. 并且在LCD上显示摄像头图像
+十三. 从零写CMOS驱动
+十四. 额外项目便携式无线监控
+
+十五. 使用WIFI
+1. 准备工作(虚拟机,开发板)及配置内核选择WIFI驱动
+1.1 选型：确定网卡的VID,PID是否在列表里:http://wireless.kernel.org/en/users/Devices/USB
+选购WIFI：
+Atheros : VID 0x13D3  PID 0x3327 (成品型号 AR9271)
+realtek : VID 0x0bda  PID 0x8176 (成品型号TP-LINK公司TL-WN721N)
+
+1.2 搭建开发环境：
+a. 设置VMWARE的网络为桥接, 并选择使用哪一个网卡
+b. 把PC windows网卡, vmware linux的网卡、开发板的有线网卡IP设为192.168.7.xxx
+   因为以后开发板上USB WIFI网卡将使用192.168.1.xxx
+
+1.3 配置内核以支持USB WIFI网卡
+a. 打补丁
+tar xjf linux-3.4.2.tar.bz2
+cd linux-3.4.2
+patch -p1 < ../linux-3.4.2_camera_mini2440.patch 
+cp config_ok .config
+
+b. 配置内核: 根据网卡的VID/PID确定使用哪一个源码
+             打开源码所在目录的Makefile进而确定配置项的名称
+             make menuconfig, /名
+
+cd drivers/net/wireless/
+grep "0x3327" * -nR
+ath/ath9k/hif_usb.c:32: { USB_DEVICE(0x13D3, 0x3327) }, /* Azurewave */
+打开ath/ath9k/Makefile可知配置项为 CONFIG_ATH9K_HTC
+make menuconfig, /CONFIG_ATH9K_HTC 得到下面信息
+Symbol: ATH9K_HTC [=n]                                                                     |
+  | Type  : tristate                                                                           |
+  | Prompt: Atheros HTC based wireless cards support                                           |
+  |   Defined at drivers/net/wireless/ath/ath9k/Kconfig:100                                    |
+  |   Depends on: NETDEVICES [=y] && WLAN [=y] && ATH_COMMON [=n] && USB [=y] && MAC80211 [=m] |
+  |   Location:                                                                                |
+  |     -> Device Drivers                                                                      |
+  |       -> Network device support (NETDEVICES [=y])                                          |
+  |         -> Wireless LAN (WLAN [=y])                                                        |
+  |           -> Atheros Wireless Cards (ATH_COMMON [=n])
+
+配置:
+-> Networking suppor
+  -> Wireless 
+    <*>   cfg80211 - wireless configuration API
+    <*>   Generic IEEE 802.11 Networking Stack (mac80211)
+-> Device Drivers
+  -> Network device support
+    -> Wireless LAN
+      -> Atheros Wireless Cards
+        <*>   Atheros HTC based wireless cards support          
+make uImage
+
+另一款网卡：
+cd drivers/net/wireless/
+grep "0x8176" * -nR
+rtlwifi/rtl8192cu/sw.c:273:     {RTL_USB_DEVICE(USB_VENDER_ID_REALTEK, 0x8176, rtl92cu_hal_cfg)},
+打开rtlwifi/rtl8192cu/Makefile确定配置项为  CONFIG_RTL8192CU
+make menuconfig, /CONFIG_RTL8192CU
+
+-> General setup
+    [*] Prompt for development and/or incomplete code/drivers
+-> Device Drivers 
+  -> Network device support
+    -> Wireless LAN  
+    <*>   Realtek RTL8192CU/RTL8188CU USB Wireless Network Adapter        
+
+make uImage
+
+uboot:
+set bootargs console=ttySAC0,115200 root=/dev/nfs nfsroot=192.168.7.124:/work/nfs_root/fs_mini_mdev_new ip=192.168.7.17
+set bootcmd 'nfs 32000000 192.168.7.124:/work/nfs_root/uImage_mini2440_wifi; bootm 32000000'
+save
+boot
+    
+c. 编译、使用
+c.1 把固件htc_9271.fw放到单板/lib/firmware
+    接上USB网卡, ifconfig wlan0 up
+
+c.2 对于"realtek : VID 0x0bda  PID 0x8176 (成品型号TP-LINK公司TL-WN721N)"
+修改bug:    
+http://lkml.indiana.edu/hypermail/linux/kernel/1301.2/00465.html
+make uImage
+
+
+2. 使用WIFI网卡: iw, wpa_supplicant,dhcp
+2.1 概念: 认证/加密
+无线加密的多种方法及其区别(WEP WPA TKIP EAP)
+http://wenku.baidu.com/link?url=DlLntlD490hAeIIbE-CO4QfAzgUC-gOTA7FCwS_XanOJMFzkyhQrFIB38ULKCcQIVFyDqqSWNWyq5kVtYAoJKjjf9pmZLu17-hVQ922WeaG
+
+以手机上WIFI热点为例，有4种常用的"认证/加密"
+a. open
+b. WEP
+c. WPA(TKIP)
+d. WPA2(AES)
+
+2.2 编译、使用iw,wpa_supplicant,dhcp
+a. 旧工具iwconfig, iw是它的替代者, 可用于这2种"认证/加密": open, WEP
+a.1 
+tar xzf libnl-3.2.23.tar.gz
+cd libnl-3.2.23/
+./configure --host=arm-linux --prefix=$PWD/tmp
+修改 lib/addr.c 添加宏(宏来自内核源码)
+make
+make install
+
+把编译出来的头文件应该放入：
+/usr/local/arm/4.3.2/arm-none-linux-gnueabi/libc/usr/include
+
+cd tmp/include/libnl3
+sudo cp netlink -rf /usr/local/arm/4.3.2/arm-none-linux-gnueabi/libc/usr/include
+
+把编译出来的库文件应该放入：
+/usr/local/arm/4.3.2/arm-none-linux-gnueabi/libc/armv4t/lib
+
+把编译出来的库文件应该放入NFS文件系统的lib目录：
+/work/nfs_root/fs_mini_mdev_new/lib
+
+a.2 
+tar xjf iw-3.11.tar.bz2
+cd iw-3.11/
+修改Makefile:
+CC = "arm-linux-gcc"
+NL3xFOUND := Y
+#LIBS += $(shell $(PKG_CONFIG) --libs $(NLLIBNAME))
+#CFLAGS += $(shell $(PKG_CONFIG) --cflags $(NLLIBNAME))
+
+在info.c的代码前面添加
+#define htole16(X)  (((((uint16_t)(X)) << 8) | ((uint16_t)(X) >> 8)) & 0xffff)
+
+
+使用：
+iw list  // 列出WIFI网卡的性能
+ifconfig wlan0 up
+iw dev wlan0 scan   // 扫描WIFI AP
+iw wlan0 connect dswei  // 连接到WIFI AP：dswei (open)
+iw wlan0 connect dswei keys d:0:baiwenwang123 // 连接到WIFI AP：dswei (WEP)
+                            d: default, 0: 第0个密码 
+ifconfig wlan0 192.168.1.55
+ping 192.168.1.1
+
+iw wlan0 disconnect
+
+b. wpa_supplicant : 可用于上述4种"认证/加密"
+b.1 先编译它的依赖libopenssl
+tar xzf openssl-1.0.1d.tar.gz
+cd openssl-1.0.1d/
+./config shared no-asm --prefix=$PWD/tmp
+修改Makefile:
+CC= arm-linux-gcc
+AR= arm-linux-ar $(ARFLAGS) r
+RANLIB= arm-linux-ranlib
+NM= arm-linux-nm
+MAKEDEPPROG= arm-linux-gcc
+
+make
+make install
+安装：
+把编译出来的头文件应该放入：
+/usr/local/arm/4.3.2/arm-none-linux-gnueabi/libc/usr/include
+
+把编译出来的库文件应该放入：
+/usr/local/arm/4.3.2/arm-none-linux-gnueabi/libc/armv4t/lib
+
+把编译出来的库文件应该放入NFS文件系统的lib目录：
+/work/nfs_root/fs_mini_mdev_new/lib
+
+
+b.2 要有一个配置文件.config
+tar xzf wpa_supplicant-2.0.tar.gz 
+cd wpa_supplicant-2.0/wpa_supplicant/
+cp defconfig .config
+修改.config加上一行: CONFIG_LIBNL32=y
+修改Makefile:
+CC=arm-linux-gcc
+
+make
+make DESTDIR=$PWD/tmp install
+
+使用:
+mkdir -p /var/run/wpa_supplicant
+① OPEN
+wpa_supplicant -B -c/etc/plaintext.conf -iwlan0
+wpa_cli -iwlan0 status  // 查看状态
+ifconfig wlan0 192.168.1.55
+ping 192.168.1.1
+
+配置文件内容为:
+ctrl_interface=/var/run/wpa_supplicant
+network={
+        ssid="dswei"
+        key_mgmt=NONE
+}
+
+② WEP/WEP
+wpa_supplicant -B -c/etc/wep.conf  -iwlan0
+wpa_cli -iwlan0 status  // 查看状态
+ifconfig wlan0 192.168.1.55
+ping 192.168.1.1
+
+配置文件:
+ctrl_interface=/var/run/wpa_supplicant
+network={
+        ssid="dswei"
+        key_mgmt=NONE
+        wep_key0="baiwenwang123"
+        wep_tx_keyidx=0
+}
+
+③WPA(TKIP)
+wpa_supplicant -B -c/etc/wpa-psk-tkip.conf  -iwlan0
+wpa_cli -iwlan0 status  // 查看状态
+ifconfig wlan0 192.168.1.55
+ping 192.168.1.1
+
+配置文件
+ctrl_interface=/var/run/wpa_supplicant  # 一个目录,用于wpa_supplicant和wpa_cli的socket通信
+network={
+        ssid="dswei"
+        proto=WPA  # proto: list of accepted protocols, 可取WPA,RSN
+                   # If not set, this defaults to: WPA RSN
+        key_mgmt=WPA-PSK # 认证方式
+                         # If not set, this defaults to: WPA-PSK WPA-EAP
+        pairwise=TKIP    # If not set, this defaults to: CCMP TKIP
+        group=TKIP       # If not set, this defaults to: CCMP TKIP WEP104 WEP40 
+        psk="baiwenwang12"
+}
+
+④ WPA2(AES)
+wpa_supplicant -B -c/etc/wpa_wpa2.conf  -iwlan0
+wpa_cli -iwlan0 status  // 查看状态
+ifconfig wlan0 192.168.1.55
+ping 192.168.1.1
+
+配置文件：
+ctrl_interface=/var/run/wpa_supplicant
+network={
+        ssid="dswei"
+        psk="baiwenwang123"
+}
+
+另：
+wpa_cli可工作于"命令模式"和"交互模式"
+
+⑤ 配置文件里设置多个network:
+ctrl_interface=/var/run/wpa_supplicant
+network={
+        ssid="dswei"
+        psk="baiwenwang123"
+}
+network={
+        ssid="Programer"
+        psk="baiwenwang"
+}
+
+⑥ 访问外网：
+修改/etc/resolv.conf添加DNS:
+nameserver 192.168.1.1
+
+设置网关:
+route add default gw 192.168.1.1
+
+
+
+c. dhcp : 使得WIFI网卡动态获取IP
+c.1 编译、安装
+tar xzf dhcp-4.2.5-P1.tar.gz
+cd dhcp-4.2.5-P1
+./configure --host=arm-linux ac_cv_file__dev_random=yes
+
+cd bind
+修改Makefile:
+./configure BUILD_CC=gcc ac_cv_file__dev_random=yes --host=arm-linux --disable-kqueue
+
+tar xzf bind.tar.gz
+cd bind-9.8.4-P2
+修改 lib/export/dns/Makefile.in 
+gen: ${srcdir}/gen.c
+        ${CC} ${ALL_CFLAGS} ${LDFLAGS} -o $@ ${srcdir}/gen.c ${LIBS}
+改为
+gen: ${srcdir}/gen.c
+        ${BUILD_CC} ${ALL_CFLAGS} ${LDFLAGS} -o $@ ${srcdir}/gen.c ${LIBS}
+
+cd ../..
+make DESTDIR=$PWD/tmp install
+
+把文件复制到NFS
+sudo cp bin/* /work/nfs_root/fs_mini_mdev_new/bin/
+sudo cp sbin/* /work/nfs_root/fs_mini_mdev_new/sbin/
+sudo cp etc/dhclient.conf.example //work/nfs_root/fs_mini_mdev_new/etc/dhclient.conf
+sudo cp etc/dhcpd.conf.example //work/nfs_root/fs_mini_mdev_new/etc/dhcpd.conf
+
+sudo cp client/scripts/linux /work/nfs_root/fs_mini_mdev_new/etc/dhclient-script
+chmod +x /work/nfs_root/fs_mini_mdev_new/etc/dhclient-script
+并修改
+#!/bin/bash
+改为
+#!/bin/sh
+
+
+c.2 使用：
+mkdir -p /var/db
+wpa_supplicant -B -c/etc/wpa_wpa2.conf  -iwlan0
+dhclient wlan0
+
+c.2 一接入WIFI网卡，就自动执行wpa_supplicant等
+参考第2期视频第28课热拔插
+cat /etc/mdev.conf 
+wlan0 0:0 777 * /sbin/auto_wifi.sh
+
+cat /sbin/auto_wifi.sh
+#!/bin/sh
+if [ $ACTION = "add" ];
+then                                              
+   wpa_supplicant -B -c/etc/wpa_wpa2.conf  -iwlan0
+   wpa_cli -a/sbin/wpa_action.sh -B
+else                     
+   killall wpa_supplicant
+   killall wpa_cli 
+   killall dhclient
+fi
+
+chmod +x /sbin/auto_wifi.sh 
+
+    一连接上WIFI AP, 就自动执行dhclient
+创建一脚本:    
+cat /sbin/wpa_action.sh 
+#!/bin/sh
+IFNAME=$1
+CMD=$2
+if [ "$CMD" = "CONNECTED" ]; then
+   echo connect $IFNAME, dhclient for it > /dev/console
+   dhclient $IFNAME
+fi
+if [ "$CMD" = "DISCONNECTED" ]; then
+   echo disconnect $IFNAME, kill dhclient for it > /dev/console
+   killall dhclient
+fi
+
+chmod +x /sbin/wpa_action.sh
+
+wpa_cli -a/sbin/wpa_action.sh -B
+
+
+3. 使用WIFI网卡的AP功能
+
+参考: 移植hostapd，搭建无线热点 - 积水成渊 - 博客频道 - CSDN.NET.htm
+http://blog.csdn.net/daydring/article/details/16337047
+
+3.1 下载源码: http://w1.fi/hostapd/
+3.2 编译、安装
+tar xzf hostapd-2.0.tar.gz
+cd hostapd-2.0/
+cd hostapd/
+cp defconfig .config
+修改.config, 加一行: CONFIG_LIBNL32=y
+修改Makefile:
+CC=arm-linux-gcc
+make
+make DESTDIR=$PWD/tmp install
+
+把生成的hostapd  hostapd_cli复制到NFS的bin目录
+
+3.3 使用
+a. hostapd的配置文件: WPA/WPA2
+ctrl_interface=/var/run/hostapd
+#change wlan0 to your wireless device
+interface=wlan0
+driver=nl80211
+ssid=S3C2440
+channel=1
+
+# 认证/加密方式
+macaddr_acl=0
+auth_algs=1
+ignore_broadcast_ssid=0
+wpa=3
+wpa_passphrase=baiwenwang
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=TKIP
+rsn_pairwise=CCMP
+
+把配置文件存为/etc/myhostapd.conf
+启动 hostapd: hostapd -B /etc/myhostapd.conf
+
+b. 启动 dhcpd
+修改配置文件/etc/dhcpd.conf，添加：
+subnet 192.168.1.0 netmask 255.255.255.0 {                       
+  range 192.168.1.10 192.168.1.100;                              
+  option domain-name-servers 192.168.1.1;                        
+  option routers 192.168.1.1;                                    
+}    
+
+创建空文件/var/db/dhcpd.leases:
+> /var/db/dhcpd.leases
+
+ifconfig wlan0 192.168.1.1
+dhcpd -cf /etc/dhcpd.conf wlan0
+
+
+3.4 OPEN方式的配置文件
+ctrl_interface=/var/run/hostapd
+#change wlan0 to your wireless device
+interface=wlan0
+driver=nl80211
+ssid=S3C2440
+channel=1
+
+# 认证/加密方式
+macaddr_acl=0
+auth_algs=1
+ignore_broadcast_ssid=0
+
+3.5 WEP方式的配置文件
+ctrl_interface=/var/run/hostapd
+#change wlan0 to your wireless device
+interface=wlan0
+driver=nl80211
+ssid=S3C2440
+channel=1
+
+# 认证/加密方式
+macaddr_acl=0
+auth_algs=2
+ignore_broadcast_ssid=0
+wep_key0="baiwenwang123"
+wep_default_key=0
+
+3.6 修改/etc/mdev.conf自动启动AP模式
+cat /etc/mdev.conf 
+wlan0 0:0 777 * /sbin/auto_wifi_ap.sh
+
+cat /sbin/auto_wifi_ap.sh 
+#!/bin/sh
+if [ $ACTION = "add" ]; 
+then
+   hostapd -B /etc/myhostapd.conf
+   ifconfig wlan0 192.168.1.1
+   dhcpd -cf /etc/dhcpd.conf wlan0
+else
+   killall hostapd
+   killall dhcpd
+fi
+
+注意事项:
+对于包含了AR9271网卡驱动的内核，有一个问题：
+在上电之前就接上了网卡，那么系统启动后无法识别出这个网卡。
+解决方法：
+1．上电后再接网卡
+2．把驱动编译为模块，当系统启动后再insmod： 可以在上电之前就接网卡
+
+可能原因：ath9k_htc.ko要用到固件, 但是固件要到根文件系统被挂载后才能访问
+
+4. 仿手机写一个WIFI操作程序
+有这几个功能:
+a. 自动扫描WIFI热点
+b. 点击某个WIFI热点后会去连接它, 必要时让你输入密码
+c. 曾经连接过的WIFI热点会保留它的密码等信息, 以后会自动连接
+
+wpa_supplicant  <===== wpa_cli
+依照wpa_cli, 给wpa_supplicant发各种命令, 比如:
+scan
+add_network, set_network, select_network
+save_config
+
+核心：wpa_cli 通过 wpa_request 向 wpa_supplicant 发出命令，并得到结果
+
+
+5. 深入分析WIFI网卡驱动框架(我也在学习中,这部分延后)
+
+
+
+
+十六、使用3G上网卡(或称为3G modem)
+1. 简单使用:
+1.1 选型：
+中国联通：E网时空 EW65 (64元), ZTE中兴 MF637U (160多)
+中国电信：Benton/本腾 EQ10B (35元)
+中国移动：华为 ET128 (99元), 不要用ZTE A371(Linux下不支持)
+
+更多型号可参考: usb_modeswitch的device_reference.txt
+
+1.2 使用步骤(以windows为例)
+a. 接上发现移动硬盘，里面有安装程序和驱动程序
+b. 安装完后，移动硬盘消失；
+c. 发现新硬件，自动安装好驱动程序后，发现2个串口和一个modem
+d. 运行程序即可拨号上网
+
+zeroCD: 3G上网卡自带程序,接到PC后先作为移动硬盘使用,安装程序后切换为modem
+
+对于Linux使用过程：
+a. 接上后切换mode: usb_modeswitch
+b. 安装驱动程序: linux内核自带, 会出现3个ttyUSB0,1,2
+c. 拨号上网：pppd
+
+1.3 交叉编译应用程序并测试
+配置内核
+-> Device Drivers
+  -> Network device support
+	       <*>   PPP (point-to-point protocol) support                                
+  				    <*>     PPP BSD-Compress compression                                  
+              <*>     PPP Deflate compression                                               
+              [*]     PPP filtering                                                     
+              <*>     PPP MPPE compression (encryption) (EXPERIMENTAL)                  
+              [*]     PPP multilink support (EXPERIMENTAL)                              
+              <*>     PPP over Ethernet (EXPERIMENTAL)                                  
+              <*>     PPP support for async serial ports                                
+              <*>     PPP support for sync tty ports   
+-> Device Drivers
+  -> USB support
+     <M>   USB Serial Converter support  	
+       	  <M>   USB driver for GSM and CDMA modems
+
+make uImage && make modules
+
+应用程序源码:
+http://www.draisberghof.de/usb_modeswitch/
+http://www.libusb.org/
+ftp://ftp.samba.org/pub/ppp/
+
+交叉编译:
+libusb:
+./configure --host=arm-linux --prefix=$PWD/tmp
+make 
+make install
+把头文件和库复制进交叉工具链里
+sudo  cp libusb.h /usr/local/arm/4.3.2/arm-none-linux-gnueabi/libc/usr/include
+sudo cp * -rfd /usr/local/arm/4.3.2/arm-none-linux-gnueabi/libc/armv4t/lib
+
+把库复制到根文件系统的lib目录下
+sudo cp *so* -d /work/nfs_root/fs_mini_mdev_new/lib/
+
+usb_modeswitch:
+修改Makefile
+CC          = arm-linux-gcc
+LIBS        = -lusb-1.0
+
+make DESTDIR=$PWD/tmp
+make DESTDIR=$PWD/tmp  install
+
+cd tmp
+sudo cp * -rfd /work/nfs_root/fs_mini_mdev_new
+
+usb-modeswitch-data-20131113:
+make DESTDIR=$PWD/tmp install
+cd tmp
+sudo cp * -rfd /work/nfs_root/fs_mini_mdev_new
+
+pppd:
+修改这6个文件, "$(INSTALL) -s"改为"$(INSTALL) "
+chat/Makefile.linux
+pppd/plugins/radius/Makefile.linux
+pppd/plugins/rp-pppoe/Makefile.linux
+pppd/Makefile.linux
+pppdump/Makefile.linux
+pppstats/Makefile.linux
+
+./configure --host=arm-linux --prefix=$PWD/tmp
+make CC=arm-linux-gcc
+make CC=arm-linux-gcc install
+cd tmp
+sudo cp * -rfd /work/nfs_root/fs_mini_mdev_new
+
+使用：
+A. 以mf637为例
+参考 HI3515海思开发板移植3G模块笔记 - 倔强的晓奇 - 博客频道 - CSDN.NET.htm
+http://blog.csdn.net/alangdangjia/article/details/9413009
+a. 用新内核启动开发板
+   复制驱动: sudo cp drivers/usb/serial/*.ko /work/nfs_root/fs_mini_mdev_new
+b. 接上3G上网卡，用lsusb查看VID/PID
+lsusb
+Bus 001 Device 002: ID 19d2:2000
+
+c. 使用usb_modeswitch切换工作模式   
+它需要一个配置文件，使用上面得到的VIP/PID在device_reference.txt里找到一段配置值，
+写入一个文件mf637.cfg
+把它放到开发板的/etc目录
+usb_modeswitch -c /etc/mf637.cfg
+
+d. 安装驱动程序
+insmod usbserial.ko
+insmod usb_wwan.ko 
+insmod option.ko
+
+e. 用pppd拨号
+对于mf637:
+修改/etc/ppp/peers/wcdma-dailer, 使用/dev/ttyUSB2
+pppd call wcdma-dailer &
+cp /etc/ppp/resolv.conf /etc/resolv.conf
+ping news.qq.com
+
+B. 以EW65为例
+在device_refeence.txt里选取一段存为ew65.cfg
+板上接入EW65后执行：usb_modeswitch -c /etc/ew65.cfg
+修改/etc/ppp/peers/wcdma-dailer, 使用/dev/ttyUSB0
+pppd call wcdma-dailer &
+cp /etc/ppp/resolv.conf /etc/resolv.conf
+ping news.qq.com
+
+C. 中国电信：Benton/本腾 EQ10B (35元)
+在device_refeence.txt里选取一段存为eq10b.cfg
+板上接入EQ10B后执行：usb_modeswitch -c /etc/eq10b.cfg
+修改/etc/ppp/peers/evdo-dailer, 使用/dev/ttyUSB0
+pppd call evdo-dailer &
+cp /etc/ppp/resolv.conf /etc/resolv.conf
+ping news.qq.com
+
+D. 中国移动 ET128
+在device_refeence.txt里选取一段存为et128.cfg
+板上接入EQ10B后执行：usb_modeswitch -c /etc/et128.cfg
+
+参考：
+http://wenku.baidu.com/link?url=pVNn9okBYfUAHiNDBdtpGXselQ9uYVj1lKL5WPmEYaOpMawiYamLrtRcdRZgy5LslcPQL28ySW7q282o1VdBqciHZmsjaRsQ5Xj97oYDqce
+
+配置内核：
+-> Device Drivers
+  -> USB support
+    <M>   USB Modem (CDC ACM) support 
+
+sudo cp drivers/usb/class/cdc-acm.ko /work/nfs_root/fs_mini_mdev_new/
+
+ls /dev/ttyACM*
+/dev/ttyACM0  /dev/ttyACM1  /dev/ttyACM2
+
+根据下面的贴子修改td-dailer脚本:
+http://wenku.baidu.com/link?url=pVNn9okBYfUAHiNDBdtpGXselQ9uYVj1lKL5WPmEYaOpMawiYamLrtRcdRZgy5LslcPQL28ySW7q282o1VdBqciHZmsjaRsQ5Xj97oYDqce
+
+pppd call td-dailer &
+
+2. 编写控制程序自动使用各种型号3G上网卡
+a. usb_modeswitch -c /etc/...  // 1. 对于不同的3G上网卡配置信息不一样
+b. insmod ...
+c. pppd call wcdma-dailer      // 2. 对于不同的3G上网卡使用不同的/dev/ttyUSB
+   pppd call evdo-dailer
+   pppd call td-dailer
+
+写一个控制程序:
+a. 接上3G上网卡后它会调用usb_modeswitch并提供对应的配置信息
+b. 当识别出/dev/ttyUSB...后, 它创建一个链接文件/dev/gsmmodem指向拨号时要用的/dev/ttyUSB
+
+参考PC上对3G上网卡的识别过程：
+在PC上编译、安装: libusb-1.0.9.tar.bz2, usb-modeswitch-2.0.1.tar.bz2, usb-modeswitch-data-20131113.tar.bz2, ppp-2.4.5.tar.gz
+重启电脑
+接上USB 3G上网卡
+分析PC操作过程:
+a. 从/lib/udev/rules.d/40-usb_modeswitch.rules可知
+   接上3G上网卡后将执行: usb_modeswitch '%b/%k'
+   执行的是：/lib/udev/usb_modeswitch
+   它又会调用/usr/sbin/usb_modeswitch_dispatcher
+b. /usr/sbin/usb_modeswitch_dispatcher会调用usb_modeswitch进行模式切换
+   它调用:/usr/sbin/usb_modeswitch -W -D -s 20 $configParam $busParam $devParam -v $usb(idVendor) -p $usb(idProduct) -f "$configBuffer"
+   它并不使用配置文件,而是使用-f参数, 这些参数来自/usr/share/usb_modeswitch
+   在/usr/share/usb_modeswitch里有众多文件，已"vid:pid"为名
+
+   /usr/sbin/usb_modeswitch_dispatcher根据3G上网卡的vid,pid找到/usr/share/usb_modeswitch里的文件,
+   然后执行：usb_modeswitch -V vid -P pid -f "文件里的内容"
+c. 怎么创建接文件/dev/gsmmodem:
+# The facility to add a symbolic link pointing to the
+# ttyUSB port which provides interrupt transfer, i.e.
+# the port to connect through.
+# Will check for interrupt endpoint in ttyUSB port (lowest if
+# there is more than one); if found, return "gsmmodem[n]" name
+# to udev for symlink creation
+/dev/gsmmodem是指向一个/dev/ttyUSBX, 这个/dev/ttyUSBX所对应的interface含有"中断类型的端点"
+如果有多个/dev/ttyUSBX有中断类型端点, 则/dev/gsmmodem指向最小的/dev/ttyUSBX
+
+怎么判断ttyUSB有无中断类型端点：
+# In case the device path is returned as /sys/class/tty/ttyUSB,
+# get the USB device path from linked tree "device"
+/* 1. 对于每一个/dev/ttyUSBX
+ *    都有一个对应的/sys/class/tty/ttyUSBX
+ * 2. 它是一个链接文件, 指向: /sys/......../1-1:1.0/ttyUSB0/tty/ttyUSB0
+ * 3. 进入/sys/......../1-1:1.0/目录,
+ *    里面有多个"ep_"的子目录
+ * 4. 子目录里有名为type的文件
+ * 5. 如果这个文件的内容为Interrupt, 则返回1
+ *    
+ */
+
+
+
+十七. ALSA声卡驱动和应用
+1．裸板
+WAV文件格式：http://blog.chinaunix.net/uid-21977330-id-3976817.html
+
+2．驱动
+2.1 配置内核支持UDA1341:
+CONFIG_SND_S3C24XX_I2S  // s3c24xx-i2s.c
+CONFIG_SND_SOC_SAMSUNG  // dma.c
+
+CONFIG_SND_SOC_UDA134X  // uda134x.c
+CONFIG_SND_SOC_SAMSUNG_S3C24XX_UDA134X  // s3c24xx_uda134x.c
+
+CONFIG_S3C24XX_DMA
+
+-> Device Drivers
+  -> Sound card support
+    -> Advanced Linux Sound Architecture
+      -> ALSA for SoC audio support
+      <*>   ASoC support for Samsung     // CONFIG_SND_SOC_SAMSUNG
+      <*>   SoC I2S Audio support UDA134X wired to a S3C24XX    // CONFIG_SND_SOC_SAMSUNG_S3C24XX_UDA134X  // s3c24xx_uda134x.c          
+
+-> System Type
+[*] S3C2410 DMA support
+
+2.2 修改代码
+a. 修改mach-smdk2440.c 添加"s3c24xx_uda134x"平台设备
+b. 修改mach-smdk2440.c 添加"s3c24xx-iis"平台设备
+c. 修改mach-smdk2440.c 添加"samsung-audio"平台设备
+d. 修改mach-smdk2440.c 添加"uda134x-codec"平台设备
+
+2.3 修改bug: sound\soc\samsung\dma.c
+pos += prtd->dma_period;
+改为
+pos += prtd->dma_period*limit;
+
+
+3. 编译alsa-lib, alsa-util以使用声卡:
+3.1 alsa-lib  : 
+sudo mv /usr /usr_bak
+export PATH=/usr_bak/local/sbin:/usr_bak/local/bin:/usr_bak/sbin:/usr_bak/bin:/sbin:/bin:/usr_bak/games:/usr_bak/local/arm/4.3.2/bin
+./configure --host=arm-linux
+make
+sudo mkdir /usr
+sudo chown book:book /usr
+make install
+sudo cp -rf /usr /work/projects/alsa/
+sudo rm -rf /usr
+sudo mv /usr_bak /usr
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/arm/4.3.2/bin
+
+把头文件和库复制进交叉工具链里
+cd /work/projects/alsa/usr/include
+sudo cp * -rfd /usr/local/arm/4.3.2/arm-none-linux-gnueabi/libc/usr/include
+
+cd /work/projects/alsa/usr/lib
+sudo cp * -rfd /usr/local/arm/4.3.2/arm-none-linux-gnueabi/libc/armv4t/lib
+
+把库复制到根文件系统的lib目录下
+cd /work/projects/alsa
+sudo -rfd usr /work/nfs_root/fs_mini_mdev_new
+
+3.2 alsa-util
+3.2.1 先编译依赖：ncurses-5.9.tar.gz
+./configure --host=arm-linux --prefix=$PWD/tmp --with-shared
+make && make install
+
+把头文件和库复制进交叉工具链里
+cd /work/projects/alsa/ncurses-5.9/tmp/include/ncurses
+sudo cp * -rfd /usr/local/arm/4.3.2/arm-none-linux-gnueabi/libc/usr/include
+cd /work/projects/alsa/ncurses-5.9/tmp/include/
+sudo cp * -rfd /usr/local/arm/4.3.2/arm-none-linux-gnueabi/libc/usr/include
+
+cd /work/projects/alsa/ncurses-5.9/tmp/lib
+sudo cp * -rfd /usr/local/arm/4.3.2/arm-none-linux-gnueabi/libc/armv4t/lib
+
+把库复制到根文件系统的lib目录下
+cd /work/projects/alsa/ncurses-5.9/tmp/lib
+sudo cp *so* -rfd /work/nfs_root/fs_mini_mdev_new/lib
+
+
+3.2.2 编译alsa-util:
+./configure --host=arm-linux --prefix=$PWD/tmp --with-curses=ncurses --disable-xmlto --disable-nls
+make
+sudo make install
+
+3.2.3 测试
+mkdir /dev/snd
+cd /dev/snd/
+ln -s /dev/controlC0 
+ln -s /dev/pcmC0D0p 
+ln -s /dev/pcmC0D0c
+
+播放:
+aplay Windows.wav
+调音量:
+amixer controls
+amixer cget numid=1
+amixer cset numid=1 30
+
+
+4. 编译新的strace工具以跟踪声卡调用过程:
+
+5. 从零写ALSA声卡驱动
+5.1 写框架
+5.2 实现参数设置
+open: soc_pcm_open 依次调用cpu_dai, dma, codec_dai, machine的open或startup函数
+
+只在dma的open函数里添加参数相关的代码
+
+SNDRV_PCM_IOCTL_HW_PARAMS: soc_pcm_hw_params 依次调用machine,codec_dai,cpu_dai,platform(dma)的hw_params函数
+    
+在uda1341.c, s3c2440-iis.c里实现hw_params函数
+
+(s3c2440-dma.c 主要涉及数据传输，在下一节实现hw_params函数)
+
+
+5.3 实现数据传输
+
+5.4 调试
+
+a. 修改语法错误 11th_myalsa
+b. 配置内核去掉原来的声卡驱动
+-> Device Drivers
+  -> Sound card support
+    -> Advanced Linux Sound Architecture
+       -> ALSA for SoC audio support
+             
+c. 使用新内核启动
+
+d. 安装新驱动
+
+insmod alsa/driver/myalsa/platform/s3c2440_iis.ko 
+insmod alsa/driver/myalsa/platform/s3c2440_dma.ko 
+insmod alsa/driver/myalsa/codec/uda1341.ko 
+insmod alsa/driver/myalsa/machine/s3c2440_uda1341.ko 
+mkdir /dev/snd
+cd /dev/snd/
+ln -s /dev/controlC0 
+ln -s /dev/pcmC0D0p 
+ln -s /dev/pcmC0D0c
+cd /
+
+
+e. aplay来测试
+
+insmod ker_rw.ko
+regeditor r32 0x4B000080 9
+regeditor r32 0x55000000 5
+
+5.5 添加音量控制
+
+5.6 从零写WM8976声卡驱动程序
+insmod alsa/driver/myalsa/platform/s3c2440_iis.ko 
+insmod alsa/driver/myalsa/platform/s3c2440_dma.ko 
+insmod alsa/driver/myalsa/codec/wm8976.ko 
+insmod alsa/driver/myalsa/machine/s3c2440_uda1341.ko 
+mkdir /dev/snd
+cd /dev/snd/
+ln -s /dev/controlC0 
+ln -s /dev/pcmC0D0p 
+ln -s /dev/pcmC0D0c
+cd /
+
+aplay Groove_Coverage-she.wav &
+
+amixer controls
+amixer cget numid=1
+amixer cset numid=1 30
+
+5.7 移植WM8976声卡驱动程序
+http://www.wolfsonmicro.com/products/audio-hubs-%28codecs%29/stereo-low-power-codecs/wm8976/
+http://opensource.wolfsonmicro.com/content/linux-drivers-wolfson-devices
+https://gitorious.org/slimlogic/linux-omap/source/36d409f2c6306cb407f5d862afe987ba245e455a:sound/soc/codecs/wm8976.c
+
+insmod alsa/driver/myalsa/platform/s3c2440_iis.ko 
+insmod alsa/driver/myalsa/platform/s3c2440_dma.ko 
+insmod alsa/driver/myalsa/codec/wm8976.ko 
+insmod alsa/driver/myalsa/machine/s3c2440_uda1341.ko 
+mkdir /dev/snd
+cd /dev/snd/
+ln -s /dev/controlC0 
+ln -s /dev/pcmC0D0p 
+ln -s /dev/pcmC0D0c
+cd /
+
+aplay Groove_Coverage-she.wav &
+
+amixer cset numid=45 30
+
+
+把wm8976放入内核：
+a. 把wm8976.c, wm8976.h放入sound\soc\codecs目录
+b. 修改sound\soc\codecs的Makefile, Kconfig
+c. 把sound\soc\samsung\s3c24xx_uda134x.c复制为s3c2440_wm8976.c
+   修改codec, codec_dai的name
+d. 修改sound\soc\samsung的Makefile, Kconfig
+
+mkdir /dev/snd
+cd /dev/snd/
+ln -s /dev/controlC0 
+ln -s /dev/pcmC0D0p 
+ln -s /dev/pcmC0D0c
+cd /
+
+aplay Groove_Coverage-she.wav &
+amixer cset numid=45 30
+
+
+5.8 修改内核声卡BUG
+
+
+5.9 编写简单的声卡应用程序
+a. ALSA声卡使用体验:使用arecord录音,使用aplay播放
+准备:
+cd linux-3.4.2
+patch -p1 < ../linux-3.4.2_alsa_wm8976_uda1341_jz2440_mini2440_tq2440.patch 
+cp config_wm8976_jz2440 .config 或 cp config_uda1341_tq2440_mini2440 .config
+make uImage
+
+
+jz2440:
+i. 声音差
+    arecord test.wav
+    aplay   test.wav
+
+ii. 声音好
+	arecord -f cd test.wav
+	aplay test.wav
+
+mini2440:
+把MIC2通道打开
+amixer cset numid=11 2
+
+i.  声音差
+    arecord test.wav
+    aplay   test.wav
+
+ii. 声音好
+	arecord -f cd test.wav
+	aplay test.wav
+
+tq2440:
+把MIC1通道打开
+amixer cset numid=11 1
+
+i.  声音差
+    arecord test.wav
+    aplay   test.wav
+
+ii. 声音好
+	arecord -f cd test.wav
+	aplay test.wav
+
+
+b. 编写一个应用程序：一边录音一边播放
+A Tutorial on Using the ALSA Audio API:
+alsa-lib使用方法
+open_the_device();
+set_the_parameters_of_the_device();
+while (!done) {
+           /* one or both of these */
+           receive_audio_data_from_the_device();
+	   	   deliver_audio_data_to_the_device();
+      }
+close the device
+
+
+
+
+Alsa中PCM参数设置
+http://blog.chinaunix.net/uid-10995602-id-2918643.html
+
+
+
+
+
+mkdir /dev/snd
+cd /dev/snd/
+ln -s /dev/controlC0 
+ln -s /dev/pcmC0D0p 
+ln -s /dev/pcmC0D0c
+
+修改: arch\arm\mach-s3c24xx\mach-smdk2440.c
+
+CONFIG_SND_SOC_SAMSUNG
+CONFIG_SND_S3C24XX_I2S
+
+CONFIG_SND_SOC_SAMSUNG_S3C24XX_UDA134X
+
+CONFIG_SND_SOC_UDA134X
+CONFIG_S3C24XX_DMA
+
+
+tar xjf alsa-lib-1.0.27.2.tar.bz2 
+./configure --host=arm-linux
+make
+
+
+ncurse:
+./configure --host=arm-linux --prefix=$PWD/tmp --with-curses=ncurses
+make
+make install
+cd tmp/lib
+sudo cp * -rfd /usr/local/arm/4.3.2/arm-none-linux-gnueabi/libc/armv4t/lib
+cd tmp/include/ncurses
+sudo cp * -rfd /usr/local/arm/4.3.2/arm-none-linux-gnueabi/libc/usr/include
+
+
+tar xjf alsa-utils-1.0.27.2
+./configure --host=arm-linux --prefix=$PWD/tmp --with-curses=ncurses --disable-xmlto --disable-nls
+aplay /Windows.wav 
+ALSA lib conf.c:3707:(snd_config_update_r) Cannot access file /work/projects/alsa/alsa-lib-1.0.27.2/tmp/share/alsa/alsa.conf
+
+./configure --host=arm-linux --with-curses=ncurses --disable-xmlto --disable-nls
+
+
+make
+
+sudo make install
+
+configure: error: required curses helper header not found
+
+要先编译安装ncurses-5.9
+./configure --host=arm-linux --prefix=$PWD/tmp --with-shared
+
+
+/bin/bash: xmlto: command not found
+http://blog.csdn.net/lamdoc/article/details/12563061
+sudo apt-get install xmlto  // 安装失败, 配置时加上 --disable-xmlto
+
+sudo apt-get install gettext
+
+3．应用
+
+
+
+sound\core\sound.c
+	register_chrdev(major, "alsa", &snd_fops)
+
+
+snd_open
+	struct snd_minor *mptr = NULL;
+	mptr = snd_minors[minor];
+	file->f_op = fops_get(mptr->f_ops);
+	err = file->f_op->open(inode, file);	
+
+
+用strace跟踪:
+open("/dev/snd/controlC0", O_RDWR|0x80000 /* O_??? */) = 3
+ioctl(3, USBDEVFS_CONTROL, 0xbe96a5bc)  = 0  SNDRV_CTL_IOCTL_PVERSION
+ioctl(3, 0x40045532, 0xbe96a5a8)        = 0  #define _IOW('U',0x32,size)	_IOC(_IOC_WRITE,(type),(nr),(_IOC_TYPECHECK(size)))
+                                             SNDRV_CTL_IOCTL_PCM_PREFER_SUBDEVICE
+close(3)                                = 0
+
+SNDRV_CTL_IOCTL_CARD_INFO
+SNDRV_CTL_IOCTL_PVERSION
+SNDRV_CTL_IOCTL_PCM_PREFER_SUBDEVICE
+
+alsa_pcm_init
+	snd_ctl_register_ioctl(snd_pcm_control_ioctl);
+		_snd_ctl_register_ioctl(fcn, &snd_control_ioctls);
+
+snd_ctl_ioctl 用到 snd_control_ioctls
+
+static const struct file_operations snd_ctl_f_ops =
+	.unlocked_ioctl =	snd_ctl_ioctl,
+}
+
+snd_card_create
+	snd_ctl_create
+		snd_device_new(card, SNDRV_DEV_CONTROL, card, &ops) , ops里有 snd_ctl_dev_register > snd_register_device (snd_ctl_f_ops)
+
+snd_card_register
+	snd_device_register_all
+		dev->ops->dev_register
+			snd_ctl_dev_register				
+				snd_register_device
+						
+
+
+open("/dev/snd/pcmC0D0p", O_RDWR|O_NONBLOCK|0x80000) = 4
+
+soc_probe
+	snd_soc_register_card
+		snd_soc_instantiate_cards
+			snd_soc_instantiate_card
+				soc_probe_dai_link
+					soc_new_pcm
+		
+			soc_pcm_ops->open	= soc_pcm_open;
+			soc_pcm_ops->close	= soc_pcm_close;
+			soc_pcm_ops->hw_params	= soc_pcm_hw_params;
+			soc_pcm_ops->hw_free	= soc_pcm_hw_free;
+			soc_pcm_ops->prepare	= soc_pcm_prepare;
+			soc_pcm_ops->trigger	= soc_pcm_trigger;
+			soc_pcm_ops->pointer	= soc_pcm_pointer;
+			
+			snd_pcm_new
+					static struct snd_device_ops ops = {
+						.dev_free = snd_pcm_dev_free,
+						.dev_register =	snd_pcm_dev_register,
+						.dev_disconnect = snd_pcm_dev_disconnect,
+					};
+					
+					snd_device_new
+					
+			if (playback)
+				snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, soc_pcm_ops);
+			
+			if (capture)
+				snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_CAPTURE, soc_pcm_ops);
+			
+
+snd_pcm_dev_register
+		err = snd_register_device_for_dev(devtype, pcm->card,
+						  pcm->device,
+						  &snd_pcm_f_ops[cidx],
+						  pcm, str, dev);
+			
+pcm设备的 file_operations 来自 snd_pcm_f_ops
+
+#define _IOC_NRSHIFT	0
+#define _IOC_TYPESHIFT	8
+#define _IOC_SIZESHIFT	16
+#define _IOC_DIRSHIFT	30
+
+
+open("/dev/snd/pcmC0D0p", O_RDWR|O_NONBLOCK|0x80000) = 4
+
+SNDRV_PCM_IOCTL_INFO      : snd_pcm_info_user
+SNDRV_PCM_IOCTL_PVERSION  : put_user(SNDRV_PCM_VERSION, (int __user *)arg) ? -EFAULT : 0;
+SNDRV_PCM_IOCTL_TTSTAMP   : snd_pcm_tstamp(substream, arg), 传入的值是SNDRV_PCM_TSTAMP_TYPE_GETTIMEOFDAY或SNDRV_PCM_TSTAMP_TYPE_MONOTONIC
+SNDRV_PCM_IOCTL_SYNC_PTR  : snd_pcm_sync_ptr(substream, arg)
+SNDRV_PCM_IOCTL_HW_REFINE : snd_pcm_hw_refine_user(substream, arg) > snd_pcm_hw_refine > 
+SNDRV_PCM_IOCTL_SYNC_PTR  : 
+SNDRV_PCM_IOCTL_SW_PARAMS : snd_pcm_sw_params_user(substream, arg) > snd_pcm_sw_params > 
+SNDRV_PCM_IOCTL_SYNC_PTR
+SNDRV_PCM_IOCTL_PREPARE   : snd_pcm_prepare(substream, file) > 
+SNDRV_PCM_IOCTL_SYNC_PTR
+SNDRV_PCM_IOCTL_SW_PARAMS
+SNDRV_PCM_IOCTL_WRITEI_FRAMES : snd_pcm_lib_write > 
+SNDRV_PCM_IOCTL_SYNC_PTR
+SNDRV_PCM_IOCTL_DRAIN     : snd_pcm_drain
+SNDRV_PCM_IOCTL_DROP      : snd_pcm_drop(substream)
+SNDRV_PCM_IOCTL_HW_FREE   : snd_pcm_hw_free(substream) 
+
+fcntl64(4, F_SETFD, FD_CLOEXEC)         = 0
+ioctl(4, AGPIOC_ACQUIRE or APM_IOC_STANDBY, 0xbe9a749c) = 0     SNDRV_PCM_IOCTL_INFO
+fcntl64(4, F_GETFL)                     = 0x80802 (flags O_RDWR|O_NONBLOCK|0x80000)
+ioctl(4, AGPIOC_INFO, 0xbe9a75c0)       = 0                     SNDRV_PCM_IOCTL_PVERSION
+ioctl(4, AGPIOC_SETUP, 0xbe9a7490)      = 0                     SNDRV_PCM_IOCTL_TTSTAMP
+ioctl(4, 0xc0844123, 0xbe9a73b8)        = 0                     SNDRV_PCM_IOCTL_SYNC_PTR
+fcntl64(4, F_GETFL)                     = 0x80802 (flags O_RDWR|O_NONBLOCK|0x80000)
+fcntl64(4, F_SETFL, O_RDWR|0x80000 /* O_??? */) = 0
+ioctl(4, AGPIOC_ACQUIRE or APM_IOC_STANDBY, 0xbe9a7be8) = 0     SNDRV_PCM_IOCTL_INFO
+ioctl(4, 0xc25c4110, 0xbe9a7520)        = 0                     SNDRV_PCM_IOCTL_HW_REFINE
+ioctl(4, 0xc25c4110, 0xbe9a7180)        = 0                     SNDRV_PCM_IOCTL_HW_REFINE
+ioctl(4, 0xc25c4110, 0xbe9a7180)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7520)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7180)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7180)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7520)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7280)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6ee0)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6ee0)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7280)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7280)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6ee0)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6ee0)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7280)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7280)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6ee0)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6ee0)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7280)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7280)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6ee0)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6ee0)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7280)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7280)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6ee0)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6ee0)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7280)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6d68)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a69c8)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a69c8)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a69c8)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6d68)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6d68)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6d68)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a69c8)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a69c8)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6d68)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6fd8)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6fd8)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6fd8)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6fd8)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6fd8)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6fd8)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6fd8)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6fd8)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6fd8)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6fd8)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6d68)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6d68)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6d68)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6d68)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6d68)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6d68)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6d68)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6d68)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6d68)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6d68)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6d68)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6d68)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6fd8)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6fd8)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6fd8)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6fd8)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a6fd8)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7470)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7470)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7470)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7470)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7418)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7418)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7418)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7418)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7418)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7490)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7490)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7490)        = 0
+ioctl(4, 0xc25c4110, 0xbe9a7860)        = 0
+ioctl(4, 0xc25c4111, 0xbe9a7860)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0                   SNDRV_PCM_IOCTL_SYNC_PTR
+ioctl(4, 0xc0684113, 0xbe9a7404)        = 0                   SNDRV_PCM_IOCTL_SW_PARAMS
+ioctl(4, 0xc0844123, 0x2e868)           = 0                   SNDRV_PCM_IOCTL_SYNC_PTR
+ioctl(4, 0x4140, 0xc54f8)               = 0                   SNDRV_PCM_IOCTL_PREPARE
+ioctl(4, 0xc0844123, 0x2e868)           = 0                   SNDRV_PCM_IOCTL_SYNC_PTR
+ioctl(4, 0xc0684113, 0xbe9a77f0)        = 0                   SNDRV_PCM_IOCTL_SW_PARAMS
+read(3, "^\0\0\0\363\377\0\0\5\0\0\0\374\377\0\0\3\0\0\0\375\377"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0                   SNDRV_PCM_IOCTL_WRITEI_FRAMES
+ioctl(4, 0xc0844123, 0x2e868)           = 0                   SNDRV_PCM_IOCTL_SYNC_PTR
+read(3, "\222\3,\0\207\1%\1$\377\261\1\330\374\246\1\5\373\377\0"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, ",\5\246\374(\5\274\375\317\4\365\376\30\4N\0001\3\323\1"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "Z\n\214\6\345\n\353\6\265\n\26\7\36\n,\7+\t\21\7\3\10\354"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\262\n\20\rs\nJ\f\370\t;\vL\t\25\nF\10\350\10&\7\236\7"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\302\17\n\22\203\v\305\20\5\7\312\16\211\2\17\f1\376\313"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "Z\r4\0172\fh\16\356\nx\r\366\10E\fl\6\314\n.\3\340\10\224"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "^\0\303\10\371\0\273\t\361\1\245\n)\4u\v\\\6\30\f\263\7"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\362\365\331\27_\367\273\27g\367\373\26\323\366.\25\302"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\305\25N\t\202\22%\fS\20\223\16q\16C\20O\v\355\20/\7\342"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "&\3)\5\374\5y\2?\10\363\377w\10\303\374X\10\276\371\273"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "l\374\23\373g\370\16\371\345\363(\367\375\356.\365{\351"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "O\4G\6R\6-\0076\t\222\7\371\v\234\10\221\rK\n\363\r]\v"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\237\320d\327*\332\317\333\325\342\344\341\227\352\21\351"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\214\337*\342i\343\260\346\276\346B\352n\350\n\355j\353"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\340\326\354\3569\324b\357\24\324\305\356\270\321e\355"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\354\23\351\0M\21M\3\320\n\234\5\235\2\267\7\224\372m\t"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\377\6`\362\257\3\224\367\35\0\361\374;\373\31\1\2\365"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "Q\20\342\3\230\37t\5\37,]\6\311/U\00401\360\1\2410m\1w"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\353\371\f\370c\373\252\366\336\374[\364\316\373\317\361"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\305\363n\365i\371\216\365*\1e\367%\t\10\372\350\17\t\376"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "C\37\200\35\363\36|\32*\34:\25\21\30\325\17\6\26\235\n"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\266\16\305\2\177\f:\2A\v\311\1V\v\377\2\4\v\177\5\207"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "C\330m\0\330\331\262\377\376\335\224\376\234\345\324\374"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\344\0\333\27.\374\n\27\217\370\254\0246\367\261\21\207"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\214\17\251\373\326\27B\375>\35\327\376\202\37\311\0\262"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\\\f\357\374\213\t\244\375\254\6I\376x\5\224\376*\5\204"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\234\3T\363S\2\177\366+\0\253\371/\3765\373\203\3748\373"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\267\6\233\377\212\6>\1\333\5\217\1\n\5\17\2%\5k\4\274"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\373\10\222\351`\7\r\350\274\5\5\347O\0040\346%\3\213\345"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\241\373\336\372\317\373e\372r\374\225\371\"\375\231\370"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\t\367\301\370]\366m\370\315\365W\370\204\365\243\370\236"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "e\3\227\376f\3\260\376\245\3\324\376\345\3\353\376 \4\347"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\1\0\10\376\302\377\22\376o\377+\376\0\3770\376\205\376"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\334\372\317\376\305\372>\377\271\372\250\377\301\372\6"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\225\3770\4\234\377\27\4\254\377\342\3\251\377\235\3\220"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\316\0\v\0\345\0\364\377\366\0\326\377\373\0\255\377\371"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\307\1\350\1\336\1\247\1\346\1g\1\345\1!\1\333\1\321\0"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\267\377\34\1\270\377G\1\301\377p\1\320\377\216\1\344\377"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\351\377 \0\2\0D\0\33\0e\0+\0\203\0009\0\234\0C\0\262\0"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\240\0R\377\232\0L\377\232\0O\377\237\0R\377\244\0Y\377"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\257\377)\0\276\377\24\0\317\377\7\0\344\377\377\377\367"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\210\377\17\0\215\377\r\0\227\377\22\0\250\377\25\0\267"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\16\0x\0\6\0x\0\0\0y\0\373\377v\0\365\377r\0\361\377r\0"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\16\0\2\0\f\0\5\0\r\0\7\0\r\0\f\0\16\0\21\0\16\0\24\0\20"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\356\377\n\0\363\377\23\0\365\377\36\0\370\377$\0\373\377"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\337\377\337\377\334\377\341\377\332\377\344\377\330\377"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\"\0\353\377 \0\351\377\37\0\352\377\35\0\350\377\31\0"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\370\377\0\0\370\377\0\0\370\377\377\377\371\377\376\377"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\0\0\r\0\0\0\17\0\1\0\r\0\0\0\r\0\0\0\r\0\0\0\f\0\0\0\f"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0
+ioctl(4, 0xc0844123, 0x2e868)           = 0
+read(3, "\7\0\16\0\10\0\16\0\5\0\17\0\7\0\r\0\6\0\f\0\6\0\n\0\5"..., 8192) = 8192
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0                 SNDRV_PCM_IOCTL_WRITEI_FRAMES
+ioctl(4, 0xc0844123, 0x2e868)           = 0                 SNDRV_PCM_IOCTL_SYNC_PTR
+read(3, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 6808) = 6808
+ioctl(4, 0x400c4150, 0xbe9a7ab8)        = 0                 SNDRV_PCM_IOCTL_WRITEI_FRAMES
+ioctl(4, 0xc0844123, 0x2e868)           = 0                 SNDRV_PCM_IOCTL_SYNC_PTR
+fcntl64(4, F_GETFL)                     = 0x80002 (flags O_RDWR|0x80000)
+fcntl64(4, F_SETFL, O_RDWR|0x80000 /* O_??? */) = 0
+ioctl(4, 0x4144, 0xc50a4)               = 0                 SNDRV_PCM_IOCTL_DRAIN
+fcntl64(4, F_GETFL)                     = 0x80002 (flags O_RDWR|0x80000)
+fcntl64(4, F_SETFL, O_RDWR|0x80000 /* O_??? */) = 0
+close(3)                                = 0
+ioctl(4, 0x4143, 0xc51ac)               = 0                 SNDRV_PCM_IOCTL_DROP
+ioctl(4, 0x4112, 0)                     = 0                 SNDRV_PCM_IOCTL_HW_FREE
+close(4)                                = 0
+
+insmod regmap-i2c.ko 
+insmod regmap-spi.ko 
+insmod snd-soc-core.ko 
+
+echo "8 4 1 7" > /proc/sys/kernel/printk
+insmod alsa/driver/platform/s3c2440-i2s.ko 
+insmod alsa/driver/platform/s3c2440-dma.ko 
+insmod alsa/driver/codec/uda1341.ko 
+insmod alsa/driver/machine/s3c2440_sound.ko 
+mkdir /dev/snd
+cd /dev/snd/
+ln -s /dev/controlC0 
+ln -s /dev/pcmC0D0p 
+ln -s /dev/pcmC0D0c
+cd /
+echo "8 4 1 7" > /proc/sys/kernel/printk
+
+regeditor r32 0x55000000 5; regeditor r32 0x4B000080 9
+
+修改BUG：sound\soc\samsung\dma.c
+
+static void dma_enqueue(struct snd_pcm_substream *substream)
+
+		//pos += prtd->dma_period;
+		pos += prtd->dma_period*limit;
+
+
+
+http://wenku.baidu.com/link?url=B2U2f2vK5gHvVVUrMrgmEaS3N0xAampnfPj5-MNfJsF63BwL3qU7bNOhf0Jmwrqx75y5LSk8C13ppaHvfw24YOjtf6GppFOI25INP7WVKOO
+
+A close look at ALSA
+http://www.volkerschatz.com/noise/alsa.html
+
+
+Linux音频子系统 - DroidPhone的专栏 - 博客频道 - CSDN.NET.htm
+http://blog.csdn.net/droidphone/article/category/1118446
+
+
+Linux ALSA声卡驱动之一：ALSA架构简介 
+http://blog.csdn.net/droidphone/article/details/6271122
+
+Linux ALSA声卡驱动之二：声卡的创建 
+http://blog.csdn.net/droidphone/article/details/6289712
+
+Linux ALSA声卡驱动之三：PCM设备的创建 
+http://blog.csdn.net/droidphone/article/details/6308006
+
+Linux ALSA声卡驱动之四：Control设备的创建 
+http://blog.csdn.net/droidphone/article/details/6409983
+
+Linux ALSA声卡驱动之五：移动设备中的ALSA（ASoC） 
+http://blog.csdn.net/droidphone/article/details/7165482
+
+Linux ALSA声卡驱动之六：ASoC架构中的Machine 
+http://blog.csdn.net/droidphone/article/details/7231605
+
+Linux ALSA声卡驱动之七：ASoC架构中的Codec 
+http://blog.csdn.net/droidphone/article/details/7283833
+
+Linux ALSA声卡驱动之八：ASoC架构中的Platform 
+http://blog.csdn.net/droidphone/article/details/7316061
+
+snd_soc_register_codec(,snd_soc_codec_driver,snd_soc_dai_driver,num_dai)
+	
+
+一、machine:
+1. platform_device_alloc("soc-audio", -1);
+	platform_set_drvdata(s3c24xx_uda134x_snd_device,
+			     &snd_soc_s3c24xx_uda134x);
+	platform_device_add_data(s3c24xx_uda134x_snd_device, &s3c24xx_uda134x, sizeof(s3c24xx_uda134x));
+	ret = platform_device_add(s3c24xx_uda134x_snd_device);
+
+
+定义一个snd_soc_card
+分配注册一个名为"soc-audio"的平台设备
+
+2. 名为"soc-audio"的平台驱动:sound\soc\soc-core.c
+   soc_probe
+      从平台设备的drvdata中取出snd_soc_card
+   		snd_soc_register_card
+					for (i = 0; i < card->num_links; i++)
+						card->rtd[i].dai_link = &card->dai_link[i];
+   				list_add(&card->list, &card_list);
+   				snd_soc_instantiate_cards();
+							list_for_each_entry(card, &card_list, list)
+								snd_soc_instantiate_card(card);   				
+										/* bind DAIs */
+										for (i = 0; i < card->num_links; i++)
+											soc_bind_dai_link(card, i);    // rtd->cpu_dai = cpu_dai;     // 从dai_list中找
+											                                  rtd->codec = codec;         // 从codec_list中找
+											                                  rtd->codec_dai = codec_dai; // 从dai_list中找
+											                                  rtd->platform = platform;   // 从platform_list中找
+   				          // 只有bind completed后, 才会继续往下执行
+										/* card bind complete so register a sound card */
+										ret = snd_card_create(SNDRV_DEFAULT_IDX1, SNDRV_DEFAULT_STR1,
+												card->owner, 0, &card->snd_card);
+										
+										/*
+										 * 挨个调用了codec，dai和platform驱动的probe函数外，
+										 * 在最后还调用了soc_new_pcm()函数用于创建标准alsa驱动的pcm逻辑设备
+										 */		
+										soc_probe_dai_link		
+											 	......
+												soc_new_pcm
+														struct snd_pcm_ops *soc_pcm_ops = &rtd->ops;
+														
+														soc_pcm_ops->open	= soc_pcm_open;
+														soc_pcm_ops->close	= soc_pcm_close;
+														soc_pcm_ops->hw_params	= soc_pcm_hw_params;
+														soc_pcm_ops->hw_free	= soc_pcm_hw_free;
+														soc_pcm_ops->prepare	= soc_pcm_prepare;
+														soc_pcm_ops->trigger	= soc_pcm_trigger;
+														soc_pcm_ops->pointer	= soc_pcm_pointer;
+														
+														snd_pcm_new
+														snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, soc_pcm_ops);
+														snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_CAPTURE, soc_pcm_ops);
+
+二、platform: sound\soc\samsung\s3c24xx-i2s.c
+   		snd_soc_register_dai
+   				list_add(&dai->list, &dai_list);
+   				
+三、codec: sound\soc\codecs\uda134x.c
+    		snd_soc_register_codec
+    				ret = snd_soc_register_dais(dev, dai_drv, num_dai);
+    								list_add(&dai->list, &dai_list);
+    										snd_soc_instantiate_cards();
+    				list_add(&codec->list, &codec_list);
+    				snd_soc_instantiate_cards();
+
+   				           
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+参考文章:
+嵌入式Linux下3G USB Modem的使用 - 空之轨迹～约修亚 - 博客频道 - CSDN.NET.htm
+http://blog.csdn.net/ling1874/article/details/8148822
+http://wenku.baidu.com/link?url=HLRk3U9Jbr2Zx35e5knamYeUKYs14bhV3F9-hzC6rWMwdxCu2gTtAR89VBAdpoAF4UC9LmxCPxGLbjAu_XoSXuy065ZbbvfwtWm9vLy5UWe
+
+配置文件最全：
+HI3515海思开发板移植3G模块笔记 - 倔强的晓奇 - 博客频道 - CSDN.NET.htm
+http://blog.csdn.net/alangdangjia/article/details/9413009
+
+好文章：ppp及usb_modeswitch等工具移植说明_百度文库.htm
+http://wenku.baidu.com/link?url=Y7gsW5izmXwzur3VS3hGYWV_k_glZwzmu7Prdh_F69LuFxcOGT1LwhtsmXA3TVhR6F0l8_ozspcQvO08nlHex2yss0EW7wWIzysw9cZn-wu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1. http://www.draisberghof.de/usb_modeswitch/
+   http://www.libusb.org/
+
+wvdial arm移植笔记 .-UP-NETARM2410-ChinaUnix博客.htm
+http://blog.chinaunix.net/uid-20759926-id-3337026.html
+
+wvdial:
+http://alumnit.ca/wiki/index.php?page=WvDial
+
+How to interface USB modem to ARM board (for android or linux) 
+http://embeddlinux.blogspot.com/2013/01/how-to-interface-usb-modem-to-arm-board.html
+
+
+嵌入式Linux下3G无线上网卡的驱动移植
+http://www.embeddedlinux.org.cn/html/yingjianqudong/201303/15-2489.html
+
+pppd
+ftp://ftp.samba.org/pub/ppp/
+
+
+嵌入式Linux下3G USB Modem的使用 - 空之轨迹～约修亚 - 博客频道 - CSDN.NET.htm
+http://blog.csdn.net/ling1874/article/details/8148822
+http://wenku.baidu.com/link?url=HLRk3U9Jbr2Zx35e5knamYeUKYs14bhV3F9-hzC6rWMwdxCu2gTtAR89VBAdpoAF4UC9LmxCPxGLbjAu_XoSXuy065ZbbvfwtWm9vLy5UWe
+
+配置文件最全：
+HI3515海思开发板移植3G模块笔记 - 倔强的晓奇 - 博客频道 - CSDN.NET.htm
+http://blog.csdn.net/alangdangjia/article/details/9413009
+
+好文章：ppp及usb_modeswitch等工具移植说明_百度文库.htm
+http://wenku.baidu.com/link?url=Y7gsW5izmXwzur3VS3hGYWV_k_glZwzmu7Prdh_F69LuFxcOGT1LwhtsmXA3TVhR6F0l8_ozspcQvO08nlHex2yss0EW7wWIzysw9cZn-wu
+
+udev详解-ChinaUnix操作系统频道.htm
+http://os.chinaunix.net/a2008/0626/982/000000982085.shtml
+
+
+Linux USB FAQ.htm
+http://www.linux-usb.org/FAQ.html
+
+lsusb
+https://www.kernel.org/pub/linux/utils/usb/usbutils/
+
+/lib/udev/usb_modeswitch /1-1
+if [ -e "/etc/init/usb-modeswitch-upstart.conf" ]; then
+        exec /sbin/initctl emit --no-wait usb-modeswitch-upstart UMS_PARAM=$1
+        
+/usr/sbin/usb_modeswitch_dispatcher --switch-upstart /1-1
+/sbin/initctl emit --no-wait usb-modeswitch-upstart UMS_PARAM=/1-1
+
+/usr/sbin/usb_modeswitch_dispatcher --switch-mode $1
+
+/usr/sbin/usb_modeswitch -W -D -s 20 -u -1 -b 1 -g 7 -v 19d2 -p 2000 -f # ZTE devices TargetVendor= 0x19d2 TargetProductList="0001,0002,0015,0016,0017,0019,0031,0037,0052,0055,0061,0063,0064,0066,0091,0108,0117,0128,0157,0177,1402,2002,2003" MessageContent="5553424312345678000000000000061e000000000000000000000000000000" MessageContent2="5553424312345679000000000000061b000000020000000000000000000000" MessageContent3="55534243123456702000000080000c85010101180101010101000000000000" NeedResponse=1
+
+# The facility to add a symbolic link pointing to the
+# ttyUSB port which provides interrupt transfer, i.e.
+# the port to connect through.
+# Will check for interrupt endpoint in ttyUSB port (lowest if
+# there is more than one); if found, return "gsmmodem[n]" name
+# to udev for symlink creation
+
+# This is run once for every port of LISTED devices by
+# an udev rule
+
+
+# In case the device path is returned as /class/tty/ttyUSB,
+# get the USB device path from linked tree "device"
+
+
+
+luvcview在arm板上的移植 
+http://blog.chinaunix.net/uid-20364597-id-3507440.html
+
+
+[*] Networking support  ---> 
+			-*-   Wireless  --->
+				<*>   cfg80211 - wireless configuration API
+				[*]     cfg80211 wireless extensions compatibility 
+				<*>   Generic IEEE 802.11 Networking Stack (mac80211)
+
+Device Drivers  --->
+	[*] Network device support  ---> 
+		[*]   Wireless LAN  --->
+			<*>   Atheros Wireless Cards  ---> 
+				<*>   Atheros HTC based wireless cards support				
+
+
+usb 1-1: new full-speed USB device number 4 using s3c2410-ohci
+usb 1-1: ath9k_htc: Firmware htc_9271.fw requested
+usb 1-1: ath9k_htc: Failed to get firmware htc_9271.fw
+usb 1-1: ath9k_htc: USB layer deinitialized
+
+mkdir /lib/firmware
+把 htc_9271.fw 放到 /lib/firmware
+
+usb 1-1: USB disconnect, device number 4
+usb 1-1: new full-speed USB device number 5 using s3c2410-ohci
+usb 1-1: ath9k_htc: Firmware htc_9271.fw requested
+usb 1-1: ath9k_htc: Transferred FW: htc_9271.fw, size: 51272
+ath9k_htc 1-1:1.0: ath9k_htc: HTC initialized with 33 credits
+ath9k_htc 1-1:1.0: ath9k_htc: FW Version: 1.3
+ieee80211 phy0: Atheros AR9271 Rev:1
+
+ifconfig wlan0 up
+ifconfig  // 可见无线网卡wlan0
+
+
+wpa_supplicant 移植及 linux 命令行模式配置无线上网
+http://www.cnblogs.com/wanhl/p/3374443.html
+
+基于FS2410的wpa_supplicant移植
+http://www.linuxidc.com/Linux/2011-10/45202.htm
+
+编译iw:
+kernel.org/pub/software/network/iw/
+下载: iw-3.11.tar.bz2
+tar xjf iw-3.11.tar.bz2
+cd iw-3.11/
+make
+
+
+tar xzf libnl-3.2.23.tar.gz 
+cd libnl-3.2.23/
+./configure --host=arm-linux --prefix=$PWD/tmp
+make // 修改lib/addr.c添加宏
+make install
+
+
+wpa_supplicant-2.0:
+http://www.cnblogs.com/wanhl/p/3374443.html
+
+cd wpa_supplicant-2.0/wpa_supplicant
+cp defconfig .config
+.config里加一行"CONFIG_LIBNL32=y"
+make
+make install DESTDIR=$PWD/tmp
+
+编译openssl:
+http://www.openssl.org/
+http://www.openssl.org/source/
+tar xzf openssl-1.0.1d.tar.gz
+cd openssl-1.0.1d/
+./config shared no-asm --prefix=$PWD/tmp
+修改Makefile:
+CC= arm-linux-gcc
+AR= arm-linux-ar $(ARFLAGS) r
+RANLIB= arm-linux-ranlib
+MAKEDEPPROG= arm-linux-gcc
+
+make
+make install
+
+
+
+
+用iw替代iwconfig
+http://blog.csdn.net/jincheng121/article/details/8129421
+
+
+wpa_supplicant -B -d -Dnl80211 -iwlan0 -c/etc/wpa_supplicant.conf
+wpa_supplicant -B -d -iwlan0 -c/etc/wpa_supplicant.conf
+
+wpa_cli -iwlan0 status
+
+ifconfig wlan0 192.168.1.55
+route add default gw 192.168.1.1
+
+
+cat /etc/resolv.conf 
+nameserver 192.168.1.1
+
+
+修改BUG：http://lkml.indiana.edu/hypermail/linux/kernel/1301.2/00465.html
+
+
+USB_DEVICE(0x2001, 0x3306)
+drivers/staging/rtl8712/usb_intf.c
+配置: CONFIG_R8712U
+
+Device Drivers
+	[*] Staging drivers  --->
+		<*>   RealTek RTL8712U (RTL8192SU) Wireless LAN NIC driver 
+固件: http://mirrors.arizona.edu/raspbmc/downloads/bin/lib/wifi/rtlwifi/
+ 
+
+DLINK: 修改
+CONFIG_RTL8192CU
+
+General setup  --->
+	[*] Prompt for development and/or incomplete code/drivers
+
+Device Drivers  --->
+	[*] Network device support  ---> 
+		[*]   Wireless LAN  --->
+			<*>   Realtek RTL8192CU/RTL8188CU USB Wireless Network Adapter
+
+官网：http://www.realtek.com/downloads/downloadsView.aspx?Langid=2&PNid=21&PFid=48&Level=5&Conn=4&ProdID=277&DownTypeID=3&GetDown=false&Downloads=true
+
+GOOGLE搜rtl8192cufw.bin,放到板上:
+/lib/firmware/rtlwifi/rtl8192cufw.bin
+
+
+
+cat /etc/wpa_supplicant.conf 
+#WPA-PSK/TKIP
+ctrl_interface=/var/run/wpa_supplicant
+network={
+    ssid="dswei"
+    proto=WPA RSN     # proto: list of accepted protocols
+    key_mgmt=WPA-PSK  # key_mgmt: list of accepted authenticated key management protocols
+    pairwise=CCMP     # pairwise: list of accepted pairwise (unicast) ciphers for WPA
+    group=CCMP        # group: list of accepted group (broadcast/multicast) ciphers for WPA
+    psk="baiwenwang"  # psk: WPA preshared key; 256-bit pre-shared key
+}
+
+最简单的配置文件:
+ctrl_interface=/var/run/wpa_supplicant
+network={
+    ssid="Programer"
+    psk="baiwenwang"
+}
+
+无线加密的多种方法及其区别(WEP WPA TKIP EAP)
+http://wenku.baidu.com/link?url=DlLntlD490hAeIIbE-CO4QfAzgUC-gOTA7FCwS_XanOJMFzkyhQrFIB38ULKCcQIVFyDqqSWNWyq5kVtYAoJKjjf9pmZLu17-hVQ922WeaG
+
+安全认证方式有三种：
+1. WEP
+2. WPA
+3. WPA2
+
+proto=WPA RSN   (RSN即WPA2)
+
+WPA的认证方式: WPA-PSK WPA-EAP ...
+key_mgmt=WPA-PSK时必须设置psk, psk="readable password" 或 psk=..... (用wpa_passphrase生成)
+WPA的加密方式: TKIP(用于WPA) CCMP(用于WPA2)
+
+有CCMP, AES-CCMP
+
+802.11i定义了临时密钥完整性协议（TKIP）、
+计数器模式密码块链消息认证码协议（Counter Mode with Cipher Block Chaining Message Authentication Code Protocol – CCMP）、
+Wireless Robust Authentication Protocol – WRAP三种加密方式。
+另外还有一种AES-CCMP加密方式，AES表示Advanced encryption standard（高级加密标准），使用AES加密算法代替过时的DES（Data Encryption Standard – 数据加密标准）加密算法能够提供更高的安全性，但由于AES-CCMP需要硬件，提高了成本。
+
+wpa_supplicant -B -d -Dnl80211 -iwlan0 -c/etc/wpa_supplicant.conf
+wpa_supplicant -B -d -iwlan0 -c/etc/wpa_supplicant.conf
+
+wpa_cli -iwlan0 status
+
+两个概念：认证、加密
+无线加密的多种方法及其区别（WEP WPA TKIP EAP） 
+无线网络的安全性由认证和加密来保证。
+认证允许只有被许可的用户才能连接到无线网络；
+加密的目的是提供数据的保密性和完整性（数据在传输过程中不会被篡改）。
+
+93无线加密的多种方法及其区别(WEP WPA TKIP EAP)
+http://3y.uu456.com/bp-cf93b8ede009581b6bd9ebd9-2.html
+
+配置文件:
+1. Open System: 完全不认证也不加密，任何拥有无线网卡的人都可以连到无线接入点。
+cat /etc/wpa_supplicant.conf 
+ctrl_interface=/var/run/wpa_supplicant
+network={
+    ssid="dswei"
+#    psk="baiwenwang"
+    key_mgmt=NONE
+}
+
+2. WEP:
+WEP (Wired Equivalent Privacy): 有线等效保护协议。
+无线接入点设定有 WEP密钥(WEP Key)，无线网卡在要接入到无线网络是必须要设定相同的WEP Key，
+否则无法连接到无线网络。WEP可以用在认证或是加密，例如认证使用Open System，而加密使用WEP；
+或者认证和加密都使用WEP。WEP加密现在已经有软件可以轻易破解，因此不是很安全。
+
+iw wlan0 connect dswei keys d:0:baiwenwang123
+
+key must be [d:]index:data where
+  'd:'     means default (transmit) key
+  'index:' is a single digit (0-3)
+  'data'   must be 5 or 13 ascii chars
+           or 10 or 26 hex digits
+
+wpa_supplicant.conf
+ctrl_interface=/var/run/wpa_supplicant
+network={
+        ssid="dswei"
+        key_mgmt=NONE
+        wep_key0="baiwenwang123"
+        wep_tx_keyidx=0
+}
+
+3. WPA(TKIP) : pairwise应改为TKIP, group应改为TKIP. 默认支持TKIP,CCMP(即AES)
+ctrl_interface=/var/run/wpa_supplicant
+network={
+        ssid="dswei"
+        psk="baiwenwang"
+}   
+
+4. WPA2(AES) : pairwise应改为CCMP, group应改为CCMP. 默认支持CCMP TKIP WEP104 WEP40
+ctrl_interface=/var/run/wpa_supplicant
+network={
+        ssid="dswei"
+        psk="baiwenwang"
+}   
+
+编译hostapd:
+tar xzf hostapd-2.0.tar.gz
+cd hostapd-2.0/hostapd
+cp defconfig .config
+vi .config   // 添加一行: CONFIG_LIBNL32=y
+vi Makefile  // CC=arm-linux-gcc
+make
+make install DESTDIR=$PWD/tmp
+cp tmp/usr/local/bin  nfs...
+
+移植hostapd，搭建无线热点 - 积水成渊 - 博客频道 - CSDN.NET.htm
+http://blog.csdn.net/daydring/article/details/16337047
+
+
+在PC上执行: dhclient -v
+http://www.isc.org/sw/dhcp/
+编译错误: https://lists.isc.org/pipermail/dhcp-users/2013-February/016402.html
+tar xzf dhcp-4.2.5-P1.tar.gz
+cd dhcp-4.2.5-P1/
+./configure --host=arm-linux ac_cv_file__dev_random=yes CC=arm-linux-gcc
+make
+make DESTDIR=$PWD/tmp install
+
+使用: http://www.cfanz.cn/?c=article&a=read&id=59355
+
+
+hdcpd:
+http://sourceforge.net/projects/dhcpserver/files/
+
+[585955.047776] usb 1-1: new high speed USB device using ehci_hcd and address 3
+[585955.269142] usb 1-1: configuration #1 chosen from 1 choice
+[585955.379843] uvcvideo: Found UVC 1.00 device USB2.0 Camera (1e4e:0102)
+[585955.440427] uvcvideo: UVC non compliance - GET_DEF(PROBE) not supported. Enabling workaround.
+[585955.554594] input: USB2.0 Camera as /devices/pci0000:00/0000:00:11.0/0000:02:02.0/usb1/1-1/1-1:1.0/input/input5
+
+LD_PRELOAD=/usr/lib/libv4l/v4l1compat.so camorama
+
+sudo apt-get install cheese
+
+多种LINUX下的摄像头工具
+https://help.ubuntu.com/community/Webcam
+
+http://blog.csdn.net/hongtao_liu/article/details/5867351
+http://blog.csdn.net/hongtao_liu/article/details/5894089
+基于V4L2的视频驱动开发
+
+概念：
+视频制式 : NTSC PAL V4L2_STD_NTSC V4L2_STD_PAL
+视频格式 ：RGB YCbCr 420,422 V4L2_PIX_FMT_UYVY
+
+
+
+ 
+[视频技术手册]中文第5版
+http://ishare.iask.sina.com.cn/f/21425721.html
+http://ishare.iask.sina.com.cn/f/21425722.html
+
+
+http://www.360doc.com/content/08/0926/11/14148_1678949.shtml
+
+数字视频的基本概念
+http://hi.baidu.com/fengbit/item/78a161375067f1c42f8ec24e
+
+USB协议
+http://www.usb.org/developers/devclass_docs
+
+USB Video Class Specification 笔记 
+http://blog.csdn.net/chinaunixj/article/details/7394315
+
+
+基于嵌入式Linux的视频采集系统---UVC驱动模型介绍
+http://blog.csdn.net/chinaunixj/article/details/7439870
+
+
+Class-specific VC Interface Descriptor
+e:\kernel_projects\linux-3.4.2\linux-3.4.2\include\linux\usb\Video.h
+#define DECLARE_UVC_HEADER_DESCRIPTOR(n)		\
+struct UVC_HEADER_DESCRIPTOR(n) {			\
+	__u8  bLength;					\
+	__u8  bDescriptorType;				\
+	__u8  bDescriptorSubType;			\
+	__u16 bcdUVC;					\
+	__u16 wTotalLength;				\
+	__u32 dwClockFrequency;				\
+	__u8  bInCollection;				\
+	__u8  baInterfaceNr[n];				\
+} __attribute__ ((packed))
+
+
+Input Terminal Descriptor (Camera)
+
+
+驱动框架分析：
+Structure of a driver
+---------------------
+
+All drivers have the following structure:
+
+1) A struct for each device instance containing the device state.
+
+2) A way of initializing and commanding sub-devices (if any).
+
+3) Creating V4L2 device nodes (/dev/videoX, /dev/vbiX and /dev/radioX)
+   and keeping track of device-node specific data.
+
+4) Filehandle-specific structs containing per-filehandle data;
+
+5) video buffer handling.
+
+This is a rough schematic of how it all relates:
+
+    device instances            : v4l2_device
+      |
+      +-sub-device instances    : v4l2_subdev
+      |
+      \-V4L2 device nodes       : video_device, stores V4L2 device node data, this will create the character device
+	  |
+	  \-filehandle instances    : v4l2_fh
+
+The framework closely resembles the driver structure: it has a v4l2_device
+struct for the device instance data, a v4l2_subdev struct to refer to
+sub-device instances, the video_device struct stores V4L2 device node data
+and in the future a v4l2_fh struct will keep track of filehandle instances
+(this is not yet implemented).
+
+The V4L2 framework also optionally integrates with the media framework. If a
+driver sets the struct v4l2_device mdev field, sub-devices and video nodes
+will automatically appear in the media framework as entities.
+
+
+
+console/fs.h:2:20: error: FSlib.h: No such file or directory
+
+No package 'fontsproto' found
+
+error: asm/page.h: No such file or directory
+
+把asm/page.h改为sys/user.h
+
+sudo apt-get install libxaw7-dev
+
+
+# libraries
+LDLIBS  := -lFS
+
+./configure --x-includes=/usr/local/include/X11/fonts

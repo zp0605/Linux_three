@@ -1,0 +1,21 @@
+
+电源管理：在不影响使用电子设备的前提下尽可能让它省电
+
+8051:
+无电源管理：灭灯6.1MA 亮灯32.2MA
+有电源管理：灭灯0.27uA 亮灯26.7MA
+MCU全速运行时耗电6.1ma, led耗电26ma
+
+Linux更加复杂:
+1. 硬件更复杂：外接更多设备，这些设备也需要单独供电，休眠前可能需要单独设置
+2. 软件更复杂：需要有统一的框架，唤醒后可能需要重新初始化
+
+资料:
+http://blog.csdn.net/bingqingsuimeng/article/category/1228414
+http://os.chinaunix.net/a2006/0519/1002/000001002210.shtml
+http://www.ednchina.com/ART_44010_29_0_TA_eeda337e_3.HTM?jumpto=view_welcomead_1408610592294
+
+好文：
+http://blog.csdn.net/bingqingsuimeng/article/details/7935414
+http://blog.csdn.net/bingqingsuimeng/article/details/8197912
+http://blog.sina.com.cn/s/blog_a6559d920101i52j.html

@@ -1,0 +1,1 @@
+/*pub-1|2013-01-11 11:17:28*/(function(){var A=Math.floor(Math.random()*100+1);if(A==15||A==80){(new Image()).src="http://cm.g.doubleclick.net/pixel?google_cm&google_nid=taobao"}})();

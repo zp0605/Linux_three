@@ -1,0 +1,20 @@
+debug  
+#logfile /var/log/pppd.log  
+lock  
+/dev/ttyACM1
+460800
+nocrtscts
+modem
+#noauth
+nodetach
+usepeerdns
+debug
+noipdefault
+defaultroute
+user any
+#0.0.0.0:0.0.0.0
+ipcp-accept-local
+ipcp-accept-remote
+persist
+connect '/sbin/chat -v -t3 -f /etc/ppp/chat/td-connect-chat'  
+disconnect '/sbin/chat -s -v -f /etc/ppp/chat/disconnect-chat' 

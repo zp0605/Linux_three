@@ -1,0 +1,16 @@
+document.writeln("<div id=\"jiathis_style_32x32\">");
+document.writeln("	<a class=\"jiathis_button_qzone\"></a>");
+document.writeln("	<a class=\"jiathis_button_tsina\"></a>");
+document.writeln("	<a class=\"jiathis_button_tqq\"></a>");
+document.writeln("	<a class=\"jiathis_button_renren\"></a>");
+document.writeln("	<a class=\"jiathis_button_kaixin001\"></a>");
+document.writeln("	<a class=\"jiathis_button_douban\"></a>");
+document.writeln("	<a class=\"jiathis_button_googlereader\"></a>");
+document.writeln("	<a class=\"jiathis_button_tsohu\"></a>");
+document.writeln("	<a class=\"jiathis_button_t163\"></a>");
+document.writeln("	<a class=\"jiathis_button_twitter\"></a>");
+document.writeln("	<a class=\"jiathis_button_gmail\"></a>");
+document.writeln("	<a class=\"jiathis_button_qq\"></a>");
+document.writeln("	<a href=\"http://www.jiathis.com/share?uid=1531230\" class=\"jiathis jiathis_txt jtico jtico_jiathis\" target=\"_blank\">¸ü¶à</a>");
+document.writeln("	<a class=\"jiathis_counter_style\"></a>");
+document.writeln("</div>");

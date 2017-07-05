@@ -1,0 +1,40 @@
+MYUVC数据处理:
+static void myuvc_video_complete(struct urb *urb)
+{
+	if (!list_empty(&myuvc_queue.irqqueue))
+	{
+    	for (i = 0; i < urb->number_of_packets; ++i) {
+ 					// 处理头部
+ 					
+ 					// 复制数据
+ 					
+ 					// 判断是否结束
+ 					// 如果结束,唤醒．．．
+ 					
+ 			}
+ 			
+ 	// 重新提交URB		
+}
+
+UVC数据处理:
+static void uvc_video_complete(struct urb *urb)
+{
+	if (!list_empty(&queue->irqqueue))
+		buf = list_first_entry(&queue->irqqueue, struct uvc_buffer,
+				       queue);
+
+	//video->decode(urb, video, buf);  //uvc_video_decode_isoc
+	for (i = 0; i < urb->number_of_packets; ++i) {
+	    // 处理头部 uvc_video_decode_start
+	    
+	    // 处理数据 uvc_video_decode_data
+	    
+	    // 判断是否结束 uvc_video_decode_end
+	    
+	    // 如果结束，唤醒
+	}
+
+
+  // 重新提交URB 
+
+}

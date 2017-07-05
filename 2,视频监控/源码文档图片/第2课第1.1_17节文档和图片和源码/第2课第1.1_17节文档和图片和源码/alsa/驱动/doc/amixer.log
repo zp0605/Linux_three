@@ -1,0 +1,152 @@
+execve("/usr/bin/amixer", ["amixer", "cset", "numid=1", "30"], [/* 7 vars */]) = 0
+brk(0)                                  = 0x1a000
+uname({sys="Linux", node="192.168.1.17", ...}) = 0
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
+open("/etc/ld.so.cache", O_RDONLY)      = -1 ENOENT (No such file or directory)
+open("/lib/tls/v4l/half/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat64("/lib/tls/v4l/half", 0xbeb98450) = -1 ENOENT (No such file or directory)
+open("/lib/tls/v4l/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat64("/lib/tls/v4l", 0xbeb98450)      = -1 ENOENT (No such file or directory)
+open("/lib/tls/half/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat64("/lib/tls/half", 0xbeb98450)     = -1 ENOENT (No such file or directory)
+open("/lib/tls/libm.so.6", O_RDONLY)    = -1 ENOENT (No such file or directory)
+stat64("/lib/tls", 0xbeb98450)          = -1 ENOENT (No such file or directory)
+open("/lib/v4l/half/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat64("/lib/v4l/half", 0xbeb98450)     = -1 ENOENT (No such file or directory)
+open("/lib/v4l/libm.so.6", O_RDONLY)    = -1 ENOENT (No such file or directory)
+stat64("/lib/v4l", 0xbeb98450)          = -1 ENOENT (No such file or directory)
+open("/lib/half/libm.so.6", O_RDONLY)   = -1 ENOENT (No such file or directory)
+stat64("/lib/half", 0xbeb98450)         = -1 ENOENT (No such file or directory)
+open("/lib/libm.so.6", O_RDONLY)        = 3
+read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0(\0\1\0\0\0\2601\0\0004\0\0\0"..., 512) = 512
+fstat64(3, {st_mode=S_IFREG|0755, st_size=749831, ...}) = 0
+mmap2(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb6feb000
+mmap2(NULL, 708768, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0xb6f1a000
+mprotect(0xb6fbf000, 28672, PROT_NONE)  = 0
+mmap2(0xb6fc6000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0xa4000) = 0xb6fc6000
+close(3)                                = 0
+open("/lib/libasound.so.2", O_RDONLY)   = -1 ENOENT (No such file or directory)
+open("/usr/lib/tls/v4l/half/libasound.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat64("/usr/lib/tls/v4l/half", 0xbeb98438) = -1 ENOENT (No such file or directory)
+open("/usr/lib/tls/v4l/libasound.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat64("/usr/lib/tls/v4l", 0xbeb98438)  = -1 ENOENT (No such file or directory)
+open("/usr/lib/tls/half/libasound.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat64("/usr/lib/tls/half", 0xbeb98438) = -1 ENOENT (No such file or directory)
+open("/usr/lib/tls/libasound.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat64("/usr/lib/tls", 0xbeb98438)      = -1 ENOENT (No such file or directory)
+open("/usr/lib/v4l/half/libasound.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat64("/usr/lib/v4l/half", 0xbeb98438) = -1 ENOENT (No such file or directory)
+open("/usr/lib/v4l/libasound.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat64("/usr/lib/v4l", 0xbeb98438)      = -1 ENOENT (No such file or directory)
+open("/usr/lib/half/libasound.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat64("/usr/lib/half", 0xbeb98438)     = -1 ENOENT (No such file or directory)
+open("/usr/lib/libasound.so.2", O_RDONLY) = 3
+read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0(\0\1\0\0\0P\335\1\0004\0\0\0"..., 512) = 512
+fstat64(3, {st_mode=S_IFREG|0755, st_size=1561330, ...}) = 0
+mmap2(NULL, 1314136, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0xb6dd9000
+mprotect(0xb6f0e000, 32768, PROT_NONE)  = 0
+mmap2(0xb6f16000, 16384, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x135000) = 0xb6f16000
+close(3)                                = 0
+open("/lib/libdl.so.2", O_RDONLY)       = 3
+read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0(\0\1\0\0\0\0\t\0\0004\0\0\0"..., 512) = 512
+fstat64(3, {st_mode=S_IFREG|0755, st_size=15080, ...}) = 0
+mmap2(NULL, 41136, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0xb6dce000
+mprotect(0xb6dd0000, 28672, PROT_NONE)  = 0
+mmap2(0xb6dd7000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1000) = 0xb6dd7000
+close(3)                                = 0
+open("/lib/libpthread.so.0", O_RDONLY)  = 3
+read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0(\0\1\0\0\0\214C\0\0004\0\0\0"..., 512) = 512
+fstat64(3, {st_mode=S_IFREG|0755, st_size=131890, ...}) = 0
+mmap2(NULL, 123396, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0xb6daf000
+mprotect(0xb6dc3000, 28672, PROT_NONE)  = 0
+mmap2(0xb6dca000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x13000) = 0xb6dca000
+mmap2(0xb6dcc000, 4612, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0xb6dcc000
+close(3)                                = 0
+open("/lib/libc.so.6", O_RDONLY)        = 3
+read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0(\0\1\0\0\0\334Q\1\0004\0\0\0"..., 512) = 512
+fstat64(3, {st_mode=S_IFREG|0755, st_size=1565653, ...}) = 0
+mmap2(NULL, 1225272, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0xb6c83000
+mprotect(0xb6da1000, 32768, PROT_NONE)  = 0
+mmap2(0xb6da9000, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x11e000) = 0xb6da9000
+mmap2(0xb6dac000, 8760, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0xb6dac000
+close(3)                                = 0
+open("/lib/librt.so.1", O_RDONLY)       = 3
+read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0(\0\1\0\0\0\240\26\0\0004\0\0\0"..., 512) = 512
+fstat64(3, {st_mode=S_IFREG|0755, st_size=40807, ...}) = 0
+mmap2(NULL, 57872, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0xb6c74000
+mprotect(0xb6c7a000, 28672, PROT_NONE)  = 0
+mmap2(0xb6c81000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x5000) = 0xb6c81000
+close(3)                                = 0
+mmap2(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb6fea000
+mmap2(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb6fe9000
+set_tls(0xb6fe94a0, 0xb6fe9b70, 0xb6fed67c, 0xb6fe9b78, 0xb6fed050) = 0
+mprotect(0xb6c81000, 4096, PROT_READ)   = 0
+mprotect(0xb6da9000, 8192, PROT_READ)   = 0
+mprotect(0xb6dca000, 4096, PROT_READ)   = 0
+mprotect(0xb6dd7000, 4096, PROT_READ)   = 0
+mprotect(0xb6fc6000, 4096, PROT_READ)   = 0
+mprotect(0xb6fec000, 4096, PROT_READ)   = 0
+set_tid_address(0xb6fe9048)             = 954
+set_robust_list(0xb6fe9050, 12)         = 0
+futex(0xbeb98e24, FUTEX_WAKE_PRIVATE, 1) = 0
+rt_sigaction(SIGRTMIN, {0xb6db3298, [], SA_SIGINFO|0x4000000}, NULL, 8) = 0
+rt_sigaction(SIGRT_1, {0xb6db2d3c, [], SA_RESTART|SA_SIGINFO|0x4000000}, NULL, 8) = 0
+rt_sigprocmask(SIG_UNBLOCK, [RTMIN RT_1], NULL, 8) = 0
+getrlimit(RLIMIT_STACK, {rlim_cur=8192*1024, rlim_max=RLIM_INFINITY}) = 0
+brk(0)                                  = 0x1a000
+brk(0x3b000)                            = 0x3b000
+stat64("/usr/share/alsa/alsa.conf", {st_mode=S_IFREG|0644, st_size=9184, ...}) = 0
+open("/usr/share/alsa/alsa.conf", O_RDONLY) = 3
+fstat64(3, {st_mode=S_IFREG|0644, st_size=9184, ...}) = 0
+mmap2(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb6fe8000
+read(3, "#\n#  ALSA library configuration "..., 4096) = 4096
+read(3, "@args [ CARD DEV SUBDEV ]\n\t@args"..., 4096) = 4096
+read(3, "query.hw {\n\ttype hw\n}\n\ntimer.def"..., 4096) = 992
+read(3, "", 4096)                       = 0
+read(3, "", 4096)                       = 0
+close(3)                                = 0
+munmap(0xb6fe8000, 4096)                = 0
+futex(0xb6dd80a0, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+access("/usr/share/alsa/alsa.conf.d/", R_OK) = 0
+stat64("/usr/share/alsa/alsa.conf.d/", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+open("/usr/share/alsa/alsa.conf.d/", O_RDONLY|O_NONBLOCK|O_LARGEFILE|O_DIRECTORY|O_CLOEXEC) = 3
+fstat64(3, {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+fcntl64(3, F_GETFD)                     = 0x1 (flags FD_CLOEXEC)
+getdents(3, /* 3 entries */, 4096)      = 52
+getdents(3, /* 0 entries */, 4096)      = 0
+close(3)                                = 0
+access("/etc/asound.conf", R_OK)        = -1 ENOENT (No such file or directory)
+access("//.asoundrc", R_OK)             = -1 ENOENT (No such file or directory)
+open("/dev/snd/controlC0", O_RDONLY|O_CLOEXEC) = 3
+fcntl64(3, F_SETFD, FD_CLOEXEC)         = 0
+ioctl(3, SNDRV_CTL_IOCTL_CARD_INFO or UI_DEV_CREATE, 0xbeb98428) = 0
+close(3)                                = 0
+open("/dev/snd/controlC0", O_RDWR|O_CLOEXEC) = 3
+fcntl64(3, F_SETFD, FD_CLOEXEC)         = 0
+ioctl(3, SNDRV_CTL_IOCTL_PVERSION or USBDEVFS_CONTROL, 0xbeb98784) = 0
+ioctl(3, SNDRV_CTL_IOCTL_ELEM_INFO or USBDEVFS_CONNECTINFO, 0xbeb98bb8) = 0
+ioctl(3, SNDRV_CTL_IOCTL_ELEM_READ or USBDEVFS_IOCTL, 0xbeb988a0) = 0
+ioctl(3, SNDRV_CTL_IOCTL_ELEM_WRITE or USBDEVFS_HUB_PORTINFO, 0xbeb988a0) = 0
+close(3)                                = 0
+stat64("/usr/share/alsa/alsa.conf", {st_mode=S_IFREG|0644, st_size=9184, ...}) = 0
+open("/dev/snd/controlC0", O_RDONLY|O_CLOEXEC) = 3
+fcntl64(3, F_SETFD, FD_CLOEXEC)         = 0
+ioctl(3, SNDRV_CTL_IOCTL_CARD_INFO or UI_DEV_CREATE, 0xbeb98408) = 0
+close(3)                                = 0
+open("/dev/snd/controlC0", O_RDWR|O_CLOEXEC) = 3
+fcntl64(3, F_SETFD, FD_CLOEXEC)         = 0
+ioctl(3, SNDRV_CTL_IOCTL_PVERSION or USBDEVFS_CONTROL, 0xbeb98764) = 0
+ioctl(3, SNDRV_CTL_IOCTL_ELEM_LIST or USBDEVFS_RELEASEINTERFACE, 0xbeb98840) = 0
+ioctl(3, SNDRV_CTL_IOCTL_ELEM_LIST or USBDEVFS_RELEASEINTERFACE, 0xbeb98840) = 0
+ioctl(3, SNDRV_CTL_IOCTL_SUBSCRIBE_EVENTS or USBDEVFS_DISCONNECT, 0xbeb987f8) = 0
+ioctl(3, SNDRV_CTL_IOCTL_ELEM_INFO or USBDEVFS_CONNECTINFO, 0xbeb98650) = 0
+fstat64(1, {st_mode=S_IFCHR|0660, st_rdev=makedev(5, 1), ...}) = 0
+ioctl(1, SNDCTL_TMR_TIMEBASE or SNDRV_TIMER_IOCTL_NEXT_DEVICE or TCGETS, {B115200 opost isig icanon echo ...}) = 0
+mmap2(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb6fe8000
+write(1, "numid=1,iface=MIXER,name='Master"..., 50) = 50
+write(1, "  ; type=INTEGER,access=rw------"..., 62) = 62
+ioctl(3, SNDRV_CTL_IOCTL_ELEM_READ or USBDEVFS_IOCTL, 0xbeb98380) = 0
+write(1, "  : values=30\n", 14)         = 14
+close(3)                                = 0
+exit_group(0)                           = ?
++++ exited with 0 +++

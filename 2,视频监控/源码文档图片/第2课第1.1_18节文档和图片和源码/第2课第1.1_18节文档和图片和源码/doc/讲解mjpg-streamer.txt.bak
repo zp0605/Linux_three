@@ -1,0 +1,116 @@
+讲解mjpg-streamer
+
+
+
+1. 如何将mjpg-streamer移植到开发板上
+
+文件系统：fs_mini_mdev_new_auto_wifi_ap.tar.bz2
+
+(1)  libjpeg 的移植
+tar xzvf libjpeg-turbo-1.2.1.tar.gz
+cd libjpeg-turbo-1.2.1
+mkdir tmp
+./configure --prefix=/work/jz2440/libjpeg-turbo-1.2.1/tmp --host=arm-linux
+make
+make install
+cp /work/jz2440/libjpeg-turbo-1.2.1/tmp/lib/*so* /work/nfs_root/fs_mini_mdev_new/lib/ -d
+
+
+
+(2)  mjpg-streamer 的移植：
+tar xvf mjpg-streamer-r63.tar.gz
+cd mjpg-streamer-r63
+
+修改所有的Makefile 
+--(1) 将 CC=gcc 修改为 CC=arm-linux-gcc 
+--(2) 修改plugins/input_uvc/Makfile 
+a. 将 
+CFLAGS += -O2 -DLINUX -D_GNU_SOURCE -Wall -shared -fPIC 
+改为 
+CFLAGS += -O2 -DLINUX -D_GNU_SOURCE -Wall -shared -fPIC -I /work/jz2440/libjpeg-turbo-1.2.1/tmp/include 
+注意： 
+-I /work/jz2440/libjpeg-turbo-1.2.1/tmp/include    //  是编译libjpeg 生成的文件 
+ 
+b. 将 
+input_uvc.so: $(OTHER_HEADERS) input_uvc.c v4l2uvc.lo jpeg_utils.lo dynctrl.lo 
+                $(CC) $(CFLAGS) -ljpeg -o $@ input_uvc.c v4l2uvc.lo  
+jpeg_utils.lo dynctrl.lo 
+改为 
+input_uvc.so: $(OTHER_HEADERS) input_uvc.c v4l2uvc.lo jpeg_utils.lo dynctrl.lo 
+                $(CC) $(CFLAGS) -ljpeg -L /work/jz2440/libjpeg-turbo-1.2.1/tmp/lib -o 
+								$@ input_uvc.c v4l2uvc.lo jpeg_utils.lo dynctrl.lo
+								
+make
+cp mjpg_streamer /work/nfs_root/fs_mini_mdev_new/bin/
+cp *so* /work/nfs_root/fs_mini_mdev_new/lib/ -d
+
+
+
+
+
+2.分析源码
+
+input_init();
+output_init();
+input_run();
+output_run();
+
+
+3.自己写客服端
+
+(1).发送一个请求字符串
+			"GET /?action=snapshot\n"
+			"GET /?action=stream\n"
+			"GET /?action=command\n"
+
+(2).再发送一次字符串
+如果我们不使用密码功能!则只需发送任意长度为小于2字节的字符串,比如:
+			"f\n"
+			
+如果发送的请求是:"GET /?action=snapshot\n"
+
+(3).需要接收一次字符串(是服务器发过来的报文)
+
+(4).接收一帧图片
+
+如果发送的请求是:"GET /?action=stream\n"
+
+(3).需要接收一次字符串(是服务器发过来的报文)
+
+while(1)
+{
+}
+(4).再接收一次报文,解析它,得到一帧图片的大小（size）
+
+(5).接收size个字节的数据
+
+
+
+
+
+启动内核：
+set ipaddr 192.168.7.122 && set serverip 192.168.7.111 && tftp 0x30000000 uImage
+set bootargs root=/dev/nfs nfsroot=192.168.7.202:/work/nfs_root/fs_mini_mdev_new ip=192.168.7.17 console=ttySAC0,115200 && bootm 0x30000000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+二合一摄像头
+mjpg_streamer -i "input_uvc.so -f 10 -r 320*240" -o "output_http.so -w www"
+
+一般摄像头
+mjpg_streamer -i "input_uvc.so -f 10 -r 320*240 -y" -o "output_http.so -w www"

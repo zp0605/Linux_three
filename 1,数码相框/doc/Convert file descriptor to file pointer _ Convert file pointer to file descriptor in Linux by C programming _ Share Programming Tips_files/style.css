@@ -1,0 +1,151 @@
+div.damn-sexy-bookmarks {
+}
+
+div.damn-sexy-bookmarks ul.socials {
+	width:100% !important;
+	margin:0 !important;
+	padding:0 !important;
+}
+
+div.damn-sexy-bookmarks ul.socials li {
+	display:inline !important;
+	float:left !important;
+	list-style-type:none !important;
+	margin:0 !important;
+	height:29px !important;
+	width:60px !important;
+	cursor:pointer !important;
+	padding:0 !important;
+}
+
+div.damn-sexy-bookmarks ul.socials a {
+	display:block !important;
+	width:60px !important;
+	height:29px !important;
+	text-indent: -9999px !important;
+}
+
+.damn-sexy-furl, .damn-sexy-furl:hover, .damn-sexy-digg, .damn-sexy-digg:hover, .damn-sexy-reddit, .damn-sexy-reddit:hover, .damn-sexy-stumbleupon, .damn-sexy-stumbleupon:hover, .damn-sexy-delicious, .damn-sexy-delicious:hover, .damn-sexy-yahoomyweb, .damn-sexy-yahoomyweb:hover, .damn-sexy-blinklist, .damn-sexy-blinklist:hover, .damn-sexy-technorati, .damn-sexy-technorati:hover, .damn-sexy-facebook, .damn-sexy-facebook:hover, .damn-sexy-twitter, .damn-sexy-twitter:hover, .damn-sexy-myspace, .damn-sexy-myspace:hover, .damn-sexy-mixx, .damn-sexy-mixx:hover, .damn-sexy-scriptstyle, .damn-sexy-scriptstyle:hover, .damn-sexy-designfloat, .damn-sexy-designfloat:hover, .damn-sexy-mail, .damn-sexy-mail:hover, .damn-sexy-comfeed, .damn-sexy-comfeed:hover, .damn-sexy-newsvine, .damn-sexy-newsvine:hover, .damn-sexy-devmarks, .damn-sexy-devmarks:hover, .damn-sexy-linkedin, .damn-sexy-linkedin:hover, .damn-sexy-google, .damn-sexy-google:hover  {
+	background:url('../images/sexy-sprite.png') no-repeat !important;
+}
+
+.damn-sexy-furl {
+	background-position:-910px bottom !important;
+}
+.damn-sexy-furl:hover {
+	background-position:-910px top !important;
+}
+.damn-sexy-digg {
+	background-position:-980px bottom !important;
+}
+.damn-sexy-digg:hover {
+	background-position:-980px top !important;
+}
+.damn-sexy-reddit {
+	background-position:-700px bottom !important;
+}
+.damn-sexy-reddit:hover {
+	background-position:-700px top !important;
+}
+.damn-sexy-stumbleupon {
+	background-position:-630px bottom !important;
+}
+.damn-sexy-stumbleupon:hover {
+	background-position:-630px top !important;
+}
+.damn-sexy-delicious {
+	background-position:-1190px bottom !important;
+}
+.damn-sexy-delicious:hover {
+	background-position:-1190px top !important;
+}
+.damn-sexy-yahoomyweb {
+	background-position:-1120px bottom !important;
+}
+.damn-sexy-yahoomyweb:hover {
+	background-position:-1120px top !important;
+}
+.damn-sexy-blinklist {
+	background-position:-1260px bottom !important;
+}
+.damn-sexy-blinklist:hover {
+	background-position:-1260px top !important;
+}
+.damn-sexy-technorati {
+	background-position:-560px bottom !important;
+}
+.damn-sexy-technorati:hover {
+	background-position:-560px top !important;
+}
+.damn-sexy-myspace {
+	background-position:-770px bottom !important;
+}
+.damn-sexy-myspace:hover {
+	background-position:-770px top !important;
+}
+.damn-sexy-twitter {
+	background-position:-490px bottom !important;
+}
+.damn-sexy-twitter:hover {
+	background-position:-490px top !important;
+}
+.damn-sexy-facebook {
+	background-position:-1330px bottom !important;
+}
+.damn-sexy-facebook:hover {
+	background-position:-1330px top !important;
+}
+.damn-sexy-mixx {
+	background-position:-840px bottom !important;
+}
+.damn-sexy-mixx:hover {
+	background-position:-840px top !important;
+}
+.damn-sexy-scriptstyle {
+	background-position:-280px bottom !important;
+}
+.damn-sexy-scriptstyle:hover {
+	background-position:-280px top !important;
+}
+.damn-sexy-designfloat {
+	background-position:-1050px bottom !important;
+}
+.damn-sexy-designfloat:hover {
+	background-position:-1050px top !important;
+}
+.damn-sexy-newsvine {
+	background-position:left bottom !important;
+}
+.damn-sexy-newsvine:hover {
+	background-position:left top !important;
+}
+.damn-sexy-google {
+	background-position:-210px bottom !important;
+}
+.damn-sexy-google:hover {
+	background-position:-210px top !important;
+}
+.damn-sexy-comfeed {
+	background-position:-420px bottom !important;
+}
+.damn-sexy-comfeed:hover {
+	background-position:-420px top !important;
+}
+.damn-sexy-mail {
+	background-position:-350px bottom !important;
+}
+.damn-sexy-mail:hover {
+	background-position:-350px top !important;
+}
+.damn-sexy-devmarks {
+	background-position:-140px bottom !important;
+}
+.damn-sexy-devmarks:hover {
+	background-position:-140px top !important;
+}
+.damn-sexy-linkedin {
+	background-position:-70px bottom !important;
+}
+.damn-sexy-linkedin:hover {
+	background-position:-70px top !important;
+}

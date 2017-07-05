@@ -1,0 +1,1147 @@
+<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">-->
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="author" content="eepw.com.cn">
+<meta name="google-site-verification" content="fye9bVoYbu76p0UbOr9B7yDn0eWf3Pg66NLz3nAN920">
+<meta name="robots" content="all">
+<link rel="shortcut icon" href="http://forum.eepw.com.cn/favicon.ico">
+<link rel="icon" href="http://forum.eepw.com.cn/animated_favicon1.gif" type="image/gif">
+<title>不容错过：Linux定时器的使用</title>
+<link rel="stylesheet" href="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/bbs.css" type="text/css">
+</head>
+<body style="margin:0px;padding:0px;">
+<table class="img-border" background="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/tech.gif" border="0" cellpadding="0" cellspacing="0" height="28" width="97%">
+            <tbody><tr>
+              <td>&nbsp;&nbsp;<a href="http://www.eepw.com.cn/" target="_top">首页</a> － <a href="http://www.eepw.com.cn/news" target="_top">资讯</a> － <a id="downloada" href="http://ec.eepw.com.cn/" target="_top">厂商</a> － <a href="http://share.eepw.com.cn/" target="_top">下载</a> － <a id="foruma" href="http://forum.eepw.com.cn/" target="_top">论坛</a> － <a href="http://spaces.eepw.com.cn/" target="_top">博客</a> － <a href="http://e.weibo.com/eepw" target="_top">微博</a> － <a href="http://v.eepw.com.cn/" target="_top">视频</a> － <a href="http://baike.eepw.com.cn/" target="_top">百科</a> － <a href="http://diagram.eepw.com.cn/" target="_top">电路图</a> － <a href="http://zhidao.eepw.com.cn/" target="_top">问答</a> － <a href="http://emag.eepw.com.cn/emag/companyemag" target="_top">工程师手册</a> － <a href="http://seminar.eepw.com.cn/" target="_top">Webinar</a> － <a href="http://www.eepw.com.cn/news/articlelist/type/21" target="_top">拆解</a> － <a href="http://datasheet.eepw.com.cn/" target="_top">Datasheet</a></td>
+            </tr>
+          </tbody></table><table class="img-border" style="margin-top:2px;" border="0" cellpadding="0" cellspacing="0" height="28" width="97%">
+ <form method="GET" action="http://search.eepw.com.cn/search/s"></form>          
+ <tbody><tr>
+              <td background="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/tr_bg.gif" align="center">　搜　索：　</td>
+              <td background="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/tr_bg.gif">  
+              <input name="k" size="30" type="text">
+<input id="t4" name="t" value="4" type="radio"><label for="t4">新闻</label>
+<input id="t1" name="t" value="1" checked="checked" type="radio"><label for="t1">论坛</label>
+<input id="t2" name="t" value="2" type="radio"><label for="t2">博客</label>
+<input id="t3" name="t" value="3" type="radio"><label for="t3">问答</label>
+<input src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/sss_pic.gif" align="absmiddle" height="24" type="image" width="105">
+</td>
+            </tr>
+            
+          </tbody></table><table border="0" cellpadding="0" cellspacing="0" width="97%">
+<tbody><tr>
+<td background="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/bgimg1a.gif" height="19">
+&nbsp;<a class="navtext" href="http://forum.eepw.com.cn/" target="_top">论坛</a> 
+» <a class="navtext" href="http://forum.eepw.com.cn/forum/20/1">ARM开发</a>
+» <a class="navtext" href="http://forum.eepw.com.cn/thread/202175/1">不容错过：Linux定时器的使用</a>
+</td>
+</tr>
+</tbody></table>
+<script language="javascript" src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/jquery-1.js" type="text/javascript"></script>
+<script language="javascript">
+var _$ = jQuery.noConflict();
+function getfavorite(subid,typeid)
+{
+	//alert('zheli');
+	_$.ajax({
+		type: "get",
+		url: "/forum/getfavorite/",
+		data: "subid="+subid+"&typeid="+typeid,
+		dataType:'json',
+		beforeSend: function(XMLHttpRequest) {
+				_$("#msgdiv").html('正在添加收藏，请稍后...');
+				_$("#msgdiv").css("display","block");
+				_$("#msgdiv").css("color","#000");
+		},
+		success: function(myjson) {
+			//alert(myjson.text);
+			_$("#msgdiv").html('');
+			_$("#msgdiv").html(myjson.text);
+			_$("#msgdiv").css("display","block");
+			_$("#msgdiv").css("color","#000");
+			setTimeout("cleardiv()",2000);
+		}
+	});
+	
+	return false;
+}
+
+function cleardiv()
+{
+	_$("#msgdiv").css("display","none");
+}
+</script>
+<!--中部开始-->
+<table border="0" cellpadding="0" cellspacing="0" align="center" width="100%">
+  <tbody><tr> 
+    <td height="4"></td>
+  </tr>
+  <tr>
+  	 <!--右开始-->
+  	<td align="left" valign="top">
+  	 <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody><tr>
+          <td>
+          <!--D08-->
+<!--AdForward Begin:-->
+<script type="text/javascript" src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/s_003.htm" charset="gbk"></script><a href="http://eepwimedia.allyes.com/main/adfclick?d=eepwimedia&amp;i=z330,3610829,822,2611&amp;k=&amp;p=0&amp;v=1359099991.162&amp;wl=&amp;rf=http%3A%2F%2Fforum%2Eeepw%2Ecom%2Ecn%2Fthread%2F202175%2F1&amp;u=http://ec.eepw.com.cn/mfmember/showdocument/userid/26895/id/3721" target="_blank"><img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/20120723_DMM_eguide_email_mast.jpg" alt="" border="0" height="60" width="720"></a>
+<!--AdForward End-->
+          </td>
+        </tr>
+      </tbody></table> 
+      
+      <table style="margin-top:5px;" border="0" cellpadding="0" cellspacing="0" width="100%">
+		<tbody><tr>
+		<td>	<table cellpadding="0" cellspacing="0" width="auto">
+	<tbody><tr>
+	<td class="p_focus">共3条
+	1/1															<a class="p_curpage">1</a>								<a style="padding: 0px"><input id="pa" style="width:30px;height:16px;" name="custompage" onkeydown="if(event.keyCode==13) {window.location='/thread/202175/'+this.value; return false;}" type="text"></a></td>
+	<td align="left">&nbsp;&nbsp;<input class="search_input" onclick="if(document.getElementById('pa').value!=''){window.location='/thread/202175/'+getElementById('pa').value;}" value="Go" type="button"></td>
+	</tr></tbody></table>
+</td>
+		</tr>
+		</tbody></table> 
+      
+      	<table style="text-align:left;" border="0" cellpadding="0" cellspacing="0" width="100%">
+	<tbody><tr>
+	<td width="80%">
+	版主:
+				<a class="techtext" href="http://passport.eepw.com.cn/u/l0p0c" target="_blank">l0p0c</a>
+		,			<a class="techtext" href="http://passport.eepw.com.cn/u/HXW718059156" target="_blank">HXW718059156</a>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;分享到：<a rel="nofollow" href="javascript:window.open('http://www.kaixin001.com/repaste/share.php?rtitle='+encodeURIComponent(document.title)+'&amp;rurl='+encodeURIComponent(document.location.href)+'&amp;rcontent=');void(0)"><img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/kaixin001.gif" border="0" align="absmiddle">开心网</a>
+			<a rel="nofollow" class="fav_renren" href="javascript:window.open('http://share.renren.com/share/buttonshare.do?link='+encodeURIComponent(document.location.href)+'&amp;title='+encodeURIComponent(document.title));void(0)"><img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/renren.gif" border="0" align="absmiddle">人人网</a>
+			<a title="新浪微博分享" href="javascript:(function(){window.open('http://v.t.sina.com.cn/share/share.php?title='+encodeURIComponent(document.title)+'&amp;url='+encodeURIComponent(location.href)+'&amp;source=bookmark','_blank','width=450,height=400');})()"><img title="新浪微博分享" alt="新浪微博分享" src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/sharesina.bmp" border="0" align="absmiddle" height="16px" width="16px">新浪微博</a>
+			<a title="EEPW微博分享" href="javascript:(function(){window.open('http://t.eepw.com.cn/index.php?m=share&amp;url='+encodeURIComponent(location.href)+'&amp;type=k&amp;count=0&amp;appkey=3008977433&amp;title='+encodeURIComponent(document.title)+'&amp;relateUid=1752564523&amp;rnd=1305879546637','_blank','width=650,height=400');})()"><img title="EEPW微博分享" alt="EEPW微博分享" src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/system_pic.png" border="0" align="absmiddle" height="16px" width="16px">EEPW微博</a>
+			
+	</td>
+	<td>
+	<table cellpadding="1" cellspacing="1">
+                <tbody>
+                  <tr>
+                    <td><table bgcolor="#cecece" cellpadding="0" cellspacing="1">
+                        <tbody>
+                          <tr>
+                            <td bgcolor="#f9f9f9" align="center" height="19" valign="center">&nbsp;<a href="http://forum.eepw.com.cn/forumact/newthread/forumid/20">发表新贴</a>&nbsp; </td>
+                          </tr>
+                        </tbody>
+                    </table></td>
+                    <td><table bgcolor="#cecece" cellpadding="0" cellspacing="1">
+                        <tbody>
+                          <tr>
+                            <td bgcolor="#f9f9f9" align="center" height="19" valign="center">&nbsp;<a href="#reply">发表回复</a>&nbsp; </td>
+                          </tr>
+                        </tbody>
+                    </table></td>
+                    <td><table bgcolor="#cecece" cellpadding="0" cellspacing="1">
+                        <tbody>
+                          <tr>
+                            <td bgcolor="#f9f9f9" align="center" height="19" valign="center">&nbsp;<a href="http://forum.eepw.com.cn/forum/thread/threadid/202175/flag/1">只看楼主</a>&nbsp; </td>
+                          </tr>
+                        </tbody>
+                    </table></td>
+                  </tr>
+                </tbody>
+              </table>
+	</td>
+	</tr>
+	</tbody></table>
+		<!--投票显示开始-->
+		<!---->
+				<!--投票显示结束-->
+		<!--帖子开始-->
+							<table id="postcontent" bgcolor="#cdcdcd" border="0" cellpadding="0" cellspacing="1" width="97%">
+	<tbody>
+		<tr>
+			<td colspan="2" bgcolor="#0d77b5" height="21">
+				<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+					<tbody><tr>
+					<td class="whiteFont2" style="position:relative;">
+					<div id="msgdiv" style="display:none;position:absolute;width:260px;height:40px;background-color:#ccc;top:-45px;left:600px;border-style:dashed;border-width:1px;border-color:#0d77b5;text-align:center;line-height:20px;color:#000;font-size:12px;"></div>
+					&nbsp;不容错过：Linux定时器的使用&nbsp;&nbsp;发表于 2011-09-08 21:08:41					</td>
+					<td>
+					<span style="border:1px solid #ffffff;font-size:12px;">
+					<a href="http://forum.eepw.com.cn/forumact/grade/postid/767531"><font color="White">我想评分</font></a>
+					</span>
+					&nbsp;&nbsp;
+					<span style="border:1px solid #ffffff;font-size:12px;">
+					<a href="http://forum.eepw.com.cn/forum/main?url=http%3A%2F%2Fforum.eepw.com.cn%2Fforum%2F20/1" target="_parent"><font color="White">回到列表</font></a>
+					</span>
+					&nbsp;&nbsp;
+					<span style="border:1px solid #ffffff;font-size:12px;">
+										<a href="http://passport.eepw.com.cn/Myprofile/addStore/typeid/1/subid/202175/cid/1"><font color="White">收藏此帖</font></a>
+					</span>
+										</td>
+						<td style="text-align:right;font-weight:normal;" class="whiteFont2">
+											[您是本帖的第<strong>905</strong>位阅读者]
+						&nbsp;&nbsp;&nbsp;&nbsp;<b>[1<a href="http://forum.eepw.com.cn/forum/post/id/767531" name="1"></a>楼]&nbsp;</b></td>
+					</tr>
+				</tbody></table>
+			</td>
+		</tr>
+		<tr>
+			<td bgcolor="White" height="100%" valign="top" width="18%">
+				<table border="0" cellpadding="0" cellspacing="0" width="90%">
+					<tbody><tr>
+						<td style="padding-left:20px;" align="left">
+						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/forum.gif">
+						<a class="green" href="http://passport.eepw.com.cn/u/halibote523" target="_blank"><strong>halibote523</strong></a></td>
+					</tr>
+					<tr>
+						<td style="padding-left:20px;" align="left" valign="top">
+							<img style="border:1px #dedede solid;margin-top:5px;" src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/avatar.jpg" border="0" height="80" width="80">
+						</td>
+					</tr>
+					<tr>
+						<td style="padding-left:20px;line-height:140%;" align="left">
+							我是GG&nbsp;&nbsp;&nbsp;							高级会员<br>
+														用户等级：院士<br>
+							<a href="http://passport.eepw.com.cn/friend/add/friendname/halibote523">加为好友</a>
+							<a href="http://passport.eepw.com.cn/message/send/to/halibote523">发短消息</a><br>
+							<a href="http://passport.eepw.com.cn/profile/post/u/220854" target="_blank">所有发言</a>
+							<a href="http://passport.eepw.com.cn/profile/index/j/halibote523" target="_blank">个人档案</a><br>
+							最后登陆时间：2013-01-24 22:37:33<br>
+							状态：<font color="Blue">离线</font>
+						</td>
+					</tr>
+				</tbody></table>		
+			</td>	
+			<td bgcolor="#FFFFFF" valign="top" width="82%">
+				<table bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+				<tbody><tr class="normaltablecontent">
+					<td colspan="2" height="190" valign="top">
+										<table border="0" cellpadding="0" cellspacing="0" height="130" width="100%">
+					<tbody><tr><td style="padding:8px;font-size:14px;height:130px;">
+					
+					  <div style="float:right;width:320px;">
+					  					  <!--d11-->
+<!--AdForward Begin:-->
+<script type="text/javascript" src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/s_002.htm" charset="gbk"></script><script language="Javascript">
+ADFHOST1012="http://eepwimedia.allyes.com";
+ADFCID1012=425;
+ADFBID1012=1012;
+ADFUSER1012="http://eepwimedia.allyes.com/main/adfclick?d=eepwimedia&i=z425,3608984,1012,2270&k=&p=0&v=1359099991.943&wl=&rf=http%3A%2F%2Fforum%2Eeepw%2Ecom%2Ecn%2Fthread%2F202175%2F1&u=";
+</script><script language="javascript">
+var d = "xc"+Math.ceil(Math.random()*1000000); document.write("<div id="+d+"></div>");
+__alysLib.sflash({
+src: "http://www.eepw.com.cn/event/ad/201211/Max20121201_Phase_3_branding_300X60.swf",
+href:ADFUSER1012+"http://china.maximintegrated.com/featured/analog-integration?utm_source=eepw&utm_medium=banner&utm_content=Analog%20Integration&utm_campaign=Rebranding%20AP%203",
+width: 300,
+height: 60,
+rect:0,
+fname:'flash'+d,
+parent:d,
+flashwmode:0,
+flashparamflag:0,
+flashparam:"0"
+}); 
+</script><div id="xc73458"><div style="position:relative;z-index:1;width:300px;height:60px"><div style="position:absolute;left:0;top:0;z-index:2;width:300px;height:60px"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0" id="fflashxc73458" height="60" width="300"><param name="movie" value="http://www.eepw.com.cn/event/ad/201211/Max20121201_Phase_3_branding_300X60.swf"><param name="wmode" value="transparent"><param name="allowscriptaccess" value="always"><embed src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/Max20121201_Phase_3_branding_300X60.swf" wmode="transparent" type="application/x-shockwave-flash" allowscriptaccess="always" name="fflashxc73458" height="60" width="300"></object></div><a href="http://eepwimedia.allyes.com/main/adfclick?d=eepwimedia&amp;i=z425,3608984,1012,2270&amp;k=&amp;p=0&amp;v=1359099991.943&amp;wl=&amp;rf=http%3A%2F%2Fforum%2Eeepw%2Ecom%2Ecn%2Fthread%2F202175%2F1&amp;u=http://china.maximintegrated.com/featured/analog-integration?utm_source=eepw&amp;utm_medium=banner&amp;utm_content=Analog%20Integration&amp;utm_campaign=Rebranding%20AP%203" target="_blank" style="background-color:#fff;position:absolute;left:0px;top:0px;z-index:3;width:300px;height:60px;opacity:0.00001;filter:alpha(opacity=0);"></a></div></div>
+<!--AdForward End-->
+					  </div>
+
+										
+										<br>
+										
+用定时器的目的无非是为了周期性的执行某一任务，或者是到了一个指定时间去执行某一个任务。要达到这一目的，一般有两个常见的比较有效的方法。一个是用
+linux内部的三个定时器，另一个是用sleep, 
+usleep函数让进程睡眠一段时间，使用alarm定时发出一个信号，还有那就是用gettimeofday, 
+difftime等自己来计算时间间隔，然后时间到了就执行某一任务，但是这种方法效率低，所以不常用。
+alarm
+<p>alarm用在不需要经确定时的时候，返回之前剩余的秒数。</p>
+<p>NAME<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; alarm - set an alarm clock for delivery of a signal<br>
+SYNOPSIS<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #include &lt;unistd.h&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; unsigned int alarm(unsigned int seconds);<br>
+DESCRIPTION<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; alarm&nbsp; arranges&nbsp; for a <strong>SIGALRM</strong> signal to be delivered to the process in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; seconds seconds.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If seconds is zero, no new alarm is scheduled.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In any event any previously set alarm is cancelled.</p>
+<p>测试程序：</p>
+<div style="font-size: 12px; line-height: 8px; font-family: courier new">
+<table style="border-right: 0px; padding-right: 0px; border-top: 0px; padding-left: 0px; padding-bottom: 0px; border-left: 0px; width: 100%; padding-top: 0px; border-bottom: 0px">
+    
+        <tbody><tr>
+            <td style="color: teal">1&nbsp;</td>
+            <td>&nbsp;cat&nbsp;timer.<strong>c</strong></td>
+        </tr>
+        <tr>
+            <td style="color: teal">2&nbsp;</td>
+            <td>#include&nbsp;&lt;stdio.h&gt;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">3&nbsp;</td>
+            <td>#include&nbsp;&lt;unistd.h&gt;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">4&nbsp;</td>
+            <td>#include&nbsp;&lt;sys/time.h&gt;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">5&nbsp;</td>
+            <td>#include&nbsp;&lt;signal.h&gt;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">6&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">7&nbsp;</td>
+            <td>void&nbsp;func()</td>
+        </tr>
+        <tr>
+            <td style="color: teal">8&nbsp;</td>
+            <td>{</td>
+        </tr>
+        <tr>
+            <td style="color: teal">9&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("2&nbsp;s&nbsp;reached.\n");</td>
+        </tr>
+        <tr>
+            <td style="color: teal">10&nbsp;</td>
+            <td>}</td>
+        </tr>
+        <tr>
+            <td style="color: teal">11&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">12&nbsp;</td>
+            <td>int&nbsp;main()</td>
+        </tr>
+        <tr>
+            <td style="color: teal">13&nbsp;</td>
+            <td>{</td>
+        </tr>
+        <tr>
+            <td style="color: teal">14&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;signal(SIGALRM,func);</td>
+        </tr>
+        <tr>
+            <td style="color: teal">15&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alarm(<strong>2</strong>);</td>
+        </tr>
+        <tr>
+            <td style="color: teal">16&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while(<strong>1</strong>);</td>
+        </tr>
+        <tr>
+            <td style="color: teal">17&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;<strong>0</strong>;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">18&nbsp;</td>
+            <td>}</td>
+        </tr>
+        <tr>
+            <td style="color: teal">19&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+    
+</tbody></table>
+</div>
+Linux内置的3个定时器
+<p>Linux为每个任务安排了3个内部定时器：</p>
+<p>ITIMER_REAL：实时定时器，不管进程在何种模式下运行（甚至在进程被挂起时），它总在计数。定时到达，向进程发送SIGALRM信号。</p>
+<p>ITIMER_VIRTUAL：这个不是实时定时器，当进程在用户模式（即程序执行时）计算进程执行的时间。定时到达后向该进程发送SIGVTALRM信号。&nbsp;</p>
+<p>ITIMER_PROF：进程在用户模式（即程序执行时）和核心模式（即进程调度用时）均计数。定时到达产生SIGPROF信号。ITIMER_PROF记录的时间比ITIMER_VIRTUAL多了进程调度所花的时间。</p>
+<p>定时器在初始化是，被赋予一个初始值，随时间递减，递减至0后发出信号，同时恢复初始值。在任务中，我们可以一种或者全部三种定时器，但同一时刻同一类型的定时器只能使用一个。</p>
+<p>&nbsp;</p>
+<p>用到的函数有：</p>
+<p>#include &lt;sys/time.h&gt;<br>
+int getitimer(int which, struct itimerval *value);<br>
+int setitimer(int which, struct itimerval*newvalue, struct itimerval* oldvalue);<br>
+strcut timeval<br>
+{<br>
+long tv_sec; /*秒*/<br>
+long tv_usec; /*微秒*/<br>
+};<br>
+struct itimerval<br>
+{<br>
+struct timeval it_interval; /*时间间隔*/<br>
+struct timeval it_value;&nbsp;&nbsp; /*当前时间计数*/<br>
+};</p>
+<p>it_interval用来指定每隔多长时间执行任务， it_value用来保存当前时间离执行任务还有多长时间。比如说， 
+你指定it_interval为2秒(微秒为0)，开始的时候我们把it_value的时间也设定为2秒（微秒为0），当过了一秒， 
+it_value就减少一个为1， 
+再过1秒，则it_value又减少1，变为0，这个时候发出信号（告诉用户时间到了，可以执行任务了），并且系统自动把it_value的时间重置为
+it_interval的值，即2秒，再重新计数。</p>
+<p>为了帮助你理解这个问题，我们来看一个例子：</p>
+<div style="font-size: 12px; line-height: 8px; font-family: courier new">
+<table style="border-right: 0px; padding-right: 0px; border-top: 0px; padding-left: 0px; padding-bottom: 0px; border-left: 0px; width: 100%; padding-top: 0px; border-bottom: 0px">
+    
+        <tbody><tr>
+            <td style="color: teal">1&nbsp;</td>
+            <td>#include&nbsp;&lt;stdio.h&gt;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">2&nbsp;</td>
+            <td>#include&nbsp;&lt;signal.h&gt;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">3&nbsp;</td>
+            <td>#include&nbsp;&lt;sys/time.h&gt;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">4&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">5&nbsp;</td>
+            <td>/*</td>
+        </tr>
+        <tr>
+            <td style="color: teal">6&nbsp;</td>
+            <td>*******************************************************************************************************</td>
+        </tr>
+        <tr>
+            <td style="color: teal">7&nbsp;</td>
+            <td>**&nbsp;Function&nbsp;name:&nbsp;main()</td>
+        </tr>
+        <tr>
+            <td style="color: teal">8&nbsp;</td>
+            <td>**&nbsp;Descriptions&nbsp;:&nbsp;Demo&nbsp;for&nbsp;timer.</td>
+        </tr>
+        <tr>
+            <td style="color: teal">9&nbsp;</td>
+            <td>**&nbsp;Input&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;NONE</td>
+        </tr>
+        <tr>
+            <td style="color: teal">10&nbsp;</td>
+            <td>**&nbsp;Output&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;NONE</td>
+        </tr>
+        <tr>
+            <td style="color: teal">11&nbsp;</td>
+            <td>**&nbsp;Created&nbsp;by&nbsp;&nbsp;&nbsp;:&nbsp;Chenxibing</td>
+        </tr>
+        <tr>
+            <td style="color: teal">12&nbsp;</td>
+            <td>**&nbsp;Created&nbsp;Date&nbsp;:&nbsp;<strong>2005</strong>-<strong>12</strong>-<strong>29</strong></td>
+        </tr>
+        <tr>
+            <td style="color: teal">13&nbsp;</td>
+            <td>**-----------------------------------------------------------------------------------------------------</td>
+        </tr>
+        <tr>
+            <td style="color: teal">14&nbsp;</td>
+            <td>**&nbsp;Modified&nbsp;by&nbsp;&nbsp;:</td>
+        </tr>
+        <tr>
+            <td style="color: teal">15&nbsp;</td>
+            <td>**&nbsp;Modified&nbsp;Date:</td>
+        </tr>
+        <tr>
+            <td style="color: teal">16&nbsp;</td>
+            <td>**-----------------------------------------------------------------------------------------------------</td>
+        </tr>
+        <tr>
+            <td style="color: teal">17&nbsp;</td>
+            <td>*******************************************************************************************************</td>
+        </tr>
+        <tr>
+            <td style="color: teal">18&nbsp;</td>
+            <td>*/</td>
+        </tr>
+        <tr>
+            <td style="color: teal">19&nbsp;</td>
+            <td>int&nbsp;limit&nbsp;=&nbsp;<strong>10</strong>;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">20&nbsp;</td>
+            <td>/*&nbsp;signal&nbsp;process&nbsp;*/</td>
+        </tr>
+        <tr>
+            <td style="color: teal">21&nbsp;</td>
+            <td>void&nbsp;timeout_info(int&nbsp;signo)</td>
+        </tr>
+        <tr>
+            <td style="color: teal">22&nbsp;</td>
+            <td>{</td>
+        </tr>
+        <tr>
+            <td style="color: teal">23&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;if(limit&nbsp;==&nbsp;<strong>0</strong>)</td>
+        </tr>
+        <tr>
+            <td style="color: teal">24&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;{</td>
+        </tr>
+        <tr>
+            <td style="color: teal">25&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Sorry,&nbsp;time&nbsp;limit&nbsp;reached.\n");</td>
+        </tr>
+        <tr>
+            <td style="color: teal">26&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">27&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;}</td>
+        </tr>
+        <tr>
+            <td style="color: teal">28&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;printf("only&nbsp;%d&nbsp;senconds&nbsp;left.\n",&nbsp;limit--);</td>
+        </tr>
+        <tr>
+            <td style="color: teal">29&nbsp;</td>
+            <td>}</td>
+        </tr>
+        <tr>
+            <td style="color: teal">30&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">31&nbsp;</td>
+            <td>/*&nbsp;init&nbsp;sigaction&nbsp;*/</td>
+        </tr>
+        <tr>
+            <td style="color: teal">32&nbsp;</td>
+            <td>void&nbsp;init_sigaction(void)</td>
+        </tr>
+        <tr>
+            <td style="color: teal">33&nbsp;</td>
+            <td>{</td>
+        </tr>
+        <tr>
+            <td style="color: teal">34&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;struct&nbsp;sigaction&nbsp;act;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">35&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">36&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;act.sa_handler&nbsp;=&nbsp;timeout_info;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">37&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;act.sa_flags&nbsp;&nbsp;&nbsp;=&nbsp;<strong>0</strong>;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">38&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;sigemptyset(&amp;act.sa_mask);</td>
+        </tr>
+        <tr>
+            <td style="color: teal">39&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;sigaction(SIGPROF,&nbsp;&amp;act,&nbsp;NULL);</td>
+        </tr>
+        <tr>
+            <td style="color: teal">40&nbsp;</td>
+            <td>}</td>
+        </tr>
+        <tr>
+            <td style="color: teal">41&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">42&nbsp;</td>
+            <td>/*&nbsp;init&nbsp;*/</td>
+        </tr>
+        <tr>
+            <td style="color: teal">43&nbsp;</td>
+            <td>void&nbsp;init_time(void)</td>
+        </tr>
+        <tr>
+            <td style="color: teal">44&nbsp;</td>
+            <td>{</td>
+        </tr>
+        <tr>
+            <td style="color: teal">45&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;struct&nbsp;itimerval&nbsp;val;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">46&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">47&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;val.it_value.tv_sec&nbsp;=&nbsp;<strong>1</strong>;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">48&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;val.it_value.tv_usec&nbsp;=&nbsp;<strong>0</strong>;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">49&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;val.it_interval&nbsp;=&nbsp;val.it_value;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">50&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;setitimer(ITIMER_PROF,&nbsp;&amp;val,&nbsp;NULL);</td>
+        </tr>
+        <tr>
+            <td style="color: teal">51&nbsp;</td>
+            <td>}</td>
+        </tr>
+        <tr>
+            <td style="color: teal">52&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">53&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">54&nbsp;</td>
+            <td>int&nbsp;main(void)</td>
+        </tr>
+        <tr>
+            <td style="color: teal">55&nbsp;</td>
+            <td>{</td>
+        </tr>
+        <tr>
+            <td style="color: teal">56&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;init_sigaction();</td>
+        </tr>
+        <tr>
+            <td style="color: teal">57&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;init_time();</td>
+        </tr>
+        <tr>
+            <td style="color: teal">58&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;printf("You&nbsp;have&nbsp;only&nbsp;10&nbsp;seconds&nbsp;for&nbsp;thinking.\n");</td>
+        </tr>
+        <tr>
+            <td style="color: teal">59&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">60&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;while(<strong>1</strong>);</td>
+        </tr>
+        <tr>
+            <td style="color: teal">61&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;return&nbsp;<strong>0</strong>;</td>
+        </tr>
+        <tr>
+            <td style="color: teal">62&nbsp;</td>
+            <td>}</td>
+        </tr>
+        <tr>
+            <td style="color: teal">63&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+    
+</tbody></table>
+</div>
+<p>对于ITIMER_VIRTUAL和ITIMER_PROF的使用方法类似，当你在setitimer里面设置的定时器为
+ITIMER_VIRTUAL的时候，你把sigaction里面的SIGALRM改为SIGVTALARM, 
+同理，ITIMER_PROF对应SIGPROF。</p>
+<p>不过，你可能会注意到，当你用ITIMER_VIRTUAL和ITIMER_PROF的时候，你拿一个秒表，你会发现程序输出字符串的时间间隔会不止2秒，甚至5-6秒才会输出一个，至于为什么，自己好好琢磨一下^_^</p>
+sleep
+<p>下面我们来看看用sleep以及usleep怎么实现定时执行任务。</p>
+<ol>
+    <li>#include &lt;signal.h&gt;</li>
+    <li>#include &lt;unistd.h&gt;</li>
+    <li>#include &lt;string.h&gt;</li>
+    <li>#include &lt;stdio.h&gt;</li>
+    <li>&nbsp;</li>
+    <li>static char msg[] = "I received a msg.\n";</li>
+    <li>int len;</li>
+    <li>void show_msg(int signo)</li>
+    <li>{</li>
+    <li>write(STDERR_FILENO, msg, len);</li>
+    <li>}</li>
+    <li>int main()</li>
+    <li>{</li>
+    <li>struct sigaction act;</li>
+    <li>union sigval tsval;</li>
+    <li>&nbsp;</li>
+    <li>act.sa_handler = show_msg;</li>
+    <li>act.sa_flags = 0;</li>
+    <li>sigemptyset(&amp;act.sa_mask);</li>
+    <li>sigaction(50, &amp;act, NULL);</li>
+    <li>&nbsp;</li>
+    <li>len = strlen(msg);</li>
+    <li>while ( 1 )</li>
+    <li>{</li>
+    <li>sleep(2); /*睡眠2秒*/</li>
+    <li>/*向主进程发送信号，实际上是自己给自己发信号*/</li>
+    <li>sigqueue(getpid(), 50, tsval);</li>
+    <li>}</li>
+    <li>return 0;</li>
+    <li>}</li>
+</ol>
+<p>看到了吧，这个要比上面的简单多了，而且你用秒表测一下，时间很准，指定2秒到了就给你输出一个字符串。所以，如果你只做一般的定时，到了时间去执行一个任务，这种方法是最简单的。</p>
+时间差
+<p>下面我们来看看，通过自己计算时间差的方法来定时：</p>
+<p>&nbsp;</p>
+<ol>
+    <li>#include &lt;signal.h&gt;</li>
+    <li>#include &lt;unistd.h&gt;</li>
+    <li>#include &lt;string.h&gt;</li>
+    <li>#include &lt;stdio.h&gt;</li>
+    <li>#include &lt;time.h&gt;</li>
+    <li>&nbsp;</li>
+    <li>static char msg[] = "I received a msg.\n";</li>
+    <li>int len;</li>
+    <li>static time_t lasttime;</li>
+    <li>void show_msg(int signo)</li>
+    <li>{</li>
+    <li>write(STDERR_FILENO, msg, len);</li>
+    <li>}</li>
+    <li>int main()</li>
+    <li>{</li>
+    <li>struct sigaction act;</li>
+    <li>union sigval tsval;</li>
+    <li>&nbsp;</li>
+    <li>act.sa_handler = show_msg;</li>
+    <li>act.sa_flags = 0;</li>
+    <li>sigemptyset(&amp;act.sa_mask);</li>
+    <li>sigaction(50, &amp;act, NULL);</li>
+    <li>&nbsp;</li>
+    <li>len = strlen(msg);</li>
+    <li>time(&amp;lasttime);</li>
+    <li>while ( 1 )</li>
+    <li>{</li>
+    <li>time_t nowtime;</li>
+    <li>/*获取当前时间*/</li>
+    <li>time(&amp;nowtime);</li>
+    <li>/*和上一次的时间做比较，如果大于等于2秒，则立刻发送信号*/</li>
+    <li>if (nowtime - lasttime &gt;= 2)</li>
+    <li>{</li>
+    <li>/*向主进程发送信号，实际上是自己给自己发信号*/</li>
+    <li>sigqueue(getpid(), 50, tsval);</li>
+    <li>lasttime = nowtime;</li>
+    <li>}</li>
+    <li>}</li>
+    <li>return 0;</li>
+    <li>}</li>
+</ol>
+<p>这个和上面不同之处在于，是自己手工计算时间差的，如果你想更精确的计算时间差，你可以把 time 函数换成gettimeofday，这个可以精确到微妙。</p>
+<p>上面介绍的几种定时方法各有千秋，在计时效率上、方法上和时间的精确度上也各有不同，采用哪种方法，就看你程序的需要。</p><br>
+					</td></tr>
+					</tbody></table>
+
+										<div style="margin-top:15px;"><img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/signed_stalls.gif" border="0" height="17" width="363"></div>
+					<div style="padding-left:4px;padding-right:4px;color:#6fc500;">断肠人在天涯！</div>
+										
+					
+<div style="width:100%;text-align:center;">
+<!--d10-->
+<!--AdForward Begin:-->
+<script type="text/javascript" src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/s.htm" charset="gbk"></script><a href="http://eepwimedia.allyes.com/main/adfclick?d=eepwimedia&amp;i=z336,3609722,1070,447&amp;k=&amp;p=0&amp;v=1359099991.712&amp;wl=&amp;rf=http%3A%2F%2Fforum%2Eeepw%2Ecom%2Ecn%2Fthread%2F202175%2F1&amp;u=http://ec.eepw.com.cn/center/index/userid/26895" target="_blank"><img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/20120723_DMM_eguide_email_mast.jpg" alt="" border="0" height="60" width="720"></a>
+<!--AdForward End-->
+</div>
+
+										
+					</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding:8px;">
+												</td>
+					</tr>
+										<tr> 
+              <td bgcolor="#FFFFFF" valign="bottom">
+					<table border="0" cellpadding="0" cellspacing="0" height="20" width="100%">
+					<tbody><tr>
+					<td align="left" valign="bottom">&nbsp;
+					<!--Forumb-->
+
+<script type="text/javascript">
+   var m3_u = (location.protocol=='https:'?'https://ads.eepw.com.cn/www/delivery/ajs.php':'http://ads.eepw.com.cn/www/delivery/ajs.php');
+   var m3_r = Math.floor(Math.random()*99999999999);
+   if (!document.MAX_used) document.MAX_used = ',';
+   document.write ("<scr"+"ipt type='text/javascript' src='"+m3_u);
+   document.write ("?zoneid=163");
+   document.write ('&amp;cb=' + m3_r);
+   if (document.MAX_used != ',') document.write ("&amp;exclude=" + document.MAX_used);
+   document.write (document.charset ? '&amp;charset='+document.charset : (document.characterSet ? '&amp;charset='+document.characterSet : ''));
+   document.write ("&amp;loc=" + escape(window.location));
+   if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+   if (document.context) document.write ("&context=" + escape(document.context));
+   if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+   document.write ("'><\/scr"+"ipt>");
+</script><script type="text/javascript" src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/ajs_002.php"></script><a href="http://ads.eepw.com.cn/www/delivery/ck.php?oaparams=2__bannerid=567__zoneid=163__cb=cf02966381__oadest=http%3A%2F%2Fchina.maximintegrated.com%2Flanding%2Findex.mvp%3Flpk%3D751%26utm_source%3Deepw%26utm_medium%3Dbanner%26utm_content%3DMAX1116x%26utm_campaign%3DBBB%2520Q113" target="_blank">内置基准的±5V SAR ADC</a><div id="beacon_cf02966381" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/lg_003.gif" alt="" style="width: 0px; height: 0px;" height="0" width="0"></div>
+
+					</td>
+					<td>
+					<div align="right">
+																						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/space.gif" height="8" width="8">
+						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/ico_02.gif" align="absMiddle" height="15" width="15">
+						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/space.gif" height="1" width="8"><a class="focus" href="#reply">回复</a>
+						
+						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/space.gif" height="8" width="8">
+						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/ico_03.gif" align="absMiddle" height="15" width="15">
+						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/space.gif" height="1" width="8"><a class="focus" href="http://forum.eepw.com.cn/forumact/quotereply/postid/767531/u/halibote523/i/220854">回复本帖</a>
+												<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/space.gif" height="8" width="8">
+						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/ico_05.gif" align="absmiddle" height="15" width="15">
+						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/space.gif" height="1" width="8"><a class="focus" href="#top">回到顶端</a>&nbsp;&nbsp;						
+					</div>
+					</td>
+					</tr>
+					</tbody></table>
+					</td>
+				</tr>
+							</tbody></table>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+			<table id="postcontent" bgcolor="#cdcdcd" border="0" cellpadding="0" cellspacing="1" width="97%">
+	<tbody>
+		<tr>
+			<td colspan="2" bgcolor="#0d77b5" height="21">
+				<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+					<tbody><tr>
+					<td class="whiteFont2" style="position:relative;">
+					<div id="msgdiv" style="display:none;position:absolute;width:260px;height:40px;background-color:#ccc;top:-45px;left:600px;border-style:dashed;border-width:1px;border-color:#0d77b5;text-align:center;line-height:20px;color:#000;font-size:12px;"></div>
+					&nbsp;RE: 不容错过：Linux定时器的使用&nbsp;&nbsp;发表于 2011-09-09 08:42:05					</td>
+					<td>
+					<span style="border:1px solid #ffffff;font-size:12px;">
+					<a href="http://forum.eepw.com.cn/forumact/grade/postid/767563"><font color="White">我想评分</font></a>
+					</span>
+					&nbsp;&nbsp;
+					<span style="border:1px solid #ffffff;font-size:12px;">
+					<a href="http://forum.eepw.com.cn/forum/main?url=http%3A%2F%2Fforum.eepw.com.cn%2Fforum%2F20/1" target="_parent"><font color="White">回到列表</font></a>
+					</span>
+										</td>
+						<td style="text-align:right;font-weight:normal;" class="whiteFont2">
+						<b>[2<a href="http://forum.eepw.com.cn/forum/post/id/767563" name="2"></a>楼]&nbsp;</b></td>
+					</tr>
+				</tbody></table>
+			</td>
+		</tr>
+		<tr>
+			<td bgcolor="White" height="100%" valign="top" width="18%">
+				<table border="0" cellpadding="0" cellspacing="0" width="90%">
+					<tbody><tr>
+						<td style="padding-left:20px;" align="left">
+						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/forum.gif">
+						<a class="green" href="http://passport.eepw.com.cn/u/jackwang" target="_blank"><strong>jackwang</strong></a></td>
+					</tr>
+					<tr>
+						<td style="padding-left:20px;" align="left" valign="top">
+							<img style="border:1px #dedede solid;margin-top:5px;" src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/avatar_002.jpg" border="0" height="80" width="80">
+						</td>
+					</tr>
+					<tr>
+						<td style="padding-left:20px;line-height:140%;" align="left">
+							我是GG&nbsp;&nbsp;&nbsp;							高级会员<br>
+														用户等级：院士<br>
+							<a href="http://passport.eepw.com.cn/friend/add/friendname/jackwang">加为好友</a>
+							<a href="http://passport.eepw.com.cn/message/send/to/jackwang">发短消息</a><br>
+							<a href="http://passport.eepw.com.cn/profile/post/u/3" target="_blank">所有发言</a>
+							<a href="http://passport.eepw.com.cn/profile/index/j/jackwang" target="_blank">个人档案</a><br>
+							最后登陆时间：2013-01-25 15:44:18<br>
+							状态：<font color="Blue">在线</font>
+						</td>
+					</tr>
+				</tbody></table>		
+			</td>	
+			<td bgcolor="#FFFFFF" valign="top" width="82%">
+				<table bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+				<tbody><tr class="normaltablecontent">
+					<td colspan="2" height="190" valign="top">
+										<table border="0" cellpadding="0" cellspacing="0" height="130" width="100%">
+					<tbody><tr><td style="padding:8px;font-size:14px;height:130px;">
+										
+										<br>
+										<p>底层的东西？</p><br>
+					</td></tr>
+					</tbody></table>
+
+										<div style="margin-top:15px;"><img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/signed_stalls.gif" border="0" height="17" width="363"></div>
+					<div style="padding-left:4px;padding-right:4px;color:#6fc500;">http://weibo.com/dolphinjetta</div>
+										
+										
+					</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding:8px;">
+												</td>
+					</tr>
+										<tr> 
+              <td bgcolor="#FFFFFF" valign="bottom">
+					<table border="0" cellpadding="0" cellspacing="0" height="20" width="100%">
+					<tbody><tr>
+					<td align="left" valign="bottom">&nbsp;
+					<!--Forumb-->
+
+<script type="text/javascript">
+   var m3_u = (location.protocol=='https:'?'https://ads.eepw.com.cn/www/delivery/ajs.php':'http://ads.eepw.com.cn/www/delivery/ajs.php');
+   var m3_r = Math.floor(Math.random()*99999999999);
+   if (!document.MAX_used) document.MAX_used = ',';
+   document.write ("<scr"+"ipt type='text/javascript' src='"+m3_u);
+   document.write ("?zoneid=163");
+   document.write ('&amp;cb=' + m3_r);
+   if (document.MAX_used != ',') document.write ("&amp;exclude=" + document.MAX_used);
+   document.write (document.charset ? '&amp;charset='+document.charset : (document.characterSet ? '&amp;charset='+document.characterSet : ''));
+   document.write ("&amp;loc=" + escape(window.location));
+   if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+   if (document.context) document.write ("&context=" + escape(document.context));
+   if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+   document.write ("'><\/scr"+"ipt>");
+</script><script type="text/javascript" src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/ajs.php"></script><a href="http://ads.eepw.com.cn/www/delivery/ck.php?oaparams=2__bannerid=570__zoneid=163__cb=157597300f__oadest=http%3A%2F%2Fwww.eepw.com.cn%2Fevent%2Faction%2FADI_RF_survey_4%2Findex.html" target="_blank">ADI系列视频有奖问答第四期开始了</a><div id="beacon_157597300f" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/lg_002.gif" alt="" style="width: 0px; height: 0px;" height="0" width="0"></div>
+
+					</td>
+					<td>
+					<div align="right">
+																						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/space.gif" height="8" width="8">
+						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/ico_02.gif" align="absMiddle" height="15" width="15">
+						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/space.gif" height="1" width="8"><a class="focus" href="#reply">回复</a>
+						
+						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/space.gif" height="8" width="8">
+						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/ico_03.gif" align="absMiddle" height="15" width="15">
+						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/space.gif" height="1" width="8"><a class="focus" href="http://forum.eepw.com.cn/forumact/quotereply/postid/767563/u/jackwang/i/3">回复本帖</a>
+												<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/space.gif" height="8" width="8">
+						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/ico_05.gif" align="absmiddle" height="15" width="15">
+						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/space.gif" height="1" width="8"><a class="focus" href="#top">回到顶端</a>&nbsp;&nbsp;						
+					</div>
+					</td>
+					</tr>
+					</tbody></table>
+					</td>
+				</tr>
+							</tbody></table>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+			<table id="postcontent" bgcolor="#cdcdcd" border="0" cellpadding="0" cellspacing="1" width="97%">
+	<tbody>
+		<tr>
+			<td colspan="2" bgcolor="#0d77b5" height="21">
+				<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+					<tbody><tr>
+					<td class="whiteFont2" style="position:relative;">
+					<div id="msgdiv" style="display:none;position:absolute;width:260px;height:40px;background-color:#ccc;top:-45px;left:600px;border-style:dashed;border-width:1px;border-color:#0d77b5;text-align:center;line-height:20px;color:#000;font-size:12px;"></div>
+					&nbsp;RE: 不容错过：Linux定时器的使用&nbsp;&nbsp;发表于 2011-09-09 23:07:05					</td>
+					<td>
+					<span style="border:1px solid #ffffff;font-size:12px;">
+					<a href="http://forum.eepw.com.cn/forumact/grade/postid/767623"><font color="White">我想评分</font></a>
+					</span>
+					&nbsp;&nbsp;
+					<span style="border:1px solid #ffffff;font-size:12px;">
+					<a href="http://forum.eepw.com.cn/forum/main?url=http%3A%2F%2Fforum.eepw.com.cn%2Fforum%2F20/1" target="_parent"><font color="White">回到列表</font></a>
+					</span>
+										</td>
+						<td style="text-align:right;font-weight:normal;" class="whiteFont2">
+						<b>[3<a href="http://forum.eepw.com.cn/forum/post/id/767623" name="3"></a>楼]&nbsp;</b></td>
+					</tr>
+				</tbody></table>
+			</td>
+		</tr>
+		<tr>
+			<td bgcolor="White" height="100%" valign="top" width="18%">
+				<table border="0" cellpadding="0" cellspacing="0" width="90%">
+					<tbody><tr>
+						<td style="padding-left:20px;" align="left">
+						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/forum.gif">
+						<a class="green" href="http://passport.eepw.com.cn/u/halibote523" target="_blank"><strong>halibote523</strong></a></td>
+					</tr>
+					<tr>
+						<td style="padding-left:20px;" align="left" valign="top">
+							<img style="border:1px #dedede solid;margin-top:5px;" src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/avatar.jpg" border="0" height="80" width="80">
+						</td>
+					</tr>
+					<tr>
+						<td style="padding-left:20px;line-height:140%;" align="left">
+							我是GG&nbsp;&nbsp;&nbsp;							高级会员<br>
+														用户等级：院士<br>
+							<a href="http://passport.eepw.com.cn/friend/add/friendname/halibote523">加为好友</a>
+							<a href="http://passport.eepw.com.cn/message/send/to/halibote523">发短消息</a><br>
+							<a href="http://passport.eepw.com.cn/profile/post/u/220854" target="_blank">所有发言</a>
+							<a href="http://passport.eepw.com.cn/profile/index/j/halibote523" target="_blank">个人档案</a><br>
+							最后登陆时间：2013-01-24 22:37:33<br>
+							状态：<font color="Blue">离线</font>
+						</td>
+					</tr>
+				</tbody></table>		
+			</td>	
+			<td bgcolor="#FFFFFF" valign="top" width="82%">
+				<table bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+				<tbody><tr class="normaltablecontent">
+					<td colspan="2" height="190" valign="top">
+										<table border="0" cellpadding="0" cellspacing="0" height="130" width="100%">
+					<tbody><tr><td style="padding:8px;font-size:14px;height:130px;">
+										
+										<br>
+										<p>底层的才有难度！</p><br>
+					</td></tr>
+					</tbody></table>
+
+										<div style="margin-top:15px;"><img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/signed_stalls.gif" border="0" height="17" width="363"></div>
+					<div style="padding-left:4px;padding-right:4px;color:#6fc500;">断肠人在天涯！</div>
+										
+										
+					</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding:8px;">
+												</td>
+					</tr>
+										<tr> 
+              <td bgcolor="#FFFFFF" valign="bottom">
+					<table border="0" cellpadding="0" cellspacing="0" height="20" width="100%">
+					<tbody><tr>
+					<td align="left" valign="bottom">&nbsp;
+					<!--Forumb-->
+
+<script type="text/javascript">
+   var m3_u = (location.protocol=='https:'?'https://ads.eepw.com.cn/www/delivery/ajs.php':'http://ads.eepw.com.cn/www/delivery/ajs.php');
+   var m3_r = Math.floor(Math.random()*99999999999);
+   if (!document.MAX_used) document.MAX_used = ',';
+   document.write ("<scr"+"ipt type='text/javascript' src='"+m3_u);
+   document.write ("?zoneid=163");
+   document.write ('&amp;cb=' + m3_r);
+   if (document.MAX_used != ',') document.write ("&amp;exclude=" + document.MAX_used);
+   document.write (document.charset ? '&amp;charset='+document.charset : (document.characterSet ? '&amp;charset='+document.characterSet : ''));
+   document.write ("&amp;loc=" + escape(window.location));
+   if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+   if (document.context) document.write ("&context=" + escape(document.context));
+   if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+   document.write ("'><\/scr"+"ipt>");
+</script><script type="text/javascript" src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/ajs_003.php"></script><a href="http://ads.eepw.com.cn/www/delivery/ck.php?oaparams=2__bannerid=561__zoneid=163__cb=301522e9fb__oadest=http%3A%2F%2Fchina.maximintegrated.com%2Flanding%2Findex.mvp%3Flpk%3D739%26utm_source%3Deepw%26utm_medium%3Dbanner%26utm_content%3DMAX36025%26utm_campaign%3DSmart%2520Grid%2520Q213" target="_blank">有效保护智能电网</a><div id="beacon_301522e9fb" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/lg.gif" alt="" style="width: 0px; height: 0px;" height="0" width="0"></div>
+
+					</td>
+					<td>
+					<div align="right">
+																						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/space.gif" height="8" width="8">
+						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/ico_02.gif" align="absMiddle" height="15" width="15">
+						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/space.gif" height="1" width="8"><a class="focus" href="#reply">回复</a>
+						
+						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/space.gif" height="8" width="8">
+						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/ico_03.gif" align="absMiddle" height="15" width="15">
+						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/space.gif" height="1" width="8"><a class="focus" href="http://forum.eepw.com.cn/forumact/quotereply/postid/767623/u/halibote523/i/220854">回复本帖</a>
+												<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/space.gif" height="8" width="8">
+						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/ico_05.gif" align="absmiddle" height="15" width="15">
+						<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/space.gif" height="1" width="8"><a class="focus" href="#top">回到顶端</a>&nbsp;&nbsp;						
+					</div>
+					</td>
+					</tr>
+					</tbody></table>
+					</td>
+				</tr>
+							</tbody></table>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+		         
+		<!--帖子结束-->
+		<div style="width:97%;">
+		<table style="margin-top:5px;" border="0" cellpadding="0" cellspacing="0" width="100%">
+		<tbody><tr>
+		<td width="80%">	<table cellpadding="0" cellspacing="0" width="auto">
+	<tbody><tr>
+	<td class="p_focus">共3条
+	1/1															<a class="p_curpage">1</a>								<a style="padding: 0px"><input id="pa" style="width:30px;height:16px;" name="custompage" onkeydown="if(event.keyCode==13) {window.location='/thread/202175/'+this.value; return false;}" type="text"></a></td>
+	<td align="left">&nbsp;&nbsp;<input class="search_input" onclick="if(document.getElementById('pa').value!=''){window.location='/thread/202175/'+getElementById('pa').value;}" value="Go" type="button"></td>
+	</tr></tbody></table>
+</td>
+		<td style="padding-bottom:5px;" align="center" height="24" width="20%">
+		</td>
+		</tr>
+		</tbody></table> 
+		</div>
+		<div style="width:97%;margin-top:5px;">
+		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody><tr>
+          <td>
+          <!--/*BA01 */-->
+</td>
+        </tr>
+      </tbody></table>
+		</div>
+		
+		<script language="JavaScript">
+<!--
+function imgresize() {
+	el = document.getElementById('postcontent').getElementsByTagName('img');
+	for (var i=0;i<el.length;i++) {
+		var temp=el[i];		
+		temp.onload = function() {
+			if ( this.offsetWidth > 580)
+			{
+				this.style.width = 580+'px';						
+				this.style.cursor = 'pointer';
+				this.onclick = function() {window.open(this.src)}
+			}
+		}				
+	}
+}
+imgresize();
+//-->
+</script>
+<script language="JavaScript" src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/bbs_form_check.js"></script>
+	<form id="bbspostform" method="post" action="/forumact/newreply/p/1" onsubmit="return validate(this)">
+	<table id="postcontent" style="border:1px #cdcdcd solid;" border="0" cellpadding="0" cellspacing="1" align="left" width="97%">
+		<tbody><tr bgcolor="#0d77b5">
+			<td colspan="2" class="normaltableheader2" height="22">&nbsp;&nbsp;<img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/ico_01.gif" align="absMiddle" height="12" width="15"> <strong><font color="#FFFFFF"> 快速回复主题</font></strong><a name="reply"> </a></td>
+		</tr>
+		<tr>
+			<td><font color="#999999">&nbsp;&nbsp;用户名 :</font> </td>
+			<td>
+									匿名不能发帖！请先 [ <a href="http://passport.eepw.com.cn/?url=http%3A%2F%2Fforum.eepw.com.cn%2Fthread%2F202175%2F1"><font color="Red">登陆</font></a> ]
+						</td>
+		</tr>
+		<tr>
+			<td><font color="#999999">&nbsp;&nbsp;标　题:</font> </td>
+			<td><input id="txtqqqq" name="title" size="40" disabled="disabled" value="RE: 不容错过：Linux定时器的使用" type="text"></td>
+		</tr>
+		<tr>
+			<td valign="top"><font color="#999999">&nbsp;&nbsp;内　容 :</font> <br>
+			</td>
+			<td>
+						  <textarea cols="50" rows="10" disabled="disabled"></textarea>
+			  		   </td>
+		</tr>
+				<tr>
+			<td>&nbsp;</td>
+			<td align="center"> <input name="threadid" value="202175" type="hidden"><br>
+		<input name="submit" value="发表" disabled="disabled" class="Controls_Button Default" type="submit"> </td>
+		</tr>
+	</tbody></table>
+	</form>
+	  	</td>
+  	<!--右结束-->
+  </tr>
+  </tbody></table>
+  <!--中部结束-->
+  
+  <!--Renesas板块统计-->
+<table border="0" cellpadding="0" cellspacing="0" align="left" width="97%">
+  <tbody><tr> 
+    <td colspan="3" class="bottomspan" background="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/bottom_bg.gif" align="left" height="10" valign="middle" width="100%">
+    </td>
+    </tr>
+    <tr>
+    <td class="bottomspan" align="center">
+    <a href="http://www.eepw.com.cn/event/company/about.html" class="bottom" target="_blank">关于我们</a> 
+      | <a href="http://www.eepw.com.cn/event/company/ad.html" class="bottom" target="_blank">广告服务</a> | 
+      <a href="http://www.eepw.com.cn/event/company/service.html" class="bottom" target="_blank">企业会员服务</a> | 
+      <a href="http://www.eepw.com.cn/event/company/new/index.html" class="bottom" target="_blank">新手上路</a> | 
+      <a href="http://www.eepw.com.cn/event/company/contact.html" class="bottom" target="_blank">联系我们</a> 
+      | <a href="http://www.eepw.com.cn/company/link" class="bottom" target="_blank">友情链接</a><br>
+      《电子产品世界》杂志社 版权所有 北京东晓国际技术信息咨询有限公司<br>
+      Copyright ©2002 ELECTRONIC ENGINEERING &amp; PRODUCT WORLD. All rights 
+      reserved.<br>
+      京ICP备12027778号-2</td>
+  </tr>
+</tbody></table>
+<script src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/a.htm"></script>
+<script src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/a_002.htm"></script>
+<script src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/urchin.js" type="text/javascript"></script>
+<script type="text/javascript">
+_uacct = "UA-10420927-1";
+_udn="eepw.com.cn";
+urchinTracker();
+</script>
+
+<div style="display:none;">
+<script language="javascript" src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/click.htm"></script><a href="http://countt.51yes.com/index.aspx?id=264945025" target="_blank" title="51YES网站统计系统">流量统计</a><iframe marginwidth="0" marginheight="0" hspace="0" vspace="0" src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/sa.htm" frameborder="0" height="0" scrolling="no" width="0"></iframe>
+<script src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/stat.php" language="JavaScript"></script><script src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/cnzz_core.php" charset="utf-8" type="text/javascript"></script><a href="http://www.cnzz.com/stat/website.php?web_id=3241344" target="_blank" title="站长统计"><img src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/pic1.gif" border="0" hspace="0" vspace="0"></a>
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fc5e9057ff0d62338aaf443148e00157f' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="%E4%B8%8D%E5%AE%B9%E9%94%99%E8%BF%87%EF%BC%9ALinux%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8_files/h.js" type="text/javascript"></script>
+</div>
+
+</body></html>

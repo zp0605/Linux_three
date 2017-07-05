@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<!--[if IE 6]>
+<html id="ie6" <!DOCTYPE html>
+<!--[if IE 6]>
+<html id="ie6" dir="ltr" lang="en-US">
+<![endif]-->
+<!--[if IE 7]>
+<html id="ie7" dir="ltr" lang="en-US">
+<![endif]-->
+<!--[if IE 8]>
+<html id="ie8" dir="ltr" lang="en-US">
+<![endif]-->
+<!--[if !(IE 6) | !(IE 7) | !(IE 8)  ]><!-->
+<html dir="ltr" lang="en-US"><!--<![endif]--><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>Non-blocking user input in loop without ncurses. | c/c++ programming by examples</title>
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="stylesheet" type="text/css" media="all" href="Non-blocking%20user%20input%20in%20loop%20without%20ncurses._files/style.css">
+<link rel="pingback" href="http://cc.byexamples.com/xmlrpc.php">
+<!--[if lt IE 9]>
+<script src="http://cc.byexamples.com/wp-content/themes/twentyeleven/js/html5.js" type="text/javascript"></script>
+<![endif]-->
+<link rel="alternate" type="application/rss+xml" title="c/c++ programming by examples » Feed" href="http://cc.byexamples.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="c/c++ programming by examples » Comments Feed" href="http://cc.byexamples.com/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="c/c++ programming by examples » Non-blocking user input in loop without ncurses. Comments Feed" href="http://cc.byexamples.com/2007/04/08/non-blocking-user-input-in-loop-without-ncurses/feed/">
+<script type="text/javascript" src="Non-blocking%20user%20input%20in%20loop%20without%20ncurses._files/l10n.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://cc.byexamples.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://cc.byexamples.com/wp-includes/wlwmanifest.xml"> 
+<link rel="index" title="c/c++ programming by examples" href="http://cc.byexamples.com/">
+<link rel="start" title="About" href="http://cc.byexamples.com/2007/01/17/about/">
+<link rel="prev" title="writting a fun cli apps with ncurses" href="http://cc.byexamples.com/2007/03/30/writting-a-fun-cli-apps-with-ncurses/">
+<link rel="next" title="Tap the interrupt signal" href="http://cc.byexamples.com/2007/05/20/tap-the-interrupt-signal/">
+<meta name="generator" content="WordPress 3.2.1">
+<link rel="canonical" href="http://cc.byexamples.com/2007/04/08/non-blocking-user-input-in-loop-without-ncurses/">
+<link rel="shortlink" href="http://cc.byexamples.com/?p=25">
+	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+<link href="Non-blocking%20user%20input%20in%20loop%20without%20ncurses._files/shCore.css" type="text/css" rel="stylesheet"><link href="Non-blocking%20user%20input%20in%20loop%20without%20ncurses._files/shThemeMidnight.css" type="text/css" rel="stylesheet"><meta id="syntaxhighlighteranchor" name="syntaxhighlighter-version" content="3.1.3">
+</head>
+
+<body class="single single-post postid-25 single-format-standard single-author singular two-column right-sidebar">
+<div id="page" class="hfeed">
+	<header id="branding" role="banner">
+			<hgroup>
+				<h1 id="site-title"><span><a href="http://cc.byexamples.com/" title="c/c++ programming by examples" rel="home">c/c++ programming by examples</a></span></h1>
+				<h2 id="site-description">we share the c/c++ coding by examples</h2>
+			</hgroup>
+
+						<a href="http://cc.byexamples.com/">
+									<img src="Non-blocking%20user%20input%20in%20loop%20without%20ncurses._files/willow.jpg" alt="" height="288" width="1000">
+							</a>
+			
+								<form method="get" id="searchform" action="http://cc.byexamples.com/">
+		<label for="s" class="assistive-text">Search</label>
+		<input class="field" name="s" id="s" placeholder="Search" type="text">
+		<input class="submit" name="submit" id="searchsubmit" value="Search" type="submit">
+	</form>
+			
+			<nav id="access" role="navigation">
+				<h3 class="assistive-text">Main menu</h3>
+								<div class="skip-link"><a class="assistive-text" href="#content" title="Skip to primary content">Skip to primary content</a></div>
+				<div class="skip-link"><a class="assistive-text" href="#secondary" title="Skip to secondary content">Skip to secondary content</a></div>
+								<div class="menu"><ul><li><a href="http://cc.byexamples.com/" title="Home">Home</a></li></ul></div>
+			</nav><!-- #access -->
+	</header><!-- #branding -->
+
+
+	<div id="main">
+		<div id="primary">
+			<div id="content" role="main">
+
+				
+					<nav id="nav-single">
+						<h3 class="assistive-text">Post navigation</h3>
+						<span class="nav-previous"><a href="http://cc.byexamples.com/2007/03/30/writting-a-fun-cli-apps-with-ncurses/" rel="prev"><span class="meta-nav">←</span> Previous</a></span>
+						<span class="nav-next"><a href="http://cc.byexamples.com/2007/05/20/tap-the-interrupt-signal/" rel="next">Next <span class="meta-nav">→</span></a></span>
+					</nav><!-- #nav-single -->
+
+					
+<article id="post-25" class="post-25 post type-post status-publish format-standard hentry">
+	<header class="entry-header">
+		<h1 class="entry-title">Non-blocking user input in loop without ncurses.</h1>
+
+				<div class="entry-meta">
+			<span class="sep">Posted on </span><a href="http://cc.byexamples.com/2007/04/08/non-blocking-user-input-in-loop-without-ncurses/" title="9:23 pm" rel="bookmark"><time class="entry-date" datetime="2007-04-08T21:23:52+00:00" pubdate="">April 8, 2007</time></a><span class="by-author"> <span class="sep"> by </span> <span class="author vcard"><a class="url fn n" href="http://cc.byexamples.com/author/admin/" title="View all posts by mysurface" rel="author">mysurface</a></span></span>		</div><!-- .entry-meta -->
+			</header><!-- .entry-header -->
+
+	<div class="entry-content">
+		<p>The title sounds a bit awkward, let my briefly explain what is it all about. </p>
+<p>In my program, I want to wait for user input, but at the same time, I
+ want my other operations keep continue processing. That I define it as 
+non-blocking user input. I want my program to wait for  user input in 
+the loop, if receives user input process it and continue wait for next 
+user input, else continue processing other circular operations.</p>
+<p>Usually, people will think about using ncurses library. By using 
+ncurses, you can easily perform non-blocking user input using timeout(0)
+ and getch(). Refers to the <a href="http://cc.byexamples.com/20070330/writting-a-fun-cli-apps-with-ncurses/">ncurses matrix</a> for references.  </p>
+<p>What if I don’t want to uses ncurses? Its there any alternatives? 
+Sometimes I just wanna add a function which need non-blocking in a large
+ program, I don’t want to use ncurses because it makes my print line 
+acts differently, or some other reason.</p>
+<p>I have figure out a way, thanks to programmers at 
+##c@irc.freenode.net. It might look messy and complected, but it works 
+the way I wanted. I uses functions of termios and select, lets look at 
+the functions one by one.</p>
+<div><div id="highlighter_569275" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">01</div><div class="line number2 index1 alt1">02</div><div class="line number3 index2 alt2">03</div><div class="line number4 index3 alt1">04</div><div class="line number5 index4 alt2">05</div><div class="line number6 index5 alt1">06</div><div class="line number7 index6 alt2">07</div><div class="line number8 index7 alt1">08</div><div class="line number9 index8 alt2">09</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp color1 bold">int</code> <code class="cpp plain">kbhit()</code></div><div class="line number2 index1 alt1"><code class="cpp plain">{</code></div><div class="line number3 index2 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">struct</code> <code class="cpp plain">timeval tv;</code></div><div class="line number4 index3 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">fd_set fds;</code></div><div class="line number5 index4 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">tv.tv_sec = 0;</code></div><div class="line number6 index5 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">tv.tv_usec = 0;</code></div><div class="line number7 index6 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">FD_ZERO(&amp;fds);</code></div><div class="line number8 index7 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">FD_SET(STDIN_FILENO, &amp;fds); </code><code class="cpp comments">//STDIN_FILENO is 0</code></div><div class="line number9 index8 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">select(STDIN_FILENO+1, &amp;fds, NULL, NULL, &amp;tv);</code></div><div class="line number10 index9 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">return</code> <code class="cpp plain">FD_ISSET(STDIN_FILENO, &amp;fds);</code></div><div class="line number11 index10 alt2"><code class="cpp plain">}</code></div></div></td></tr></tbody></table></div></div>
+<p>This function perform non-blocking checking on the standard input 
+(stdin) without timeout 0, tv.tv_sec and tv.tv_usec both set to zero. 
+select usually uses in the case where there have multiple I/O need to 
+process, or check at the same time. But in this case, I only interested 
+in standard input, therefore only one FD_SET(STDIN_FILENO, &amp;fds) is 
+trigger. For select parameters details, please check out <a href="http://www.opengroup.org/onlinepubs/009695399/basedefs/sys/select.h.html">the manual</a>.
+ Seems we are only interested in input, so we place out fd set at second
+ parameter of select(), the 3rd is for output and 4th is for exception.</p>
+<p>Important part, after select if user input is trigger, FD_ISSET will 
+return non zero value, else return 0. So, we now can use it like this</p>
+<div><div id="highlighter_868292" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp keyword bold">while</code><code class="cpp plain">(!kbhit())</code></div><div class="line number2 index1 alt1"><code class="cpp plain">{</code></div><div class="line number3 index2 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//do certain operation..</code></div><div class="line number4 index3 alt1"><code class="cpp plain">}</code></div><div class="line number5 index4 alt2"><code class="cpp comments">//user hits enter.</code></div></div></td></tr></tbody></table></div></div>
+<p>Due to the canonical mode of your terminal, you need to hit enter to 
+confirm your user input. Canonical mode means it always wait for enter 
+to confirms the user input. If that is not your case, bellow is another 
+function to cater that.</p>
+<div><div id="highlighter_150216" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">01</div><div class="line number2 index1 alt1">02</div><div class="line number3 index2 alt2">03</div><div class="line number4 index3 alt1">04</div><div class="line number5 index4 alt2">05</div><div class="line number6 index5 alt1">06</div><div class="line number7 index6 alt2">07</div><div class="line number8 index7 alt1">08</div><div class="line number9 index8 alt2">09</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div><div class="line number21 index20 alt2">21</div><div class="line number22 index21 alt1">22</div><div class="line number23 index22 alt2">23</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp keyword bold">void</code> <code class="cpp plain">nonblock(</code><code class="cpp color1 bold">int</code> <code class="cpp plain">state)</code></div><div class="line number2 index1 alt1"><code class="cpp plain">{</code></div><div class="line number3 index2 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">struct</code> <code class="cpp plain">termios ttystate;</code></div><div class="line number4 index3 alt1">&nbsp;</div><div class="line number5 index4 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//get the terminal state</code></div><div class="line number6 index5 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">tcgetattr(STDIN_FILENO, &amp;ttystate);</code></div><div class="line number7 index6 alt2">&nbsp;</div><div class="line number8 index7 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">if</code> <code class="cpp plain">(state==NB_ENABLE)</code></div><div class="line number9 index8 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">{</code></div><div class="line number10 index9 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//turn off canonical mode</code></div><div class="line number11 index10 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">ttystate.c_lflag &amp;= ~ICANON;</code></div><div class="line number12 index11 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//minimum of number input read.</code></div><div class="line number13 index12 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">ttystate.c_cc[VMIN] = 1;</code></div><div class="line number14 index13 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">}</code></div><div class="line number15 index14 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">else</code> <code class="cpp keyword bold">if</code> <code class="cpp plain">(state==NB_DISABLE)</code></div><div class="line number16 index15 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">{</code></div><div class="line number17 index16 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//turn on canonical mode</code></div><div class="line number18 index17 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">ttystate.c_lflag |= ICANON;</code></div><div class="line number19 index18 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">}</code></div><div class="line number20 index19 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//set the terminal attributes.</code></div><div class="line number21 index20 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">tcsetattr(STDIN_FILENO, TCSANOW, &amp;ttystate);</code></div><div class="line number22 index21 alt1">&nbsp;</div><div class="line number23 index22 alt2"><code class="cpp plain">}</code></div></div></td></tr></tbody></table></div></div>
+<p>The function name might be misleading, what the function actually 
+does is turn off the canonical mode for stdin. First, get the states of 
+stdin of term. Next turn off the canonical by set 0 to the bits. The 
+line of ttystate.c_cc[VMIN] is set the minimum number of user input to 
+accept. If you set it as 2, the select will wait until 2 character is 
+given, then it will capture as input. At last set the term state. The 
+function actually does allow you to turn on and off the canonical mode.</p>
+<p>Okay, Let see how it apply to work</p>
+<div><div id="highlighter_885539" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">01</div><div class="line number2 index1 alt1">02</div><div class="line number3 index2 alt2">03</div><div class="line number4 index3 alt1">04</div><div class="line number5 index4 alt2">05</div><div class="line number6 index5 alt1">06</div><div class="line number7 index6 alt2">07</div><div class="line number8 index7 alt1">08</div><div class="line number9 index8 alt2">09</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div><div class="line number21 index20 alt2">21</div><div class="line number22 index21 alt1">22</div><div class="line number23 index22 alt2">23</div><div class="line number24 index23 alt1">24</div><div class="line number25 index24 alt2">25</div><div class="line number26 index25 alt1">26</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp color1 bold">int</code> <code class="cpp plain">main()</code></div><div class="line number2 index1 alt1"><code class="cpp plain">{</code></div><div class="line number3 index2 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp color1 bold">char</code> <code class="cpp plain">c;</code></div><div class="line number4 index3 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp color1 bold">int</code> <code class="cpp plain">i=0;</code></div><div class="line number5 index4 alt2">&nbsp;</div><div class="line number6 index5 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">nonblock(NB_ENABLE);</code></div><div class="line number7 index6 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">while</code><code class="cpp plain">(!i)</code></div><div class="line number8 index7 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">{</code></div><div class="line number9 index8 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">usleep(1);</code></div><div class="line number10 index9 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">i=kbhit();</code></div><div class="line number11 index10 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">if</code> <code class="cpp plain">(i!=0)</code></div><div class="line number12 index11 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">{</code></div><div class="line number13 index12 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">c=</code><code class="cpp functions bold">fgetc</code><code class="cpp plain">(stdin);</code></div><div class="line number14 index13 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">if</code> <code class="cpp plain">(c==</code><code class="cpp string">'q'</code><code class="cpp plain">)</code></div><div class="line number15 index14 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">i=1;</code></div><div class="line number16 index15 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">else</code></div><div class="line number17 index16 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">i=0;</code></div><div class="line number18 index17 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">}</code></div><div class="line number19 index18 alt2">&nbsp;</div><div class="line number20 index19 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp functions bold">fprintf</code><code class="cpp plain">(stderr,</code><code class="cpp string">"%d "</code><code class="cpp plain">,i);</code></div><div class="line number21 index20 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">}</code></div><div class="line number22 index21 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp functions bold">printf</code><code class="cpp plain">(</code><code class="cpp string">"\n you hit %c. \n"</code><code class="cpp plain">,c);</code></div><div class="line number23 index22 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">nonblock(NB_DISABLE);</code></div><div class="line number24 index23 alt1">&nbsp;</div><div class="line number25 index24 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">return</code> <code class="cpp plain">0;</code></div><div class="line number26 index25 alt1"><code class="cpp plain">}</code></div></div></td></tr></tbody></table></div></div>
+<p>Press ‘q’ will lead the program to quit, else you will see the print 
+of ’0′ overwhelming the screen. Observed that I am using usleep(1) 
+inside the loop, without putting usleep, the programs is more 
+responsive, but it uses high CPU resources. On the other hand, putting 
+usleep(1) reduces the CPU resources and also decreases responsiveness of
+ the program. Depend on your needs, you may choose to put it in or not.</p>
+<p>I have make the comparison between this application and a simple 
+ncurses program, this program seems to use lesser memory. Couldn’t 
+measure for CPU resources, as both <a href="http://linux.byexamples.com/archives/242/monitor-custom-programs-with-ps-and-watch/">ps</a> and <a href="http://linux.byexamples.com/archives/158/how-to-check-the-cpu-and-mem-usage-of-current-running-process/">top</a> shows 0.0 %.</p>
+<p>Curses sample shows as bellow:</p>
+<div><div id="highlighter_502063" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">01</div><div class="line number2 index1 alt1">02</div><div class="line number3 index2 alt2">03</div><div class="line number4 index3 alt1">04</div><div class="line number5 index4 alt2">05</div><div class="line number6 index5 alt1">06</div><div class="line number7 index6 alt2">07</div><div class="line number8 index7 alt1">08</div><div class="line number9 index8 alt2">09</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div><div class="line number21 index20 alt2">21</div><div class="line number22 index21 alt1">22</div><div class="line number23 index22 alt2">23</div><div class="line number24 index23 alt1">24</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp preprocessor">#include&lt;stdio.h&gt;</code></div><div class="line number2 index1 alt1"><code class="cpp preprocessor">#include&lt;curses.h&gt;</code></div><div class="line number3 index2 alt2"><code class="cpp preprocessor">#include&lt;unistd.h&gt;</code></div><div class="line number4 index3 alt1">&nbsp;</div><div class="line number5 index4 alt2"><code class="cpp color1 bold">int</code> <code class="cpp plain">main ()</code></div><div class="line number6 index5 alt1"><code class="cpp plain">{</code></div><div class="line number7 index6 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp color1 bold">int</code> <code class="cpp plain">i=0;</code></div><div class="line number8 index7 alt1">&nbsp;</div><div class="line number9 index8 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">initscr();&nbsp;&nbsp;&nbsp;&nbsp; </code><code class="cpp comments">//in ncurses</code></div><div class="line number10 index9 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">timeout(0);</code></div><div class="line number11 index10 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">while</code><code class="cpp plain">(!i)</code></div><div class="line number12 index11 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">{</code></div><div class="line number13 index12 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">usleep(1);</code></div><div class="line number14 index13 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">i=getch();</code></div><div class="line number15 index14 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">printw(</code><code class="cpp string">"%d "</code><code class="cpp plain">,i);</code></div><div class="line number16 index15 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">if</code><code class="cpp plain">(i&gt;0)</code></div><div class="line number17 index16 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">i=1;</code></div><div class="line number18 index17 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">else</code></div><div class="line number19 index18 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">i=0;</code></div><div class="line number20 index19 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">}</code></div><div class="line number21 index20 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">endwin();</code></div><div class="line number22 index21 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp functions bold">printf</code><code class="cpp plain">(</code><code class="cpp string">"\nhitkb end\n"</code><code class="cpp plain">);</code></div><div class="line number23 index22 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">return</code> <code class="cpp plain">0;</code></div><div class="line number24 index23 alt1"><code class="cpp plain">}</code></div></div></td></tr></tbody></table></div></div>
+<p><strong>Download the source code:</strong><br>
+<a id="p26" rel="attachment" href="http://cc.byexamples.com/20070408/non-blocking-user-input-in-loop-without-ncurses/non-blocking-kbhit/" title="non-blocking kbhit">Non-blocking kbhit sample source code.</a></p>
+			</div><!-- .entry-content -->
+
+	<footer class="entry-meta">
+		This entry was posted in Uncategorized by <a href="http://cc.byexamples.com/author/admin/">mysurface</a>. Bookmark the <a href="http://cc.byexamples.com/2007/04/08/non-blocking-user-input-in-loop-without-ncurses/" title="Permalink to Non-blocking user input in loop without ncurses." rel="bookmark">permalink</a>.		
+			</footer><!-- .entry-meta -->
+</article><!-- #post-25 -->
+
+						<div id="comments">
+	
+	
+			<h2 id="comments-title">
+			10 thoughts on “<span>Non-blocking user input in loop without ncurses.</span>”		</h2>
+
+		
+		<ol class="commentlist">
+				<li class="comment even thread-even depth-1" id="li-comment-1854">
+		<article id="comment-1854" class="comment">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+					<img alt="" src="Non-blocking%20user%20input%20in%20loop%20without%20ncurses._files/dc99d507ebd4d27b03a9824467c5a694.png" class="avatar avatar-68 photo" height="68" width="68"><span class="fn">fuzz</span> on <a href="http://cc.byexamples.com/2007/04/08/non-blocking-user-input-in-loop-without-ncurses/comment-page-1/#comment-1854"><time pubdate="" datetime="2008-12-10T17:58:43+00:00">December 10, 2008 at 5:58 pm</time></a> <span class="says">said:</span>
+									</div><!-- .comment-author .vcard -->
+
+				
+			</footer>
+
+			<div class="comment-content"><p>thanks again! I find your site very helpful, over and over again!</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li>
+	<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-1950">
+		<article id="comment-1950" class="comment">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+					<img alt="" src="Non-blocking%20user%20input%20in%20loop%20without%20ncurses._files/0a73d09da914424e00c2ee7f8643320d.png" class="avatar avatar-68 photo" height="68" width="68"><span class="fn">hoppang</span> on <a href="http://cc.byexamples.com/2007/04/08/non-blocking-user-input-in-loop-without-ncurses/comment-page-1/#comment-1950"><time pubdate="" datetime="2010-01-29T16:23:30+00:00">January 29, 2010 at 4:23 pm</time></a> <span class="says">said:</span>
+									</div><!-- .comment-author .vcard -->
+
+				
+			</footer>
+
+			<div class="comment-content"><p>Fascinating. it’s exactly what i want. thanks.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li>
+	<li class="comment even thread-even depth-1" id="li-comment-2011">
+		<article id="comment-2011" class="comment">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+					<img alt="" src="Non-blocking%20user%20input%20in%20loop%20without%20ncurses._files/cc0eb93f5f0c94901bea089ed710af8a.png" class="avatar avatar-68 photo" height="68" width="68"><span class="fn">Kyle</span> on <a href="http://cc.byexamples.com/2007/04/08/non-blocking-user-input-in-loop-without-ncurses/comment-page-1/#comment-2011"><time pubdate="" datetime="2011-02-23T20:23:25+00:00">February 23, 2011 at 8:23 pm</time></a> <span class="says">said:</span>
+									</div><!-- .comment-author .vcard -->
+
+				
+			</footer>
+
+			<div class="comment-content"><p>Thanks!  I was already using the select, but had the cin in my select statment. Had no idea about fgetc.  Perfect.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li>
+	<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-2012">
+		<article id="comment-2012" class="comment">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+					<img alt="" src="Non-blocking%20user%20input%20in%20loop%20without%20ncurses._files/ea25c27c274633522adb95bfd17388d4.jpg" class="avatar avatar-68 photo" height="68" width="68"><span class="fn"><a href="http://fazedies-thinking-aloud.blogspot.com/" rel="external nofollow" class="url">fazedies</a></span> on <a href="http://cc.byexamples.com/2007/04/08/non-blocking-user-input-in-loop-without-ncurses/comment-page-1/#comment-2012"><time pubdate="" datetime="2011-03-06T08:55:08+00:00">March 6, 2011 at 8:55 am</time></a> <span class="says">said:</span>
+									</div><!-- .comment-author .vcard -->
+
+				
+			</footer>
+
+			<div class="comment-content"><p>Thanks. Anyway – here is a question.<br>
+Why can’t we get the first pressed button?</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li>
+	<li class="comment even thread-even depth-1" id="li-comment-2026">
+		<article id="comment-2026" class="comment">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+					<img alt="" src="Non-blocking%20user%20input%20in%20loop%20without%20ncurses._files/bc5597e89add68d24d3474cd41ee467b.png" class="avatar avatar-68 photo" height="68" width="68"><span class="fn">Pete</span> on <a href="http://cc.byexamples.com/2007/04/08/non-blocking-user-input-in-loop-without-ncurses/comment-page-1/#comment-2026"><time pubdate="" datetime="2011-05-27T14:38:35+00:00">May 27, 2011 at 2:38 pm</time></a> <span class="says">said:</span>
+									</div><!-- .comment-author .vcard -->
+
+				
+			</footer>
+
+			<div class="comment-content"><p>This is just what I was looking for. 
+ As an OS/Driver/Platform/Multicore-Exec programmer, I sometimes need 
+basic guidance on simple app layer stuff.  This was helpful.<br>
+  Except the sample source download seems lost.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li>
+	<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-2032">
+		<article id="comment-2032" class="comment">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+					<img alt="" src="Non-blocking%20user%20input%20in%20loop%20without%20ncurses._files/3a72c0fb55b346c1cb9aa91cb9129e82.png" class="avatar avatar-68 photo" height="68" width="68"><span class="fn">Tony</span> on <a href="http://cc.byexamples.com/2007/04/08/non-blocking-user-input-in-loop-without-ncurses/comment-page-1/#comment-2032"><time pubdate="" datetime="2011-07-23T19:25:16+00:00">July 23, 2011 at 7:25 pm</time></a> <span class="says">said:</span>
+									</div><!-- .comment-author .vcard -->
+
+				
+			</footer>
+
+			<div class="comment-content"><p>amazing</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li>
+	<li class="comment even thread-even depth-1" id="li-comment-2048">
+		<article id="comment-2048" class="comment">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+					<img alt="" src="Non-blocking%20user%20input%20in%20loop%20without%20ncurses._files/74e2e199e5974fe0ddc6e907cb7f2877.jpg" class="avatar avatar-68 photo" height="68" width="68"><span class="fn">Ashish</span> on <a href="http://cc.byexamples.com/2007/04/08/non-blocking-user-input-in-loop-without-ncurses/comment-page-1/#comment-2048"><time pubdate="" datetime="2011-11-06T17:24:51+00:00">November 6, 2011 at 5:24 pm</time></a> <span class="says">said:</span>
+									</div><!-- .comment-author .vcard -->
+
+				
+			</footer>
+
+			<div class="comment-content"><p>Thanks a lot , it was of great help</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li>
+	<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-2049">
+		<article id="comment-2049" class="comment">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+					<img alt="" src="Non-blocking%20user%20input%20in%20loop%20without%20ncurses._files/b9b000990aafc86e72609f5ce2378aa1.png" class="avatar avatar-68 photo" height="68" width="68"><span class="fn">Shyam Mon</span> on <a href="http://cc.byexamples.com/2007/04/08/non-blocking-user-input-in-loop-without-ncurses/comment-page-1/#comment-2049"><time pubdate="" datetime="2011-11-10T13:11:41+00:00">November 10, 2011 at 1:11 pm</time></a> <span class="says">said:</span>
+									</div><!-- .comment-author .vcard -->
+
+				
+			</footer>
+
+			<div class="comment-content"><p>any one can help me to present a term paper regarding the topic<br>
+‘c programming database”</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li>
+	<li class="comment even thread-even depth-1" id="li-comment-2068">
+		<article id="comment-2068" class="comment">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+					<img alt="" src="Non-blocking%20user%20input%20in%20loop%20without%20ncurses._files/3b77e88871cf22922eb869d4a88f5042.png" class="avatar avatar-68 photo" height="68" width="68"><span class="fn">klein</span> on <a href="http://cc.byexamples.com/2007/04/08/non-blocking-user-input-in-loop-without-ncurses/comment-page-1/#comment-2068"><time pubdate="" datetime="2012-01-10T03:27:17+00:00">January 10, 2012 at 3:27 am</time></a> <span class="says">said:</span>
+									</div><!-- .comment-author .vcard -->
+
+				
+			</footer>
+
+			<div class="comment-content"><p><a href="http://cc.byexamples.com/20070408/non-blocking-user-input-in-loop-without-ncurses/non-blocking-kbhit/" rel="nofollow">http://cc.byexamples.com/20070408/non-blocking-user-input-in-loop-without-ncurses/non-blocking-kbhit/</a></p>
+<p>I tried downloading the source code from yr site but the file is gone could you please send me the codes?</p>
+<p>thanks for sharing</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li>
+	<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-2100">
+		<article id="comment-2100" class="comment">
+			<footer class="comment-meta">
+				<div class="comment-author vcard">
+					<img alt="" src="Non-blocking%20user%20input%20in%20loop%20without%20ncurses._files/a62659fe108acd9484d0ffb7f3e0baea.png" class="avatar avatar-68 photo" height="68" width="68"><span class="fn">Matt</span> on <a href="http://cc.byexamples.com/2007/04/08/non-blocking-user-input-in-loop-without-ncurses/comment-page-1/#comment-2100"><time pubdate="" datetime="2012-09-18T22:51:23+00:00">September 18, 2012 at 10:51 pm</time></a> <span class="says">said:</span>
+									</div><!-- .comment-author .vcard -->
+
+				
+			</footer>
+
+			<div class="comment-content"><p>Very helpful – thanks!</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li>
+		</ol>
+
+		
+	
+									<div id="respond">
+				<h3 id="reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://cc.byexamples.com/2007/04/08/non-blocking-user-input-in-loop-without-ncurses/#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="http://cc.byexamples.com/wp-comments-post.php" method="post" id="commentform">
+																			<p class="comment-notes">Your email address will not be published. Required fields are marked <span class="required">*</span></p>							<p class="comment-form-author"><label for="author">Name</label> <span class="required">*</span><input id="author" name="author" size="30" aria-required="true" type="text"></p>
+<p class="comment-form-email"><label for="email">Email</label> <span class="required">*</span><input id="email" name="email" size="30" aria-required="true" type="text"></p>
+<p class="comment-form-url"><label for="url">Website</label><input id="url" name="url" size="30" type="text"></p>
+												<p class="comment-form-comment"><label for="comment">Comment</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>						<p class="form-allowed-tags">You may use these <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes:  <code>&lt;a
+ href="" title=""&gt; &lt;abbr title=""&gt; &lt;acronym title=""&gt; 
+&lt;b&gt; &lt;blockquote cite=""&gt; &lt;cite&gt; &lt;code&gt; &lt;del 
+datetime=""&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=""&gt; &lt;strike&gt; 
+&lt;strong&gt; </code></p>						<p class="form-submit">
+							<input name="submit" id="submit" value="Post Comment" type="submit">
+							<input name="comment_post_ID" value="25" id="comment_post_ID" type="hidden">
+<input name="comment_parent" id="comment_parent" value="0" type="hidden">
+						</p>
+						<p style="display: none;"><input id="akismet_comment_nonce" name="akismet_comment_nonce" value="efb7d12d63" type="hidden"></p>					</form>
+							</div><!-- #respond -->
+						
+</div><!-- #comments -->
+
+				
+			</div><!-- #content -->
+		</div><!-- #primary -->
+
+
+	</div><!-- #main -->
+
+	<footer id="colophon" role="contentinfo">
+
+			
+
+			<div id="site-generator">
+								<a href="http://wordpress.org/" title="Semantic Personal Publishing Platform" rel="generator">Proudly powered by WordPress</a>
+			</div>
+	</footer><!-- #colophon -->
+</div><!-- #page -->
+
+<script type="text/javascript" src="Non-blocking%20user%20input%20in%20loop%20without%20ncurses._files/shCore.js"></script>
+<script type="text/javascript" src="Non-blocking%20user%20input%20in%20loop%20without%20ncurses._files/shBrushCpp.js"></script>
+<script type="text/javascript">
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://cc.byexamples.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.83c";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://cc.byexamples.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeMidnight.css?ver=3.0.83c";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['tab-size'] = 2;
+	SyntaxHighlighter.all();
+</script>
+
+
+</body></html>

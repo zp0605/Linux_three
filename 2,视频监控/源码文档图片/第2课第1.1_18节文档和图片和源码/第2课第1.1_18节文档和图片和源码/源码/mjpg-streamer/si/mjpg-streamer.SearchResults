@@ -1,0 +1,10 @@
+---- pthread_create Matches (9 in 8 files) ----
+Httpd.c (f:\讲解mjpg-streamer\源码\mjpg-streamer\mjpg-streamer-r63\plugins\output_http):			pthread_create:
+Httpd.c (f:\讲解mjpg-streamer\源码\mjpg-streamer\mjpg-streamer-r63\plugins\output_http):		if( pthread_create(&client, NULL, &client_thread, pcfd) != 0 )
+Input_file.c (f:\讲解mjpg-streamer\源码\mjpg-streamer\mjpg-streamer-r63\plugins\input_file):  if( pthread_create(&worker, 0, worker_thread, NULL) != 0) {
+Input_gspcav1.c (f:\讲解mjpg-streamer\源码\mjpg-streamer\mjpg-streamer-r63\plugins\input_gspcav1):  pthread_create(&cam, 0, cam_thread, NULL);
+Input_testpicture.c (f:\讲解mjpg-streamer\源码\mjpg-streamer\mjpg-streamer-r63\plugins\input_testpicture):  if( pthread_create(&worker, 0, worker_thread, NULL) != 0) {
+Input_uvc.c (f:\讲解mjpg-streamer\源码\mjpg-streamer\mjpg-streamer-r63\plugins\input_uvc):	pthread_create(&cam, 0, cam_thread, NULL);
+Output_autofocus.c (f:\讲解mjpg-streamer\源码\mjpg-streamer\mjpg-streamer-r63\plugins\output_autofocus):  pthread_create(&worker, 0, worker_thread, NULL);
+Output_file.c (f:\讲解mjpg-streamer\源码\mjpg-streamer\mjpg-streamer-r63\plugins\output_file):  pthread_create(&worker, 0, worker_thread, NULL);
+Output_http.c (f:\讲解mjpg-streamer\源码\mjpg-streamer\mjpg-streamer-r63\plugins\output_http):	pthread_create(&(servers[id].threadID), NULL, server_thread, &(servers[id]));		// 创建一个线程 server_thread

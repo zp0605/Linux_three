@@ -1,0 +1,458 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>关于char, wchar_t, TCHAR, _T(),L,宏 _T、TEXT,_TEXT、L - 回忆1919 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/style.css">
+<link type="text/css" rel="stylesheet" href="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/common2.css">
+<link type="text/css" rel="stylesheet" href="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/shStyle.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/wanghao111/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/wanghao111/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/wanghao111/wlwmanifest.xml">
+<script src="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/ga.js" async="" type="text/javascript"></script><script src="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/gpt.js" type="text/javascript" async=""></script><script src="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/encoder.js" type="text/javascript"></script><script src="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">
+var currentBlogApp = 'wanghao111';
+</script>
+<script src="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/common.js" type="text/javascript"></script> 
+<script src="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/json2.js" type="text/javascript"></script>
+<script type="text/javascript" src="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/syntaxHighlighter.js"></script>
+<script src="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/google_ads_gpt.js" type="text/javascript" async=""></script><script src="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/osd.js" type="text/javascript"></script></head>
+<body>
+<a name="top"></a>
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<div style="display:none"><img src="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/top.gif" alt="谨以此模板祝贺【博客园开发者征途】系列图书《你必须知道的.net》出版发行"></div>
+	<a id="lnkBlogLogo" href="http://www.cnblogs.com/wanghao111/"><img id="blogLogo" src="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/wanghao111/">王者风范 浩荡天下</a></h1>
+<h2>未知，知之，熟知</h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<!--done-->
+			<ul id="navList">
+				<li><a id="MyLinks1_HomeLink" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+				<li><a id="MyLinks1_SpaceLink" class="menu" href="http://space.cnblogs.com/">社区</a></li>
+				<li><a id="MyLinks1_MyHomeLink" class="menu" href="http://www.cnblogs.com/wanghao111/">首页</a></li>
+				<li><a id="MyLinks1_NewPostLink" class="menu" rel="nofollow" href="http://www.cnblogs.com/wanghao111/admin/EditPosts.aspx?opt=1">新随笔</a></li>
+				<li><a id="MyLinks1_ContactLink" accesskey="9" class="menu" rel="nofollow" href="http://space.cnblogs.com/msg/send/%e5%9b%9e%e5%bf%861919">联系</a></li>
+				<li><a id="MyLinks1_Admin" class="menu" rel="nofollow" href="http://www.cnblogs.com/wanghao111/admin/EditPosts.aspx">管理</a></li>
+				<li><a id="MyLinks1_Syndication" class="menu" href="http://www.cnblogs.com/wanghao111/rss">订阅</a>
+				<a id="MyLinks1_XMLLink" class="aHeaderXML" href="http://www.cnblogs.com/wanghao111/rss"><img src="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/rss.gif" alt="订阅"></a></li>
+			</ul>
+
+
+		<div class="clear"></div>
+		<div class="blogStats">
+			
+			
+<!--done-->
+随笔- 147&nbsp;
+文章- 0&nbsp;
+评论- 32&nbsp;
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+	
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/wanghao111/archive/2009/05/25/1488816.html">关于char, wchar_t, TCHAR, _T(),L,宏 _T、TEXT,_TEXT、L</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p>char :单字节变量类型，最多表示256个字符，</p>
+<p>wchar_t :宽字节变量类型，用于表示Unicode字符，</p>
+<p>它实际定义在&lt;string.h&gt;里：typedef unsigned short wchar_t。</p>
+<p>为了让编译器识别Unicode字符串，必须以在前面加一个“L”,定义宽字节类型方法如下：</p>
+<p>&nbsp;&nbsp;&nbsp; wchar_t c = `A' ; <br><img alt="" src="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/None.gif" align="top">wchar_t * p = L"Hello!" ; <br><img alt="" src="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/None.gif" align="top">wchar_t a[] = L"Hello!" ; </p>
+<p>其中，宽字节类型每个变量占用2个字节，故上述数组a的sizeof(a) = 14</p>
+<p>TCHAR / _T( ) : <br>如果在程序中既包括ANSI又包括Unicode编码，需要包括头文件tchar.h。TCHAR是定义在该头文件中的宏，它视你是否定义了_UNICODE宏而定义成： <br>定义了_UNICODE：&nbsp;&nbsp;&nbsp; typedef wchar_t TCHAR ; <br>没有定义_UNICODE： typedef char TCHAR ; </p>
+<p>#ifdef UNICODE <br>typedef char TCHAR; <br>#else <br>typede wchar_t TCHAR; <br>#endif <br>_T( )也是定义在该头文件中的宏，视是否定义了_UNICODE宏而定义成： <br>定义了_UNICODE：&nbsp;&nbsp;&nbsp; #define _T(x) L##x <br>没有定义_UNICODE： #define _T(x) x <br>注意：如果在程序中使用了TCHAR，那么就不应该使用ANSI的strXXX函数或者Unicode的wcsXXX函数了，而必须使用tchar.h中定义的_tcsXXX函数。</p>
+<p>以strcpy函数为例子，总结一下： </p>
+<div class="cnblogs_code"><img id="Code_Closed_Image_130118" onclick="this.style.display='none'; document.getElementById('Code_Closed_Text_130118').style.display='none'; document.getElementById('Code_Open_Image_130118').style.display='inline'; document.getElementById('Code_Open_Text_130118').style.display='inline';" src="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/ContractedBlock.gif" align="top" height="16" width="11"><img style="display: none;" id="Code_Open_Image_130118" onclick="this.style.display='none'; document.getElementById('Code_Open_Text_130118').style.display='none'; getElementById('Code_Closed_Image_130118').style.display='inline'; getElementById('Code_Closed_Text_130118').style.display='inline';" src="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/ExpandedBlockStart.gif" align="top" height="16" width="11"><span id="Code_Closed_Text_130118" class="cnblogs_code_Collapse">Code</span><span style="display: none" id="Code_Open_Text_130118"><br><!--<br /><br />Code highlighting produced by Actipro CodeHighlighter (freeware)<br />http://www.CodeHighlighter.com/<br /><br />--><span style="color: #008000">//</span><span style="color: #008000">如果你想使用ANSI字符串，那么请使用这一套写法：&nbsp;</span><span style="color: #008000"><br></span><span style="color: #0000ff">char</span><span style="color: #000000">&nbsp;szString[</span><span style="color: #800080">100</span><span style="color: #000000">];&nbsp;<br>strcpy(szString,</span><span style="color: #800000">"</span><span style="color: #800000">test</span><span style="color: #800000">"</span><span style="color: #000000">);&nbsp;<br></span><span style="color: #008000">//</span><span style="color: #008000">如果你想使用Unicode字符串，那么请使用这一套：&nbsp;</span><span style="color: #008000"><br></span><span style="color: #000000">wchar_t&nbsp;szString[</span><span style="color: #800080">100</span><span style="color: #000000">];&nbsp;<br>wcscpy(szString,L</span><span style="color: #800000">"</span><span style="color: #800000">test</span><span style="color: #800000">"</span><span style="color: #000000">);&nbsp;<br></span><span style="color: #008000">//</span><span style="color: #008000">如果你想通过定义_UNICODE宏，而编译ANSI或者Unicode字符串代码：&nbsp;</span><span style="color: #008000"><br></span><span style="color: #000000">TCHAR&nbsp;szString[</span><span style="color: #800080">100</span><span style="color: #000000">];&nbsp;<br>_tcscpy(szString,_TEXT(</span><span style="color: #800000">"</span><span style="color: #800000">test</span><span style="color: #800000">"</span><span style="color: #000000">));<br></span></span></div>
+<p>CSDN:<a href="http://blog.csdn.net/superarhow/">superarhow</a>说： 
+不要再使用TCHAR和_T了！他分析了原因后总结：如 
+果您正开始一个新的项目，请无论如何也要顶住压力，直接使用UNICODE编码！切记！您只需要对您的组员进行10分钟的培训，记住strcpy用 
+wcscpy，sprintf用swprintf代替，常数前加L，就可以了！它不会花您很多时间的，带给您的是稳定和安全！相信偶，没错的！！</p>
+<p>一、 在字符串前加一个L作用: <br>&nbsp;&nbsp; 如&nbsp; L"我的字符串"&nbsp;&nbsp;&nbsp; 表示将<u>ANSI字符串转换成unicode</u>的字符串，就是每个字符占用两个字节。 <br>&nbsp; strlen("asd")&nbsp;&nbsp; =&nbsp;&nbsp; 3;&nbsp;&nbsp; <br>&nbsp; strlen(L"asd")&nbsp;&nbsp; =&nbsp;&nbsp; 6; <br>&nbsp; 二、&nbsp; _T宏可以把一个引号引起来的字符串，根据你的环境设置，使得编译器会根据编译目标环境选择合适的（Unicode还是ANSI）字符处理方式 <br>&nbsp;&nbsp; 如果你定义了UNICODE，那么_T宏会把字符串前面加一个L。这时 _T("ABCD") 相当于 L"ABCD" ，这是宽字符串。 <br>&nbsp;&nbsp; 如果没有定义，那么_T宏不会在字符串前面加那个L，_T("ABCD") 就等价于 "ABCD" <br>三、TEXT,_TEXT 和_T 一样的 <br>如下面三语句：&nbsp;&nbsp; <br>&nbsp; TCHAR&nbsp;&nbsp; szStr1[]&nbsp;&nbsp; =&nbsp;&nbsp; TEXT("str1");&nbsp;&nbsp; <br>&nbsp; char&nbsp;&nbsp; szStr2[]&nbsp;&nbsp; =&nbsp;&nbsp; "str2";&nbsp;&nbsp; <br>&nbsp; WCHAR&nbsp;&nbsp; szStr3[]&nbsp;&nbsp; =&nbsp;&nbsp; L("str3");&nbsp;&nbsp; <br>&nbsp; 那么第一句话在定义了UNICODE时会解释为第三句话，没有定义时就等于第二句话。&nbsp;&nbsp; <br>&nbsp; 但二句话无论是否定义了UNICODE都是生成一个ANSI字符串，而第三句话总是生成UNICODE字符串。&nbsp;&nbsp; <br>&nbsp; 为了程序的可移植性，建议都用第一种表示方法。&nbsp;&nbsp; <br>&nbsp; 但在某些情况下，某个字符必须为ANSI或UNICODE，那就用后两种方法。 </p></div><div id="MySignature"></div>
+<script type="text/javascript">
+var isLogined = false;
+var cb_blogId = 41430;
+var cb_entryId = 1488816;
+var cb_blogApp = currentBlogApp;
+var cb_blogUserGuid = "224b420b-63cf-dd11-9e4d-001cf0cd104b";
+var cb_entryCreatedDate = '2009/5/25 13:05:00';
+var enableGoogleAd = true;
+var googletag = googletag || {};
+googletag.cmd = googletag.cmd || [];
+</script>
+<div id="blog_post_info_block">
+<div id="blog_post_info"><div id="BlogPostCategory"></div>
+<div id="EntryTag"></div>
+<div id="green_channel">
+绿色通道：
+<a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(cb_entryId,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+<a id="green_channel_follow" onclick="c_follow();" href="javascript:void(0);">关注我</a>
+<a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a><a id="green_channel_contact" href="http://space.cnblogs.com/msg/send/%e5%9b%9e%e5%bf%861919" target="_blank">与我联系</a>
+<a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/icon_weibo_24.png" alt=""></a>
+</div>
+<div id="digg_block">
+<div id="author_profile">
+<div id="author_profile_info" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/wanghao111/" target="_blank"><img src="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/u37863.jpg" class="author_avatar" alt=""></a>
+<div id="author_profile_detail" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/wanghao111/">回忆1919</a><br>
+<a href="http://home.cnblogs.com/u/wanghao111/followees">关注 - 6</a><br>
+<a href="http://home.cnblogs.com/u/wanghao111/followers">粉丝 - 14</a>
+</div>
+</div>
+<div class="clear"></div>
+<div id="author_profile_honor"></div>
+<div id="author_profile_follow">
+<a href="javascript:void(0);" onclick="c_follow();return false;">+加关注</a>
+</div>
+</div>
+<div id="div_digg">										
+	<div class="diggit" onclick="votePost(cb_entryId,'Digg')"> 
+		<span class="diggnum" id="digg_count">3</span>
+	</div>
+	<div class="buryit" onclick="votePost(cb_entryId,'Bury')"> 
+		<span class="burynum" id="bury_count">0</span>
+	</div>
+	<div class="clear"></div>	
+	<div class="diggword" id="digg_tips">
+    (请您对文章做出评价)
+    </div>	
+</div>
+</div></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/wanghao111/archive/2009/04/21/1440256.html" class="p_n_p_prefix">« </a> 博主前一篇：<a href="http://www.cnblogs.com/wanghao111/archive/2009/04/21/1440256.html" title="发布于2009-04-21 10:47">大学"游击战"之开篇</a><br><a href="http://www.cnblogs.com/wanghao111/archive/2009/05/25/1488849.html" class="p_n_p_prefix">» </a> 博主后一篇：<a href="http://www.cnblogs.com/wanghao111/archive/2009/05/25/1488849.html" title="发布于2009-05-25 14:02">#pragma 预处理指令详解</a><br></div>
+</div>
+<script type="text/javascript">
+    initBottomGoogleAd();
+</script>
+<script type="text/javascript">
+    $(function () {       
+        fixPostBodyFormat();
+        loadBottomGoogleAd();
+        loadBlogSignature();
+        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+        showEditorOpt();
+        loadNewsAndKb();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+        loadAdUnderGoogle();
+    });
+</script>
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2009-05-25 13:05</span> <a href="http://www.cnblogs.com/wanghao111/">回忆1919</a> 阅读(7880) 评论(<span id="post-comment-count">5</span>)  <a href="http://www.cnblogs.com/wanghao111/admin/EditPosts.aspx?postid=1488816" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(1488816);return false;">收藏</a></div>
+	</div>
+	<img src="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/1488816.jpg" alt="" height="1" width="1">
+	
+</div><!--end: topics 文章、评论容器-->
+<div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<!--done-->
+<br>
+<div class="feedback_area_title">发表评论</div>
+<div class="feedbackNoItems"></div>
+	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#1829121" class="layer">#1楼</a><a name="1829121" id="comment_anchor_1829121"></a> <span class="comment_date">2010-05-20 17:26</span> | <a id="a_comment_author_1829121" href="http://home.cnblogs.com/u/115097/" target="_blank">江湖么名</a> <a href="http://space.cnblogs.com/msg/send/%e6%b1%9f%e6%b9%96%e4%b9%88%e5%90%8d" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_1829121" class="blog_comment_body">支持啊</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(1829121,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(1829121,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#1855828" class="layer">#2楼</a><a name="1855828" id="comment_anchor_1855828"></a> <span class="comment_date">2010-06-24 16:24</span> | <a id="a_comment_author_1855828" href="http://home.cnblogs.com/u/37158/" target="_blank">赵武涛</a> <a href="http://space.cnblogs.com/msg/send/%e8%b5%b5%e6%ad%a6%e6%b6%9b" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_1855828" class="blog_comment_body">strlen(L"asd")   =   6;<br>这里应该是sizeof(L"asd") = 6吧，难道你的编译器能编译通过？</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(1855828,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(1855828,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#1855829" class="layer">#3楼</a><a name="1855829" id="comment_anchor_1855829"></a> <span class="comment_date">2010-06-24 16:25</span> | <a id="a_comment_author_1855829" href="http://home.cnblogs.com/u/37158/" target="_blank">赵武涛</a> <a href="http://space.cnblogs.com/msg/send/%e8%b5%b5%e6%ad%a6%e6%b6%9b" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_1855829" class="blog_comment_body">再说了，求字符个数应该用wcslen(L"asd");</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(1855829,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(1855829,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#1951075" class="layer">#4楼</a><a name="1951075" id="comment_anchor_1951075"></a> <span class="comment_date">2010-11-03 23:48</span> | <a id="a_comment_author_1951075" href="http://home.cnblogs.com/u/17392/" target="_blank">YaoTong</a> <a href="http://space.cnblogs.com/msg/send/YaoTong" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_1951075" class="blog_comment_body">Mark</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(1951075,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(1951075,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#2260491" class="layer">#5楼</a><a name="2260491" id="comment_anchor_2260491"></a><span id="comment-maxId" style="display:none;">2260491</span><span id="comment-maxDate" style="display:none;">2011/12/3 21:11:39</span> <span class="comment_date">2011-12-03 21:11</span> | <a id="a_comment_author_2260491" href="http://home.cnblogs.com/u/90133/" target="_blank">安羽.</a> <a href="http://space.cnblogs.com/msg/send/%e5%ae%89%e7%be%bd." title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2260491" class="blog_comment_body">strlen(L"asd");<br>至2011年今天止目前VC是铁定通不过。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2260491,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2260491,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.loadComments();</script>
+<div id="comment_form" class="commentform">
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" id="lnk_RefreshComments" onclick="return RefreshCommentList();">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+
+<script type="text/javascript">
+    if (typeof commentManager === 'undefined') {
+        commentManager = new blogCommentManager();
+    }
+    commentManager.loadCommentForm();   
+</script>
+
+<div class="ad_text_commentbox"><a href="http://q.cnblogs.com/" target="_blank">程序员问答社区，解决您的技术难题</a></div>
+<div id="site_nav_under"><a href="http://www.cnblogs.com/" target="_blank" title="程序员的网上家园">博客园首页</a><a href="http://q.cnblogs.com/" target="_blank" title="程序员问答社区">博问</a><a href="http://news.cnblogs.com/" target="_blank" title="IT新闻">新闻</a><a href="http://home.cnblogs.com/ing/" target="_blank">闪存</a><a href="http://job.cnblogs.com/" target="_blank">程序员招聘</a><a href="http://kb.cnblogs.com/" target="_blank">知识库</a><div id="site_editor_opt"></div></div>
+<script type="text/javascript">
+enableGoogleAd = true;
+if ($("#cnblogs_post_body").text().length < 1000) {
+    enableGoogleAd = false;
+}
+</script>
+<div id="google_ad_c1" class="c_ad_block">
+<div id="div-gpt-ad-1320933818841-0" style="width: 300px; height: 250px;">
+<script type="text/javascript">
+    if (enableGoogleAd) {
+        try {
+            googletag.cmd.push(function () { googletag.display('div-gpt-ad-1320933818841-0'); });
+        } catch (e) { }
+    } else {
+        $('#google_ad_c1').hide();
+    }
+</script>
+<iframe style="border: 0px none;" marginheight="0" marginwidth="0" name="google_ads_iframe_/1090369/cnblogs_blogpost_C1_0" id="google_ads_iframe_/1090369/cnblogs_blogpost_C1_0" frameborder="0" height="250" scrolling="no" width="300"></iframe><iframe style="border: 0px none; visibility: hidden; display: none;" marginheight="0" marginwidth="0" name="google_ads_iframe_/1090369/cnblogs_blogpost_C1_0__hidden__" id="google_ads_iframe_/1090369/cnblogs_blogpost_C1_0__hidden__" frameborder="0" height="0" scrolling="no" width="0"></iframe></div>
+</div>
+<div id="blog-news-kb"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/150821/" target="_blank">Path跟其他社交网络的一个重大区别：口气很一致</a><br> ·  <a href="http://news.cnblogs.com/n/150818/" target="_blank">四张图看清30年来科技行业的风云变幻</a><br> ·  <a href="http://news.cnblogs.com/n/150817/" target="_blank">关于公司的下一步，如何找到革命性的商业点子？——这里有四步</a><br> ·  <a href="http://news.cnblogs.com/n/150816/" target="_blank">维基家族将添新丁，Wikimedia基金决定创建非营利的在线旅游指南</a><br> ·  <a href="http://news.cnblogs.com/n/150815/" target="_blank">亚马逊计划开放更多配送中心 旨在达成当日交货</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/139725/" target="_blank">说说JSON和JSONP，也许你会豁然开朗</a><br> ·  <a href="http://kb.cnblogs.com/page/149151/" target="_blank">写更少的代码</a><br> ·  <a href="http://kb.cnblogs.com/page/150578/" target="_blank">一次谷歌面试趣事</a><br> ·  <a href="http://kb.cnblogs.com/page/122175/" target="_blank">程序员究竟该如何提高效率</a><br> ·  <a href="http://kb.cnblogs.com/page/130485/" target="_blank">缺乏想象力的程序员</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="google_ad_c2" class="c_ad_block">
+<div id="div-gpt-ad-1320933818841-1" style="width: 468px; height: 60px;">
+<script type="text/javascript">
+    if (enableGoogleAd) {
+        try {
+            googletag.cmd.push(function () { googletag.display('div-gpt-ad-1320933818841-1'); });
+        } catch (e) { }
+    } else {
+        $('#google_ad_c2').hide();
+    }
+</script>
+<iframe style="border: 0px none;" marginheight="0" marginwidth="0" name="google_ads_iframe_/1090369/cnblogs_blogpost_C2_0" id="google_ads_iframe_/1090369/cnblogs_blogpost_C2_0" frameborder="0" height="60" scrolling="no" width="468"></iframe></div>
+</div>
+<div id="ad_under_google" class="c_ad_block" style=""><a href="http://www.china-pub.com/static07/1206/12znq_dyb_20120618/12znq_dyb_20120618.asp" target="_blank" rel="nofollow"><img src="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/china-pub-0620.jpg" alt="" style="border: 0px none;"></a><br><a href="http://www.china-pub.com/sale/usedbook.aspx" target="_blank" rel="nofollow">China-Pub 低价书精选</a><br><a href="http://www.china-pub.com/static07/0901/zh_jueba_090121.asp" target="_blank" rel="nofollow">China-Pub 计算机绝版图书按需印刷服务</a></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+</div>
+
+
+
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 本博客是为学习之用，其中部分文章为转载收集，如果影响到原创作者的利益，请您及时与我联系，我会尽快将文章删除，维护您的利益，另：如果需要转载本博客文章，请标明出处，谢谢<img src="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/055242240.gif" alt="">。
+
+<a href="http://twiter.taobao.com/" style="font-size: 18px; color: rgb(0, 0, 0);">Twit<font style="color:red;">t</font>er</a>
+<a href="http://twiter.taobao.com/" style="font-size: 18px; color: rgb(0, 0, 0);"><font style="color:red;">小王</font><font style="color:green;">の</font><font style="color:red;">杂货铺</font></a><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/wanghao111/">回忆1919</a><br>园龄：<a href="http://home.cnblogs.com/u/wanghao111/" title="入园时间：2008-08-05">3年11个月</a><br>粉丝：<a href="http://home.cnblogs.com/u/wanghao111/followers/">14</a><br>关注：<a href="http://home.cnblogs.com/u/wanghao111/followees/">6</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="cnblogs.UserManager.FollowBlogger('224b420b-63cf-dd11-9e4d-001cf0cd104b')">+加关注</a></div></div></div>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style="displya:none"><table id="blogCalendar" class="Cal" title="Calendar" cellpadding="0" cellspacing="0">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar('2009/04/01');return false;">&lt;</a></td><td align="center">2009年5月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar('2009/06/01');return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" align="center">26</td><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td align="center">1</td><td class="CalWeekendDay" align="center">2</td></tr><tr><td class="CalWeekendDay" align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center">7</td><td align="center">8</td><td class="CalWeekendDay" align="center">9</td></tr><tr><td class="CalWeekendDay" align="center">10</td><td align="center">11</td><td align="center">12</td><td align="center">13</td><td align="center">14</td><td align="center">15</td><td class="CalWeekendDay" align="center">16</td></tr><tr><td class="CalWeekendDay" align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td class="CalWeekendDay" align="center">23</td></tr><tr><td class="CalWeekendDay" align="center">24</td><td align="center"><a href="http://www.cnblogs.com/wanghao111/archive/2009/05/25.html"><u>25</u></a></td><td align="center"><a href="http://www.cnblogs.com/wanghao111/archive/2009/05/26.html"><u>26</u></a></td><td align="center"><a href="http://www.cnblogs.com/wanghao111/archive/2009/05/27.html"><u>27</u></a></td><td align="center">28</td><td align="center"><a href="http://www.cnblogs.com/wanghao111/archive/2009/05/29.html"><u>29</u></a></td><td class="CalWeekendDay" align="center">30</td></tr><tr><td class="CalWeekendDay" align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td></tr>
+</tbody></table></div></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn">
+
+<div class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="widget_my_zzk" class="div_my_zzk"><input id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" type="text">&nbsp;<input onclick="zzk_go()" value="找找看" id="btnZzk" class="btn_my_zzk" type="button"></div>
+
+</div>
+
+
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/wanghao111/tag/C%2FC%2B%2B/">C/C++</a>(48)</li><li><a href="http://www.cnblogs.com/wanghao111/tag/%E6%9F%B3%E6%9A%97%E8%8A%B1%E6%98%8E/">柳暗花明</a>(48)</li><li><a href="http://www.cnblogs.com/wanghao111/tag/Ogre/">Ogre</a>(34)</li><li><a href="http://www.cnblogs.com/wanghao111/tag/%E8%99%9A%E6%8B%9F%E6%BC%AB%E6%B8%B8/">虚拟漫游</a>(34)</li><li><a href="http://www.cnblogs.com/wanghao111/tag/%E6%9D%82%E4%B9%B1%E6%9C%89%E7%AB%A0/">杂乱有章</a>(34)</li><li><a href="http://www.cnblogs.com/wanghao111/tag/%E5%87%BD%E6%95%B0%E8%A7%A3%E6%83%91/">函数解惑</a>(14)</li><li><a href="http://www.cnblogs.com/wanghao111/tag/%E6%A6%82%E5%BF%B5%E7%B1%BB%E5%9E%8B/">概念类型</a>(9)</li><li><a href="http://www.cnblogs.com/wanghao111/tag/CEGUI/">CEGUI</a>(9)</li><li><a href="http://www.cnblogs.com/wanghao111/tag/%E5%90%8D%E8%AF%8D%E6%A6%82%E5%BF%B5%E8%A7%A3%E9%87%8A/">名词概念解释</a>(9)</li><li><a href="http://www.cnblogs.com/wanghao111/tag/%E6%B1%82%E8%81%8C%E9%9D%A2%E8%AF%95/">求职面试</a>(8)</li><li><a href="http://www.cnblogs.com/wanghao111/tag/">更多</a></li>
+</ul>
+</div>
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案<span style="font-size:11px;font-weight:normal">(147)</span></h3>
+
+<ul>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/wanghao111/archive/2012/07.html">2012年7月 (1)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/wanghao111/archive/2011/07.html">2011年7月 (1)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/wanghao111/archive/2011/02.html">2011年2月 (6)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/wanghao111/archive/2011/01.html">2011年1月 (3)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/wanghao111/archive/2010/05.html">2010年5月 (2)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/wanghao111/archive/2010/03.html">2010年3月 (2)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/wanghao111/archive/2009/11.html">2009年11月 (1)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/wanghao111/archive/2009/10.html">2009年10月 (2)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/wanghao111/archive/2009/09.html">2009年9月 (33)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/wanghao111/archive/2009/08.html">2009年8月 (23)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_10" href="http://www.cnblogs.com/wanghao111/archive/2009/07.html">2009年7月 (17)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_11" href="http://www.cnblogs.com/wanghao111/archive/2009/06.html">2009年6月 (26)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_12" href="http://www.cnblogs.com/wanghao111/archive/2009/05.html">2009年5月 (27)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_13" href="http://www.cnblogs.com/wanghao111/archive/2009/04.html">2009年4月 (3)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catList">
+<h3 class="catListTitle">淘宝</h3>
+
+<ul>
+
+<li><a id="ctl02_CatList_LinkList_1_Link_0" rel="nofollow" href="http://twiter.taobao.com/">第五代</a> </li>
+<li class="c_b_p_link_desc">淘宝店铺，第五代软件官方金牌代理，手机游戏充值。欢迎大家光临。<a href="http://twiter.taobao.com/">小王の杂货铺</a>
+</li>
+</ul>
+
+</div>
+
+<div class="catList">
+<h3 class="catListTitle">友情链接</h3>
+
+<ul>
+
+<li><a id="ctl02_CatList_LinkList_2_Link_0" rel="nofollow" href="http://www.gdocsdrive.com/">Google Drive</a> </li>
+<li class="c_b_p_link_desc">最近我的一个朋友做个了Google Docs的客户端软件,可以把Google Docs变成类似<a href="http://www.gdocsdrive.com/">Google Drive</a>的网盘，欢迎大家下载。</li>
+</ul>
+
+</div>
+
+
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	59018
+	</li><li class="liRank">
+		排名 -	1853
+	</li>
+</ul>
+</div>
+
+
+
+<div class="catListComment">
+<h3 class="catListTitle">最新评论<a id="_31a362f_RSSHyperlink1" title="RSS订阅最最新评论" href="http://www.cnblogs.com/wanghao111/CommentsRSS.aspx"><img title="RSS订阅最最新评论" src="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/xml.gif" alt=""></a></h3>
+
+	<div id="RecentCommentsBlock"><ul>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/wanghao111/archive/2009/05/25/1489021.html#2270409">1. Re:MultiByteToWideChar的与WideCharToMultiByte的参数详解</a></li>
+    <li class="recent_comment_body">博主，你好！<br>文中<pre class="brush:cpp">wchar_t* pwszUnicode = "Holle, word! 你好，中国！ "; 
+</pre>这里要添加一个"L"，应该是吧？<br>文章转走了，感谢。</li>
+    <li class="recent_comment_author">--子坞</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/wanghao111/archive/2009/05/25/1489021.html#2270293">2. Re:MultiByteToWideChar的与WideCharToMultiByte的参数详解</a></li>
+    <li class="recent_comment_body">感谢博主，我一直对这两个函数的第一二个参数搞不懂，哈哈。</li>
+    <li class="recent_comment_author">--子坞</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/wanghao111/archive/2009/05/25/1488816.html#2260491">3. Re:关于char, wchar_t, TCHAR, _T(),L,宏 _T、TEXT,_TEXT、L</a></li>
+    <li class="recent_comment_body">strlen(L"asd");<br>至2011年今天止目前VC是铁定通不过。</li>
+    <li class="recent_comment_author">--安羽.</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/wanghao111/archive/2011/07/14/2106041.html#2156275">4. Re:ie6和ie7下z-index bug的解决办法(转)</a></li>
+    <li class="recent_comment_body">深刻体会 快让IE6消失吧 阿门</li>
+    <li class="recent_comment_author">--bwin</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/wanghao111/archive/2009/06/08/1498649.html#2155756">5. Re:转载:OGRE一起学(十二) 骨骼动画的读取和播放</a></li>
+    <li class="recent_comment_body">下文呢 没有了吗</li>
+    <li class="recent_comment_author">--Relieved</li>
+</ul>
+</div>
+</div>
+
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/wanghao111/archive/2009/05/25/1488816.html">1. 关于char, wchar_t, TCHAR, _T(),L,宏 _T、TEXT,_TEXT、L(7880)</a></li><li><a href="http://www.cnblogs.com/wanghao111/archive/2009/08/04/1538827.html">2. Ogre学习记录(3038)</a></li><li><a href="http://www.cnblogs.com/wanghao111/archive/2009/05/25/1489021.html">3. MultiByteToWideChar的与WideCharToMultiByte的参数详解(2735)</a></li><li><a href="http://www.cnblogs.com/wanghao111/archive/2009/06/04/1496386.html">4. Ogre源码在VS2008(VC9)中的配置方式(2523)</a></li><li><a href="http://www.cnblogs.com/wanghao111/archive/2009/09/05/1560822.html">5. cin、cin.get()、cin.getline()、getline()、gets()等函数的用法(2420)</a></li><li><a href="http://www.cnblogs.com/wanghao111/archive/2009/06/08/1498649.html">6. 转载:OGRE一起学(十二) 骨骼动画的读取和播放(1958)</a></li><li><a href="http://www.cnblogs.com/wanghao111/archive/2009/06/08/1498642.html">7. 转载:OGRE一起学（七）场景节点和实体(1466)</a></li><li><a href="http://www.cnblogs.com/wanghao111/archive/2009/08/09/1542285.html">8. CEGUI界面编程的一点心得(1349)</a></li><li><a href="http://www.cnblogs.com/wanghao111/archive/2009/05/26/1489450.html">9. CHAR,WCHAR,_T,_TEXT等等之间的千丝万缕(1226)</a></li><li><a href="http://www.cnblogs.com/wanghao111/archive/2009/09/21/1571370.html">10. C++中regex库静态正则表达式库的好处及事例(1139)</a></li></ul></div>
+</div>
+
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/wanghao111/archive/2009/05/25/1488816.html">1. 关于char, wchar_t, TCHAR, _T(),L,宏 _T、TEXT,_TEXT、L(5)</a></li><li><a href="http://www.cnblogs.com/wanghao111/archive/2009/04/21/1440256.html">2. 大学"游击战"之开篇(4)</a></li><li><a href="http://www.cnblogs.com/wanghao111/archive/2009/07/27/1531661.html">3. 告别cpp&amp;h：hpp文件编写心得(转)(4)</a></li><li><a href="http://www.cnblogs.com/wanghao111/archive/2009/09/02/1558772.html">4. 句柄和指针的区别和联系(3)</a></li><li><a href="http://www.cnblogs.com/wanghao111/archive/2011/07/14/2106041.html">5. ie6和ie7下z-index bug的解决办法(转)(2)</a></li></ul></div>
+</div>
+
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/wanghao111/archive/2009/05/25/1488816.html">1. 关于char, wchar_t, TCHAR, _T(),L,宏 _T、TEXT,_TEXT、L(3)</a></li><li><a href="http://www.cnblogs.com/wanghao111/archive/2009/05/25/1489021.html">2. MultiByteToWideChar的与WideCharToMultiByte的参数详解(2)</a></li><li><a href="http://www.cnblogs.com/wanghao111/archive/2009/09/11/1564914.html">3. 读书笔记之公有继承和私有继承(2)</a></li><li><a href="http://www.cnblogs.com/wanghao111/archive/2009/09/02/1558772.html">4. 句柄和指针的区别和联系(1)</a></li><li><a href="http://www.cnblogs.com/wanghao111/archive/2009/08/29/1556436.html">5. 浅谈数据对齐对CPU效率的影响(1)</a></li><li><a href="http://www.cnblogs.com/wanghao111/archive/2009/08/08/1541781.html">6. 常量(1)</a></li><li><a href="http://www.cnblogs.com/wanghao111/archive/2009/07/30/1535452.html">7. 一个超简单的MP3播放(转)(1)</a></li><li><a href="http://www.cnblogs.com/wanghao111/archive/2009/07/30/1535432.html">8. CEGUI资源文件之layout文件(1)</a></li><li><a href="http://www.cnblogs.com/wanghao111/archive/2009/06/08/1498645.html">9. 转载:OGRE一起学（九）平面(1)</a></li><li><a href="http://www.cnblogs.com/wanghao111/archive/2009/05/25/1489046.html">10. 使用MSXML解析XML文件(1)</a></li></ul></div>
+</div></div>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2012 回忆1919 谨以此模板祝贺【<a href="http://www.cnblogs.com/zhengtu.aspx" title="博客园开发者征途">博客园开发者征途</a>】系列图书之<a href="http://www.cnblogs.com/dudu/archive/2008/04/08/1141992.html" title="你必须知道的.net">《你必须知道的.net》</a>出版发行
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+<script type="text/javascript" src="%E5%85%B3%E4%BA%8Echar,%20wchar_t,%20TCHAR,%20_T%28%29,L,%E5%AE%8F%20_T%E3%80%81TEXT,_TEXT%E3%80%81L_files/google-analytics.js"></script>
+
+
+</body></html>

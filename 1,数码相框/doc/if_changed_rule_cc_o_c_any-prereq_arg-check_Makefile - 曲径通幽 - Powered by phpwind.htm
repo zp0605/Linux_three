@@ -1,0 +1,78 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk">
+<!-- base href="http://www.groad.net/bbs/" -->
+<title>if_changed_rule/cc_o_c/any-prereq/arg-check|Makefile - 曲径通幽 - Powered by phpwind</title>
+<meta name="generator" content="phpwind 8.7">
+<meta name="description" content="Makefile 对应内核版本：2.6.35.13在 scripts/Makefile.build 的 86 行看到 builtin-target 的定义：builtin-target := $(obj)/built-in.obuiltin-target 是一个 builtin-in.o 文件。在 297 行中看到：$(builtin-target): $(obj-y) FORCE $(call if_changed,link_o_target)由 ..|曲径通幽">
+<meta name="keywords" content="if_changed_rule/cc_o_c/any-prereq/arg-check|Makefile - 曲径通幽">
+<style type="text/css">
+body {font-family: Verdana;font-size: 12px;margin: 0;color: #000000;background: #ffffff;}
+img {border:0;}
+td {font-size: 12px;}
+textarea,input,select {font-family: Verdana;font-size: 12px;background-color: #ffffff;}
+div.quote {margin:5px 5px;border:1px dashed #bdcfdd;padding:5px;background:#FFFFFF;line-height:normal;}
+a {text-decoration: none;}
+a:hover {color:#ff0000;text-decoration:none;}
+.smalltxt {font-family: Tahoma, Verdana; font-size: 12px;}
+.tpc_content {font-size: 13px;}
+.i_table {border: #E7E3E7 1px solid;}
+.head{background-color: #E7E3E7;}
+h1{ font-size:14px;margin:0 0 10px 0;}
+h2{ font-size:12px; margin:0;padding:0;}
+</style><!--css-->
+</head>
+<body link="#333333" vlink="#333333">
+<br>
+<center><b>查看完整版本: [-- <a href="http://www.groad.net/bbs/read.php?tid-3959.html" target="_blank">if_changed_rule/cc_o_c/any-prereq/arg-check</a> --]</b></center>
+<br>
+<table class="i_table" align="center" cellpadding="0" cellspacing="1" width="98%">
+<tbody><tr><td><table cellpadding="8" cellspacing="0" width="100%"><tbody><tr><td bgcolor="#FFFFFF">
+<b><a href="http://www.groad.net/bbs/simple/?">曲径通幽</a> -&gt; <a href="http://www.groad.net/bbs/simple/?f104.html">Makefile</a> -&gt; <a href="http://www.groad.net/bbs/simple/?t3959.html">if_changed_rule/cc_o_c/any-prereq/arg-check</a> <a style="cursor:pointer;color:#f80" onclick="window.print();">[打印本页]</a></b>
+</td><td align="right" bgcolor="#FFFFFF"><b>
+<a href="http://www.groad.net/bbs/login.php" rel="nofollow">登录</a> -&gt; <a href="http://www.groad.net/bbs/register.php">注册</a> -&gt; 
+<a href="http://www.groad.net/bbs/post.php?action=reply&amp;fid=104&amp;tid=3959">回复主题</a> -&gt; <a href="http://www.groad.net/bbs/post.php?fid=104">发表主题</a></b></td></tr>
+</tbody></table></td></tr>
+</tbody></table>
+<p></p><center></center><p></p>
+<table class="i_table" align="center" cellpadding="1" cellspacing="1" width="98%">
+<tbody><tr>
+<td>
+<table cellpadding="5" cellspacing="0" width="100%">
+<tbody><tr class="head">
+<td><b>beyes</b></td>
+<td class="smalltxt" align="right">2011-07-01 15:01</td>
+</tr>
+<tr bgcolor="#FFFFFF">
+<td colspan="2" class="tpc_content">
+<script src="if_changed_rule_cc_o_c_any-prereq_arg-check_Makefile%20-%20%E6%9B%B2%E5%BE%84%E9%80%9A%E5%B9%BD%20-%20Powered%20by%20phpwind_files/nc.htm" language="JavaScript"></script><br> <h1>if_changed_rule/cc_o_c/any-prereq/arg-check</h1>
+Makefile 对应内核版本：2.6.35.13<br>在 scripts/Makefile.build 的 86 行看到 builtin-target 的定义：<br><pre class="brush: Makefile;">builtin-target := $(obj)/built-in.o</pre><br>builtin-target 是一个 builtin-in.o 文件。在 297 行中看到：<br><pre class="brush: Makefile;">$(builtin-target): $(obj-y) FORCE<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $(call if_changed,link_o_target)</pre><br>由此可见 builtin-in.o 文件依赖于各个&nbsp;&nbsp;obj-y 。obj-y 定义在要编译的子目录的 Makefile 中，这些 Makefile 文件在 Makefile.build 的 43-44 行做了包含：<br><pre class="brush: Makefile;">kbuild-file := $(if $(wildcard $(kbuild-dir)/Kbuild),$(kbuild-dir)/Kbuild,$(kbuild-dir)/Makefile)<br>include $(kbuild-file)</pre><br><br>比如在 init 目录下可以看到 obj-y 的一行定义：<br><pre class="brush: Makefile;">obj-y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:= main.o version.o mounts.o</pre><br>上面的这些 .o 文件又由 Makefile.build 中的 229-231 这几行的规则编译而成：<br><pre class="brush: Makefile;">$(obj)/%.o: $(src)/%.c FORCE<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $(call cmd,force_checksrc)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $(call if_changed_rule,cc_o_c)</pre><br>实际上就是将对应的 .c 文件编译成 .o 文件。如果都所有的 .c 文件都已经编译为相应的 .o 文件，那么就会由 Makefile.build 中的第 298 行命令将这些 .o 文件链接成 built-in.o 文件。<br><br>这里先分析 <b>if_changed_rule</b> 和 <b>cc_o_c</b> 的实现：<br><br>if_changed_rule 定义在 scripts/Kbuild.include 的 220-222 行中：<br><pre class="brush: Makefile;">if_changed_rule = $(if $(strip $(any-prereq) $(arg-check) ),&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@set -e;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$(rule_$(1)))</pre><br>这里看到 <b>arg-check</b>&nbsp;&nbsp;和 <b>any-prereq</b> 两个变量，它们分别定义在 scripts/Kbuild.include&nbsp;&nbsp;的 188 和 200 行中：<br><pre class="brush: Makefile;">arg-check = $(strip $(filter-out $(cmd_$(1)), $(cmd_$@)) \<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$(filter-out $(cmd_$@),&nbsp;&nbsp; $(cmd_$(1))) )<br>... ...<br>any-prereq = $(filter-out $(PHONY),$?) $(filter-out $(PHONY) $(wildcard $^),$^)</pre><br>在 any-prereq 中，$? 表示所有比目标还要新的依赖文件；$^ 表示所有的依赖文件。<br><br>在
+ any-prereq 中，首先使用 $(filter-out $(PHONY),$?) 将 $? 中的所有伪目标去掉，不然可能会将 FORCE
+ 这种目标也带进来，如果此时返回非空，那么说明有比目标还要新的依赖文件。$(wildcard $^) 
+匹配当前目录下的所有依赖文件(已经存在的)，然后再使用 $(filter-out $(PHONY) $(wildcard $^),$^) 
+将伪目标以及当前目录下匹配的文件列表从整个 $^ 列表中删除，如果返回不为空，那么说明某些依赖文件不存在，也就是说这些不存在的依赖文件还没生成 
+-- 这是因为某些依赖文件需要在编译时才会生成。<br><br>在 arg-check 中，$(1) 表示第 1 个参数，比如上面的 
+$(call if_changed_rule,cc_o_c) 中，$(1) 就是 cc_o_c ，所以 $(cmd_$(1) 就是表示 
+cmd_cc_o_c -- 这个变量可以在 Makefile.build 中的 179 或 194 
+行看到定义。它实际上表示的是这一次编译文件时所用到的命令行参数。<br><br>$@ 表示目标文件，从上面叙述可知，它就是 $(obj)/%.o
+ 。比如编译 init/main.o ，那么 $(cmd_$@) 就是表示 $(cmd_init/main.o)，而在 
+init/.main.o.cmd 文件中我们看到了 cmd_init/main.o 用来保存着上次编译的参数。在 arg-check 
+中，首先使用 $(filter-out $(cmd_$(1)), $(cmd_$@)) 将上一次的编译参数中过略掉本次要编译的参数，再用 
+$(filter-out $(cmd_$@),&nbsp;&nbsp; $(cmd_$(1))) 
+将本次的编译参数中过滤掉上一次的编译参数。正反过滤的原因是，filter-out 函数在过滤时，如果第 2 个参数是第 1 
+个参数的子集或者是相同，那么返回空；所以，在第 1 次过滤时如果返回为空，那么 cmd_$@ 可能是等于 cmd_$(1) 
+的，也可能是它的子集，所以只有当再次反过来做过滤时发现返回为空，那么才能判断两次编译的参数是相等的，否则是不等的。如果返回结果不为空，说明编译参
+数发生了变化，那么就会执行 $(rule_cc_o_c) 。<br></td>
+</tr>
+</tbody></table>
+</td></tr>
+</tbody></table><br>
+<br>
+<center><b>查看完整版本: [-- <a href="http://www.groad.net/bbs/read.php?tid-3959.html" target="_blank">if_changed_rule/cc_o_c/any-prereq/arg-check</a> --] [-- <a href="http://www.groad.net/bbs/simple/?t3959.html#">top</a> --]</b></center>
+ <script type="text/javascript" src="if_changed_rule_cc_o_c_any-prereq_arg-check_Makefile%20-%20%E6%9B%B2%E5%BE%84%E9%80%9A%E5%B9%BD%20-%20Powered%20by%20phpwind_files/core.js"></script><script src="if_changed_rule_cc_o_c_any-prereq_arg-check_Makefile%20-%20%E6%9B%B2%E5%BE%84%E9%80%9A%E5%B9%BD%20-%20Powered%20by%20phpwind_files/zh_cn.js"></script>	
+
+<script src="if_changed_rule_cc_o_c_any-prereq_arg-check_Makefile%20-%20%E6%9B%B2%E5%BE%84%E9%80%9A%E5%B9%BD%20-%20Powered%20by%20phpwind_files/un.htm" language="JavaScript"></script><br>
+<br><br>
+<center><small><font color="#999999">Powered by <a href="http://www.phpwind.net/" target="_blank"><b>phpwind</b></a> <a href="http://www.phpwind.net/" target="_blank"><b style="color:#FF9900">v8.7</b></a> Code &#169;2003-2011 <a href="http://www.phpwind.net/" target="_blank"><b>phpwind</b></a> <br>
+ Gzip enabled<br><br></font></small>
+</center><br>
+</body></html>

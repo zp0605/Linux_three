@@ -1,0 +1,1173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head id="Head"><title>
+	UTF-8, Unicode, GB2312格式串转换之C语言版 - I believe I can make a miracle - IT博客
+</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta id="metaKeywords" name="keywords" content="UTF-8, Unicode, GB2312格式串转换之C语言版"><link id="MainCss" type="text/css" rel="stylesheet" href="UTF-8,%20Unicode,%20GB2312%E6%A0%BC%E5%BC%8F%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B9%8BC%E8%AF%AD%E8%A8%80%E7%89%88_files/style.css"><link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnitblog.com/wujian-IT/rss.aspx"><script src="UTF-8,%20Unicode,%20GB2312%E6%A0%BC%E5%BC%8F%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B9%8BC%E8%AF%AD%E8%A8%80%E7%89%88_files/google_ads_gpt.js" type="text/javascript" async=""></script><script src="UTF-8,%20Unicode,%20GB2312%E6%A0%BC%E5%BC%8F%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B9%8BC%E8%AF%AD%E8%A8%80%E7%89%88_files/osd.js" type="text/javascript"></script></head>
+<body>
+    <form name="Form1" method="post" action="37671.html" onsubmit="javascript:return WebForm_OnSubmit();" id="Form1">
+<div>
+<input name="__EVENTTARGET" id="__EVENTTARGET" value="" type="hidden">
+<input name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" type="hidden">
+<input name="__VIEWSTATE" id="
+__VIEWSTATE" value="" type="hidden">
+</div>
+
+<script src="UTF-8,%20Unicode,%20GB2312%E6%A0%BC%E5%BC%8F%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B9%8BC%E8%AF%AD%E8%A8%80%E7%89%88_files/gpt.js" type="text/javascript" async=""></script><script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['Form1'];
+if (!theForm) {
+    theForm = document.Form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="UTF-8,%20Unicode,%20GB2312%E6%A0%BC%E5%BC%8F%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B9%8BC%E8%AF%AD%E8%A8%80%E7%89%88_files/WebResource.js" type="text/javascript"></script>
+
+<script language="JavaScript">
+									function ctlent(evt,id)
+											{
+												if(evt.ctrlKey && evt.keyCode == 13)
+												{	
+													try
+													{
+														TempSave(id);
+													}
+													catch(ex)
+													{
+													}
+													finally
+													{
+													    __doPostBack('AjaxHolder$PostComment$btnSubmit','')
+													}
+												}
+		
+												}</script>
+												<script language="JavaScript">function SetReplyAuhor(author){document.getElementById('AjaxHolder_PostComment_tbComment').value+="@"+author+"\n";document.getElementById('AjaxHolder_PostComment_tbComment').focus();return false}</script>
+<script src="UTF-8,%20Unicode,%20GB2312%E6%A0%BC%E5%BC%8F%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B9%8BC%E8%AF%AD%E8%A8%80%E7%89%88_files/ScriptResource_002.js" type="text/javascript"></script>
+<script src="UTF-8,%20Unicode,%20GB2312%E6%A0%BC%E5%BC%8F%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B9%8BC%E8%AF%AD%E8%A8%80%E7%89%88_files/ScriptResource.js" type="text/javascript"></script>
+<script src="UTF-8,%20Unicode,%20GB2312%E6%A0%BC%E5%BC%8F%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B9%8BC%E8%AF%AD%E8%A8%80%E7%89%88_files/ScriptResource_003.js" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+function WebForm_OnSubmit() {
+if (typeof(ValidatorOnSubmit) == "function" && ValidatorOnSubmit() == false) return false;
+return true;
+}
+//]]>
+</script>
+
+        
+<!--done-->
+<div id="header">
+	
+<!--done-->
+<div class="header">
+	<div class="headerText">
+		<a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnitblog.com/wujian-IT/">I believe I can make a miracle</a><br>
+		
+	</div>
+</div>
+
+</div>
+<div id="mylinks">
+<!--done-->
+<a id="MyLinks1_HomeLink" class="menu" href="http://www.cnitblog.com/">IT博客</a>&nbsp;&nbsp;&nbsp;
+<a id="MyLinks1_MyHomeLink" class="menu" href="http://www.cnitblog.com/wujian-IT/">首页</a>&nbsp;&nbsp;&nbsp;
+<a id="MyLinks1_NewPostLink" class="menu" href="http://www.cnitblog.com/wujian-IT/admin/EditPosts.aspx?opt=1">新随笔</a>&nbsp;&nbsp;&nbsp;
+<a id="MyLinks1_ContactLink" accesskey="9" class="menu" href="http://www.cnitblog.com/wujian-IT/contact.aspx?id=1">联系</a>&nbsp;&nbsp;&nbsp;
+<a id="MyLinks1_Syndication" class="menu" href="http://www.cnitblog.com/wujian-IT/Rss.aspx">聚合</a><a id="MyLinks1_XMLLink" href="http://www.cnitblog.com/wujian-IT/Rss.aspx"><img src="UTF-8,%20Unicode,%20GB2312%E6%A0%BC%E5%BC%8F%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B9%8BC%E8%AF%AD%E8%A8%80%E7%89%88_files/xml_002.gif" style="border-width: 0px;"></a>&nbsp;&nbsp;&nbsp;
+<a id="MyLinks1_Admin" class="menu" href="http://www.cnitblog.com/wujian-IT/admin/EditPosts.aspx">管理</a>
+</div>
+<div id="mytopmenu">
+	
+		
+<!--done-->
+<div class="blogStats">随笔 - 23&nbsp;
+文章 - 0&nbsp;评论 - 56&nbsp;
+
+</div> 
+	
+</div>
+<div id="leftcontent">
+	
+		<div id="leftcontentcontainer">
+			<table id="Calendar1_entryCal" class="Cal" title="Calendar" style="border-collapse: collapse; border: 0px none;" border="0" cellpadding="0" cellspacing="0">
+	<tbody><tr><td colspan="7" style="background-color: Transparent;"><table class="CalTitle" style="width: 100%; border-collapse: collapse;" border="0" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev" style="width: 15%;"><a href="javascript:__doPostBack('Calendar1$entryCal','V2922')" style="color: Black;" title="Go to the previous month">&lt;</a></td><td style="width: 70%;" align="center">2008年2月</td><td class="CalNextPrev" style="width: 15%;" align="right"><a href="javascript:__doPostBack('Calendar1$entryCal','V2982')" style="color: Black;" title="Go to the next month">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" style="width: 14%;" align="center">27</td><td class="CalOtherMonthDay" style="width: 14%;" align="center">28</td><td class="CalOtherMonthDay" style="width: 14%;" align="center">29</td><td class="CalOtherMonthDay" style="width: 14%;" align="center">30</td><td class="CalOtherMonthDay" style="width: 14%;" align="center">31</td><td style="width: 14%;" align="center">1</td><td class="CalWeekendDay" style="width: 14%;" align="center">2</td></tr><tr><td class="CalWeekendDay" style="width: 14%;" align="center">3</td><td style="width: 14%;" align="center">4</td><td style="width: 14%;" align="center">5</td><td style="width: 14%;" align="center">6</td><td style="width: 14%;" align="center">7</td><td style="width: 14%;" align="center">8</td><td class="CalWeekendDay" style="width: 14%;" align="center">9</td></tr><tr><td class="CalWeekendDay" style="width: 14%;" align="center">10</td><td style="width: 14%;" align="center">11</td><td style="width: 14%;" align="center">12</td><td style="width: 14%;" align="center">13</td><td style="width: 14%;" align="center">14</td><td style="width: 14%;" align="center">15</td><td class="CalWeekendDay" style="width: 14%;" align="center">16</td></tr><tr><td class="CalWeekendDay" style="width: 14%;" align="center">17</td><td style="width: 14%;" align="center">18</td><td style="width: 14%;" align="center"><a href="http://www.cnitblog.com/wujian-IT/archive/2008/02/19.html"><u>19</u></a></td><td style="width: 14%;" align="center">20</td><td style="width: 14%;" align="center">21</td><td style="width: 14%;" align="center">22</td><td class="CalWeekendDay" style="width: 14%;" align="center">23</td></tr><tr><td class="CalWeekendDay" style="width: 14%;" align="center">24</td><td style="width: 14%;" align="center">25</td><td style="width: 14%;" align="center">26</td><td style="width: 14%;" align="center">27</td><td style="width: 14%;" align="center">28</td><td style="width: 14%;" align="center">29</td><td class="CalOtherMonthDay" style="width: 14%;" align="center">1</td></tr><tr><td class="CalOtherMonthDay" style="width: 14%;" align="center">2</td><td class="CalOtherMonthDay" style="width: 14%;" align="center">3</td><td class="CalOtherMonthDay" style="width: 14%;" align="center">4</td><td class="CalOtherMonthDay" style="width: 14%;" align="center">5</td><td class="CalOtherMonthDay" style="width: 14%;" align="center">6</td><td class="CalOtherMonthDay" style="width: 14%;" align="center">7</td><td class="CalOtherMonthDay" style="width: 14%;" align="center">8</td></tr>
+</tbody></table>
+<br>
+			
+<!--done-->
+<div class="newsItem">
+	<a href="http://www.adforcn.com/track.htm?8686V26213" target="_blank"><img src="UTF-8,%20Unicode,%20GB2312%E6%A0%BC%E5%BC%8F%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B9%8BC%E8%AF%AD%E8%A8%80%E7%89%88_files/LOGO-QIOU-1.jpg" alt="广告中国绩效网，注册立刻送10元" border="0" height="60" width="120"></a><img src="UTF-8,%20Unicode,%20GB2312%E6%A0%BC%E5%BC%8F%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B9%8BC%E8%AF%AD%E8%A8%80%E7%89%88_files/a.htm" style="display: none;" border="0" height="1" width="1">
+
+<a href="http://www.adforcn.com/track.htm?8315V26213" target="_blank"><img src="UTF-8,%20Unicode,%20GB2312%E6%A0%BC%E5%BC%8F%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B9%8BC%E8%AF%AD%E8%A8%80%E7%89%88_files/adforcn120x60.jpg" alt="广告中国绩效网，注册立刻送10元" border="0" height="60" width="120"></a><img src="UTF-8,%20Unicode,%20GB2312%E6%A0%BC%E5%BC%8F%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B9%8BC%E8%AF%AD%E8%A8%80%E7%89%88_files/a_002.htm" style="display: none;" border="0" height="1" width="1">
+</div>
+
+			
+<h3>常用链接</h3>
+<ul>
+		<li><a id="SingleColumn1_ctl00_repeaterLinks_ctl01_lnkLinkItem" href="http://www.cnitblog.com/wujian-IT/MyPosts.html">我的随笔</a></li>
+	
+		<li><a id="SingleColumn1_ctl00_repeaterLinks_ctl02_lnkLinkItem" href="http://www.cnitblog.com/wujian-IT/MyComments.html">我的评论</a></li>
+	
+		<li><a id="SingleColumn1_ctl00_repeaterLinks_ctl03_lnkLinkItem" href="http://www.cnitblog.com/wujian-IT/OtherPosts.html">我参与的随笔</a></li>
+	</ul>
+<h3>留言簿<span style="font-size:11px;font-weight:normal;">(7)</span></h3>
+<ul>
+	<li>
+		<a id="SingleColumn1__980904_lnkMessages" href="http://www.cnitblog.com/wujian-IT/Contact.aspx?id=1">给我留言</a>
+	</li><li>
+		<a id="SingleColumn1__980904_lnkPublicMsgView" href="http://www.cnitblog.com/wujian-IT/default.aspx?opt=msg">查看公开留言</a>
+	</li><li>
+		<a id="SingleColumn1__980904_lnkPrivateMsgView" href="http://www.cnitblog.com/wujian-IT/admin/MyMessages.aspx">查看私人留言</a>
+	</li>
+</ul>
+
+<!--done-->
+
+		<h1 class="catListTitle">随笔分类</h1>
+		
+				<ul class="catList">
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl01_Link" class="listitem" href="http://www.cnitblog.com/wujian-IT/category/6423.html">TCP/IP学习笔记(2)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl01_RssLink" title="Subscribe to TCP/IP学习笔记(2)" class="listitem" href="http://www.cnitblog.com/wujian-IT/category/6423.html/rss"><img title="Subscribe to TCP/IP学习笔记(2)" src="UTF-8,%20Unicode,%20GB2312%E6%A0%BC%E5%BC%8F%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B9%8BC%E8%AF%AD%E8%A8%80%E7%89%88_files/xml.gif" style="border-width: 0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl02_Link" class="listitem" href="http://www.cnitblog.com/wujian-IT/category/6356.html">代码摘抄(6)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl02_RssLink" title="Subscribe to 代码摘抄(6)" class="listitem" href="http://www.cnitblog.com/wujian-IT/category/6356.html/rss"><img title="Subscribe to 代码摘抄(6)" src="UTF-8,%20Unicode,%20GB2312%E6%A0%BC%E5%BC%8F%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B9%8BC%E8%AF%AD%E8%A8%80%E7%89%88_files/xml.gif" style="border-width: 0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl03_Link" class="listitem" href="http://www.cnitblog.com/wujian-IT/category/6357.html">我的原创(3)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl03_RssLink" title="Subscribe to 我的原创(3)" class="listitem" href="http://www.cnitblog.com/wujian-IT/category/6357.html/rss"><img title="Subscribe to 我的原创(3)" src="UTF-8,%20Unicode,%20GB2312%E6%A0%BC%E5%BC%8F%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B9%8BC%E8%AF%AD%E8%A8%80%E7%89%88_files/xml.gif" style="border-width: 0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl04_Link" class="listitem" href="http://www.cnitblog.com/wujian-IT/category/6353.html">我的技术文摘(12)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl04_RssLink" title="Subscribe to 我的技术文摘(12)" class="listitem" href="http://www.cnitblog.com/wujian-IT/category/6353.html/rss"><img title="Subscribe to 我的技术文摘(12)" src="UTF-8,%20Unicode,%20GB2312%E6%A0%BC%E5%BC%8F%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B9%8BC%E8%AF%AD%E8%A8%80%E7%89%88_files/xml.gif" style="border-width: 0px;"></a></li>
+			
+				</ul>
+			
+	
+		<h1 class="catListTitle">随笔档案</h1>
+		
+				<ul class="catList">
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl01_Link" class="listitem" href="http://www.cnitblog.com/wujian-IT/archive/2008/02.html">2008年2月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl02_Link" class="listitem" href="http://www.cnitblog.com/wujian-IT/archive/2007/12.html">2007年12月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl03_Link" class="listitem" href="http://www.cnitblog.com/wujian-IT/archive/2007/11.html">2007年11月 (4)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl04_Link" class="listitem" href="http://www.cnitblog.com/wujian-IT/archive/2007/10.html">2007年10月 (17)</a></li>
+			
+				</ul>
+			
+	
+
+
+<script language="JavaScript">
+function SearchGoogle(key,evt,site)
+		{
+			if(evt.keyCode==13 || evt.keyCode==0 || evt.type =='click')
+			{
+				key.focus();
+				var keystr = encodeURIComponent(key.value);
+				url = "http://www.google.com/search?q=";
+				url = url+keystr;
+				url += "&ie=UTF-8&oe=GB2312&hl=zh-CN&domains="+site+"&sitesearch="+site;
+				window.location=url;
+				return false;
+			}
+		}
+</script>
+<h3>搜索</h3>
+<ul>
+	<li>
+		</li><li><input style="width: 130px;" name="q" id="q" onkeydown="return SearchGoogle(document.getElementById('q'),event,'www.cnitblog.com/wujian-IT')" type="text">&nbsp;<input onclick="SearchGoogle(document.getElementById('q'),event,'www.cnitblog.com/wujian-IT')" value="搜索" name="sa" type="button">
+	</li>
+</ul>
+
+<h3>最新评论
+	<a id="SingleColumn1__b929d6_RSSHyperlink1" href="http://www.cnitblog.com/wujian-IT/CommentsRSS.aspx"><img src="UTF-8,%20Unicode,%20GB2312%E6%A0%BC%E5%BC%8F%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B9%8BC%E8%AF%AD%E8%A8%80%E7%89%88_files/xml_002.gif" style="border-width: 0px;"></a></h3>
+<div class="RecentComment">
+	
+			<ul>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__b929d6_CommentList_ctl01_Hyperlink1" href="http://www.cnitblog.com/wujian-IT/archive/2011/10/18/37671.html#76101">1.&nbsp;re: UTF-8, Unicode, GB2312格式串转换之C语言版</a>
+			</li>
+			<li style="word-break:break-all">
+				工作中也碰到了这个问题，也给我发一份啊，万分感谢
+<br>1150353553@qq.com
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--滴水瓦</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__b929d6_CommentList_ctl02_Hyperlink1" href="http://www.cnitblog.com/wujian-IT/archive/2011/03/03/37671.html#72920">2.&nbsp;re: UTF-8, Unicode, GB2312格式串转换之C语言版</a>
+			</li>
+			<li style="word-break:break-all">
+				我在做linux下的字符转换，能否给我发一份源码和那两个小工具？
+<br>1万分感谢  回复  更多评论
+<br>我也要表，牛人 谢谢啊 wadldyy@yahoo.cn
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--whq</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__b929d6_CommentList_ctl03_Hyperlink1" href="http://www.cnitblog.com/wujian-IT/archive/2010/10/12/37671.html#70020">3.&nbsp;re: UTF-8, Unicode, GB2312格式串转换之C语言版[未登录]</a>
+			</li>
+			<li style="word-break:break-all">
+				我在做linux下的字符转换，能否给我发一份源码和那两个小工具？<br>1_2_3456@163.com万分感谢
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--jane</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__b929d6_CommentList_ctl04_Hyperlink1" href="http://www.cnitblog.com/wujian-IT/archive/2010/10/08/37671.html#69755">4.&nbsp;re: UTF-8, Unicode, GB2312格式串转换之C语言版</a>
+			</li>
+			<li style="word-break:break-all">
+				能否发我一份，十分感谢呢
+<br>chenhuinan1231@126.com
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--陈慧兰</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__b929d6_CommentList_ctl05_Hyperlink1" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#68702">5.&nbsp;re: UTF-8, Unicode, GB2312格式串转换之C语言版</a>
+			</li>
+			<li style="word-break:break-all">
+				评论内容较长,点击标题查看
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--MCU</li>
+		
+			</ul>
+		
+</div>
+
+<h3>阅读排行榜</h3>
+<div class="RecentComment">
+	
+			<ul style="word-break:break-all">
+		
+			<li>
+				<a id="SingleColumn1__518b6_TopList_ctl01_Hyperlink1" href="http://www.cnitblog.com/wujian-IT/archive/2007/12/13/37671.aspx">1.&nbsp;UTF-8, Unicode, GB2312格式串转换之C语言版(15165)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__518b6_TopList_ctl02_Hyperlink1" href="http://www.cnitblog.com/wujian-IT/archive/2007/10/09/34614.aspx">2.&nbsp;使用gethostbyname由域名或主机名得IP地址(转载)(8234)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__518b6_TopList_ctl03_Hyperlink1" href="http://www.cnitblog.com/wujian-IT/archive/2007/10/11/34739.aspx">3.&nbsp;TCP/IP中32位IP地址与字符串转化(5654)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__518b6_TopList_ctl04_Hyperlink1" href="http://www.cnitblog.com/wujian-IT/archive/2007/10/10/34665.aspx">4.&nbsp;sscanf函数(3092)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__518b6_TopList_ctl05_Hyperlink1" href="http://www.cnitblog.com/wujian-IT/archive/2007/10/15/34891.aspx">5.&nbsp;fflush详解(2582)</a>
+			</li>
+		
+			</ul>
+		
+</div>
+
+<h3>评论排行榜</h3>
+<div class="RecentComment">
+	
+			<ul style="word-break:break-all">
+		
+			<li>
+				<a id="SingleColumn1__2ad94e_TopList_ctl01_Hyperlink1" href="http://www.cnitblog.com/wujian-IT/archive/2007/12/13/37671.aspx">1.&nbsp;UTF-8, Unicode, GB2312格式串转换之C语言版(51)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__2ad94e_TopList_ctl02_Hyperlink1" href="http://www.cnitblog.com/wujian-IT/archive/2007/10/09/34614.aspx">2.&nbsp;使用gethostbyname由域名或主机名得IP地址(转载)(2)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__2ad94e_TopList_ctl03_Hyperlink1" href="http://www.cnitblog.com/wujian-IT/archive/2007/10/10/34665.aspx">3.&nbsp;sscanf函数(1)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__2ad94e_TopList_ctl04_Hyperlink1" href="http://www.cnitblog.com/wujian-IT/archive/2007/10/21/35155.aspx">4.&nbsp;字符串转化成16进制(1)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__2ad94e_TopList_ctl05_Hyperlink1" href="http://www.cnitblog.com/wujian-IT/archive/2008/02/19/39948.aspx">5.&nbsp;epoll的用法(1)</a>
+			</li>
+		
+			</ul>
+		
+</div>
+</div>		
+	
+</div>
+<div id="centercontent">
+	
+					
+<!--done-->
+<div class="post">
+	<div class="postTitle">
+		<a id="viewpost1_TitleUrl" class="postTitle2" href="http://www.cnitblog.com/wujian-IT/archive/2007/12/13/37671.html">UTF-8, Unicode, GB2312格式串转换之C语言版</a>
+	</div>
+	<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（申明：此文章属于原创，若转载请表明作者和原处链接 ）&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;author:&nbsp;&nbsp;&nbsp;wu.jian&nbsp;&nbsp;&nbsp;
+（吴剑）&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;English name: Sword<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2007-12-13<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;purpose:&nbsp;&nbsp;&nbsp;知识共享<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这几天工作上碰到了UTF-8转GB2312的问题，而且是在嵌入式的环境下，没有API可用，查了很多网上的资料，大多调用VC或者linux下自带的接口。在这里我将这两天的工作做个总结。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;总的来说分为两大步（这里就不介绍基础知识了）：<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一、UTF8 -&gt; Unicode<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由于UTF8和Unicode存在着联系，所以不需要任何库就可以直接进行转换。首先要看懂UTF8的编码格式：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U-00000000&nbsp;-&nbsp;U-0000007F:&nbsp;0xxxxxxx&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U-00000080&nbsp;-&nbsp;U-000007FF:&nbsp;110xxxxx&nbsp;10xxxxxx&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U-00000800&nbsp;-&nbsp;U-0000FFFF:&nbsp;1110xxxx&nbsp;10xxxxxx&nbsp;10xxxxxx&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U-00010000&nbsp;-&nbsp;U-001FFFFF:&nbsp;11110xxx&nbsp;10xxxxxx&nbsp;10xxxxxx&nbsp;10xxxxxx&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U-00200000&nbsp;-&nbsp;U-03FFFFFF:&nbsp;111110xx&nbsp;10xxxxxx&nbsp;10xxxxxx&nbsp;10xxxxxx&nbsp;10xxxxxx&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U-04000000&nbsp;-&nbsp;U-7FFFFFFF:&nbsp;1111110x&nbsp;10xxxxxx&nbsp;10xxxxxx&nbsp;10xxxxxx&nbsp;10xxxxxx&nbsp;10xxxxxx&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+前面几个1就代表后面几个字节是属于一起的。如果要解析一长串UTF8格式的字符串，这点就很有用了。下面这个函数就是判断前面几个1的（这里有
+define APP_PRINT printf，这样当release的时候将这个宏定义为空就行了，不需要一个一个去改，又方便重新调试）：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int GetUtf8ByteNumForWord(u8 firstCh)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;u8 temp = 0x80;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int num = 0;<br>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (temp &amp; firstCh)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num++;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temp = (temp &gt;&gt; 1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APP_PRINT("the num is: %d", num);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return num;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+利用这个函数可以得到字符串中那几个字节是一起的。因为UTF8最大只有6个字节，所以就根据返回值来处理这里我只处理了3个字节和1个字节的UTF8的
+编码，因为一般来说中文在UTF8中是3个字节。<br><br>//将len个字节的UTF8格式的转换成GB2312格式存放在temp预先申请好的缓冲区中<br>void Utf8ToGb2312(const char* utf8, int len, char *temp)<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APP_PRINT("utf8-&gt;unicode: \n");<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APP_PRINT("utf8: [");<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int k = 0; k &lt; len; k++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APP_PRINT("%02x ", utf8[k]);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APP_PRINT("]\n");<br>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int byteCount = 0;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int i = 0;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int j = 0;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;u16 unicodeKey = 0;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;u16 gbKey = 0;<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//循环解析<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (i &lt; len)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch(GetUtf8ByteNumForWord((u8)utf8[i]))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>case 0:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temp[j] = utf8[i];<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;byteCount = 1;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br></strong><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case 2:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temp[j] = utf8[i];<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temp[j + 1] = utf8[i + 1];<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;byteCount = 2;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&nbsp;case 3:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//这里就开始进行UTF8-&gt;Unicode<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temp[j
+ + 1] = ((utf8[i] &amp; 0x0F) &lt;&lt; 4) | ((utf8[i + 1] &gt;&gt; 2) 
+&amp; 0x0F);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temp[j]
+ = ((utf8[i + 1] &amp; 0x03) &lt;&lt; 6) + (utf8[i + 2] &amp; 0x3F);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //取得Unicode的值<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;memcpy(&amp;unicodeKey,
+ (temp + j), 2);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APP_PRINT("unicode
+ key is: 0x%04X\n", unicodeKey);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+根据这个值查表取得对应的GB2312的值<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gbKey
+ = SearchCodeTable(unicodeKey);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APP_PRINT("gb2312
+ key is: 0x%04X\n", gbKey);<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (gbKey != 0)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//here
+ change the byte<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+不为0表示搜索到，将高低两个字节调换调成我要的形式<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gbKey
+ = (gbKey &gt;&gt; 8) | (gbKey &lt;&lt; 8);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APP_PRINT("after
+ changing, gb2312 key is: 0x%04X\n", gbKey);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;memcpy((temp
+ + j), &amp;gbKey, 2);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</strong></p>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;byteCount = 3;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br><br></strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 4:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;byteCount = 4;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 5:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;byteCount = 5;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 6:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;byteCount = 6;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APP_PRINT("the len is more than 6\n");<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i += byteCount;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (byteCount == 1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;j++;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;j += 2;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APP_PRINT("utf8: [");<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (k = 0; k &lt; j; k++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APP_PRINT("%02x ", temp[k]);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APP_PRINT("]\n");<br>}<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+二、下面主要谈谈利用查表法来进行Unicode-&gt;GB2312的转换，首先下载码表，一般码表都是将GB2312的放在前面，Unicode放
+在后面，这样对于我们来说不方便使用，所以我转换了下，将Unicode放在前面，而且按照从小到大排好序。（这里只需要考虑都为两个字节的情况，因为前
+面的UTF8-&gt;Unicode并没有将单字节的ASCII转换成Unicode）<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(1)做表：(可以到这里下载：<a href="http://blog.91bs.com/?action=show&amp;id=20">http://blog.91bs.com/?action=show&amp;id=20</a>，这里谢谢<a href="http://blog.91bs.com/"><u><font color="#0000ff">渣渣的猪窝</font></u></a>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个是原来的样子：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0x8140&nbsp;0x4E02&nbsp;#CJK UNIFIED IDEOGRAPH<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0x8141&nbsp;0x4E04&nbsp;#CJK UNIFIED IDEOGRAPH<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0x8142&nbsp;0x4E05&nbsp;#CJK UNIFIED IDEOGRAPH<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;先弄成（这个可以写个小程序来做，我就是在VC上做的，如果需要可以联系我）：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+{&nbsp;0x4E02&nbsp;，0x8140&nbsp;}, //CJK UNIFIED IDEOGRAPH<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+{&nbsp;0x4E04&nbsp;，0x8141&nbsp;}, //CJK UNIFIED IDEOGRAPH<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+{&nbsp;0x4E05&nbsp;，0x8142&nbsp;}, //CJK UNIFIED IDEOGRAPH<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这样就可以把这些放在.h文件中了，下面是我的定义：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;typedef struct unicode_gb<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unsigned
+ short&nbsp;unicode;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unsigned
+ short gb;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} UNICODE_GB;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UNICODE_GB code_table[] =&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;0x4E02,
+ 0x8140&nbsp;},&nbsp;&nbsp; //CJK UNIFIED IDEOGRAPH<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;0x4E04,
+ 0x8141&nbsp;},&nbsp; //CJK UNIFIED IDEOGRAPH<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;0x4E05,
+ 0x8142&nbsp;},&nbsp; //CJK UNIFIED IDEOGRAPH<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;。。。。。。省略<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+下面这一步也很简单，在VC中用冒泡排序法，对这个数组按照unicode值进行排序，如果需要可以联系我，把最终结果打印出来，在cmd下运行name
+ &gt; 1.txt就输出到文件，这样就有了一个按照unicode排好序的unicode-&gt;gb2312码表。<br><br>&nbsp;&nbsp;&nbsp;int main(int argc, char *argv[])<br>{</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;int num = 0;<br>&nbsp;&nbsp;&nbsp;&nbsp;UNICODE_GB temp;<br>&nbsp;&nbsp;&nbsp;&nbsp;int i = 0;<br>&nbsp;&nbsp;&nbsp;&nbsp;int j = 0;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;num = sizeof(code_table) / sizeof(UNICODE_GB);</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;printf("struct size: %d | total size: %d | num is: %d \n",&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;sizeof(UNICODE_GB), sizeof(code_table), num);</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;for (i = 0; i &lt; num; i++)<br>&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (j = 1; j &lt; num - i; j++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+ (code_table[j - 1].unicode &gt; code_table[j].unicode)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temp.unicode
+ = code_table[j - 1].unicode;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temp.gb = code_table[j - 1].gb;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;code_table[j
+ - 1].unicode = code_table[j].unicode;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;code_table[j
+ - 1].gb = code_table[j].gb;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;code_table[j].unicode
+ = temp.unicode;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;code_table[j].gb = temp.gb;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;printf("here is the code table sorted by unicode\n\n");</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;for (i = 0; i &lt; num; i++)<br>&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("{\t0x%04X,\t0x%04X\t},\t\n", code_table[i].unicode, code_table[i].gb);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("\n\n print over!\n");<br><br>&nbsp;&nbsp;&nbsp;//以下注释掉的其实就是我用来对原来的码表添加，{，}等用的<br>&nbsp;&nbsp;&nbsp;/*<br>&nbsp;&nbsp;&nbsp;&nbsp;char buff[100];<br>&nbsp;&nbsp;&nbsp;&nbsp;char buff_1[100];&nbsp;<br>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;FILE* fp = NULL;<br>&nbsp;&nbsp;&nbsp;&nbsp;FILE *fp_1 = NULL;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;memset(buff, 0, 100);<br>&nbsp;&nbsp;&nbsp;&nbsp;memset(buff_1, 0, 100);<br>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;fp = fopen("table.txt", "rw");<br>&nbsp;&nbsp;&nbsp;&nbsp;fp_1 = fopen("table_1.txt", "a+");</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;if ((fp == NULL) || (fp_1 == NULL))<br>&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("open file error!\n");<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 1;<br>&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;while (fgets(buff, 100, fp) != NULL)<br>&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;buff[8] = ',';</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fputs(buff, fp_1);<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;*/</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>}<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最后就是搜索算法了，前面已经排好序了，现在我们把排好序的码表放在我们真正需要的.h文件中。大家应该猜我用什么算法搜索了吧，二分法。<br><br>#define CODE_TABLE_SIZE 21791<br>//这个表是死的，所以就直接用宏表示长度，不用每次都用size，不过这样可能对移植性不好。<br>u16 SearchCodeTable(u16 unicodeKey)<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;int first = 0;<br>&nbsp;&nbsp;&nbsp;&nbsp;int end = CODE_TABLE_SIZE - 1;<br>&nbsp;&nbsp;&nbsp;&nbsp;int mid = 0;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;while (first &lt;= end)<br>&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mid = (first + end) / 2;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (code_table[mid].unicode == unicodeKey)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return code_table[mid].gb;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (code_table[mid].unicode &gt; unicodeKey)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end = mid - 1;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first = mid + 1;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;到此，已经能够将UTF8串转换成GB2312了。是一长串哦，而不是单个汉字的编码转换。<br><br><br></p>
+
+	<div class="postDesc">posted on 2007-12-13 19:21 <a href="http://www.cnitblog.com/wujian-IT/">吴剑</a> 阅读(15165) <a href="#Post">评论(51)</a> &nbsp;<a href="http://www.cnitblog.com/wujian-IT/admin/EditPosts.aspx?postid=37671">编辑</a>&nbsp;<a href="http://www.cnitblog.com/wujian-IT/AddToFavorite.aspx?id=37671">收藏</a> <a href="http://www.cnitblog.com/wujian-IT/services/trackbacks/37671.aspx">引用</a>  所属分类: <a href="http://www.cnitblog.com/wujian-IT/category/6357.html">我的原创</a> </div>
+</div>
+<img src="UTF-8,%20Unicode,%20GB2312%E6%A0%BC%E5%BC%8F%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B9%8BC%E8%AF%AD%E8%A8%80%E7%89%88_files/37671.jpg" height="1" width="1">
+
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+<rdf:Description
+rdf:about="http://www.cnitblog.com/wujian-IT/archive/2007/12/13/37671.html"
+dc:identifier="http://www.cnitblog.com/wujian-IT/archive/2007/12/13/37671.html"
+dc:title="UTF-8, Unicode, GB2312格式串转换之C语言版"
+trackback:ping="http://www.cnitblog.com/wujian-IT/services/trackbacks/37671.aspx" />
+</rdf:RDF>
+-->
+
+<script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('AjaxHolder$scriptmanager1', document.getElementById('Form1'));
+Sys.WebForms.PageRequestManager.getInstance()._updateControls(['tAjaxHolder$UpdatePanel1'], [], [], 90);
+//]]>
+</script>
+
+<div id="AjaxHolder_UpdatePanel1">
+	    
+    <a name="pagedcomment"></a>
+<!--done-->
+<br>
+<b>FeedBack:</b>
+<div class="feedbackNoItems"></div>
+	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#38119">#</a>&nbsp;<a name="38119"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2007-12-26 15:13&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl00_NameLink" target="_blank">A'can</a></div>
+				<div align="left">不错给我了一些启发，可以把你做的2个小工具发给我下
+<br>我的mail:acan8888@126.com
+<br>3Q先&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;A'can&quot;)" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=A%27can" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl00_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl00$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl00_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#38347">#</a>&nbsp;<a name="38347"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2008-01-01 14:13&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl01_NameLink" href="http://blog.sina.com.cn/perfect2384" target="_blank">wuxw</a></div>
+				<div align="left">首先感谢吴兄无私奉献。
+<br>我在你的基础上顺利的把unicode 转gb2312功能植到设备中去了。
+<br>
+<br>另外，我也想提两点意见，吴兄可以看看。
+<br>一是，渣渣的猪窝那个字符表有点大，尤其是对于我们嵌入式设备。所以，我用java生成了一个字符表，大概7445条映射，基本包含了目前的常用中文字符，做成静态数组，占内存空间大概29k.可以大大节省设备空间。也可以降低查找时间。
+<br>二就在算法做些优化，利用HASH表和二分查找结合的方法。取unicode高8位的值作为HASH的键值，这样，一个键下管理256条映射。再使用二分查找，算法复杂度为 O(log256)=8。这样会在算法上又得到了很好的优化。HASH占用1K的内存。
+<br>
+<br>由于公司代码保密，所以无法提供。见凉！
+<br>
+<br>&nbsp;&nbsp;<a onclick='return SetReplyAuhor("wuxw")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=wuxw" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl01_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl01$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl01_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#39454">#</a>&nbsp;<a name="39454"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2008-01-29 21:34&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl02_NameLink" target="_blank">Ashow</a></div>
+				<div align="left">非常感谢啊兄弟!!!
+<br>我做了unicode-&gt;gb2312的,也是用二维树组(7445个),也是做了小工具.
+<br>正在找utf8-2312的,你的资料真是太全面了....再次感谢!!!&nbsp;&nbsp;<a onclick='return SetReplyAuhor("Ashow")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=Ashow" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl02_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl02$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl02_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#40339">#</a>&nbsp;<a name="40339"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2008-03-01 17:50&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl03_NameLink" target="_blank">nio</a></div>
+				<div align="left">太感谢你了，热泪ING。。。。。。&nbsp;&nbsp;<a onclick='return SetReplyAuhor("nio")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=nio" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl03_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl03$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl03_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#40467">#</a>&nbsp;<a name="40467"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2008-03-04 17:36&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl04_NameLink" target="_blank">yyml20</a></div>
+				<div align="left">真的太感谢了
+<br>把你的那两个小工具发我下了
+<br>e_mail:yanml@hundsun.com
+<br>谢谢&nbsp;&nbsp;<a onclick='return SetReplyAuhor("yyml20")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=yyml20" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl04_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl04$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl04_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#43798">#</a>&nbsp;<a name="43798"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2008-05-16 07:46&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl05_NameLink" target="_blank">erxierxi</a></div>
+				<div align="left">能不能发一份给我呢，我对你里面的有些定义实在是有点不明白，如u8,u16他们是什么类型啊，你怎么定义的。我的邮箱是yuanyuanzq@163.com。谢谢&nbsp;&nbsp;<a onclick='return SetReplyAuhor("erxierxi")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=erxierxi" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl05_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl05$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl05_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#43871">#</a>&nbsp;<a name="43871"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2008-05-18 21:40&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl06_NameLink" target="_blank">dragon</a></div>
+				<div align="left">能不能也给兄弟一份啊~~~~在此谢过了。
+<br>e_mai:long5674735@163.coml&nbsp;&nbsp;<a onclick='return SetReplyAuhor("dragon")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=dragon" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl06_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl06$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl06_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#44019">#</a>&nbsp;<a name="44019"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2008-05-21 16:01&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl07_NameLink" target="_blank">selina</a></div>
+				<div align="left">pangyuan@126.com
+<br>感谢!&nbsp;&nbsp;<a onclick='return SetReplyAuhor("selina")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=selina" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl07_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl07$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl07_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#47635">#</a>&nbsp;<a name="47635"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2008-08-05 11:42&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl08_NameLink" target="_blank">liyong</a></div>
+				<div align="left">能不能也给兄弟一份啊~~~~在此谢过了。<br>e_mai:tianqu308@163.com&nbsp;&nbsp;<a onclick='return SetReplyAuhor("liyong")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=liyong" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl08_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl08$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl08_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#47921">#</a>&nbsp;<a name="47921"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2008-08-12 10:02&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl09_NameLink" target="_blank">Huzhiwei</a></div>
+				<div align="left">非常需要，请给我一份，多谢！
+<br>huzhiwei020@163.com&nbsp;&nbsp;<a onclick='return SetReplyAuhor("Huzhiwei")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=Huzhiwei" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl09_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl09$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl09_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#47938">#</a>&nbsp;<a name="47938"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2008-08-12 17:19&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl10_NameLink" target="_blank">ly</a></div>
+				<div align="left">终于找到了。非常有帮助，能否给我发一份，多谢！
+<br>lyxidian@163.com&nbsp;&nbsp;<a onclick='return SetReplyAuhor("ly")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=ly" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl10_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl10$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl10_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版[未登录]" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#48067">#</a>&nbsp;<a name="48067"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版[未登录]&nbsp;2008-08-17 00:58&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl11_NameLink" target="_blank">harry</a></div>
+				<div align="left">不觉得我们找你的表找得很麻烦么？你不能贴出来么？&nbsp;&nbsp;<a onclick='return SetReplyAuhor("harry")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=harry" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl11_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl11$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl11_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#48293">#</a>&nbsp;<a name="48293"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2008-08-23 20:53&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl12_NameLink" target="_blank">panfei</a></div>
+				<div align="left">能不能给我一份，多谢！
+<br>panfei.08@163.com&nbsp;&nbsp;<a onclick='return SetReplyAuhor("panfei")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=panfei" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl12_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl12$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl12_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#48846">#</a>&nbsp;<a name="48846"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2008-09-08 22:55&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl13_NameLink" href="http://liangjm/" target="_blank">liangjm</a></div>
+				<div align="left">能不能把你的工具也发给我一份，谢谢
+<br>liangjm_1984@163.com。 十分感谢&nbsp;&nbsp;<a onclick='return SetReplyAuhor("liangjm")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=liangjm" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl13_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl13$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl13_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版[未登录]" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#49347">#</a>&nbsp;<a name="49347"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版[未登录]&nbsp;2008-09-21 22:36&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl14_NameLink" target="_blank">haha</a></div>
+				<div align="left">能不能把你的工具也发给我一份，谢谢 
+<br>huangcy1@163.com。 十分感谢 &nbsp;&nbsp;<a onclick='return SetReplyAuhor("haha")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=haha" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl14_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl14$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl14_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#49598">#</a>&nbsp;<a name="49598"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2008-09-27 21:24&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl15_NameLink" target="_blank">meimei03312</a></div>
+				<div align="left">你好，可否将UNICODE_GB code_table[] = {.....}<br>码表发我一份。<br>meimei03312@yahoo.com.cn<br>谢谢<br>         &nbsp;&nbsp;<a onclick='return SetReplyAuhor("meimei03312")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=meimei03312" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl15_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl15$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl15_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#51153">#</a>&nbsp;<a name="51153"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2008-11-06 20:17&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl16_NameLink" target="_blank">dangzhao2003@yahoo.com.cn</a></div>
+				<div align="left">你好，可否将UNICODE_GB code_table[] = {.....}<br>码表发我一份。<br><br>dangzhao2003@yahoo.com.cn&nbsp;&nbsp;<a onclick='return SetReplyAuhor("dangzhao2003@yahoo.com.cn")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=dangzhao2003%40yahoo.com.cn" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl16_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl16$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl16_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版[未登录]" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#51281">#</a>&nbsp;<a name="51281"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版[未登录]&nbsp;2008-11-10 13:36&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl17_NameLink" target="_blank">Mike</a></div>
+				<div align="left">Hi,
+<br>
+<br>   那个Txt文件无法下载,不知谁有现成的unicode_gb表(7445个的最好),可否放到txt文件中发给我? 省得我再去转换了.非常感谢!
+<br>   我的email: mike_big@126.com
+<br>
+<br>                                      Mike&nbsp;&nbsp;<a onclick='return SetReplyAuhor("Mike")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=Mike" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl17_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl17$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl17_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#51339">#</a>&nbsp;<a name="51339"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2008-11-11 20:10&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl18_NameLink" target="_blank">lele</a></div>
+				<div align="left">真的是太感谢了！
+<br>找了好久，终于找到了，说的真是太好了！
+<br>我也需要这两个小工具，能有Unicode-gb的表最好了！
+<br>谢谢！
+<br>email:hnswxo@163.com&nbsp;&nbsp;<a onclick='return SetReplyAuhor("lele")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=lele" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl18_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl18$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl18_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#51392">#</a>&nbsp;<a name="51392"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2008-11-13 10:49&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl19_NameLink" target="_blank">lele</a></div>
+				<div align="left">我的也是7000多映射，怎么200多K呀？
+<br>
+<br>@wuxw
+<br>&nbsp;&nbsp;<a onclick='return SetReplyAuhor("lele")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=lele" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl19_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl19$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl19_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#55333">#</a>&nbsp;<a name="55333"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2009-03-13 08:33&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl20_NameLink" target="_blank">xin feng</a></div>
+				<div align="left">你好，可否将UNICODE_GB code_table[] = {.....}
+<br>码表发我一份。我也急需要！
+<br>email:wxf820822@yahoo.com.cn&nbsp;&nbsp;<a onclick='return SetReplyAuhor("xin feng")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=xin+feng" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl20_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl20$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl20_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#55567">#</a>&nbsp;<a name="55567"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2009-03-20 00:31&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl21_NameLink" target="_blank">pail</a></div>
+				<div align="left">码表发我一份。我也急需要！ <br>email：pail_li@yeah.net<br><br>谢谢&nbsp;&nbsp;<a onclick='return SetReplyAuhor("pail")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=pail" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl21_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl21$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl21_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#56618">#</a>&nbsp;<a name="56618"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2009-04-22 15:39&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl22_NameLink" target="_blank">ffwsh</a></div>
+				<div align="left">你好，可否把程序代码发给我一份？非常感谢
+<br>jx_xd@msn.com&nbsp;&nbsp;<a onclick='return SetReplyAuhor("ffwsh")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=ffwsh" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl22_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl22$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl22_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#56638">#</a>&nbsp;<a name="56638"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2009-04-23 12:37&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl23_NameLink" target="_blank">leftpoint</a></div>
+				<div align="left">您好，十分感谢！正学这方面的东西，能不能把您那个表给我一份？谢谢
+<br>邮箱：goo_zk@tom.com
+<br>&nbsp;&nbsp;<a onclick='return SetReplyAuhor("leftpoint")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=leftpoint" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl23_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl23$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl23_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#57384">#</a>&nbsp;<a name="57384"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2009-05-21 20:05&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl24_NameLink" target="_blank">yyyy</a></div>
+				<div align="left">你好！码表能发给我一份吗？我也需要！谢谢！！！
+<br>邮箱：yuanyuhua@163.com&nbsp;&nbsp;<a onclick='return SetReplyAuhor("yyyy")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=yyyy" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl24_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl24$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl24_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#59299">#</a>&nbsp;<a name="59299"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2009-06-12 15:30&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl25_NameLink" target="_blank">xjl</a></div>
+				<div align="left">你好，能给我一份码表吗？万分感谢！<br>xjl.0724@163.com&nbsp;&nbsp;<a onclick='return SetReplyAuhor("xjl")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=xjl" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl25_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl25$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl25_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#59733">#</a>&nbsp;<a name="59733"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2009-06-30 15:05&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl26_NameLink" target="_blank">Zhang Ying</a></div>
+				<div align="left">你好！码表和源程序能发给我一份吗？谢谢了！yinzhang@21cn.com&nbsp;&nbsp;<a onclick='return SetReplyAuhor("Zhang Ying")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=Zhang+Ying" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl26_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl26$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl26_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#60287">#</a>&nbsp;<a name="60287"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2009-07-22 17:36&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl27_NameLink" target="_blank">Rorbin</a></div>
+				<div align="left">你好！请发码表和源程序能发给我一份。谢谢！！！ 
+<br>邮箱：jdxxjq@163.com&nbsp;&nbsp;<a onclick='return SetReplyAuhor("Rorbin")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=Rorbin" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl27_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl27$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl27_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#60315">#</a>&nbsp;<a name="60315"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2009-07-23 13:14&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl28_NameLink" target="_blank">lyc</a></div>
+				<div align="left">你好！请发码表和源程序能发给我一份。谢谢！！！ 
+<br>邮箱：lyc@tom.com  &nbsp;&nbsp;<a onclick='return SetReplyAuhor("lyc")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=lyc" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl28_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl28$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl28_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#60316">#</a>&nbsp;<a name="60316"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2009-07-23 13:15&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl29_NameLink" target="_blank">lyc</a></div>
+				<div align="left">你好！请发码表和源程序能发给我一份。谢谢！！！ 
+<br>邮箱：lyc.1@tom.com ,lyc.1@sohu.com&nbsp;&nbsp;<a onclick='return SetReplyAuhor("lyc")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=lyc" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl29_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl29$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl29_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#60886">#</a>&nbsp;<a name="60886"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2009-08-20 09:18&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl30_NameLink" target="_blank">086</a></div>
+				<div align="left">太好了，现在正着手搞这方面。能否发我一份工具和源程序。
+<br>谢谢！
+<br>0860431@163.com&nbsp;&nbsp;<a onclick='return SetReplyAuhor("086")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=086" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl30_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl30$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl30_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#61119">#</a>&nbsp;<a name="61119"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2009-08-31 11:28&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl31_NameLink" target="_blank">hua</a></div>
+				<div align="left">能否发给我一份阿，不胜感激！
+<br>zhangzhenhua1984@gmail.com&nbsp;&nbsp;<a onclick='return SetReplyAuhor("hua")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=hua" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl31_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl31$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl31_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#61191">#</a>&nbsp;<a name="61191"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2009-09-02 14:55&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl32_NameLink" target="_blank">flyhorse2k</a></div>
+				<div align="left">也给我一份码表吧，非常感谢
+<br>zhaozhg@keylab.net&nbsp;&nbsp;<a onclick='return SetReplyAuhor("flyhorse2k")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=flyhorse2k" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl32_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl32$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl32_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版[未登录]" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#61487">#</a>&nbsp;<a name="61487"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版[未登录]&nbsp;2009-09-19 17:05&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl33_NameLink" href="http://www.imallen.com/" target="_blank">Allen</a></div>
+				<div align="left">嗯, 需要一份码表, 因为那个网站已经上不去了, 谢谢<br>allen[at]imallen.com&nbsp;&nbsp;<a onclick='return SetReplyAuhor("Allen")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=Allen" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl33_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl33$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl33_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版[未登录]" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#61754">#</a>&nbsp;<a name="61754"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版[未登录]&nbsp;2009-10-10 18:49&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl34_NameLink" target="_blank">stone</a></div>
+				<div align="left">能不能也给我一份，谢谢
+<br>stone.yan@techbridge-inc.com&nbsp;&nbsp;<a onclick='return SetReplyAuhor("stone")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=stone" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl34_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl34$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl34_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#61777">#</a>&nbsp;<a name="61777"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2009-10-12 16:00&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl35_NameLink" target="_blank">wong</a></div>
+				<div align="left">兄弟，我也正需要UNICODE_GB code_table[] = {.....} 
+<br>码表
+<br>恳请发我一份。
+<br>我也急需要！ 
+<br>
+<br>另外那两个小工具的也发下，实在细致全面！！！
+<br>谢谢！
+<br>Email：wanggang@comsys.com.cn
+<br>         juliet116@gmail.com
+<br>      
+<br>
+<br>&nbsp;&nbsp;<a onclick='return SetReplyAuhor("wong")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=wong" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl35_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl35$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl35_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#62104">#</a>&nbsp;<a name="62104"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2009-10-25 11:26&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl36_NameLink" target="_blank">eSky</a></div>
+				<div align="left">u8,u16,u32这种类型好呀，但这类型怎么让编译器认识呢？不是用typedef重定义的吧。&nbsp;&nbsp;<a onclick='return SetReplyAuhor("eSky")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=eSky" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl36_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl36$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl36_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#62429">#</a>&nbsp;<a name="62429"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2009-11-05 20:34&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl37_NameLink" target="_blank">dawea wang</a></div>
+				<div align="left">你好！上面的连接没有下载到该表格啊，麻烦也帮我发下好吧，十分感谢！～
+<br>mail: wylinder@163.com&nbsp;&nbsp;<a onclick='return SetReplyAuhor("dawea wang")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=dawea+wang" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl37_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl37$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl37_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#62544">#</a>&nbsp;<a name="62544"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2009-11-12 19:07&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl38_NameLink" target="_blank">xudayong</a></div>
+				<div align="left">你好，我现在开发的linux系统的设备，嵌入式没有相关的转换支持，请发给我一份，万分感谢！！
+<br>xxdyhero@163.com&nbsp;&nbsp;<a onclick='return SetReplyAuhor("xudayong")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=xudayong" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl38_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl38$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl38_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#64210">#</a>&nbsp;<a name="64210"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2010-02-09 12:30&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl39_NameLink" target="_blank">lorin</a></div>
+				<div align="left">你好，文档写的非常好，也请发给我一份，万分感谢！！<br>jordanliuster@gmail.com &nbsp;&nbsp;<a onclick='return SetReplyAuhor("lorin")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=lorin" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl39_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl39$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl39_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#64344">#</a>&nbsp;<a name="64344"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2010-02-22 15:37&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl40_NameLink" href="http://www.djyos.com/" target="_blank">djyos</a></div>
+				<div align="left">你好，链接的字符表找不到了，给我发一份，好吗，谢谢了。
+<br>lstpr@21cn.com&nbsp;&nbsp;<a onclick='return SetReplyAuhor("djyos")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=djyos" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl40_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl40$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl40_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#64472">#</a>&nbsp;<a name="64472"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2010-03-03 16:37&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl41_NameLink" target="_blank">VCILOVE</a></div>
+				<div align="left">能够发送源码一份，包括字符表呢，谢谢！<br>VCILOVE@yahoo.cn&nbsp;&nbsp;<a onclick='return SetReplyAuhor("VCILOVE")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=VCILOVE" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl41_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl41$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl41_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版[未登录]" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#65600">#</a>&nbsp;<a name="65600"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版[未登录]&nbsp;2010-04-25 17:37&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl42_NameLink" target="_blank">kevin</a></div>
+				<div align="left">能否发一份码表给我？十分感谢<br>keliven0412@gmail.com&nbsp;&nbsp;<a onclick='return SetReplyAuhor("kevin")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=kevin" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl42_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl42$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl42_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#66463">#</a>&nbsp;<a name="66463"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2010-05-31 21:49&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl43_NameLink" target="_blank">lvzi</a></div>
+				<div align="left">能否发我一份，十分感谢。
+<br>liuzihuang@gmail.com&nbsp;&nbsp;<a onclick='return SetReplyAuhor("lvzi")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=lvzi" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl43_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl43$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl43_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#66877">#</a>&nbsp;<a name="66877"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2010-06-20 21:52&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl44_NameLink" target="_blank">唐龙</a></div>
+				<div align="left">能否发我一份，十分感谢。 
+<br>darkson@yahoo.cn&nbsp;&nbsp;<a onclick='return SetReplyAuhor("唐龙")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=%e5%94%90%e9%be%99" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl44_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl44$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl44_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#67897">#</a>&nbsp;<a name="67897"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2010-08-04 15:25&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl45_NameLink" target="_blank">Braid</a></div>
+				<div align="left">能否发我一份，十分感谢。 
+<br>icy_stones@qq.com&nbsp;&nbsp;<a onclick='return SetReplyAuhor("Braid")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=Braid" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl45_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl45$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl45_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#68702">#</a>&nbsp;<a name="68702"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2010-09-08 13:14&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl46_NameLink" target="_blank">MCU</a></div>
+				<div align="left">做表：(可以到这里下载：<a target="_new" href="http://blog.91bs.com/?action=show&amp;id=20">http://blog.91bs.com/?action=show&amp;id=20</a>，这里谢谢渣渣的猪窝)
+<br>这个下载不了呀，能不能给我发份呀，谢谢啊！425742287@qq.com&nbsp;&nbsp;<a onclick='return SetReplyAuhor("MCU")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=MCU" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl46_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl46$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl46_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#69755">#</a>&nbsp;<a name="69755"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2010-10-08 09:33&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl47_NameLink" target="_blank">陈慧兰</a></div>
+				<div align="left">能否发我一份，十分感谢呢
+<br>chenhuinan1231@126.com&nbsp;&nbsp;<a onclick='return SetReplyAuhor("陈慧兰")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=%e9%99%88%e6%85%a7%e5%85%b0" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl47_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl47$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl47_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版[未登录]" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#70020">#</a>&nbsp;<a name="70020"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版[未登录]&nbsp;2010-10-12 19:01&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl48_NameLink" href="http://blog.163.com/when_love@126/" target="_blank">jane</a></div>
+				<div align="left">我在做linux下的字符转换，能否给我发一份源码和那两个小工具？<br>1_2_3456@163.com万分感谢&nbsp;&nbsp;<a onclick='return SetReplyAuhor("jane")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=jane" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl48_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl48$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl48_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#72920">#</a>&nbsp;<a name="72920"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版&nbsp;2011-03-03 18:51&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl49_NameLink" target="_blank">whq</a></div>
+				<div align="left">我在做linux下的字符转换，能否给我发一份源码和那两个小工具？
+<br>1万分感谢  回复  更多评论
+<br>我也要表，牛人 谢谢啊 wadldyy@yahoo.cn&nbsp;&nbsp;<a onclick='return SetReplyAuhor("whq")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=whq" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl49_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl49$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl49_EditLink"></a>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<div class="feedbacktitle"><a title="permalink: re: UTF-8, Unicode, GB2312格式串转换之C语言版" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#76101">#</a>&nbsp;<a name="76101"></a>re: UTF-8, Unicode, GB2312格式串转换之C语言版<a name="Post"></a>&nbsp;2011-10-18 17:30&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl50_NameLink" target="_blank">滴水瓦</a></div>
+				<div align="left">工作中也碰到了这个问题，也给我发一份啊，万分感谢
+<br>1150353553@qq.com&nbsp;&nbsp;<a onclick='return SetReplyAuhor("滴水瓦")' href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.cnitblog.com/comment?author=%e6%bb%b4%e6%b0%b4%e7%93%a6" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl50_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl50$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl50_EditLink"></a>
+			</div>
+		</div>
+	<div id="AjaxHolder_Comments_divRefreshComments" style="text-align:right;margin-right:10px;margin-bottom:5px;font-size:12px;"><a id="AjaxHolder_Comments_refreshList" href="javascript:__doPostBack('AjaxHolder$Comments$refreshList','')">刷新评论列表</a></div>
+<style>
+td { font-size: 12px }
+.commentTextBox 
+{ 
+    font-family : Verdana; 
+    font-size: 13px;
+ }
+</style>
+<!--Beging Temp Save-->
+<style>.userData { BEHAVIOR: url(#default#userdata) }
+	</style>
+<div class="userData" id="CommentsPersistDiv"></div>
+<script type="text/javascript">
+function pageLoad()
+{
+    Sys.WebForms.PageRequestManager.getInstance().add_initializeRequest(handleInitializeRequest);
+    //Sys.WebForms.PageRequestManager.getInstance().add_endRequest(handleEndRequest);
+}
+
+function handleInitializeRequest(sender, args)
+{
+    var prm = Sys.WebForms.PageRequestManager.getInstance();
+    var eid = args.get_postBackElement().id;
+    if (eid.indexOf("DeleteLink")>0) 
+    {
+       args.get_postBackElement().innerHTML = "<font color='red'>正在删除...</font>";         
+    }    
+    if (eid.indexOf("btnSubmit")>0) 
+    {
+       document.getElementById("AjaxHolder_PostComment_ltSubmitMsg").innerHTML="正在提交...";
+       document.getElementById("AjaxHolder_PostComment_btnSubmit").disabled = true;
+       
+    }    
+   
+}	
+
+function TempSave(ElementID)
+{
+	try
+	{
+	CommentsPersistDiv.setAttribute("CommentContent",document.getElementById(ElementID).value);
+	CommentsPersistDiv.save("CommentXMLStore");
+	}
+	catch(ex)
+	{
+	}
+	
+}
+function Restore(ElementID)
+{
+	CommentsPersistDiv.load("CommentXMLStore");
+	document.getElementById(ElementID).value=CommentsPersistDiv.getAttribute("CommentContent");
+}	
+			
+			
+</script>
+<!--Ene TempSave-->
+
+<div id="AjaxHolder_PostComment_divCommnentArea">
+<div class="commentform">
+
+<span id="AjaxHolder_PostComment_ltSubmitMsg" style="color:Red;"></span>
+<br>
+<a name="Feedback"></a>
+	<table border="0" cellpadding="1" cellspacing="1">
+		<tbody><tr>
+		<td colspan="3">
+		<a href="http://q.cnblogs.com/" target="_blank">博问 - 解决您的IT难题</a><br>
+		<div id="itnews_block" style="line-height:180%;">IT新闻：<br>· <a href="http://news.cnblogs.com/n/149162/" target="_blank">AOL聊天室发展历史：最初只容纳23人聊天</a><br>· <a href="http://news.cnblogs.com/n/149161/" target="_blank">苹果商标案和解冲击新iPad销售：卖一台亏50元</a><br>· <a href="http://news.cnblogs.com/n/149160/" target="_blank">亚马逊进军智能手机：或引发科技行业烧钱大赛</a><br>· <a href="http://news.cnblogs.com/n/149159/" target="_blank">美国今天关闭受感染DNS服务器 部分网民将断网</a><br>· <a href="http://news.cnblogs.com/n/149158/" target="_blank">美宇航局探测器登陆火星 或将发现生命分子</a><br></div>		
+		</td>
+		</tr>
+		<tr>
+			<td width="75"></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td colspan="2">
+			<a href="http://www.cnblogs.com/" target="_blank">博客园首页</a>&nbsp; <a href="http://news.cnblogs.com/" target="_blank">IT新闻</a>&nbsp; <a href="http://home.cnblogs.com/q/" target="_blank">IT问答</a>&nbsp; <a href="http://job.cnblogs.com/" target="_blank">程序员招聘</a>
+			</td>
+		</tr>
+		<tr>
+			<td width="55">标题</td>
+			<td><input name="AjaxHolder$PostComment$tbTitle" value="re: UTF-8, Unicode, GB2312格式串转换之C语言版" id="AjaxHolder_PostComment_tbTitle" class="commenttb" style="width: 320px;" type="text"></td>
+			<td><span id="AjaxHolder_PostComment_RequiredFieldValidator1" style="color:Red;visibility:hidden;">请输入标题</span></td>
+		</tr>
+		<tr>
+			<td>姓名</td>
+			<td><input name="AjaxHolder$PostComment$tbName" id="AjaxHolder_PostComment_tbName" class="commenttb" style="width: 320px;" type="text"></td>
+			<td><span id="AjaxHolder_PostComment_RequiredFieldValidator2" style="color:Red;visibility:hidden;">请输入你的姓名</span></td>
+		</tr>
+		<tr>
+			<td>主页</td>
+			<td><input name="AjaxHolder$PostComment$tbUrl" id="AjaxHolder_PostComment_tbUrl" class="commenttb" style="width: 320px;" type="text"></td>
+			<td><font face="宋体"></font></td>
+		</tr>
+		<tr>
+			<td colspan="3" align="left">
+				<table id="AjaxHolder_PostComment_tbCaptchaImage" class="CommentForm" border="0" cellpadding="0" cellspacing="0">
+		<tbody><tr>
+			<td colspan="3">
+							<span id="AjaxHolder_PostComment_Requiredfieldvalidator4" style="color:Red;display:none;">请输入验证码</span>
+							<span id="AjaxHolder_PostComment_lblImage" style="color:Red;font-weight:bold;"></span>
+						</td>
+		</tr>
+		<tr>
+			<td width="78">验证码</td>
+			<td><input name="AjaxHolder$PostComment$CodeNumberTextBox" id="AjaxHolder_PostComment_CodeNumberTextBox" type="text">*</td>
+			<td align="left">
+							<img src="UTF-8,%20Unicode,%20GB2312%E6%A0%BC%E5%BC%8F%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B9%8BC%E8%AF%AD%E8%A8%80%E7%89%88_files/JpegImage.jpg" id="AjaxHolder_PostComment_Img1">
+						</td>
+		</tr>
+	</tbody></table>
+	
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">内容(提交失败后,可以通过“恢复上次提交”恢复刚刚提交的内容)
+			<div style="width:610px;">
+			<div style="float:left;width:410px;">
+				<span id="AjaxHolder_PostComment_RequiredFieldValidator3" style="color:Red;visibility:hidden;">请输入评论内容</span><br>
+				<textarea name="AjaxHolder$PostComment$tbComment" rows="10" cols="50" id="AjaxHolder_PostComment_tbComment" class="commentTextBox" onkeydown="ctlent(event,'AjaxHolder_PostComment_tbComment')" style="width: 400px; height: 220px;"></textarea>
+			</div>
+			<div style="float:right;width:200px;margin-top:25px;">
+			</div>
+			</div>
+			</td>
+		</tr>
+		<tr>
+		<td colspan="3">
+		<span id="AjaxHolder_PostComment_Message" style="color:Red;"></span>
+		</td>
+		</tr><tr>
+			<td colspan="3"><input id="AjaxHolder_PostComment_chkRemember" name="AjaxHolder$PostComment$chkRemember" checked="checked" tabindex="-1" type="checkbox"><label for="AjaxHolder_PostComment_chkRemember">Remember Me?</label></td>
+		</tr>
+		<tr>
+			<td height="23"><input name="AjaxHolder$PostComment$btnSubmit" value="提交" onclick="TempSave('AjaxHolder_PostComment_tbComment');WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;AjaxHolder$PostComment$btnSubmit&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" id="AjaxHolder_PostComment_btnSubmit" type="submit">
+				</td>
+			<td colspan="2" height="23">&nbsp;
+				<a id="AjaxHolder_PostComment_lnkLogin" href="http://www.cnitblog.com/login.aspx?ReturnURL=http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html&amp;SourceURL=/wujian-IT/archive/2010/09/08/37671.html">登录</a>&nbsp;&nbsp;<a id="AjaxHolder_PostComment_linkLoginComment" onclick="if(document.getElementById('AjaxHolder_PostComment_tbComment').value != '') return confirm('未提交的评论内容将会丢失, 你真的要进入高级评论吗?');" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html?login=1#Post">使用高级评论</a>&nbsp;&nbsp;<a href="http://www.cnitblog.com/RequireRegister.aspx">新用户注册</a>&nbsp;&nbsp;<a href="#Top">返回页首</a>&nbsp;&nbsp;<a id="AjaxHolder_PostComment_lbRestore" onclick="Restore('AjaxHolder_PostComment_tbComment'); return false;" href="http://www.cnitblog.com/wujian-IT/archive/2010/09/08/37671.html#Post">恢复上次提交</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</td>
+		</tr>
+		<tr>
+			<td colspan="3">[使用Ctrl+Enter键可以直接提交]</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3"><a href="http://q.cnblogs.com/" target="_blank">
+			<script type="text/javascript">
+			var googletag = googletag || {};
+			googletag.cmd = googletag.cmd || [];
+			(function() {
+			var gads = document.createElement('script');
+			gads.async = true;
+			gads.type = 'text/javascript';
+			var useSSL = 'https:' == document.location.protocol;
+			gads.src = (useSSL ? 'https:' : 'http:') + 
+			'//www.googletagservices.com/tag/js/gpt.js';
+			var node = document.getElementsByTagName('script')[0];
+			node.parentNode.insertBefore(gads, node);
+			})();
+			</script>
+
+			<script type="text/javascript">
+			googletag.cmd.push(function() {
+			googletag.defineSlot('/1090369/cnitblog_blogpost_bottom', [300, 250], 'div-gpt-ad-1330504473158-0').addService(googletag.pubads());
+			googletag.pubads().enableSingleRequest();
+			googletag.enableServices();
+			});
+			</script>
+			<!-- cnitblog_blogpost_bottom -->
+			<div id="div-gpt-ad-1330504473158-0" style="width: 300px; height: 250px;">
+			<script type="text/javascript">
+			googletag.cmd.push(function() { googletag.display('div-gpt-ad-1330504473158-0'); });
+			</script>
+			<iframe style="border: 0px none;" marginheight="0" marginwidth="0" name="google_ads_iframe_/1090369/cnitblog_blogpost_bottom_0" id="google_ads_iframe_/1090369/cnitblog_blogpost_bottom_0" frameborder="0" height="250" scrolling="no" width="300"></iframe><iframe style="border: 0px none; visibility: hidden; display: none;" marginheight="0" marginwidth="0" name="google_ads_iframe_/1090369/cnitblog_blogpost_bottom_0__hidden__" id="google_ads_iframe_/1090369/cnitblog_blogpost_bottom_0__hidden__" frameborder="0" height="0" scrolling="no" width="0"></iframe></div>
+			</a></td>
+		</tr>
+		<tr>			
+		<td colspan="3">
+		<div id="cnblogs_posts" style="line-height:180%;">博客园首页随笔：<br>· <a href="http://www.cnblogs.com/ITtangtang/archive/2012/07/09/2582853.html" target="_blank">KSOAP2完成3种对象序列化网络传输(POJO)</a><br>· <a href="http://www.cnblogs.com/damonlan/archive/2012/07/09/2581739.html" target="_blank">跟我一起学Oracle 11g【1】</a><br>· <a href="http://www.cnblogs.com/skyme/archive/2012/07/09/2582534.html" target="_blank">你们也在用osgi吗？</a><br>· <a href="http://www.cnblogs.com/stoic/archive/2012/07/09/2582773.html" target="_blank">Objective-C语法之NSArray和NSMutableArray</a><br>· <a href="http://www.cnblogs.com/vamei/archive/2012/07/09/2582499.html" target="_blank">Python进阶06 循环对象</a><br></div>
+		</td>
+		</tr>
+		<tr>
+			<td colspan="3"><div id="blogsite">
+			<a href="http://www.cnblogs.com/">博客园</a>&nbsp;&nbsp;
+			<a href="http://news.cnblogs.com/">IT新闻</a>&nbsp;&nbsp;
+			<a href="http://www.blogjava.net/">BlogJava</a>&nbsp;&nbsp;
+			<a href="http://www.cnweblog.com/">博客生活</a>&nbsp;&nbsp;
+			<a href="http://www.cppblog.com/">C++博客</a>&nbsp;&nbsp;
+			<a href="http://www.phpweblog.net/">PHP博客</a>&nbsp;&nbsp;
+			</div></td>
+		</tr>
+		<tr>
+			<td colspan="3" height="5">
+<div id="divRelativePosts">
+相关文章:
+	
+			<ul style="margin-top:0px;">
+		
+			<li style="list-style:none;">
+				<a id="AjaxHolder_PostComment_ctl08_RelativePostsList_ctl01_Hyperlink1" href="http://www.cnitblog.com/wujian-IT/archive/2008/02/19/39948.html">epoll的用法</a>
+			</li>
+		
+			<li style="list-style:none;display:none">
+				<a id="AjaxHolder_PostComment_ctl08_RelativePostsList_ctl02_Hyperlink1" href="http://www.cnitblog.com/wujian-IT/archive/2007/12/13/37671.html">UTF-8, Unicode, GB2312格式串转换之C语言版</a>
+			</li>
+		
+			<li style="list-style:none;">
+				<a id="AjaxHolder_PostComment_ctl08_RelativePostsList_ctl03_Hyperlink1" href="http://www.cnitblog.com/wujian-IT/archive/2007/10/18/35048.html">倒着拷贝一个文件到另一个文件</a>
+			</li>
+		
+			</ul>
+		
+</div>
+</td>
+		</tr>
+		<tr>
+			<td colspan="3"></td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				</td>
+		</tr>
+	</tbody></table>	
+</div>
+<div id="AjaxHolder_PostComment_ValidationSummary1" style="color:Red;display:none;">
+
+	</div>
+</div>
+</div>
+
+				
+	
+<!--done-->
+<div class="footer">
+	
+	Copyright ©2012 吴剑 Powered by: <a href="http://www.cnblogs.com/" class="footerlink">博客园</a> 模板提供：<a href="http://blog.hjenglish.com/" class="footerlink">沪江博客</a><br>
+</div>
+</div>
+
+
+
+    
+    
+<script type="text/javascript">
+//<![CDATA[
+var Page_ValidationSummaries =  new Array(document.getElementById("AjaxHolder_PostComment_ValidationSummary1"));
+var Page_Validators =  new Array(document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator1"), document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator2"), document.getElementById("AjaxHolder_PostComment_Requiredfieldvalidator4"), document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator3"));
+//]]>
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+var AjaxHolder_PostComment_RequiredFieldValidator1 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator1"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator1");
+AjaxHolder_PostComment_RequiredFieldValidator1.controltovalidate = "AjaxHolder_PostComment_tbTitle";
+AjaxHolder_PostComment_RequiredFieldValidator1.errormessage = "请输入标题";
+AjaxHolder_PostComment_RequiredFieldValidator1.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator1.initialvalue = "";
+var AjaxHolder_PostComment_RequiredFieldValidator2 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator2"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator2");
+AjaxHolder_PostComment_RequiredFieldValidator2.controltovalidate = "AjaxHolder_PostComment_tbName";
+AjaxHolder_PostComment_RequiredFieldValidator2.errormessage = "请输入你的姓名";
+AjaxHolder_PostComment_RequiredFieldValidator2.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator2.initialvalue = "";
+var AjaxHolder_PostComment_Requiredfieldvalidator4 = document.all ? document.all["AjaxHolder_PostComment_Requiredfieldvalidator4"] : document.getElementById("AjaxHolder_PostComment_Requiredfieldvalidator4");
+AjaxHolder_PostComment_Requiredfieldvalidator4.controltovalidate = "AjaxHolder_PostComment_CodeNumberTextBox";
+AjaxHolder_PostComment_Requiredfieldvalidator4.errormessage = "请输入验证码";
+AjaxHolder_PostComment_Requiredfieldvalidator4.display = "Dynamic";
+AjaxHolder_PostComment_Requiredfieldvalidator4.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_Requiredfieldvalidator4.initialvalue = "";
+var AjaxHolder_PostComment_RequiredFieldValidator3 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator3"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator3");
+AjaxHolder_PostComment_RequiredFieldValidator3.controltovalidate = "AjaxHolder_PostComment_tbComment";
+AjaxHolder_PostComment_RequiredFieldValidator3.errormessage = "请输入评论内容";
+AjaxHolder_PostComment_RequiredFieldValidator3.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator3.initialvalue = "";
+var AjaxHolder_PostComment_ValidationSummary1 = document.all ? document.all["AjaxHolder_PostComment_ValidationSummary1"] : document.getElementById("AjaxHolder_PostComment_ValidationSummary1");
+AjaxHolder_PostComment_ValidationSummary1.showmessagebox = "True";
+AjaxHolder_PostComment_ValidationSummary1.showsummary = "False";
+//]]>
+</script>
+
+
+<script type="text/javascript">
+//<![CDATA[
+
+var Page_ValidationActive = false;
+if (typeof(ValidatorOnLoad) == "function") {
+    ValidatorOnLoad();
+}
+
+function ValidatorOnSubmit() {
+    if (Page_ValidationActive) {
+        return ValidatorCommonOnSubmit();
+    }
+    else {
+        return true;
+    }
+}
+        
+document.getElementById('AjaxHolder_PostComment_ValidationSummary1').dispose = function() {
+    Array.remove(Page_ValidationSummaries, document.getElementById('AjaxHolder_PostComment_ValidationSummary1'));
+}
+Sys.Application.initialize();
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator1').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator1'));
+}
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator2').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator2'));
+}
+
+document.getElementById('AjaxHolder_PostComment_Requiredfieldvalidator4').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_Requiredfieldvalidator4'));
+}
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator3').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator3'));
+}
+//]]>
+</script>
+
+    <script type="text/javascript" src="UTF-8,%20Unicode,%20GB2312%E6%A0%BC%E5%BC%8F%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B9%8BC%E8%AF%AD%E8%A8%80%E7%89%88_files/ShowHidden.js"></script>
+	<div>
+	<script type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script><script src="UTF-8,%20Unicode,%20GB2312%E6%A0%BC%E5%BC%8F%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B9%8BC%E8%AF%AD%E8%A8%80%E7%89%88_files/ga.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	try {
+	var pageTracker = _gat._getTracker("UA-476124-12");
+	pageTracker._trackPageview();
+	} catch(err) {}</script>
+	</div>
+
+
+</div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></form></body></html>

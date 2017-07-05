@@ -1,0 +1,608 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<title>使用SIGALRM信号量和sleep冲突的解决办法 - 镇关西拳打鲁智深 - 博客频道 - CSDN.NET</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="系统中的一个模块需要频繁的获取系统时间，使用linux中内置的函数开销过大，因为需要的精度不是很高（毫秒级），索性用signal函数配合setitimer实现了个简易的全局时钟。但是后来发现，SIGALRM的中断信号回终止sleep，因为sleep就是用SIGALRM信号量实">
+<script src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ga.js" async="" type="text/javascript"></script><script src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/jquery.js" type="text/javascript"></script>
+<script src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/plugins.js" type="text/javascript"></script>
+<script src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/common.js" type="text/javascript"></script>
+<script type="text/javascript" src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ad.js"></script>
+<link rel="Stylesheet" type="text/css" href="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/style.css">
+<link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="http://blog.csdn.net/littlefang/rss/list">
+<link rel="shortcut icon" href="http://blog.csdn.net/favicon.ico">
+<link type="text/css" rel="stylesheet" href="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/nobg.css">
+</head>
+<body>
+<script src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/pub_topnav_2011.js" type="text/javascript"></script><link rel="stylesheet" type="text/css" href="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/navtop_2012.css">
+<div class="nav_top_2011">
+<p><span style="color:red;">您还未登录！</span>|<a href="https://passport.csdn.net/account/login" target="_top">登录</a>|<a href="https://passport.csdn.net/account/register" target="_top">注册</a>|<a href="https://passport.csdn.net/help/faq" target="_blank">帮助</a></p><ul>
+<li><a href="http://www.csdn.net/" target="_blank">首页</a></li>
+<li><a href="http://news.csdn.net/" target="_blank">业界</a></li>
+<li><a href="http://mobile.csdn.net/" target="_blank">移动</a></li>
+<li><a href="http://cloud.csdn.net/" target="_blank">云计算</a></li>
+<li><a href="http://sd.csdn.net/" target="_blank">研发</a></li>
+<li><a href="http://bbs.csdn.net/" target="_blank">论坛</a></li>
+<li><a href="http://blog.csdn.net/" target="_blank">博客</a></li>
+<li><a href="http://download.csdn.net/" target="_blank">下载</a></li>
+<li class="more"><h2 id="topnav_btnmore" onclick="showNavMore(this)"><a href="javascript:void(0);">更多</a></h2>
+<div id="topnav_hidlist">
+<iframe name="nav_frm" src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/a.htm" frameborder="no" height="178" scrolling="no" width="92"></iframe>
+</div>
+</li>
+</ul>
+</div>
+
+
+<div id="container">
+<div id="header">
+    <div class="header">
+        <div id="blog_title">
+            <h1><a href="http://blog.csdn.net/littlefang">镇关西拳打鲁智深</a></h1>
+            <h2></h2>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<div id="navigator">
+    <div class="navigator_bg"></div>
+    <div class="navigator">
+        <ul>
+            <li id="btnContents"><a href="http://blog.csdn.net/littlefang?viewmode=contents"><span><img src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ico_list.gif">目录视图</span></a></li>
+            <li id="btnView"><a href="http://blog.csdn.net/littlefang?viewmode=list"><span><img src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ico_summary.gif">摘要视图</span></a></li>
+            <li id="btnRss"><a href="http://blog.csdn.net/littlefang/rss/list"><span><img src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ico_rss.gif">订阅</span></a></li>
+</ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var username = "littlefang";
+    var blog_address = "http://blog.csdn.net/littlefang";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = "";
+</script>
+        
+<div id="body">
+<div id="main">
+<div class="main">
+<div class="notice"> 
+
+<a href="http://blog.csdn.net/blogdevteam/article/details/8472541" target="_blank">
+<font color="blue">
+2013年1月当选微软MVP名单揭晓！   </font></a>
+
+
+
+&nbsp;&nbsp;
+
+<a href="http://blog.csdn.net/blogdevteam/article/details/8534797" target="_blank"><font color="red">智能开发框架 JEECG 作者张代浩专访</font></a>
+
+
+<br>
+
+
+
+
+
+<a href="http://vote.blog.csdn.net/details/blogstar" target="_blank">
+<font color="red">2012CSDN博客之星火热出炉！ </font></a>
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;
+
+<a href="http://blog.csdn.net/csdnstudent/article/details/8077932" target="_blank">
+<font color="red">2013年全国百所高校巡讲讲师招募  </font></a>
+
+
+</div><div id="article_details" class="details">
+    <div class="article_title">
+    <span class="ico ico_type_Original"></span>
+    <h3>
+        <span class="link_title"><a href="http://blog.csdn.net/littlefang/article/details/6830724">
+        使用SIGALRM信号量和sleep冲突的解决办法
+        </a></span>
+    </h3>
+</div>
+
+        
+    <div class="article_manage">
+        <span class="link_categories">
+        分类：
+            <a href="http://blog.csdn.net/littlefang/article/category/892880">疑难问题</a> 
+        </span>
+    <span class="link_postdate">2011-09-28 16:32</span>
+    <span class="link_view" title="阅读次数">1166人阅读</span>
+    <span class="link_comments" title="评论次数"><a href="#comments">评论</a>(3)</span>
+    <span class="link_collect"><a href="javascript:void(0);" onclick="javascript:collectArticle('使用SIGALRM信号量和sleep冲突的解决办法','6830724');return false;" title="收藏">收藏</a></span>
+    <span class="link_report"><a href="#report" onclick="javascript:report(6830724,2);return false;" title="举报">举报</a></span>
+    
+</div>
+
+
+    
+<div id="article_content" class="article_content">
+
+<p>系统中的一个模块需要频繁的获取系统时间，使用linux中内置的函数开销过大，因为需要的精度不是很高（毫秒级），索性用signal函数配合setitimer实现了个简易的全局时钟。</p>
+<p>但是后来发现，SIGALRM的中断信号回终止sleep，因为sleep就是用SIGALRM信号量实现的，得另想方案。</p>
+<p>这个替代方案就是POSIX中内置的定时器：timer_create()(创建)、timer_settime()(初始化)以及
+timer_delete(销毁)，将自己的时间信号处理函数用timer_create注册为SIGUSR2，这样就不会中断sleep了。</p>
+<p>以下内容转载自<a href="http://blog.sina.com.cn/s/blog_590be5290100j08q.html" target="_blank">smart的BLOG</a>，很详细。</p>
+<p><span style="font-size:24px"><span style="color:#006600">POSIX定时器:timer_settime()</span></span></p>
+<p>最强大的定时器接口来自POSIX时钟系列，其创建、初始化以及删除一个定时器的行动被分为三个不同的函数：timer_create()(创建定时器)、timer_settime()(初始化定时器)以及timer_delete(销毁它)。<br>
+<strong><span style="font-size:16px">创建一个定时器</span></strong>：<br>
+</p>
+<p><span style="color:#ff0000"><span style="font-size:16px"><strong>int timer_create(clockid_t clock_id, struct sigevent *evp, timer_t *timerid)</strong></span></span></p>
+<p></p><div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">view plain</a><a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">copy</a><a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">print</a><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;">?</a><div style="position: absolute; left: 399px; top: 707px; width: 24px; height: 13px; z-index: 99;"><embed id="ZeroClipboardMovie_1" src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_1" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=1&amp;width=24&amp;height=13" wmode="transparent" align="middle" height="13" width="24"></div></div></div><ol class="dp-cpp" start="1"><li class="alt"><span><span class="keyword">struct</span><span>&nbsp;itimespec{&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">struct</span><span>&nbsp;timespec&nbsp;it_interval;&nbsp;&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">struct</span><span>&nbsp;timespec&nbsp;it_value;&nbsp;&nbsp;&nbsp;</span></span></li><li class=""><span>};&nbsp;&nbsp;&nbsp;</span></li></ol></div><pre style="display: none;" name="code" class="cpp">struct itimespec{
+    struct timespec it_interval; 
+    struct timespec it_value; 
+}; </pre><br>
+<p></p>
+<p></p>
+<p></p>
+进程可以通过调用timer_create()创建特定的定时器，定时器是每个进程自己的，不是在fork时继承的。clock_id说明定时器是基于哪
+个时钟的，*timerid装载的是被创建的定时器的ID。该函数创建了定时器，并将他的ID 
+放入timerid指向的位置中。参数evp指定了定时器到期要产生的异步通知。如果evp为NULL，那么定时器到期会产生默认的信号，对 
+CLOCK_REALTIMER来说，默认信号就是SIGALRM。如果要产生除默认信号之外的其它信号，程序必须将 
+evp-&gt;sigev_signo设置为期望的信号码。struct
+ sigevent 
+结构中的成员evp-&gt;sigev_notify说明了定时器到期时应该采取的行动。通常，这个成员的值为SIGEV_SIGNAL,这个值说明在
+定时器到期时，会产生一个信号。程序可以将成员evp-&gt;sigev_notify设为SIGEV_NONE来防止定时器到期时产生信号。<br>
+如果几个定时器产生了同一个信号，处理程序可以用 evp-&gt;sigev_value来区分是哪个定时器产生了信号。要实现这种功能，程序必须在为信号安装处理程序时，使用struct sigaction的成员sa_flags中的标志符SA_SIGINFO。<br>
+clock_id取值为以下：<br>
+<p><strong>CLOCK_REALTIME </strong>:Systemwide realtime clock.<br>
+<strong>CLOCK_MONOTONIC</strong>:Represents monotonic time. Cannot be set.<br>
+<strong>CLOCK_PROCESS_CPUTIME_ID</strong> :High resolution per-process timer.<br>
+<strong>CLOCK_THREAD_CPUTIME_ID</strong> :Thread-specific timer.<br>
+<strong>CLOCK_REALTIME_HR</strong> :High resolution version of CLOCK_REALTIME.<br>
+<strong>CLOCK_MONOTONIC_HR </strong>:High resolution version of CLOCK_MONOTONIC.</p>
+<p><br>
+</p>
+<div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">view plain</a><a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">copy</a><a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">print</a><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;">?</a><div style="position: absolute; left: 399px; top: 1259px; width: 24px; height: 13px; z-index: 99;"><embed id="ZeroClipboardMovie_2" src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_2" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=2&amp;width=24&amp;height=13" wmode="transparent" align="middle" height="13" width="24"></div></div></div><ol class="dp-cpp" start="1"><li class="alt"><span><span class="keyword">struct</span><span>&nbsp;sigevent&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span>{&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="datatypes">int</span><span>&nbsp;sigev_notify;&nbsp;</span><span class="comment">//notification&nbsp;type</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="datatypes">int</span><span>&nbsp;sigev_signo;&nbsp;</span><span class="comment">//signal&nbsp;number</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">union</span><span>&nbsp;sigval&nbsp;&nbsp;&nbsp;sigev_value;&nbsp;</span><span class="comment">//signal&nbsp;valu</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span><span>&nbsp;(*sigev_notify_function)(</span><span class="keyword">union</span><span>&nbsp;sigval)&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;pthread_attr_t&nbsp;*sigev_notify_attributes&nbsp;&nbsp;</span></li><li class="alt"><span>}&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span><span class="keyword">union</span><span>&nbsp;sigval&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span>{&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="datatypes">int</span><span>&nbsp;sival_int;&nbsp;</span><span class="comment">//integer&nbsp;valu</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span><span>&nbsp;*sival_ptr;&nbsp;</span><span class="comment">//pointer&nbsp;value</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;</span></li><li class=""><span>}&nbsp;&nbsp;</span></li></ol></div><pre style="display: none;" name="code" class="cpp">struct sigevent
+
+{
+    int sigev_notify; //notification type
+    int sigev_signo; //signal number
+    union sigval   sigev_value; //signal valu
+    void (*sigev_notify_function)(union sigval)
+    pthread_attr_t *sigev_notify_attributes
+}
+
+union sigval
+
+{
+
+    int sival_int; //integer valu
+    void *sival_ptr; //pointer value
+
+}</pre><br>
+通过将evp-&gt;sigev_notify设定为如下值来定制定时器到期后的行为：<br>
+<strong>SIGEV_NONE</strong>：什么都不做，只提供通过timer_gettime和timer_getoverrun查询超时信息。<br>
+<strong>SIGEV_SIGNAL</strong>: 当定时器到期，内核会将sigev_signo所指定的信号传送给进程。在信号处理程序中，si_value会被设定会sigev_value。<br>
+<strong>SIGEV_THREAD</strong>: 当定时器到期，内核会(在此进程内)以sigev_notification_attributes为线程属性创建一个线程，并且让它执行sigev_notify_function，传入sigev_value作为为一个参数。<br>
+<span style="font-size:16px"><strong>启动一个定时器</strong>：</span><br>
+<p>timer_create()所创建的定时器并未启动。要将它关联到一个到期时间以及启动时钟周期，可以使用timer_settime()。<br>
+</p>
+<p><span style="color:#ff0000"><strong><span style="font-size:16px">int timer_settime(timer_t timerid, int flags, const struct itimerspec *value, struct itimerspect *ovalue);</span></strong></span></p>
+<p><br>
+</p>
+如同settimer()，it_value用于指定当前的定时器到期时间。当定时器到期，it_value的值会被更新成it_interval 
+的值。如果it_interval的值为0，则定时器不是一个时间间隔定时器，一旦it_value到期就会回到未启动状态。timespec的结构提供
+了纳秒级分辨率：<br>
+<br>
+<div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">view plain</a><a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">copy</a><a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">print</a><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;">?</a><div style="position: absolute; left: 399px; top: 1985px; width: 24px; height: 13px; z-index: 99;"><embed id="ZeroClipboardMovie_3" src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_3" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=3&amp;width=24&amp;height=13" wmode="transparent" align="middle" height="13" width="24"></div></div></div><ol class="dp-cpp" start="1"><li class="alt"><span><span class="keyword">struct</span><span>&nbsp;timespec{&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="datatypes">time_t</span><span>&nbsp;tv_sec;&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="datatypes">long</span><span>&nbsp;tv_nsec;&nbsp;&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span>};&nbsp;&nbsp;</span></li></ol></div><pre style="display: none;" name="code" class="cpp">struct timespec{
+
+    time_t tv_sec;
+
+    long tv_nsec; 
+
+};</pre>如果flags的值为TIMER_ABSTIME，则value所指定的时间值会被解读成绝对值(此值的默认的解读方式为相对于当前的时间)。这个经修改的行为可避免取得当前时间、计算“该时间”与“所期望的未来时间”的相对差额以及启动定时器期间造成竞争条件。<br>
+如果ovalue的值不是NULL，则之前的定时器到期时间会被存入其所提供的itimerspec。如果定时器之前处在未启动状态，则此结构的成员全都会被设定成0。<br>
+<p>获得一个活动定时器的剩余时间：<br>
+</p>
+<p><span style="color:#ff0000"><span style="font-size:16px"><strong>int timer_gettime(timer_t timerid,struct itimerspec *value);</strong></span></span></p>
+<span style="font-size:16px"><strong>取得一个定时器的超限运行次数：</strong></span><br>
+<p>有可能一个定时器到期了，而同一定时器上一次到期时产生的信号还处于挂起状态。在这种情况下，其中的一个信号可能会丢失。这就是定时器超限。程序可
+以通过调用timer_getoverrun来确定一个特定的定时器出现这种超限的次数。定时器超限只能发生在同一个定时器产生的信号上。由多个定时器，
+甚至是那些使用相同的时钟和信号的定时器，所产生的信号都会排队而不会丢失。<br>
+</p>
+<p><span style="color:#ff0000"><span style="font-size:16px"><strong>int timer_getoverrun(timer_t timerid);</strong></span></span></p>
+执行成功时，timer_getoverrun()会返回定时器初次到期与通知进程(例如通过信号)定时器已到期之间额外发生的定时器到期次数。举例来
+说，在我们之前的例子中，一个1ms的定时器运行了10ms，则此调用会返回9。如果超限运行的次数等于或大于DELAYTIMER_MAX，则此调用会
+返回DELAYTIMER_MAX。<br>
+<p>执行失败时，此函数会返回-1并将errno设定会EINVAL，这个唯一的错误情况代表timerid指定了无效的定时器。<br>
+</p>
+<p><span style="font-size:16px"><strong>删除一个定时器：</strong></span></p>
+<p><span style="font-size:16px"><strong><span style="color:#ff0000">int timer_delete (timer_t timerid);</span></strong></span><span style="color:#ff0000"></span></p>
+一次成功的timer_delete()调用会销毁关联到timerid的定时器并且返回0。执行失败时，此调用会返回-1并将errno设定会 EINVAL，这个唯一的错误情况代表timerid不是一个有效的定时器。<br>
+<br>
+<span style="color:#ff0000"><strong>例1：</strong></span><br>
+<div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">view plain</a><a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">copy</a><a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">print</a><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;">?</a><div style="position: absolute; left: 399px; top: 2669px; width: 24px; height: 13px; z-index: 99;"><embed id="ZeroClipboardMovie_4" src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_4" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=4&amp;width=24&amp;height=13" wmode="transparent" align="middle" height="13" width="24"></div></div></div><ol class="dp-cpp" start="1"><li class="alt"><span><span class="keyword">void</span><span>&nbsp;handle()&nbsp;&nbsp;</span></span></li><li class=""><span>{&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="datatypes">time_t</span><span>&nbsp;t;&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="datatypes">char</span><span>&nbsp;p[32];&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;time(&amp;t);&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;strftime(p,&nbsp;<span class="keyword">sizeof</span><span>(p),&nbsp;</span><span class="string">"%T"</span><span>,&nbsp;localtime(&amp;t));&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;printf(<span class="string">"time&nbsp;is&nbsp;%s\n"</span><span>,&nbsp;p);&nbsp;&nbsp;</span></span></li><li class=""><span>}&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;</span></li><li class=""><span><span class="datatypes">int</span><span>&nbsp;main()&nbsp;&nbsp;</span></span></li><li class="alt"><span>{&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">struct</span><span>&nbsp;sigevent&nbsp;evp;&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">struct</span><span>&nbsp;itimerspec&nbsp;ts;&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;timer_t&nbsp;timer;&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="datatypes">int</span><span>&nbsp;ret;&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;evp.sigev_value.sival_ptr&nbsp;=&nbsp;&amp;timer;&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;evp.sigev_notify&nbsp;=&nbsp;SIGEV_SIGNAL;&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;evp.sigev_signo&nbsp;=&nbsp;SIGUSR1;&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;signal(SIGUSR1,&nbsp;handle);&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;ret&nbsp;=&nbsp;timer_create(CLOCK_REALTIME,&nbsp;&amp;evp,&nbsp;&amp;timer);&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span><span>(&nbsp;ret&nbsp;)&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perror(<span class="string">"timer_create"</span><span>);&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;ts.it_interval.tv_sec&nbsp;=&nbsp;1;&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;ts.it_interval.tv_nsec&nbsp;=&nbsp;0;&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;ts.it_value.tv_sec&nbsp;=&nbsp;3;&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;ts.it_value.tv_nsec&nbsp;=&nbsp;0;&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;ret&nbsp;=&nbsp;timer_settime(timer,&nbsp;0,&nbsp;&amp;ts,&nbsp;NULL);&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span><span>(&nbsp;ret&nbsp;)&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;perror(<span class="string">"timer_settime"</span><span>);&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span><span>(1);&nbsp;&nbsp;</span></span></li><li class=""><span>}&nbsp;&nbsp;</span></li></ol></div><pre style="display: none;" name="code" class="cpp">void handle()
+{
+    time_t t;
+    char p[32];
+
+    time(&amp;t);
+    strftime(p, sizeof(p), "%T", localtime(&amp;t));
+
+    printf("time is %s\n", p);
+}
+
+
+
+int main()
+{
+    struct sigevent evp;
+    struct itimerspec ts;
+    timer_t timer;
+    int ret;
+
+    evp.sigev_value.sival_ptr = &amp;timer;
+    evp.sigev_notify = SIGEV_SIGNAL;
+    evp.sigev_signo = SIGUSR1;
+    signal(SIGUSR1, handle);
+
+    ret = timer_create(CLOCK_REALTIME, &amp;evp, &amp;timer);
+    if( ret )
+        perror("timer_create");
+
+    ts.it_interval.tv_sec = 1;
+    ts.it_interval.tv_nsec = 0;
+    ts.it_value.tv_sec = 3;
+    ts.it_value.tv_nsec = 0;
+
+    ret = timer_settime(timer, 0, &amp;ts, NULL);
+    if( ret )
+    perror("timer_settime");
+
+    while(1);
+}</pre><br>
+<strong><span style="color:#ff0000">例2：</span></strong><br>
+<div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">view plain</a><a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">copy</a><a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">print</a><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;">?</a><div style="position: absolute; left: 399px; top: 3505px; width: 24px; height: 13px; z-index: 99;"><embed id="ZeroClipboardMovie_5" src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_5" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=5&amp;width=24&amp;height=13" wmode="transparent" align="middle" height="13" width="24"></div></div></div><ol class="dp-cpp" start="1"><li class="alt"><span><span class="keyword">void</span><span>&nbsp;handle(</span><span class="keyword">union</span><span>&nbsp;sigval&nbsp;v)&nbsp;&nbsp;</span></span></li><li class=""><span>{&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="datatypes">time_t</span><span>&nbsp;t;&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="datatypes">char</span><span>&nbsp;p[32];&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;time(&amp;t);&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;strftime(p,&nbsp;<span class="keyword">sizeof</span><span>(p),&nbsp;</span><span class="string">"%T"</span><span>,&nbsp;localtime(&amp;t));&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;printf(<span class="string">"%s&nbsp;thread&nbsp;%lu,&nbsp;val&nbsp;=&nbsp;%d,&nbsp;signal&nbsp;captured.\n"</span><span>,&nbsp;p,&nbsp;pthread_self(),&nbsp;v.sival_int);&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span><span>;&nbsp;&nbsp;</span></span></li><li class="alt"><span>}&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span><span class="datatypes">int</span><span>&nbsp;main()&nbsp;&nbsp;</span></span></li><li class=""><span>{&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">struct</span><span>&nbsp;sigevent&nbsp;evp;&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">struct</span><span>&nbsp;itimerspec&nbsp;ts;&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;timer_t&nbsp;timer;&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="datatypes">int</span><span>&nbsp;ret;&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;memset&nbsp;(&amp;evp,&nbsp;0,&nbsp;<span class="keyword">sizeof</span><span>&nbsp;(evp));&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;evp.sigev_value.sival_ptr&nbsp;=&nbsp;&amp;timer;&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;evp.sigev_notify&nbsp;=&nbsp;SIGEV_THREAD;&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;evp.sigev_notify_function&nbsp;=&nbsp;handle;&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;evp.sigev_value.sival_int&nbsp;=&nbsp;3;&nbsp;<span class="comment">//作为handle()的参数</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;ret&nbsp;=&nbsp;timer_create(CLOCK_REALTIME,&nbsp;&amp;evp,&nbsp;&amp;timer);&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span><span>(&nbsp;ret)&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perror(<span class="string">"timer_create"</span><span>);&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;ts.it_interval.tv_sec&nbsp;=&nbsp;1;&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;ts.it_interval.tv_nsec&nbsp;=&nbsp;0;&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;ts.it_value.tv_sec&nbsp;=&nbsp;3;&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;ts.it_value.tv_nsec&nbsp;=&nbsp;0;&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;ret&nbsp;=&nbsp;timer_settime(timer,&nbsp;TIMER_ABSTIME,&nbsp;&amp;ts,&nbsp;NULL);&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span><span>(&nbsp;ret&nbsp;)&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perror(<span class="string">"timer_settime"</span><span>);&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span><span>(1);&nbsp;&nbsp;</span></span></li><li class=""><span>}&nbsp;&nbsp;</span></li></ol></div><pre style="display: none;" name="code" class="cpp">void handle(union sigval v)
+{
+    time_t t;
+    char p[32];
+
+    time(&amp;t);
+    strftime(p, sizeof(p), "%T", localtime(&amp;t));
+
+    printf("%s thread %lu, val = %d, signal captured.\n", p, pthread_self(), v.sival_int);
+    return;
+}
+
+
+
+int main()
+{
+    struct sigevent evp;
+    struct itimerspec ts;
+    timer_t timer;
+    int ret;
+
+    memset (&amp;evp, 0, sizeof (evp));
+    evp.sigev_value.sival_ptr = &amp;timer;
+    evp.sigev_notify = SIGEV_THREAD;
+    evp.sigev_notify_function = handle;
+    evp.sigev_value.sival_int = 3; //作为handle()的参数
+
+    ret = timer_create(CLOCK_REALTIME, &amp;evp, &amp;timer);
+    if( ret)
+        perror("timer_create");
+
+    ts.it_interval.tv_sec = 1;
+    ts.it_interval.tv_nsec = 0;
+    ts.it_value.tv_sec = 3;
+    ts.it_value.tv_nsec = 0;
+
+    ret = timer_settime(timer, TIMER_ABSTIME, &amp;ts, NULL);
+    if( ret )
+        perror("timer_settime");
+
+    while(1);
+}</pre><br>
+
+</div>
+<div class="share_buttons" id="sharePanel"><span>分享到：</span> <a name="sina" class="share_sina" title="分享到新浪微博"></a><a name="qq" class="share_qq" title="分享到腾讯微博"></a></div>
+<!--192.168.1.237-->
+<div class="article_next_prev">
+    <li class="prev_article"><span>上一篇：</span><a href="http://blog.csdn.net/littlefang/article/details/6803179">C语言执行Linux的shell命令并获得返回值</a></li>
+    <li class="next_article"><span>下一篇：</span><a href="http://blog.csdn.net/littlefang/article/details/6851864">使用WinSetupFromUSB来U盘安装windowsXP（不使用win PE系统）</a></li>
+</div>
+
+
+    
+</div>
+<div id="ad_cen"><iframe src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ad.htm" style="border-width: 0px; overflow: hidden; width: 1168px; height: 96px;" id="ad_frm_0" frameborder="0" scrolling="no"></iframe></div>
+<script type="text/javascript">
+    new Ad(4, 'ad_cen');
+</script>
+<div id="comment_title" class="panel_head">查看评论<a name="comments"></a></div>
+<div id="comment_list"><dl class="comment_item comment_topic" id="comment_item_2393782"><dt class="comment_head" floor="2">2楼 <span class="user"><a class="username" href="http://blog.csdn.net/techon" target="_blank">techon</a> <span class="ptime">2012-10-08 21:26发表</span>  <a href="#reply" class="cmt_btn reply" title="回复">[回复]</a> <span class="comment_manage" style="display:none;" commentid="2393782" username="techon"> <a href="#quote" class="cmt_btn quote" title="引用">[引用]</a> <a href="#report" class="cmt_btn report" title="举报">[举报]</a></span></span></dt><dd class="comment_userface"><a href="http://blog.csdn.net/techon" target="_blank"><img src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/3_techon.gif" height="40" width="40"></a></dd><dd class="comment_body">例2没问题，可能是例1都在一个线程里，例2是独立线程？</dd></dl><dl class="comment_item comment_topic" id="comment_item_2393716"><dt class="comment_head" floor="1">1楼 <span class="user"><a class="username" href="http://blog.csdn.net/techon" target="_blank">techon</a> <span class="ptime">2012-10-08 20:41发表</span>  <a href="#reply" class="cmt_btn reply" title="回复">[回复]</a> <span class="comment_manage" style="display:none;" commentid="2393716" username="techon"> <a href="#quote" class="cmt_btn quote" title="引用">[引用]</a> <a href="#report" class="cmt_btn report" title="举报">[举报]</a></span></span></dt><dd class="comment_userface"><a href="http://blog.csdn.net/techon" target="_blank"><img src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/3_techon.gif" height="40" width="40"></a></dd><dd class="comment_body">照样打断sleep啊。。。 我在main的while(1)里加入<br>sleep(10);</dd><dl class="comment_item comment_reply" id="comment_item_2441939"><dt class="comment_head" floor="1">Re: <span class="user"><a class="username" href="http://blog.csdn.net/littlefang" target="_blank">littlefang</a> <span class="ptime">2012-11-22 16:47发表</span>  <a href="#reply" class="cmt_btn reply" title="回复">[回复]</a> <span class="comment_manage" style="display:none;" commentid="2441939" username="littlefang"> <a href="#quote" class="cmt_btn quote" title="引用">[引用]</a> <a href="#report" class="cmt_btn report" title="举报">[举报]</a></span></span></dt><dd class="comment_userface"><a href="http://blog.csdn.net/littlefang" target="_blank"><img src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/3_littlefang.jpg" height="40" width="40"></a></dd><dd class="comment_body">回复techon：我也发现了，，在有些内核版本里还是不行。。</dd></dl></dl><div class="clear"></div></div>
+<div style="display: none;" id="comment_bar"></div>
+<div id="comment_form"><div class="guest_link">您还没有登录,请<a href="http://passport.csdn.net/account/login?from=http%3A%2F%2Fblog.csdn.net%2Flittlefang%2Farticle%2Fdetails%2F6830724">[登录]</a>或<a href="http://passport.csdn.net/account/register?from=http%3A%2F%2Fblog.csdn.net%2Flittlefang%2Farticle%2Fdetails%2F6830724">[注册]</a></div></div>
+<div class="announce">* 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<a name="reply"></a><a name="quote"></a></div>
+<script type="text/javascript">
+    var fileName = '6830724';
+    var commentscount = 3;
+    var islock = false
+</script>
+<script type="text/javascript" src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/comment.js"></script>
+<div id="ad_bot"><iframe src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ad_002.htm" style="border-width: 0px; overflow: hidden; width: 1168px; height: 170px;" id="ad_frm_1" frameborder="0" scrolling="no"></iframe></div>
+<script type="text/javascript">
+    new Ad(5, 'ad_bot');
+</script>
+<div id="report_dialog"></div>
+
+<div id="d-top">
+<a href="#" onclick="javascript:document.body.scrollTop=0;document.documentElement.scrollTop=0;this.blur();return false;" title="回到顶部">
+<img src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/top.png" alt="TOP"></a>
+</div>
+
+
+
+<div class="clear"></div>
+</div>
+</div>
+
+<div id="side">
+<div class="side">
+<div id="panel_Profile" class="panel">
+    <ul class="panel_head"><span>个人资料</span></ul>
+    <ul class="panel_body profile">
+        <div id="blog_userface">
+            <a href="http://my.csdn.net/littlefang" target="_blank">
+            <img src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/1_littlefang.jpg" title="访问我的空间" style="max-width:90%">
+            </a>
+            <br>
+            <span><a href="http://my.csdn.net/littlefang" class="user_name" target="_blank">littlefang</a></span>
+        </div>
+<div class="interact">
+<!--<a href="#" class="attented" title="已关注"></a>-->
+<a href="#" class="attent" id="span_add_follow" title="[加关注]"></a>
+<a href="http://my.csdn.net/my/letter/send/littlefang" class="letter" title="[发私信]"></a>
+</div>
+        <div id="blog_medal">
+        <div id="bms_box"></div></div>
+        <ul id="blog_rank">
+            <li>访问：<span>27566次</span></li>
+            <li>积分：<span>516分</span></li>
+            <li>排名：<span>千里之外</span></li>
+        </ul>
+        <ul id="blog_statistics">
+            <li>原创：<span>23篇</span></li>
+            <li>转载：<span>6篇</span></li>
+            <li>译文：<span>0篇</span></li>
+            <li>评论：<span>9条</span></li>
+        </ul>
+    </ul>
+</div>
+<script type="text/javascript">
+    var _blogger = 'littlefang';
+</script>
+<script type="text/javascript">
+$(document).ready(function () {
+    var un = getUN().toLowerCase();
+    if (un == _blogger.toLowerCase()) {
+        $('.interact').hide();
+    } else if(un) {
+        var url = "http://my.csdn.net/index.php/follow/check_is_followed/" + encodeURIComponent(un) + "/" + encodeURIComponent(_blogger) + "?jsonpcallback=?";
+        $.getJSON(url, {}, function (data) {
+            if (data.succ == 1 && data.info == 1) {
+                $('#span_add_follow').attr('class', 'attented');
+            } else {
+                $('#span_add_follow').click(guanzhu);
+            }
+        }, 'json');
+    }
+});
+function guanzhu() {
+    var url = "http://my.csdn.net/index.php/follow/do_follow?jsonpcallback=?";
+    $.getJSON(url, { "username": _blogger }, function (data) {
+        if (data.succ == 1) {
+            alert('关注成功！');
+            $('#span_add_follow').attr('class', 'attented').click(function () { return false; });
+        } else {
+            alert(data.msg);
+        }
+    });
+    return false;
+}
+function getUN() {
+    var m = document.cookie.match(new RegExp("(^| )UserName=([^;]*)(;|$)"));
+    if (m) return m[2];
+    else return '';
+}
+</script>
+
+<div class="panel" id="panel_Search">
+    <ul class="panel_head"><span>文章搜索</span></ul>
+    <ul class="panel_body">
+        <form id="frmSearch" action="http://so.csdn.net/search" class="form_search" target="_blank">
+        <span><input id="inputSearch" class="blogsearch" title="请输入关键字" type="text"></span>
+        <input id="btnSubmit" value="搜索" title="search in blog" type="submit">
+        <input name="q" id="inputQ" type="hidden">
+        <input name="t" value="blog" type="hidden">
+        <a id="btnSearchBlog" target="_blank"></a>
+        </form>
+    </ul>
+</div><div id="panel_Category" class="panel">
+    <ul class="panel_head"><span>文章分类</span></ul>
+    <ul class="panel_body">
+        <li>
+        <a href="http://blog.csdn.net/littlefang/article/category/830383">备忘</a><span>(9)</span>
+        </li>
+        <li>
+        <a href="http://blog.csdn.net/littlefang/article/category/892880">疑难问题</a><span>(4)</span>
+        </li>
+        <li>
+        <a href="http://blog.csdn.net/littlefang/article/category/1096613">一些思考</a><span>(2)</span>
+        </li>
+    </ul>
+</div><div id="panel_Archive" class="panel">
+    <ul class="panel_head"><span>文章存档</span></ul>
+    <ul class="panel_body">
+        <div id="archive_list"><li><a href="http://blog.csdn.net/littlefang/article/month/2012/12">2012年12月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/littlefang/article/month/2012/11">2012年11月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/littlefang/article/month/2012/05">2012年05月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/littlefang/article/month/2012/03">2012年03月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/littlefang/article/month/2011/11">2011年11月</a><span>(1)</span></li><span class="hidelist" style="display:none;"><li><a href="http://blog.csdn.net/littlefang/article/month/2011/10">2011年10月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/littlefang/article/month/2011/09">2011年09月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/littlefang/article/month/2011/08">2011年08月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/littlefang/article/month/2011/07">2011年07月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/littlefang/article/month/2011/06">2011年06月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/littlefang/article/month/2011/04">2011年04月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/littlefang/article/month/2011/03">2011年03月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/littlefang/article/month/2011/02">2011年02月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/littlefang/article/month/2010/12">2010年12月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/littlefang/article/month/2010/10">2010年10月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/littlefang/article/month/2010/05">2010年05月</a><span>(2)</span></li></span><div id="archive_list_button" class="list_closed">展开</div></div>
+    </ul>
+</div>
+<div id="hotarticls" class="panel">
+    <ul class="panel_head"><span>阅读排行</span></ul>
+    <ul class="panel_body itemlist">
+        <li>
+            <a href="http://blog.csdn.net/littlefang/article/details/6851864" title="使用WinSetupFromUSB来U盘安装windowsXP（不使用win PE系统）">使用WinSetupFromUSB来U盘安装windowsXP（不使用win PE系统）</a><span>(6240)</span>
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/littlefang/article/details/6104679" title="没有atomic.h后如何在linux实现原子操作">没有atomic.h后如何在linux实现原子操作</a><span>(2852)</span>
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/littlefang/article/details/7342445" title="海明码分组原则">海明码分组原则</a><span>(1962)</span>
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/littlefang/article/details/6052563" title="在应用程序中替换Linux中Glibc的malloc的四种方法">在应用程序中替换Linux中Glibc的malloc的四种方法</a><span>(1708)</span>
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/littlefang/article/details/5600399" title="tcprewrite的安装和用法">tcprewrite的安装和用法</a><span>(1483)</span>
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/littlefang/article/details/6052058" title="深入Linux的内存管理，关于PTMalloc3、Hoard和TCMalloc">深入Linux的内存管理，关于PTMalloc3、Hoard和TCMalloc</a><span>(1340)</span>
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/littlefang/article/details/6803179" title="C语言执行Linux的shell命令并获得返回值">C语言执行Linux的shell命令并获得返回值</a><span>(1321)</span>
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/littlefang/article/details/6213182" title="工商银行网银U盾在win7 64位操作系统无法使用的问题">工商银行网银U盾在win7 64位操作系统无法使用的问题</a><span>(1220)</span>
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/littlefang/article/details/6830724" title="使用SIGALRM信号量和sleep冲突的解决办法">使用SIGALRM信号量和sleep冲突的解决办法</a><span>(1166)</span>
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/littlefang/article/details/7579610" title="linux的pthread_self与gettid的返回值和开销的区别">linux的pthread_self与gettid的返回值和开销的区别</a><span>(847)</span>
+        </li>
+    </ul>
+</div>
+<div id="hotarticls2" class="panel">
+    <ul class="panel_head"><span>评论排行</span></ul>
+    <ul class="panel_body itemlist">
+        <li>
+            <a href="http://blog.csdn.net/littlefang/article/details/6830724" title="使用SIGALRM信号量和sleep冲突的解决办法">使用SIGALRM信号量和sleep冲突的解决办法</a><span>(3)</span>
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/littlefang/article/details/7617729" title="winpcap/wireshark在win7 64位系统下IP头部结构长度为0的bug">winpcap/wireshark在win7 64位系统下IP头部结构长度为0的bug</a><span>(2)</span>
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/littlefang/article/details/6620458" title="linux中下载ftp文件的几个方法">linux中下载ftp文件的几个方法</a><span>(2)</span>
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/littlefang/article/details/5600399" title="tcprewrite的安装和用法">tcprewrite的安装和用法</a><span>(1)</span>
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/littlefang/article/details/6237435" title="Linux动态链接库同名符号装载问题（一）">Linux动态链接库同名符号装载问题（一）</a><span>(1)</span>
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/littlefang/article/details/5600331" title="valgrind安装过程中无法定位libmpi.a中lam_mpi_commworld错误的解决办法。">valgrind安装过程中无法定位libmpi.a中lam_mpi_commworld错误的解决办法。</a><span>(0)</span>
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/littlefang/article/details/6803179" title="C语言执行Linux的shell命令并获得返回值">C语言执行Linux的shell命令并获得返回值</a><span>(0)</span>
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/littlefang/article/details/6851864" title="使用WinSetupFromUSB来U盘安装windowsXP（不使用win PE系统）">使用WinSetupFromUSB来U盘安装windowsXP（不使用win PE系统）</a><span>(0)</span>
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/littlefang/article/details/6932016" title="source insight粘贴时候的光标问题">source insight粘贴时候的光标问题</a><span>(0)</span>
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/littlefang/article/details/7340920" title="在模块内对内存的分配过早优化的缺点">在模块内对内存的分配过早优化的缺点</a><span>(0)</span>
+        </li>
+    </ul>
+</div>
+<div id="homepageArticles" class="panel">
+    <ul class="panel_head"><span>推荐文章</span></ul>
+    <ul class="panel_body" id="ad_commend">
+    <iframe src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ad_003.htm" style="border-width: 0px; overflow: hidden; width: 194px; height: 272px;" id="ad_frm_2" frameborder="0" scrolling="no"></iframe></ul>
+</div>
+<script type="text/javascript">
+    new Ad(12, 'ad_commend');
+</script><div id="newcomments" class="panel">
+<ul class="panel_head"><span>最新评论</span></ul>
+<ul class="panel_body itemlist">
+    <li>
+    <a href="http://blog.csdn.net/littlefang/article/details/6830724#comments">使用SIGALRM信号量和sleep冲突的解决办法</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/littlefang" class="user_name">littlefang</a>:
+@techon:我也发现了，，在有些内核版本里还是不行。。
+    </p>
+    </li>
+    <li>
+    <a href="http://blog.csdn.net/littlefang/article/details/7617729#comments">winpcap/wireshark在win7 64位系统下IP头部结构长度为0的bug</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/littlefang" class="user_name">littlefang</a>:
+@orientlight:winpcap64位的版本可以安装，其实这个现象倒也说不上bug，现在网卡...
+    </p>
+    </li>
+    <li>
+    <a href="http://blog.csdn.net/littlefang/article/details/6237435#comments">Linux动态链接库同名符号装载问题（一）</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/yangyangye" class="user_name">yangyangye</a>:
+好文章
+    </p>
+    </li>
+    <li>
+    <a href="http://blog.csdn.net/littlefang/article/details/6830724#comments">使用SIGALRM信号量和sleep冲突的解决办法</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/techon" class="user_name">techon</a>:
+例2没问题，可能是例1都在一个线程里，例2是独立线程？
+    </p>
+    </li>
+    <li>
+    <a href="http://blog.csdn.net/littlefang/article/details/6830724#comments">使用SIGALRM信号量和sleep冲突的解决办法</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/techon" class="user_name">techon</a>:
+照样打断sleep啊。。。 我在main的while(1)里加入sleep(10);
+    </p>
+    </li>
+    <li>
+    <a href="http://blog.csdn.net/littlefang/article/details/7617729#comments">winpcap/wireshark在win7 64位系统下IP头部结构长度为0的bug</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/orientlight" class="user_name">orientlight</a>:
+64位的win7也能安装WinPcap么？会不会有什么bug?
+    </p>
+    </li>
+    <li>
+    <a href="http://blog.csdn.net/littlefang/article/details/6620458#comments">linux中下载ftp文件的几个方法</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/littlefang" class="user_name">littlefang</a>:
+@lixx870715:首先建立下载文件的url列表，例如url.txt:ftp://ftp.ncb...
+    </p>
+    </li>
+    <li>
+    <a href="http://blog.csdn.net/littlefang/article/details/6620458#comments">linux中下载ftp文件的几个方法</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/lixx870715" class="user_name">lixx870715</a>:
+有没有一次用一条命令下载几个文件而不是全部的啊。。
+    </p>
+    </li>
+    <li>
+    <a href="http://blog.csdn.net/littlefang/article/details/5600399#comments">tcprewrite的安装和用法</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/humaeks123" class="user_name">humaeks123</a>:
+P.S.修改目的IP的MAC地址的时候，MAC地址不是目的机网卡物理地址，而是源机器所连接的交换机M...
+    </p>
+    </li>
+</ul>
+</div>
+</div>
+<div class="clear"></div>
+</div>
+
+<div class="clear"></div>
+</div>
+<script type="text/javascript" src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/shCore-src.js"></script>
+<script type="text/javascript" src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ZeroClipboard.js"></script>
+<script type="text/javascript" src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/article_code.js"></script>
+<script type="text/javascript" src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/cnick.js"></script>
+
+<script type="text/javascript" src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/show.js"></script>
+<script type="text/javascript" src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/showblogmedal.js"></script>
+
+<script type="text/javascript" src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/publib_footer.js"></script><link rel="stylesheet" type="text/css" href="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/pub_footer_2012.css"><div class="pub_footerall"><dl><dt></dt> <dd><a href="http://www.csdn.net/company/about.html" target="_blank">公司简介</a>|<a href="http://www.csdn.net/company/recruit.html" target="_blank">招贤纳士</a>|<a href="http://www.csdn.net/company/marketing.html" target="_blank">广告服务</a>|<a href="http://www.csdn.net/company/account.html" target="_blank">银行汇款帐号</a>|<a href="http://www.csdn.net/company/contact.html" target="_blank">联系方式</a>|<a href="http://www.csdn.net/company/statement.html" target="_blank">版权声明</a>|<a href="http://www.csdn.net/company/layer.html" target="_blank">法律顾问</a>|<a href="mailto:webmaster@csdn.net">问题报告</a></dd><dd>京&nbsp;ICP&nbsp;证&nbsp;070598&nbsp;号</dd><dd>北京创新乐知信息技术有限公司 版权所有</dd><dd>世纪乐知(北京)网络技术有限公司 提供技术支持</dd><dd>江苏乐知网络技术有限公司 提供商务支持</dd><dd><img src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ico_email.gif" alt="" title=""> 联系邮箱：webmaster(at)csdn.net</dd><dd>Copyright © 1999-2012, CSDN.NET, All Rights Reserved&nbsp;<a href="http://www.hd315.gov.cn/beian/view.asp?bianhao=010202001032100010" target="_blank"><img src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/gongshang_logos.gif" alt="GongshangLogo" title=""></a></dd></dl></div><script type="text/javascript" charset="utf-8" src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/tracking.js"></script>
+
+<script type="text/javascript">document.write("<img src=http://counter.csdn.net/pv.aspx?id=24 border=0 width=0 height=0>");</script><img src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/pv.txt" border="0" height="0" width="0">
+<script type="text/javascript" src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/counter.js"></script><script type="text/javascript" charset="UTF-8" src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/msg.js"></script>
+
+<!--ad.csdn.net-->
+<script type="text/javascript" src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ad-blog.js"></script><script type="text/javascript" src="%E4%BD%BF%E7%94%A8SIGALRM%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8Csleep%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%20-%20%E9%95%87%E5%85%B3%E8%A5%BF%E6%8B%B3%E6%89%93%E9%B2%81%E6%99%BA%E6%B7%B1%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ad-ms461.js"></script>
+
+
+
+
+</div>
+
+</body></html>

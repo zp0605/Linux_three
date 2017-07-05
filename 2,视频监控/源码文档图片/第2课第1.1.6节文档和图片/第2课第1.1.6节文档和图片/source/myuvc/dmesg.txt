@@ -1,0 +1,2403 @@
+iceClass          239 
+[298349.955333]   bDeviceSubClass         2 
+[298349.955333]   bDeviceProtocol         1 
+[298349.955334]   bMaxPacketSize0        64
+[298349.955334]   idVendor           0x1e4e 
+[298349.955335]   idProduct          0x0102 
+[298349.955335]   bcdDevice            0.02
+[298349.955336]   iManufacturer           1
+[298349.955336]   iProduct                2
+[298349.955337]   iSerial                 0
+[298349.955337]   bNumConfigurations      1
+[298349.955347] myuvc_probe : cnt = 1
+[298349.955349] Device Descriptor:
+[298349.955350]   bLength                18
+[298349.955350]   bDescriptorType         1
+[298349.955351]   bcdUSB               2.00
+[298349.955351]   bDeviceClass          239 
+[298349.955352]   bDeviceSubClass         2 
+[298349.955352]   bDeviceProtocol         1 
+[298349.955353]   bMaxPacketSize0        64
+[298349.955353]   idVendor           0x1e4e 
+[298349.955354]   idProduct          0x0102 
+[298349.955354]   bcdDevice            0.02
+[298349.955355]   iManufacturer           1
+[298349.955355]   iProduct                2
+[298349.955356]   iSerial                 0
+[298349.955356]   bNumConfigurations      1
+[298349.955368] usbcore: registered new interface driver myuvc
+[301529.656778] lo: Disabled Privacy Extensions
+[301530.057136] lo: Disabled Privacy Extensions
+[301541.597245] usbcore: deregistering interface driver myuvc
+[301541.597324] myuvc_disconnect : cnt = 0
+[301541.597343] myuvc_disconnect : cnt = 1
+[301547.195231] myuvc_probe : cnt = 0
+[301547.195235] Device Descriptor:
+[301547.195236]   bLength                18
+[301547.195236]   bDescriptorType         1
+[301547.195237]   bcdUSB               2.00
+[301547.195237]   bDeviceClass          239 
+[301547.195238]   bDeviceSubClass         2 
+[301547.195238]   bDeviceProtocol         1 
+[301547.195239]   bMaxPacketSize0        64
+[301547.195239]   idVendor           0x1e4e 
+[301547.195240]   idProduct          0x0102 
+[301547.195241]   bcdDevice            0.02
+[301547.195241]   iManufacturer           1
+[301547.195242]   iProduct                2
+[301547.195242]   iSerial                 0
+[301547.195243]   bNumConfigurations      1
+[301547.195245]   Configuration Descriptor 0:
+[301547.195246]     bLength                 9
+[301547.195247]     bDescriptorType         2
+[301547.195247]     wTotalLength          539
+[301547.195248]     bNumInterfaces          2
+[301547.195248]     bConfigurationValue     1
+[301547.195249]     iConfiguration          0
+[301547.195249]     bmAttributes         0x80
+[301547.195258] myuvc_probe : cnt = 1
+[301547.195261] Device Descriptor:
+[301547.195261]   bLength                18
+[301547.195262]   bDescriptorType         1
+[301547.195262]   bcdUSB               2.00
+[301547.195263]   bDeviceClass          239 
+[301547.195264]   bDeviceSubClass         2 
+[301547.195264]   bDeviceProtocol         1 
+[301547.195265]   bMaxPacketSize0        64
+[301547.195265]   idVendor           0x1e4e 
+[301547.195266]   idProduct          0x0102 
+[301547.195266]   bcdDevice            0.02
+[301547.195267]   iManufacturer           1
+[301547.195267]   iProduct                2
+[301547.195270]   iSerial                 0
+[301547.195271]   bNumConfigurations      1
+[301547.195273]   Configuration Descriptor 0:
+[301547.195274]     bLength                 9
+[301547.195275]     bDescriptorType         2
+[301547.195275]     wTotalLength          539
+[301547.195276]     bNumInterfaces          2
+[301547.195276]     bConfigurationValue     1
+[301547.195277]     iConfiguration          0
+[301547.195277]     bmAttributes         0x80
+[301547.195290] usbcore: registered new interface driver myuvc
+[302510.382888] lo: Disabled Privacy Extensions
+[302510.426759] lo: Disabled Privacy Extensions
+[302577.064101] lo: Disabled Privacy Extensions
+[302577.107653] lo: Disabled Privacy Extensions
+[302588.722325] usbcore: deregistering interface driver myuvc
+[302588.722385] myuvc_disconnect : cnt = 0
+[302588.722399] myuvc_disconnect : cnt = 1
+[302593.264083] myuvc_probe : cnt = 0
+[302593.264087] Device Descriptor:
+[302593.264088]   bLength                18
+[302593.264088]   bDescriptorType         1
+[302593.264089]   bcdUSB               2.00
+[302593.264089]   bDeviceClass          239 
+[302593.264090]   bDeviceSubClass         2 
+[302593.264091]   bDeviceProtocol         1 
+[302593.264091]   bMaxPacketSize0        64
+[302593.264091]   idVendor           0x1e4e 
+[302593.264092]   idProduct          0x0102 
+[302593.264092]   bcdDevice            0.02
+[302593.264093]   iManufacturer           1
+[302593.264093]   iProduct                2
+[302593.264094]   iSerial                 0
+[302593.264094]   bNumConfigurations      1
+[302593.264097]   Configuration Descriptor 0:
+[302593.264098]     bLength                 9
+[302593.264099]     bDescriptorType         2
+[302593.264099]     wTotalLength          539
+[302593.264100]     bNumInterfaces          2
+[302593.264100]     bConfigurationValue     1
+[302593.264101]     iConfiguration          0
+[302593.264101]     bmAttributes         0x80
+[302593.264103]     Interface Association:
+[302593.264104]       bLength                 8
+[302593.264104]       bDescriptorType        11
+[302593.264105]       bFirstInterface         0
+[302593.264105]       bInterfaceCount         2
+[302593.264106]       bFunctionClass         14
+[302593.264107]       bFunctionSubClass       3
+[302593.264107]       bFunctionProtocol       0
+[302593.264108]       iFunction               2
+[302593.264116] myuvc_probe : cnt = 1
+[302593.264119] Device Descriptor:
+[302593.264119]   bLength                18
+[302593.264120]   bDescriptorType         1
+[302593.264120]   bcdUSB               2.00
+[302593.264121]   bDeviceClass          239 
+[302593.264121]   bDeviceSubClass         2 
+[302593.264122]   bDeviceProtocol         1 
+[302593.264122]   bMaxPacketSize0        64
+[302593.264123]   idVendor           0x1e4e 
+[302593.264123]   idProduct          0x0102 
+[302593.264124]   bcdDevice            0.02
+[302593.264124]   iManufacturer           1
+[302593.264125]   iProduct                2
+[302593.264125]   iSerial                 0
+[302593.264126]   bNumConfigurations      1
+[302593.264128]   Configuration Descriptor 0:
+[302593.264129]     bLength                 9
+[302593.264129]     bDescriptorType         2
+[302593.264130]     wTotalLength          539
+[302593.264130]     bNumInterfaces          2
+[302593.264131]     bConfigurationValue     1
+[302593.264131]     iConfiguration          0
+[302593.264132]     bmAttributes         0x80
+[302593.264134]     Interface Association:
+[302593.264135]       bLength                 8
+[302593.264135]       bDescriptorType        11
+[302593.264136]       bFirstInterface         0
+[302593.264136]       bInterfaceCount         2
+[302593.264137]       bFunctionClass         14
+[302593.264138]       bFunctionSubClass       3
+[302593.264138]       bFunctionProtocol       0
+[302593.264139]       iFunction               2
+[302593.264153] usbcore: registered new interface driver myuvc
+[303939.246427] lo: Disabled Privacy Extensions
+[303939.291210] lo: Disabled Privacy Extensions
+[303969.243624] usbcore: deregistering interface driver myuvc
+[303969.243685] myuvc_disconnect : cnt = 0
+[303969.243699] myuvc_disconnect : cnt = 1
+[303975.469142] myuvc_probe : cnt = 0
+[303975.469146] Device Descriptor:
+[303975.469146]   bLength                18
+[303975.469147]   bDescriptorType         1
+[303975.469147]   bcdUSB               2.00
+[303975.469148]   bDeviceClass          239 
+[303975.469149]   bDeviceSubClass         2 
+[303975.469149]   bDeviceProtocol         1 
+[303975.469150]   bMaxPacketSize0        64
+[303975.469150]   idVendor           0x1e4e 
+[303975.469151]   idProduct          0x0102 
+[303975.469151]   bcdDevice            0.02
+[303975.469152]   iManufacturer           1
+[303975.469152]   iProduct                2
+[303975.469153]   iSerial                 0
+[303975.469153]   bNumConfigurations      1
+[303975.469156]   Configuration Descriptor 0:
+[303975.469157]     bLength                 9
+[303975.469157]     bDescriptorType         2
+[303975.469158]     wTotalLength          539
+[303975.469158]     bNumInterfaces          2
+[303975.469159]     bConfigurationValue     1
+[303975.469159]     iConfiguration          0
+[303975.469160]     bmAttributes         0x80
+[303975.469162]     Interface Association:
+[303975.469163]       bLength                 8
+[303975.469163]       bDescriptorType        11
+[303975.469164]       bFirstInterface         0
+[303975.469164]       bInterfaceCount         2
+[303975.469165]       bFunctionClass         14
+[303975.469165]       bFunctionSubClass       3
+[303975.469166]       bFunctionProtocol       0
+[303975.469166]       iFunction               2
+[303975.469169]     Interface Descriptor 0:
+[303975.469169]       bLength                 9
+[303975.469170]       bDescriptorType         4
+[303975.469170]       bInterfaceNumber        0
+[303975.469171]       bAlternateSetting       0
+[303975.469171]       bNumEndpoints           1
+[303975.469172]       bInterfaceClass        14
+[303975.469172]       bInterfaceSubClass      1
+[303975.469173]       bInterfaceProtocol      0
+[303975.469174]       iInterface              2
+[303975.469182] myuvc_probe : cnt = 1
+[303975.469184] Device Descriptor:
+[303975.469185]   bLength                18
+[303975.469186]   bDescriptorType         1
+[303975.469186]   bcdUSB               2.00
+[303975.469187]   bDeviceClass          239 
+[303975.469187]   bDeviceSubClass         2 
+[303975.469188]   bDeviceProtocol         1 
+[303975.469188]   bMaxPacketSize0        64
+[303975.469189]   idVendor           0x1e4e 
+[303975.469189]   idProduct          0x0102 
+[303975.469190]   bcdDevice            0.02
+[303975.469191]   iManufacturer           1
+[303975.469191]   iProduct                2
+[303975.469192]   iSerial                 0
+[303975.469192]   bNumConfigurations      1
+[303975.469195]   Configuration Descriptor 0:
+[303975.469195]     bLength                 9
+[303975.469196]     bDescriptorType         2
+[303975.469197]     wTotalLength          539
+[303975.469197]     bNumInterfaces          2
+[303975.469198]     bConfigurationValue     1
+[303975.469198]     iConfiguration          0
+[303975.469199]     bmAttributes         0x80
+[303975.469201]     Interface Association:
+[303975.469202]       bLength                 8
+[303975.469202]       bDescriptorType        11
+[303975.469203]       bFirstInterface         0
+[303975.469203]       bInterfaceCount         2
+[303975.469204]       bFunctionClass         14
+[303975.469204]       bFunctionSubClass       3
+[303975.469205]       bFunctionProtocol       0
+[303975.469206]       iFunction               2
+[303975.469281]     Interface Descriptor 0:
+[303975.469282]       bLength                 9
+[303975.469286]       bDescriptorType         4
+[303975.469286]       bInterfaceNumber        1
+[303975.469287]       bAlternateSetting       0
+[303975.469288]       bNumEndpoints           0
+[303975.469288]       bInterfaceClass        14
+[303975.469289]       bInterfaceSubClass      2
+[303975.469289]       bInterfaceProtocol      0
+[303975.469290]       iInterface              0
+[303975.469293]     Interface Descriptor 1:
+[303975.469293]       bLength                 9
+[303975.469294]       bDescriptorType         4
+[303975.469294]       bInterfaceNumber        1
+[303975.469295]       bAlternateSetting       1
+[303975.469295]       bNumEndpoints           1
+[303975.469296]       bInterfaceClass        14
+[303975.469297]       bInterfaceSubClass      2
+[303975.469297]       bInterfaceProtocol      0
+[303975.469298]       iInterface              0
+[303975.469300]     Interface Descriptor 2:
+[303975.469301]       bLength                 9
+[303975.469301]       bDescriptorType         4
+[303975.469302]       bInterfaceNumber        1
+[303975.469302]       bAlternateSetting       2
+[303975.469303]       bNumEndpoints           1
+[303975.469303]       bInterfaceClass        14
+[303975.469304]       bInterfaceSubClass      2
+[303975.469304]       bInterfaceProtocol      0
+[303975.469305]       iInterface              0
+[303975.469308]     Interface Descriptor 3:
+[303975.469308]       bLength                 9
+[303975.469309]       bDescriptorType         4
+[303975.469309]       bInterfaceNumber        1
+[303975.469310]       bAlternateSetting       3
+[303975.469310]       bNumEndpoints           1
+[303975.469311]       bInterfaceClass        14
+[303975.469311]       bInterfaceSubClass      2
+[303975.469312]       bInterfaceProtocol      0
+[303975.469312]       iInterface              0
+[303975.469315]     Interface Descriptor 4:
+[303975.469315]       bLength                 9
+[303975.469316]       bDescriptorType         4
+[303975.469316]       bInterfaceNumber        1
+[303975.469317]       bAlternateSetting       4
+[303975.469318]       bNumEndpoints           1
+[303975.469318]       bInterfaceClass        14
+[303975.469319]       bInterfaceSubClass      2
+[303975.469319]       bInterfaceProtocol      0
+[303975.469320]       iInterface              0
+[303975.469322]     Interface Descriptor 5:
+[303975.469323]       bLength                 9
+[303975.469323]       bDescriptorType         4
+[303975.469324]       bInterfaceNumber        1
+[303975.469324]       bAlternateSetting       5
+[303975.469325]       bNumEndpoints           1
+[303975.469325]       bInterfaceClass        14
+[303975.469326]       bInterfaceSubClass      2
+[303975.469326]       bInterfaceProtocol      0
+[303975.469327]       iInterface              0
+[303975.469330]     Interface Descriptor 6:
+[303975.469330]       bLength                 9
+[303975.469331]       bDescriptorType         4
+[303975.469331]       bInterfaceNumber        1
+[303975.469332]       bAlternateSetting       6
+[303975.469332]       bNumEndpoints           1
+[303975.469333]       bInterfaceClass        14
+[303975.469333]       bInterfaceSubClass      2
+[303975.469334]       bInterfaceProtocol      0
+[303975.469334]       iInterface              0
+[303975.469337]     Interface Descriptor 7:
+[303975.469337]       bLength                 9
+[303975.469338]       bDescriptorType         4
+[303975.469338]       bInterfaceNumber        1
+[303975.469339]       bAlternateSetting       7
+[303975.469340]       bNumEndpoints           1
+[303975.469340]       bInterfaceClass        14
+[303975.469341]       bInterfaceSubClass      2
+[303975.469341]       bInterfaceProtocol      0
+[303975.469342]       iInterface              0
+[303975.469344]     Interface Descriptor 8:
+[303975.469345]       bLength                 9
+[303975.469345]       bDescriptorType         4
+[303975.469348]       bInterfaceNumber        1
+[303975.469348]       bAlternateSetting       8
+[303975.469349]       bNumEndpoints           1
+[303975.469350]       bInterfaceClass        14
+[303975.469350]       bInterfaceSubClass      2
+[303975.469351]       bInterfaceProtocol      0
+[303975.469351]       iInterface              0
+[303975.469354]     Interface Descriptor 9:
+[303975.469354]       bLength                 9
+[303975.469355]       bDescriptorType         4
+[303975.469356]       bInterfaceNumber        1
+[303975.469356]       bAlternateSetting       9
+[303975.469357]       bNumEndpoints           1
+[303975.469357]       bInterfaceClass        14
+[303975.469358]       bInterfaceSubClass      2
+[303975.469358]       bInterfaceProtocol      0
+[303975.469359]       iInterface              0
+[303975.469361]     Interface Descriptor 10:
+[303975.469362]       bLength                 9
+[303975.469363]       bDescriptorType         4
+[303975.469363]       bInterfaceNumber        1
+[303975.469364]       bAlternateSetting      10
+[303975.469364]       bNumEndpoints           1
+[303975.469365]       bInterfaceClass        14
+[303975.469365]       bInterfaceSubClass      2
+[303975.469366]       bInterfaceProtocol      0
+[303975.469367]       iInterface              0
+[303975.469369]     Interface Descriptor 11:
+[303975.469370]       bLength                 9
+[303975.469370]       bDescriptorType         4
+[303975.469371]       bInterfaceNumber        1
+[303975.469371]       bAlternateSetting      11
+[303975.469372]       bNumEndpoints           1
+[303975.469372]       bInterfaceClass        14
+[303975.469373]       bInterfaceSubClass      2
+[303975.469374]       bInterfaceProtocol      0
+[303975.469374]       iInterface              0
+[303975.469377]     Interface Descriptor 12:
+[303975.469377]       bLength                 9
+[303975.469378]       bDescriptorType         4
+[303975.469378]       bInterfaceNumber        1
+[303975.469379]       bAlternateSetting      12
+[303975.469379]       bNumEndpoints           1
+[303975.469380]       bInterfaceClass        14
+[303975.469381]       bInterfaceSubClass      2
+[303975.469381]       bInterfaceProtocol      0
+[303975.469382]       iInterface              0
+[303975.469396] usbcore: registered new interface driver myuvc
+[318000.888834] lo: Disabled Privacy Extensions
+[318000.934165] lo: Disabled Privacy Extensions
+[318038.427875] usbcore: deregistering interface driver myuvc
+[318038.427952] myuvc_disconnect : cnt = 0
+[318038.427969] myuvc_disconnect : cnt = 1
+[318044.582120] myuvc_probe : cnt = 0
+[318044.582124] Device Descriptor:
+[318044.582124]   bLength                18
+[318044.582125]   bDescriptorType         1
+[318044.582125]   bcdUSB               2.00
+[318044.582126]   bDeviceClass          239 
+[318044.582126]   bDeviceSubClass         2 
+[318044.582127]   bDeviceProtocol         1 
+[318044.582127]   bMaxPacketSize0        64
+[318044.582128]   idVendor           0x1e4e 
+[318044.582128]   idProduct          0x0102 
+[318044.582129]   bcdDevice            0.02
+[318044.582129]   iManufacturer           1
+[318044.582130]   iProduct                2
+[318044.582130]   iSerial                 0
+[318044.582131]   bNumConfigurations      1
+[318044.582134]   Configuration Descriptor 0:
+[318044.582134]     bLength                 9
+[318044.582135]     bDescriptorType         2
+[318044.582135]     wTotalLength          539
+[318044.582136]     bNumInterfaces          2
+[318044.582136]     bConfigurationValue     1
+[318044.582137]     iConfiguration          0
+[318044.582137]     bmAttributes         0x80
+[318044.582140]     Interface Association:
+[318044.582140]       bLength                 8
+[318044.582141]       bDescriptorType        11
+[318044.582141]       bFirstInterface         0
+[318044.582142]       bInterfaceCount         2
+[318044.582145]       bFunctionClass         14
+[318044.582145]       bFunctionSubClass       3
+[318044.582146]       bFunctionProtocol       0
+[318044.582146]       iFunction               2
+[318044.582149]     Interface Descriptor altsetting 0:
+[318044.582150]       bLength                 9
+[318044.582150]       bDescriptorType         4
+[318044.582151]       bInterfaceNumber        0
+[318044.582151]       bAlternateSetting       0
+[318044.582152]       bNumEndpoints           1
+[318044.582152]       bInterfaceClass        14
+[318044.582153]       bInterfaceSubClass      1
+[318044.582153]       bInterfaceProtocol      0
+[318044.582154]       iInterface              2
+[318044.582155] extra buffer of interface 0:
+[318044.582156] extra desc 0: 0d 24 01 00 01 4d 00 80 c3 c9 01 01 01 
+[318044.582161] extra desc 1: 12 24 02 01 01 02 00 00 00 00 00 00 00 00 03 0e 00 00 
+[318044.582166] extra desc 2: 09 24 03 02 01 01 00 04 00 
+[318044.582170] extra desc 3: 0b 24 05 03 01 00 00 02 7f 14 00 
+[318044.582174] extra desc 4: 1a 24 06 04 ad cc b1 c2 f6 ab b8 48 8e 37 32 d4 f3 a3 fe ec 08 01 03 01 3f 00 
+[318044.582188] myuvc_probe : cnt = 1
+[318044.582190] Device Descriptor:
+[318044.582191]   bLength                18
+[318044.582192]   bDescriptorType         1
+[318044.582192]   bcdUSB               2.00
+[318044.582193]   bDeviceClass          239 
+[318044.582193]   bDeviceSubClass         2 
+[318044.582194]   bDeviceProtocol         1 
+[318044.582194]   bMaxPacketSize0        64
+[318044.582195]   idVendor           0x1e4e 
+[318044.582195]   idProduct          0x0102 
+[318044.582196]   bcdDevice            0.02
+[318044.582196]   iManufacturer           1
+[318044.582197]   iProduct                2
+[318044.582198]   iSerial                 0
+[318044.582198]   bNumConfigurations      1
+[318044.582201]   Configuration Descriptor 0:
+[318044.582201]     bLength                 9
+[318044.582202]     bDescriptorType         2
+[318044.582203]     wTotalLength          539
+[318044.582203]     bNumInterfaces          2
+[318044.582204]     bConfigurationValue     1
+[318044.582204]     iConfiguration          0
+[318044.582205]     bmAttributes         0x80
+[318044.582207]     Interface Association:
+[318044.582207]       bLength                 8
+[318044.582208]       bDescriptorType        11
+[318044.582209]       bFirstInterface         0
+[318044.582209]       bInterfaceCount         2
+[318044.582210]       bFunctionClass         14
+[318044.582210]       bFunctionSubClass       3
+[318044.582211]       bFunctionProtocol       0
+[318044.582211]       iFunction               2
+[318044.582214]     Interface Descriptor altsetting 0:
+[318044.582214]       bLength                 9
+[318044.582215]       bDescriptorType         4
+[318044.582215]       bInterfaceNumber        1
+[318044.582216]       bAlternateSetting       0
+[318044.582217]       bNumEndpoints           0
+[318044.582217]       bInterfaceClass        14
+[318044.582218]       bInterfaceSubClass      2
+[318044.582218]       bInterfaceProtocol      0
+[318044.582219]       iInterface              0
+[318044.582221]     Interface Descriptor altsetting 1:
+[318044.582222]       bLength                 9
+[318044.582222]       bDescriptorType         4
+[318044.582223]       bInterfaceNumber        1
+[318044.582223]       bAlternateSetting       1
+[318044.582224]       bNumEndpoints           1
+[318044.582224]       bInterfaceClass        14
+[318044.582225]       bInterfaceSubClass      2
+[318044.582225]       bInterfaceProtocol      0
+[318044.582226]       iInterface              0
+[318044.582228]     Interface Descriptor altsetting 2:
+[318044.582229]       bLength                 9
+[318044.582230]       bDescriptorType         4
+[318044.582230]       bInterfaceNumber        1
+[318044.582231]       bAlternateSetting       2
+[318044.582231]       bNumEndpoints           1
+[318044.582234]       bInterfaceClass        14
+[318044.582234]       bInterfaceSubClass      2
+[318044.582235]       bInterfaceProtocol      0
+[318044.582235]       iInterface              0
+[318044.582238]     Interface Descriptor altsetting 3:
+[318044.582239]       bLength                 9
+[318044.582239]       bDescriptorType         4
+[318044.582240]       bInterfaceNumber        1
+[318044.582240]       bAlternateSetting       3
+[318044.582241]       bNumEndpoints           1
+[318044.582241]       bInterfaceClass        14
+[318044.582242]       bInterfaceSubClass      2
+[318044.582242]       bInterfaceProtocol      0
+[318044.582243]       iInterface              0
+[318044.582245]     Interface Descriptor altsetting 4:
+[318044.582246]       bLength                 9
+[318044.582246]       bDescriptorType         4
+[318044.582247]       bInterfaceNumber        1
+[318044.582247]       bAlternateSetting       4
+[318044.582248]       bNumEndpoints           1
+[318044.582248]       bInterfaceClass        14
+[318044.582249]       bInterfaceSubClass      2
+[318044.582250]       bInterfaceProtocol      0
+[318044.582250]       iInterface              0
+[318044.582253]     Interface Descriptor altsetting 5:
+[318044.582253]       bLength                 9
+[318044.582254]       bDescriptorType         4
+[318044.582254]       bInterfaceNumber        1
+[318044.582255]       bAlternateSetting       5
+[318044.582255]       bNumEndpoints           1
+[318044.582256]       bInterfaceClass        14
+[318044.582256]       bInterfaceSubClass      2
+[318044.582257]       bInterfaceProtocol      0
+[318044.582257]       iInterface              0
+[318044.582260]     Interface Descriptor altsetting 6:
+[318044.582260]       bLength                 9
+[318044.582261]       bDescriptorType         4
+[318044.582261]       bInterfaceNumber        1
+[318044.582262]       bAlternateSetting       6
+[318044.582262]       bNumEndpoints           1
+[318044.582263]       bInterfaceClass        14
+[318044.582264]       bInterfaceSubClass      2
+[318044.582264]       bInterfaceProtocol      0
+[318044.582265]       iInterface              0
+[318044.582267]     Interface Descriptor altsetting 7:
+[318044.582268]       bLength                 9
+[318044.582268]       bDescriptorType         4
+[318044.582269]       bInterfaceNumber        1
+[318044.582269]       bAlternateSetting       7
+[318044.582270]       bNumEndpoints           1
+[318044.582270]       bInterfaceClass        14
+[318044.582271]       bInterfaceSubClass      2
+[318044.582271]       bInterfaceProtocol      0
+[318044.582272]       iInterface              0
+[318044.582274]     Interface Descriptor altsetting 8:
+[318044.582275]       bLength                 9
+[318044.582275]       bDescriptorType         4
+[318044.582276]       bInterfaceNumber        1
+[318044.582276]       bAlternateSetting       8
+[318044.582277]       bNumEndpoints           1
+[318044.582277]       bInterfaceClass        14
+[318044.582278]       bInterfaceSubClass      2
+[318044.582278]       bInterfaceProtocol      0
+[318044.582279]       iInterface              0
+[318044.582281]     Interface Descriptor altsetting 9:
+[318044.582282]       bLength                 9
+[318044.582283]       bDescriptorType         4
+[318044.582283]       bInterfaceNumber        1
+[318044.582284]       bAlternateSetting       9
+[318044.582284]       bNumEndpoints           1
+[318044.582285]       bInterfaceClass        14
+[318044.582285]       bInterfaceSubClass      2
+[318044.582286]       bInterfaceProtocol      0
+[318044.582286]       iInterface              0
+[318044.582289]     Interface Descriptor altsetting 10:
+[318044.582289]       bLength                 9
+[318044.582290]       bDescriptorType         4
+[318044.582291]       bInterfaceNumber        1
+[318044.582291]       bAlternateSetting      10
+[318044.582293]       bNumEndpoints           1
+[318044.582294]       bInterfaceClass        14
+[318044.582294]       bInterfaceSubClass      2
+[318044.582295]       bInterfaceProtocol      0
+[318044.582296]       iInterface              0
+[318044.582298]     Interface Descriptor altsetting 11:
+[318044.582299]       bLength                 9
+[318044.582299]       bDescriptorType         4
+[318044.582300]       bInterfaceNumber        1
+[318044.582300]       bAlternateSetting      11
+[318044.582301]       bNumEndpoints           1
+[318044.582301]       bInterfaceClass        14
+[318044.582302]       bInterfaceSubClass      2
+[318044.582302]       bInterfaceProtocol      0
+[318044.582303]       iInterface              0
+[318044.582306]     Interface Descriptor altsetting 12:
+[318044.582306]       bLength                 9
+[318044.582307]       bDescriptorType         4
+[318044.582307]       bInterfaceNumber        1
+[318044.582308]       bAlternateSetting      12
+[318044.582308]       bNumEndpoints           1
+[318044.582309]       bInterfaceClass        14
+[318044.582309]       bInterfaceSubClass      2
+[318044.582310]       bInterfaceProtocol      0
+[318044.582310]       iInterface              0
+[318044.582312] extra buffer of interface 1:
+[318044.582313] extra desc 0: 0e 24 01 01 df 00 81 00 02 02 01 01 01 00 
+[318044.582317] extra desc 1: 1b 24 04 01 05 59 55 59 32 00 00 10 00 80 00 00 aa 00 38 9b 71 10 01 00 00 00 00 
+[318044.582325] extra desc 2: 1e 24 05 01 00 80 02 e0 01 00 00 ca 08 00 00 ca 08 00 60 09 00 15 16 05 00 01 15 16 05 00 
+[318044.582333] extra desc 3: 1e 24 05 02 00 60 01 20 01 00 80 e6 02 00 80 e6 02 00 18 03 00 15 16 05 00 01 15 16 05 00 
+[318044.582342] extra desc 4: 1e 24 05 03 00 40 01 f0 00 00 80 32 02 00 80 32 02 00 58 02 00 15 16 05 00 01 15 16 05 00 
+[318044.582350] extra desc 5: 1e 24 05 04 00 b0 00 90 00 00 a0 b9 00 00 a0 b9 00 00 c6 00 00 15 16 05 00 01 15 16 05 00 
+[318044.582358] extra desc 6: 1e 24 05 05 00 a0 00 78 00 00 a0 8c 00 00 a0 8c 00 00 96 00 00 15 16 05 00 01 15 16 05 00 
+[318044.582367] extra desc 7: 1a 24 03 00 05 80 02 e0 01 60 01 20 01 40 01 f0 00 b0 00 90 00 a0 00 78 00 00 
+[318044.582374] extra desc 8: 06 24 0d 01 01 04 
+[318044.582387] usbcore: registered new interface driver myuvc
+[325584.324452] usb 1-1: USB disconnect, address 7
+[325584.324452] myuvc_disconnect : cnt = 0
+[325584.324452] myuvc_disconnect : cnt = 1
+[325618.604654] usb 1-1: new high speed USB device using ehci_hcd and address 8
+[325618.763164] usb 1-1: configuration #1 chosen from 1 choice
+[325618.817282] myuvc_probe : cnt = 2
+[325618.817287] Device Descriptor:
+[325618.817288]   bLength                18
+[325618.817289]   bDescriptorType         1
+[325618.817290]   bcdUSB               2.00
+[325618.817290]   bDeviceClass          239 
+[325618.817291]   bDeviceSubClass         2 
+[325618.817292]   bDeviceProtocol         1 
+[325618.817293]   bMaxPacketSize0        64
+[325618.817293]   idVendor           0x1e4e 
+[325618.817294]   idProduct          0x0102 
+[325618.817295]   bcdDevice            0.02
+[325618.817296]   iManufacturer           1
+[325618.817296]   iProduct                2
+[325618.817297]   iSerial                 0
+[325618.817298]   bNumConfigurations      1
+[325618.817302]   Configuration Descriptor 0:
+[325618.817303]     bLength                 9
+[325618.817304]     bDescriptorType         2
+[325618.817305]     wTotalLength          539
+[325618.817305]     bNumInterfaces          2
+[325618.817306]     bConfigurationValue     1
+[325618.817307]     iConfiguration          0
+[325618.817308]     bmAttributes         0x80
+[325618.817311]     Interface Association:
+[325618.817312]       bLength                 8
+[325618.817313]       bDescriptorType        11
+[325618.817314]       bFirstInterface         0
+[325618.817315]       bInterfaceCount         2
+[325618.817315]       bFunctionClass         14
+[325618.817337]       bFunctionSubClass       3
+[325618.817339]       bFunctionProtocol       0
+[325618.817339]       iFunction               2
+[325618.817343]     Interface Descriptor altsetting 0:
+[325618.817344]       bLength                 9
+[325618.817345]       bDescriptorType         4
+[325618.817346]       bInterfaceNumber        0
+[325618.817347]       bAlternateSetting       0
+[325618.817347]       bNumEndpoints           1
+[325618.817348]       bInterfaceClass        14
+[325618.817349]       bInterfaceSubClass      1
+[325618.817350]       bInterfaceProtocol      0
+[325618.817351]       iInterface              2
+[325618.817353] extra buffer of interface 2:
+[325618.817354] extra desc 0: 0d 24 01 00 01 4d 00 80 c3 c9 01 01 01 
+[325618.817361] extra desc 1: 12 24 02 01 01 02 00 00 00 00 00 00 00 00 03 0e 00 00 
+[325618.817369] extra desc 2: 09 24 03 02 01 01 00 04 00 
+[325618.817374] extra desc 3: 0b 24 05 03 01 00 00 02 7f 14 00 
+[325618.817380] extra desc 4: 1a 24 06 04 ad cc b1 c2 f6 ab b8 48 8e 37 32 d4 f3 a3 fe ec 08 01 03 01 3f 00 
+[325618.817454] myuvc_probe : cnt = 3
+[325618.817457] Device Descriptor:
+[325618.817458]   bLength                18
+[325618.817458]   bDescriptorType         1
+[325618.817459]   bcdUSB               2.00
+[325618.817459]   bDeviceClass          239 
+[325618.817460]   bDeviceSubClass         2 
+[325618.817461]   bDeviceProtocol         1 
+[325618.817461]   bMaxPacketSize0        64
+[325618.817462]   idVendor           0x1e4e 
+[325618.817462]   idProduct          0x0102 
+[325618.817463]   bcdDevice            0.02
+[325618.817463]   iManufacturer           1
+[325618.817464]   iProduct                2
+[325618.817464]   iSerial                 0
+[325618.817465]   bNumConfigurations      1
+[325618.817468]   Configuration Descriptor 0:
+[325618.817468]     bLength                 9
+[325618.817469]     bDescriptorType         2
+[325618.817469]     wTotalLength          539
+[325618.817470]     bNumInterfaces          2
+[325618.817471]     bConfigurationValue     1
+[325618.817471]     iConfiguration          0
+[325618.817472]     bmAttributes         0x80
+[325618.817474]     Interface Association:
+[325618.817474]       bLength                 8
+[325618.817475]       bDescriptorType        11
+[325618.817476]       bFirstInterface         0
+[325618.817476]       bInterfaceCount         2
+[325618.817477]       bFunctionClass         14
+[325618.817477]       bFunctionSubClass       3
+[325618.817478]       bFunctionProtocol       0
+[325618.817478]       iFunction               2
+[325618.817481]     Interface Descriptor altsetting 0:
+[325618.817481]       bLength                 9
+[325618.817482]       bDescriptorType         4
+[325618.817483]       bInterfaceNumber        1
+[325618.817483]       bAlternateSetting       0
+[325618.817484]       bNumEndpoints           0
+[325618.817484]       bInterfaceClass        14
+[325618.817485]       bInterfaceSubClass      2
+[325618.817485]       bInterfaceProtocol      0
+[325618.817486]       iInterface              0
+[325618.817488]     Interface Descriptor altsetting 1:
+[325618.817489]       bLength                 9
+[325618.817490]       bDescriptorType         4
+[325618.817490]       bInterfaceNumber        1
+[325618.817491]       bAlternateSetting       1
+[325618.817491]       bNumEndpoints           1
+[325618.817492]       bInterfaceClass        14
+[325618.817492]       bInterfaceSubClass      2
+[325618.817493]       bInterfaceProtocol      0
+[325618.817493]       iInterface              0
+[325618.817496]     Interface Descriptor altsetting 2:
+[325618.817496]       bLength                 9
+[325618.817497]       bDescriptorType         4
+[325618.817497]       bInterfaceNumber        1
+[325618.817498]       bAlternateSetting       2
+[325618.817499]       bNumEndpoints           1
+[325618.817513]       bInterfaceClass        14
+[325618.817514]       bInterfaceSubClass      2
+[325618.817514]       bInterfaceProtocol      0
+[325618.817515]       iInterface              0
+[325618.817518]     Interface Descriptor altsetting 3:
+[325618.817518]       bLength                 9
+[325618.817519]       bDescriptorType         4
+[325618.817519]       bInterfaceNumber        1
+[325618.817520]       bAlternateSetting       3
+[325618.817520]       bNumEndpoints           1
+[325618.817521]       bInterfaceClass        14
+[325618.817521]       bInterfaceSubClass      2
+[325618.817522]       bInterfaceProtocol      0
+[325618.817522]       iInterface              0
+[325618.817525]     Interface Descriptor altsetting 4:
+[325618.817526]       bLength                 9
+[325618.817526]       bDescriptorType         4
+[325618.817527]       bInterfaceNumber        1
+[325618.817527]       bAlternateSetting       4
+[325618.817528]       bNumEndpoints           1
+[325618.817528]       bInterfaceClass        14
+[325618.817529]       bInterfaceSubClass      2
+[325618.817529]       bInterfaceProtocol      0
+[325618.817530]       iInterface              0
+[325618.817532]     Interface Descriptor altsetting 5:
+[325618.817533]       bLength                 9
+[325618.817533]       bDescriptorType         4
+[325618.817534]       bInterfaceNumber        1
+[325618.817534]       bAlternateSetting       5
+[325618.817535]       bNumEndpoints           1
+[325618.817535]       bInterfaceClass        14
+[325618.817536]       bInterfaceSubClass      2
+[325618.817536]       bInterfaceProtocol      0
+[325618.817537]       iInterface              0
+[325618.817539]     Interface Descriptor altsetting 6:
+[325618.817540]       bLength                 9
+[325618.817540]       bDescriptorType         4
+[325618.817541]       bInterfaceNumber        1
+[325618.817542]       bAlternateSetting       6
+[325618.817542]       bNumEndpoints           1
+[325618.817543]       bInterfaceClass        14
+[325618.817543]       bInterfaceSubClass      2
+[325618.817544]       bInterfaceProtocol      0
+[325618.817544]       iInterface              0
+[325618.817547]     Interface Descriptor altsetting 7:
+[325618.817547]       bLength                 9
+[325618.817548]       bDescriptorType         4
+[325618.817548]       bInterfaceNumber        1
+[325618.817549]       bAlternateSetting       7
+[325618.817549]       bNumEndpoints           1
+[325618.817550]       bInterfaceClass        14
+[325618.817550]       bInterfaceSubClass      2
+[325618.817551]       bInterfaceProtocol      0
+[325618.817551]       iInterface              0
+[325618.817554]     Interface Descriptor altsetting 8:
+[325618.817554]       bLength                 9
+[325618.817555]       bDescriptorType         4
+[325618.817556]       bInterfaceNumber        1
+[325618.817556]       bAlternateSetting       8
+[325618.817557]       bNumEndpoints           1
+[325618.817557]       bInterfaceClass        14
+[325618.817558]       bInterfaceSubClass      2
+[325618.817558]       bInterfaceProtocol      0
+[325618.817559]       iInterface              0
+[325618.817561]     Interface Descriptor altsetting 9:
+[325618.817562]       bLength                 9
+[325618.817562]       bDescriptorType         4
+[325618.817563]       bInterfaceNumber        1
+[325618.817563]       bAlternateSetting       9
+[325618.817564]       bNumEndpoints           1
+[325618.817564]       bInterfaceClass        14
+[325618.817565]       bInterfaceSubClass      2
+[325618.817566]       bInterfaceProtocol      0
+[325618.817566]       iInterface              0
+[325618.817569]     Interface Descriptor altsetting 10:
+[325618.817569]       bLength                 9
+[325618.817570]       bDescriptorType         4
+[325618.817570]       bInterfaceNumber        1
+[325618.817571]       bAlternateSetting      10
+[325618.817571]       bNumEndpoints           1
+[325618.817585]       bInterfaceClass        14
+[325618.817586]       bInterfaceSubClass      2
+[325618.817586]       bInterfaceProtocol      0
+[325618.817587]       iInterface              0
+[325618.817590]     Interface Descriptor altsetting 11:
+[325618.817590]       bLength                 9
+[325618.817591]       bDescriptorType         4
+[325618.817591]       bInterfaceNumber        1
+[325618.817592]       bAlternateSetting      11
+[325618.817593]       bNumEndpoints           1
+[325618.817593]       bInterfaceClass        14
+[325618.817594]       bInterfaceSubClass      2
+[325618.817594]       bInterfaceProtocol      0
+[325618.817595]       iInterface              0
+[325618.817597]     Interface Descriptor altsetting 12:
+[325618.817598]       bLength                 9
+[325618.817599]       bDescriptorType         4
+[325618.817599]       bInterfaceNumber        1
+[325618.817600]       bAlternateSetting      12
+[325618.817600]       bNumEndpoints           1
+[325618.817601]       bInterfaceClass        14
+[325618.817601]       bInterfaceSubClass      2
+[325618.817602]       bInterfaceProtocol      0
+[325618.817602]       iInterface              0
+[325618.817604] extra buffer of interface 3:
+[325618.817605] extra desc 0: 0e 24 01 01 df 00 81 00 02 02 01 01 01 00 
+[325618.817610] extra desc 1: 1b 24 04 01 05 59 55 59 32 00 00 10 00 80 00 00 aa 00 38 9b 71 10 01 00 00 00 00 
+[325618.817617] extra desc 2: 1e 24 05 01 00 80 02 e0 01 00 00 ca 08 00 00 ca 08 00 60 09 00 15 16 05 00 01 15 16 05 00 
+[325618.817625] extra desc 3: 1e 24 05 02 00 60 01 20 01 00 80 e6 02 00 80 e6 02 00 18 03 00 15 16 05 00 01 15 16 05 00 
+[325618.817634] extra desc 4: 1e 24 05 03 00 40 01 f0 00 00 80 32 02 00 80 32 02 00 58 02 00 15 16 05 00 01 15 16 05 00 
+[325618.817642] extra desc 5: 1e 24 05 04 00 b0 00 90 00 00 a0 b9 00 00 a0 b9 00 00 c6 00 00 15 16 05 00 01 15 16 05 00 
+[325618.817650] extra desc 6: 1e 24 05 05 00 a0 00 78 00 00 a0 8c 00 00 a0 8c 00 00 96 00 00 15 16 05 00 01 15 16 05 00 
+[325618.817658] extra desc 7: 1a 24 03 00 05 80 02 e0 01 60 01 20 01 40 01 f0 00 b0 00 90 00 a0 00 78 00 00 
+[325618.817665] extra desc 8: 06 24 0d 01 01 04 
+[325635.482205] lo: Disabled Privacy Extensions
+[325635.628877] lo: Disabled Privacy Extensions
+[332725.217389] lo: Disabled Privacy Extensions
+[332725.262458] lo: Disabled Privacy Extensions
+[332759.942286] lo: Disabled Privacy Extensions
+[332759.986164] lo: Disabled Privacy Extensions
+[332800.737009] usbcore: deregistering interface driver myuvc
+[332800.756762] myuvc_disconnect : cnt = 2
+[332800.756789] myuvc_disconnect : cnt = 3
+[332808.618710] myuvc_probe : cnt = 0
+[332808.618714] Device Descriptor:
+[332808.618715]   bLength                18
+[332808.618715]   bDescriptorType         1
+[332808.618716]   bcdUSB               2.00
+[332808.618716]   bDeviceClass          239 
+[332808.618717]   bDeviceSubClass         2 
+[332808.618717]   bDeviceProtocol         1 
+[332808.618718]   bMaxPacketSize0        64
+[332808.618718]   idVendor           0x1e4e 
+[332808.618719]   idProduct          0x0102 
+[332808.618719]   bcdDevice            0.02
+[332808.618720]   iManufacturer           1
+[332808.618720]   iProduct                2
+[332808.618721]   iSerial                 0
+[332808.618721]   bNumConfigurations      1
+[332808.618724]   Configuration Descriptor 0:
+[332808.618725]     bLength                 9
+[332808.618725]     bDescriptorType         2
+[332808.618726]     wTotalLength          539
+[332808.618726]     bNumInterfaces          2
+[332808.618727]     bConfigurationValue     1
+[332808.618727]     iConfiguration          0
+[332808.618728]     bmAttributes         0x80
+[332808.618730]     Interface Association:
+[332808.618731]       bLength                 8
+[332808.618731]       bDescriptorType        11
+[332808.618732]       bFirstInterface         0
+[332808.618746]       bInterfaceCount         2
+[332808.618747]       bFunctionClass         14
+[332808.618748]       bFunctionSubClass       3
+[332808.618748]       bFunctionProtocol       0
+[332808.618749]       iFunction               2
+[332808.618752]     Interface Descriptor altsetting 0:
+[332808.618752]       bLength                 9
+[332808.618753]       bDescriptorType         4
+[332808.618753]       bInterfaceNumber        0
+[332808.618754]       bAlternateSetting       0
+[332808.618754]       bNumEndpoints           1
+[332808.618755]       bInterfaceClass        14
+[332808.618755]       bInterfaceSubClass      1
+[332808.618756]       bInterfaceProtocol      0
+[332808.618756]       iInterface              2
+[332808.618758] extra buffer of interface 0:
+[332808.618759] extra desc 0: 0d 24 01 00 01 4d 00 80 c3 c9 01 01 01 
+[332808.618764] extra desc 1: 12 24 02 01 01 02 00 00 00 00 00 00 00 00 03 0e 00 00 
+[332808.618769] extra desc 2: 09 24 03 02 01 01 00 04 00 
+[332808.618773] extra desc 3: 0b 24 05 03 01 00 00 02 7f 14 00 
+[332808.618776] extra desc 4: 1a 24 06 04 ad cc b1 c2 f6 ab b8 48 8e 37 32 d4 f3 a3 fe ec 08 01 03 01 3f 00 
+[332808.618784]       VideoControl Interface Descriptor:
+[332808.618785]         bLength                13
+[332808.618785]         bDescriptorType        36
+[332808.618786]         bDescriptorSubtype      1 (HEADER)
+[332808.618788]         bcdUVC               1.00
+[332808.618789]         wTotalLength           77
+[332808.618789]         dwClockFrequency       30.000000MHz
+[332808.618790]         bInCollection           1
+[332808.618791]         baInterfaceNr( 0)       1
+[332808.618792]       VideoControl Interface Descriptor:
+[332808.618793]         bLength                18
+[332808.618793]         bDescriptorType        36
+[332808.618794]         bDescriptorSubtype      2 (INPUT_TERMINAL)
+[332808.618796]         bTerminalID             1
+[332808.618796]         wTerminalType      0x0201
+[332808.618797]         bAssocTerminal          0
+[332808.618798]         iTerminal               0
+[332808.618799]         wObjectiveFocalLengthMin      0
+[332808.618800]         wObjectiveFocalLengthMax      0
+[332808.618801]         wOcularFocalLength            0
+[332808.618801]         bControlSize                  3
+[332808.618802]         bmControls           0x0000000e
+[332808.618803]           Auto-Exposure Mode
+[332808.618804]           Auto-Exposure Priority
+[332808.618805]           Exposure Time (Absolute)
+[332808.618807]       VideoControl Interface Descriptor:
+[332808.618807]         bLength                 9
+[332808.618808]         bDescriptorType        36
+[332808.618808]         bDescriptorSubtype      3 (OUTPUT_TERMINAL)
+[332808.618810]         bTerminalID             2
+[332808.618811]         wTerminalType      0x0101
+[332808.618811]         bAssocTerminal          0
+[332808.618812]         bSourceID               4
+[332808.618813]         iTerminal               0
+[332808.618814]       VideoControl Interface Descriptor:
+[332808.618815]         bLength                11
+[332808.618815]         bDescriptorType        36
+[332808.618816]         bDescriptorSubtype      5 (PROCESSING_UNIT)
+[332808.618817]       Warning: Descriptor too short
+[332808.618819]         bUnitID                 3
+[332808.618819]         bSourceID               1
+[332808.618820]         wMaxMultiplier          0
+[332808.618820]         bControlSize            2
+[332808.618821]         bmControls     0x0000147f
+[332808.618822]           Brightness
+[332808.618823]           Contrast
+[332808.618824]           Hue
+[332808.618825]           Saturation
+[332808.618826]           Sharpness
+[332808.618827]           Gamma
+[332808.618828]           White Balance Temperature
+[332808.618829]           Power Line Frequency
+[332808.618830]           White Balance Temperature, Auto
+[332808.618831]         iProcessing             0
+[332808.618845]         bmVideoStandards     0x1a
+[332808.618846]           NTSC - 525/60
+[332808.618847]           SECAM - 625/50
+[332808.618848]           NTSC - 625/50
+[332808.618850]       VideoControl Interface Descriptor:
+[332808.618850]         bLength                26
+[332808.618851]         bDescriptorType        36
+[332808.618851]         bDescriptorSubtype      6 (EXTENSION_UNIT)
+[332808.618854]         bUnitID                 4
+[332808.618855]         guidExtensionCode         {adccb1c2-f6ab-b848-8e37-32d4f3a3feec}
+[332808.618856]         bNumControl             8
+[332808.618856]         bNrPins                 1
+[332808.618858]         baSourceID( 0)          3
+[332808.618859]         bControlSize            1
+[332808.618860]         bmControls( 0)       0x3f
+[332808.618861]         iExtension              0
+[332808.618869] myuvc_probe : cnt = 1
+[332808.618871] Device Descriptor:
+[332808.618872]   bLength                18
+[332808.618872]   bDescriptorType         1
+[332808.618873]   bcdUSB               2.00
+[332808.618873]   bDeviceClass          239 
+[332808.618874]   bDeviceSubClass         2 
+[332808.618874]   bDeviceProtocol         1 
+[332808.618875]   bMaxPacketSize0        64
+[332808.618876]   idVendor           0x1e4e 
+[332808.618876]   idProduct          0x0102 
+[332808.618877]   bcdDevice            0.02
+[332808.618877]   iManufacturer           1
+[332808.618878]   iProduct                2
+[332808.618878]   iSerial                 0
+[332808.618879]   bNumConfigurations      1
+[332808.618882]   Configuration Descriptor 0:
+[332808.618882]     bLength                 9
+[332808.618883]     bDescriptorType         2
+[332808.618883]     wTotalLength          539
+[332808.618884]     bNumInterfaces          2
+[332808.618884]     bConfigurationValue     1
+[332808.618885]     iConfiguration          0
+[332808.618885]     bmAttributes         0x80
+[332808.618888]     Interface Association:
+[332808.618888]       bLength                 8
+[332808.618889]       bDescriptorType        11
+[332808.618889]       bFirstInterface         0
+[332808.618890]       bInterfaceCount         2
+[332808.618890]       bFunctionClass         14
+[332808.618891]       bFunctionSubClass       3
+[332808.618892]       bFunctionProtocol       0
+[332808.618892]       iFunction               2
+[332808.618895]     Interface Descriptor altsetting 0:
+[332808.618895]       bLength                 9
+[332808.618896]       bDescriptorType         4
+[332808.618896]       bInterfaceNumber        1
+[332808.618897]       bAlternateSetting       0
+[332808.618897]       bNumEndpoints           0
+[332808.618898]       bInterfaceClass        14
+[332808.618898]       bInterfaceSubClass      2
+[332808.618899]       bInterfaceProtocol      0
+[332808.618899]       iInterface              0
+[332808.618902]     Interface Descriptor altsetting 1:
+[332808.618902]       bLength                 9
+[332808.618903]       bDescriptorType         4
+[332808.618904]       bInterfaceNumber        1
+[332808.618904]       bAlternateSetting       1
+[332808.618905]       bNumEndpoints           1
+[332808.618905]       bInterfaceClass        14
+[332808.618906]       bInterfaceSubClass      2
+[332808.618906]       bInterfaceProtocol      0
+[332808.618907]       iInterface              0
+[332808.618909]     Interface Descriptor altsetting 2:
+[332808.618910]       bLength                 9
+[332808.618910]       bDescriptorType         4
+[332808.618911]       bInterfaceNumber        1
+[332808.618912]       bAlternateSetting       2
+[332808.618912]       bNumEndpoints           1
+[332808.618913]       bInterfaceClass        14
+[332808.618913]       bInterfaceSubClass      2
+[332808.618914]       bInterfaceProtocol      0
+[332808.618914]       iInterface              0
+[332808.618917]     Interface Descriptor altsetting 3:
+[332808.618930]       bLength                 9
+[332808.618931]       bDescriptorType         4
+[332808.618932]       bInterfaceNumber        1
+[332808.618932]       bAlternateSetting       3
+[332808.618933]       bNumEndpoints           1
+[332808.618933]       bInterfaceClass        14
+[332808.618934]       bInterfaceSubClass      2
+[332808.618934]       bInterfaceProtocol      0
+[332808.618935]       iInterface              0
+[332808.618937]     Interface Descriptor altsetting 4:
+[332808.618938]       bLength                 9
+[332808.618939]       bDescriptorType         4
+[332808.618939]       bInterfaceNumber        1
+[332808.618940]       bAlternateSetting       4
+[332808.618940]       bNumEndpoints           1
+[332808.618941]       bInterfaceClass        14
+[332808.618941]       bInterfaceSubClass      2
+[332808.618942]       bInterfaceProtocol      0
+[332808.618942]       iInterface              0
+[332808.618945]     Interface Descriptor altsetting 5:
+[332808.618945]       bLength                 9
+[332808.618946]       bDescriptorType         4
+[332808.618946]       bInterfaceNumber        1
+[332808.618947]       bAlternateSetting       5
+[332808.618947]       bNumEndpoints           1
+[332808.618948]       bInterfaceClass        14
+[332808.618948]       bInterfaceSubClass      2
+[332808.618949]       bInterfaceProtocol      0
+[332808.618949]       iInterface              0
+[332808.618952]     Interface Descriptor altsetting 6:
+[332808.618953]       bLength                 9
+[332808.618953]       bDescriptorType         4
+[332808.618954]       bInterfaceNumber        1
+[332808.618954]       bAlternateSetting       6
+[332808.618955]       bNumEndpoints           1
+[332808.618955]       bInterfaceClass        14
+[332808.618956]       bInterfaceSubClass      2
+[332808.618956]       bInterfaceProtocol      0
+[332808.618957]       iInterface              0
+[332808.618959]     Interface Descriptor altsetting 7:
+[332808.618960]       bLength                 9
+[332808.618960]       bDescriptorType         4
+[332808.618961]       bInterfaceNumber        1
+[332808.618961]       bAlternateSetting       7
+[332808.618962]       bNumEndpoints           1
+[332808.618962]       bInterfaceClass        14
+[332808.618963]       bInterfaceSubClass      2
+[332808.618963]       bInterfaceProtocol      0
+[332808.618964]       iInterface              0
+[332808.618966]     Interface Descriptor altsetting 8:
+[332808.618967]       bLength                 9
+[332808.618968]       bDescriptorType         4
+[332808.618968]       bInterfaceNumber        1
+[332808.618969]       bAlternateSetting       8
+[332808.618969]       bNumEndpoints           1
+[332808.618970]       bInterfaceClass        14
+[332808.618970]       bInterfaceSubClass      2
+[332808.618971]       bInterfaceProtocol      0
+[332808.618971]       iInterface              0
+[332808.618974]     Interface Descriptor altsetting 9:
+[332808.618974]       bLength                 9
+[332808.618975]       bDescriptorType         4
+[332808.618975]       bInterfaceNumber        1
+[332808.618976]       bAlternateSetting       9
+[332808.618976]       bNumEndpoints           1
+[332808.618977]       bInterfaceClass        14
+[332808.618977]       bInterfaceSubClass      2
+[332808.618978]       bInterfaceProtocol      0
+[332808.618978]       iInterface              0
+[332808.618981]     Interface Descriptor altsetting 10:
+[332808.618982]       bLength                 9
+[332808.618982]       bDescriptorType         4
+[332808.618983]       bInterfaceNumber        1
+[332808.618983]       bAlternateSetting      10
+[332808.618984]       bNumEndpoints           1
+[332808.618984]       bInterfaceClass        14
+[332808.618985]       bInterfaceSubClass      2
+[332808.618985]       bInterfaceProtocol      0
+[332808.618986]       iInterface              0
+[332808.618988]     Interface Descriptor altsetting 11:
+[332808.618991]       bLength                 9
+[332808.618992]       bDescriptorType         4
+[332808.618992]       bInterfaceNumber        1
+[332808.618993]       bAlternateSetting      11
+[332808.618994]       bNumEndpoints           1
+[332808.618994]       bInterfaceClass        14
+[332808.618995]       bInterfaceSubClass      2
+[332808.618995]       bInterfaceProtocol      0
+[332808.618996]       iInterface              0
+[332808.618998]     Interface Descriptor altsetting 12:
+[332808.618999]       bLength                 9
+[332808.619000]       bDescriptorType         4
+[332808.619000]       bInterfaceNumber        1
+[332808.619001]       bAlternateSetting      12
+[332808.619001]       bNumEndpoints           1
+[332808.619002]       bInterfaceClass        14
+[332808.619002]       bInterfaceSubClass      2
+[332808.619003]       bInterfaceProtocol      0
+[332808.619003]       iInterface              0
+[332808.619005] extra buffer of interface 1:
+[332808.619006] extra desc 0: 0e 24 01 01 df 00 81 00 02 02 01 01 01 00 
+[332808.619010] extra desc 1: 1b 24 04 01 05 59 55 59 32 00 00 10 00 80 00 00 aa 00 38 9b 71 10 01 00 00 00 00 
+[332808.619018] extra desc 2: 1e 24 05 01 00 80 02 e0 01 00 00 ca 08 00 00 ca 08 00 60 09 00 15 16 05 00 01 15 16 05 00 
+[332808.619027] extra desc 3: 1e 24 05 02 00 60 01 20 01 00 80 e6 02 00 80 e6 02 00 18 03 00 15 16 05 00 01 15 16 05 00 
+[332808.619035] extra desc 4: 1e 24 05 03 00 40 01 f0 00 00 80 32 02 00 80 32 02 00 58 02 00 15 16 05 00 01 15 16 05 00 
+[332808.619043] extra desc 5: 1e 24 05 04 00 b0 00 90 00 00 a0 b9 00 00 a0 b9 00 00 c6 00 00 15 16 05 00 01 15 16 05 00 
+[332808.619052] extra desc 6: 1e 24 05 05 00 a0 00 78 00 00 a0 8c 00 00 a0 8c 00 00 96 00 00 15 16 05 00 01 15 16 05 00 
+[332808.619060] extra desc 7: 1a 24 03 00 05 80 02 e0 01 60 01 20 01 40 01 f0 00 b0 00 90 00 a0 00 78 00 00 
+[332808.619067] extra desc 8: 06 24 0d 01 01 04 
+[332808.619081] usbcore: registered new interface driver myuvc
+[333545.269174] usbcore: deregistering interface driver myuvc
+[333545.281087] myuvc_disconnect : cnt = 0
+[333545.281108] myuvc_disconnect : cnt = 1
+[333550.325470] myuvc_probe : cnt = 0
+[333550.325474] Device Descriptor:
+[333550.325475]   bLength                18
+[333550.325475]   bDescriptorType         1
+[333550.325476]   bcdUSB               2.00
+[333550.325476]   bDeviceClass          239 
+[333550.325477]   bDeviceSubClass         2 
+[333550.325477]   bDeviceProtocol         1 
+[333550.325478]   bMaxPacketSize0        64
+[333550.325478]   idVendor           0x1e4e 
+[333550.325479]   idProduct          0x0102 
+[333550.325479]   bcdDevice            0.02
+[333550.325480]   iManufacturer           1
+[333550.325480]   iProduct                2
+[333550.325481]   iSerial                 0
+[333550.325481]   bNumConfigurations      1
+[333550.325484]   Configuration Descriptor 0:
+[333550.325485]     bLength                 9
+[333550.325485]     bDescriptorType         2
+[333550.325486]     wTotalLength          539
+[333550.325486]     bNumInterfaces          2
+[333550.325487]     bConfigurationValue     1
+[333550.325487]     iConfiguration          0
+[333550.325488]     bmAttributes         0x80
+[333550.325490]     Interface Association:
+[333550.325490]       bLength                 8
+[333550.325491]       bDescriptorType        11
+[333550.325492]       bFirstInterface         0
+[333550.325492]       bInterfaceCount         2
+[333550.325493]       bFunctionClass         14
+[333550.325493]       bFunctionSubClass       3
+[333550.325494]       bFunctionProtocol       0
+[333550.325494]       iFunction               2
+[333550.325497]     Interface Descriptor altsetting 0:
+[333550.325497]       bLength                 9
+[333550.325498]       bDescriptorType         4
+[333550.325498]       bInterfaceNumber        0
+[333550.325499]       bAlternateSetting       0
+[333550.325502]       bNumEndpoints           1
+[333550.325503]       bInterfaceClass        14
+[333550.325503]       bInterfaceSubClass      1
+[333550.325504]       bInterfaceProtocol      0
+[333550.325504]       iInterface              2
+[333550.325506] extra buffer of interface 0:
+[333550.325507] extra desc 0: 0d 24 01 00 01 4d 00 80 c3 c9 01 01 01 
+[333550.325512] extra desc 1: 12 24 02 01 01 02 00 00 00 00 00 00 00 00 03 0e 00 00 
+[333550.325517] extra desc 2: 09 24 03 02 01 01 00 04 00 
+[333550.325520] extra desc 3: 0b 24 05 03 01 00 00 02 7f 14 00 
+[333550.325524] extra desc 4: 1a 24 06 04 ad cc b1 c2 f6 ab b8 48 8e 37 32 d4 f3 a3 fe ec 08 01 03 01 3f 00 
+[333550.325562]       VideoControl Interface Descriptor:
+[333550.325562]         bLength                13
+[333550.325563]         bDescriptorType        36
+[333550.325563]         bDescriptorSubtype      1 (HEADER)
+[333550.325565]         bcdUVC               1.00
+[333550.325566]         wTotalLength           77
+[333550.325567]         dwClockFrequency       30.000000MHz
+[333550.325567]         bInCollection           1
+[333550.325569]         baInterfaceNr( 0)       1
+[333550.325570]       VideoControl Interface Descriptor:
+[333550.325570]         bLength                18
+[333550.325571]         bDescriptorType        36
+[333550.325572]         bDescriptorSubtype      2 (INPUT_TERMINAL)
+[333550.325573]         bTerminalID             1
+[333550.325574]         wTerminalType      0x0201
+[333550.325575]         bAssocTerminal          0
+[333550.325576]         iTerminal               0
+[333550.325577]         wObjectiveFocalLengthMin      0
+[333550.325578]         wObjectiveFocalLengthMax      0
+[333550.325578]         wOcularFocalLength            0
+[333550.325579]         bControlSize                  3
+[333550.325580]         bmControls           0x0000000e
+[333550.325581]           Auto-Exposure Mode
+[333550.325582]           Auto-Exposure Priority
+[333550.325583]           Exposure Time (Absolute)
+[333550.325584]       VideoControl Interface Descriptor:
+[333550.325585]         bLength                 9
+[333550.325586]         bDescriptorType        36
+[333550.325586]         bDescriptorSubtype      3 (OUTPUT_TERMINAL)
+[333550.325588]         bTerminalID             2
+[333550.325589]         wTerminalType      0x0101
+[333550.325589]         bAssocTerminal          0
+[333550.325590]         bSourceID               4
+[333550.325590]         iTerminal               0
+[333550.325592]       VideoControl Interface Descriptor:
+[333550.325592]         bLength                11
+[333550.325593]         bDescriptorType        36
+[333550.325593]         bDescriptorSubtype      5 (PROCESSING_UNIT)
+[333550.325595]       Warning: Descriptor too short
+[333550.325596]         bUnitID                 3
+[333550.325597]         bSourceID               1
+[333550.325597]         wMaxMultiplier          0
+[333550.325598]         bControlSize            2
+[333550.325599]         bmControls     0x0000147f
+[333550.325600]           Brightness
+[333550.325601]           Contrast
+[333550.325602]           Hue
+[333550.325603]           Saturation
+[333550.325604]           Sharpness
+[333550.325604]           Gamma
+[333550.325605]           White Balance Temperature
+[333550.325606]           Power Line Frequency
+[333550.325607]           White Balance Temperature, Auto
+[333550.325608]         iProcessing             0
+[333550.325609]         bmVideoStandards     0x1a
+[333550.325610]           NTSC - 525/60
+[333550.325611]           SECAM - 625/50
+[333550.325612]           NTSC - 625/50
+[333550.325613]       VideoControl Interface Descriptor:
+[333550.325614]         bLength                26
+[333550.325614]         bDescriptorType        36
+[333550.325615]         bDescriptorSubtype      6 (EXTENSION_UNIT)
+[333550.325618]         bUnitID                 4
+[333550.325669]         guidExtensionCode         {adccb1c2-f6ab-b848-8e37-32d4f3a3feec}
+[333550.325671]         bNumControl             8
+[333550.325671]         bNrPins                 1
+[333550.325673]         baSourceID( 0)          3
+[333550.325674]         bControlSize            1
+[333550.325675]         bmControls( 0)       0x3f
+[333550.325676]         iExtension              0
+[333550.325688] myuvc_probe : cnt = 1
+[333550.325691] Device Descriptor:
+[333550.325691]   bLength                18
+[333550.325692]   bDescriptorType         1
+[333550.325693]   bcdUSB               2.00
+[333550.325693]   bDeviceClass          239 
+[333550.325694]   bDeviceSubClass         2 
+[333550.325694]   bDeviceProtocol         1 
+[333550.325695]   bMaxPacketSize0        64
+[333550.325695]   idVendor           0x1e4e 
+[333550.325696]   idProduct          0x0102 
+[333550.325696]   bcdDevice            0.02
+[333550.325697]   iManufacturer           1
+[333550.325697]   iProduct                2
+[333550.325698]   iSerial                 0
+[333550.325699]   bNumConfigurations      1
+[333550.325701]   Configuration Descriptor 0:
+[333550.325702]     bLength                 9
+[333550.325702]     bDescriptorType         2
+[333550.325703]     wTotalLength          539
+[333550.325704]     bNumInterfaces          2
+[333550.325704]     bConfigurationValue     1
+[333550.325705]     iConfiguration          0
+[333550.325705]     bmAttributes         0x80
+[333550.325707]     Interface Association:
+[333550.325708]       bLength                 8
+[333550.325709]       bDescriptorType        11
+[333550.325709]       bFirstInterface         0
+[333550.325710]       bInterfaceCount         2
+[333550.325710]       bFunctionClass         14
+[333550.325711]       bFunctionSubClass       3
+[333550.325711]       bFunctionProtocol       0
+[333550.325712]       iFunction               2
+[333550.325714]     Interface Descriptor altsetting 0:
+[333550.325715]       bLength                 9
+[333550.325715]       bDescriptorType         4
+[333550.325716]       bInterfaceNumber        1
+[333550.325716]       bAlternateSetting       0
+[333550.325717]       bNumEndpoints           0
+[333550.325717]       bInterfaceClass        14
+[333550.325718]       bInterfaceSubClass      2
+[333550.325718]       bInterfaceProtocol      0
+[333550.325719]       iInterface              0
+[333550.325722]     Interface Descriptor altsetting 1:
+[333550.325722]       bLength                 9
+[333550.325723]       bDescriptorType         4
+[333550.325723]       bInterfaceNumber        1
+[333550.325724]       bAlternateSetting       1
+[333550.325724]       bNumEndpoints           1
+[333550.325725]       bInterfaceClass        14
+[333550.325725]       bInterfaceSubClass      2
+[333550.325726]       bInterfaceProtocol      0
+[333550.325726]       iInterface              0
+[333550.325729]     Interface Descriptor altsetting 2:
+[333550.325729]       bLength                 9
+[333550.325730]       bDescriptorType         4
+[333550.325731]       bInterfaceNumber        1
+[333550.325731]       bAlternateSetting       2
+[333550.325732]       bNumEndpoints           1
+[333550.325732]       bInterfaceClass        14
+[333550.325733]       bInterfaceSubClass      2
+[333550.325733]       bInterfaceProtocol      0
+[333550.325734]       iInterface              0
+[333550.325736]     Interface Descriptor altsetting 3:
+[333550.325737]       bLength                 9
+[333550.325737]       bDescriptorType         4
+[333550.325738]       bInterfaceNumber        1
+[333550.325739]       bAlternateSetting       3
+[333550.325739]       bNumEndpoints           1
+[333550.325740]       bInterfaceClass        14
+[333550.325740]       bInterfaceSubClass      2
+[333550.325741]       bInterfaceProtocol      0
+[333550.325741]       iInterface              0
+[333550.325744]     Interface Descriptor altsetting 4:
+[333550.325747]       bLength                 9
+[333550.325747]       bDescriptorType         4
+[333550.325748]       bInterfaceNumber        1
+[333550.325748]       bAlternateSetting       4
+[333550.325749]       bNumEndpoints           1
+[333550.325749]       bInterfaceClass        14
+[333550.325750]       bInterfaceSubClass      2
+[333550.325750]       bInterfaceProtocol      0
+[333550.325751]       iInterface              0
+[333550.325754]     Interface Descriptor altsetting 5:
+[333550.325754]       bLength                 9
+[333550.325755]       bDescriptorType         4
+[333550.325755]       bInterfaceNumber        1
+[333550.325756]       bAlternateSetting       5
+[333550.325756]       bNumEndpoints           1
+[333550.325757]       bInterfaceClass        14
+[333550.325757]       bInterfaceSubClass      2
+[333550.325758]       bInterfaceProtocol      0
+[333550.325758]       iInterface              0
+[333550.325761]     Interface Descriptor altsetting 6:
+[333550.325761]       bLength                 9
+[333550.325762]       bDescriptorType         4
+[333550.325763]       bInterfaceNumber        1
+[333550.325763]       bAlternateSetting       6
+[333550.325764]       bNumEndpoints           1
+[333550.325764]       bInterfaceClass        14
+[333550.325765]       bInterfaceSubClass      2
+[333550.325765]       bInterfaceProtocol      0
+[333550.325766]       iInterface              0
+[333550.325768]     Interface Descriptor altsetting 7:
+[333550.325769]       bLength                 9
+[333550.325770]       bDescriptorType         4
+[333550.325770]       bInterfaceNumber        1
+[333550.325771]       bAlternateSetting       7
+[333550.325771]       bNumEndpoints           1
+[333550.325772]       bInterfaceClass        14
+[333550.325772]       bInterfaceSubClass      2
+[333550.325773]       bInterfaceProtocol      0
+[333550.325773]       iInterface              0
+[333550.325776]     Interface Descriptor altsetting 8:
+[333550.325776]       bLength                 9
+[333550.325777]       bDescriptorType         4
+[333550.325777]       bInterfaceNumber        1
+[333550.325778]       bAlternateSetting       8
+[333550.325778]       bNumEndpoints           1
+[333550.325779]       bInterfaceClass        14
+[333550.325779]       bInterfaceSubClass      2
+[333550.325780]       bInterfaceProtocol      0
+[333550.325780]       iInterface              0
+[333550.325783]     Interface Descriptor altsetting 9:
+[333550.325783]       bLength                 9
+[333550.325784]       bDescriptorType         4
+[333550.325785]       bInterfaceNumber        1
+[333550.325785]       bAlternateSetting       9
+[333550.325786]       bNumEndpoints           1
+[333550.325786]       bInterfaceClass        14
+[333550.325787]       bInterfaceSubClass      2
+[333550.325787]       bInterfaceProtocol      0
+[333550.325788]       iInterface              0
+[333550.325790]     Interface Descriptor altsetting 10:
+[333550.325791]       bLength                 9
+[333550.325791]       bDescriptorType         4
+[333550.325792]       bInterfaceNumber        1
+[333550.325792]       bAlternateSetting      10
+[333550.325793]       bNumEndpoints           1
+[333550.325793]       bInterfaceClass        14
+[333550.325794]       bInterfaceSubClass      2
+[333550.325794]       bInterfaceProtocol      0
+[333550.325795]       iInterface              0
+[333550.325797]     Interface Descriptor altsetting 11:
+[333550.325798]       bLength                 9
+[333550.325799]       bDescriptorType         4
+[333550.325799]       bInterfaceNumber        1
+[333550.325800]       bAlternateSetting      11
+[333550.325800]       bNumEndpoints           1
+[333550.325801]       bInterfaceClass        14
+[333550.325802]       bInterfaceSubClass      2
+[333550.325802]       bInterfaceProtocol      0
+[333550.325803]       iInterface              0
+[333550.325807]     Interface Descriptor altsetting 12:
+[333550.325808]       bLength                 9
+[333550.325808]       bDescriptorType         4
+[333550.325809]       bInterfaceNumber        1
+[333550.325809]       bAlternateSetting      12
+[333550.325810]       bNumEndpoints           1
+[333550.325810]       bInterfaceClass        14
+[333550.325811]       bInterfaceSubClass      2
+[333550.325812]       bInterfaceProtocol      0
+[333550.325812]       iInterface              0
+[333550.325814] extra buffer of interface 1:
+[333550.325815] extra desc 0: 0e 24 01 01 df 00 81 00 02 02 01 01 01 00 
+[333550.325820] extra desc 1: 1b 24 04 01 05 59 55 59 32 00 00 10 00 80 00 00 aa 00 38 9b 71 10 01 00 00 00 00 
+[333550.325827] extra desc 2: 1e 24 05 01 00 80 02 e0 01 00 00 ca 08 00 00 ca 08 00 60 09 00 15 16 05 00 01 15 16 05 00 
+[333550.325836] extra desc 3: 1e 24 05 02 00 60 01 20 01 00 80 e6 02 00 80 e6 02 00 18 03 00 15 16 05 00 01 15 16 05 00 
+[333550.325844] extra desc 4: 1e 24 05 03 00 40 01 f0 00 00 80 32 02 00 80 32 02 00 58 02 00 15 16 05 00 01 15 16 05 00 
+[333550.325852] extra desc 5: 1e 24 05 04 00 b0 00 90 00 00 a0 b9 00 00 a0 b9 00 00 c6 00 00 15 16 05 00 01 15 16 05 00 
+[333550.325861] extra desc 6: 1e 24 05 05 00 a0 00 78 00 00 a0 8c 00 00 a0 8c 00 00 96 00 00 15 16 05 00 01 15 16 05 00 
+[333550.325869] extra desc 7: 1a 24 03 00 05 80 02 e0 01 60 01 20 01 40 01 f0 00 b0 00 90 00 a0 00 78 00 00 
+[333550.325876] extra desc 8: 06 24 0d 01 01 04 
+[333550.325891] usbcore: registered new interface driver myuvc
+[333918.216654] usbcore: deregistering interface driver myuvc
+[333918.216685] myuvc_disconnect : cnt = 0
+[333918.216700] myuvc_disconnect : cnt = 1
+[333922.386142] myuvc_probe : cnt = 0
+[333922.386146] Device Descriptor:
+[333922.386146]   bLength                18
+[333922.386147]   bDescriptorType         1
+[333922.386147]   bcdUSB               2.00
+[333922.386148]   bDeviceClass          239 
+[333922.386149]   bDeviceSubClass         2 
+[333922.386149]   bDeviceProtocol         1 
+[333922.386150]   bMaxPacketSize0        64
+[333922.386150]   idVendor           0x1e4e 
+[333922.386151]   idProduct          0x0102 
+[333922.386151]   bcdDevice            0.02
+[333922.386152]   iManufacturer           1
+[333922.386152]   iProduct                2
+[333922.386153]   iSerial                 0
+[333922.386153]   bNumConfigurations      1
+[333922.386156]   Configuration Descriptor 0:
+[333922.386157]     bLength                 9
+[333922.386158]     bDescriptorType         2
+[333922.386158]     wTotalLength          539
+[333922.386159]     bNumInterfaces          2
+[333922.386159]     bConfigurationValue     1
+[333922.386160]     iConfiguration          0
+[333922.386160]     bmAttributes         0x80
+[333922.386163]     Interface Association:
+[333922.386163]       bLength                 8
+[333922.386164]       bDescriptorType        11
+[333922.386164]       bFirstInterface         0
+[333922.386165]       bInterfaceCount         2
+[333922.386165]       bFunctionClass         14
+[333922.386166]       bFunctionSubClass       3
+[333922.386166]       bFunctionProtocol       0
+[333922.386167]       iFunction               2
+[333922.386169]     Interface Descriptor altsetting 0:
+[333922.386170]       bLength                 9
+[333922.386170]       bDescriptorType         4
+[333922.386171]       bInterfaceNumber        0
+[333922.386171]       bAlternateSetting       0
+[333922.386172]       bNumEndpoints           1
+[333922.386173]       bInterfaceClass        14
+[333922.386173]       bInterfaceSubClass      1
+[333922.386174]       bInterfaceProtocol      0
+[333922.386174]       iInterface              2
+[333922.386176] extra buffer of interface 0:
+[333922.386177] extra desc 0: 0d 24 01 00 01 4d 00 80 c3 c9 01 01 01 
+[333922.386181] extra desc 1: 12 24 02 01 01 02 00 00 00 00 00 00 00 00 03 0e 00 00 
+[333922.386189] extra desc 2: 09 24 03 02 01 01 00 04 00 
+[333922.386193] extra desc 3: 0b 24 05 03 01 00 00 02 7f 14 00 
+[333922.386196] extra desc 4: 1a 24 06 04 ad cc b1 c2 f6 ab b8 48 8e 37 32 d4 f3 a3 fe ec 08 01 03 01 3f 00 
+[333922.386204]       VideoControl Interface Descriptor:
+[333922.386205]         bLength                13
+[333922.386205]         bDescriptorType        36
+[333922.386206]         bDescriptorSubtype      1 (HEADER)
+[333922.386208]         bcdUVC               1.00
+[333922.386209]         wTotalLength           77
+[333922.386209]         dwClockFrequency       30.000000MHz
+[333922.386210]         bInCollection           1
+[333922.386211]         baInterfaceNr( 0)       1
+[333922.386212]       VideoControl Interface Descriptor:
+[333922.386213]         bLength                18
+[333922.386213]         bDescriptorType        36
+[333922.386214]         bDescriptorSubtype      2 (INPUT_TERMINAL)
+[333922.386216]         bTerminalID             1
+[333922.386216]         wTerminalType      0x0201
+[333922.386217]         bAssocTerminal          0
+[333922.386218]         iTerminal               0
+[333922.386219]         wObjectiveFocalLengthMin      0
+[333922.386220]         wObjectiveFocalLengthMax      0
+[333922.386220]         wOcularFocalLength            0
+[333922.386221]         bControlSize                  3
+[333922.386222]         bmControls           0x0000000e
+[333922.386223]           Auto-Exposure Mode
+[333922.386224]           Auto-Exposure Priority
+[333922.386225]           Exposure Time (Absolute)
+[333922.386227]       VideoControl Interface Descriptor:
+[333922.386227]         bLength                 9
+[333922.386228]         bDescriptorType        36
+[333922.386228]         bDescriptorSubtype      3 (OUTPUT_TERMINAL)
+[333922.386230]         bTerminalID             2
+[333922.386231]         wTerminalType      0x0101
+[333922.386231]         bAssocTerminal          0
+[333922.386232]         bSourceID               4
+[333922.386232]         iTerminal               0
+[333922.386234]       VideoControl Interface Descriptor:
+[333922.386235]         bLength                11
+[333922.386235]         bDescriptorType        36
+[333922.386236]         bDescriptorSubtype      5 (PROCESSING_UNIT)
+[333922.386237]       Warning: Descriptor too short
+[333922.386238]         bUnitID                 3
+[333922.386239]         bSourceID               1
+[333922.386240]         wMaxMultiplier          0
+[333922.386240]         bControlSize            2
+[333922.386241]         bmControls     0x0000147f
+[333922.386242]           Brightness
+[333922.386243]           Contrast
+[333922.386244]           Hue
+[333922.386245]           Saturation
+[333922.386246]           Sharpness
+[333922.386247]           Gamma
+[333922.386247]           White Balance Temperature
+[333922.386248]           Power Line Frequency
+[333922.386249]           White Balance Temperature, Auto
+[333922.386250]         iProcessing             0
+[333922.386251]         bmVideoStandards     0x1a
+[333922.386252]           NTSC - 525/60
+[333922.386253]           SECAM - 625/50
+[333922.386254]           NTSC - 625/50
+[333922.386255]       VideoControl Interface Descriptor:
+[333922.386256]         bLength                26
+[333922.386256]         bDescriptorType        36
+[333922.386257]         bDescriptorSubtype      6 (EXTENSION_UNIT)
+[333922.386260]         bUnitID                 4
+[333922.386260]         guidExtensionCode         {adccb1c2-f6ab-b848-8e37-32d4f3a3feec}
+[333922.386261]         bNumControl             8
+[333922.386262]         bNrPins                 1
+[333922.386263]         baSourceID( 0)          3
+[333922.386264]         bControlSize            1
+[333922.386265]         bmControls( 0)       0x3f
+[333922.386266]         iExtension              0
+[333922.386273] myuvc_probe : cnt = 1
+[333922.386276] Device Descriptor:
+[333922.386278]   bLength                18
+[333922.386279]   bDescriptorType         1
+[333922.386280]   bcdUSB               2.00
+[333922.386280]   bDeviceClass          239 
+[333922.386281]   bDeviceSubClass         2 
+[333922.386281]   bDeviceProtocol         1 
+[333922.386282]   bMaxPacketSize0        64
+[333922.386282]   idVendor           0x1e4e 
+[333922.386283]   idProduct          0x0102 
+[333922.386283]   bcdDevice            0.02
+[333922.386284]   iManufacturer           1
+[333922.386285]   iProduct                2
+[333922.386285]   iSerial                 0
+[333922.386286]   bNumConfigurations      1
+[333922.386288]   Configuration Descriptor 0:
+[333922.386289]     bLength                 9
+[333922.386290]     bDescriptorType         2
+[333922.386290]     wTotalLength          539
+[333922.386291]     bNumInterfaces          2
+[333922.386291]     bConfigurationValue     1
+[333922.386292]     iConfiguration          0
+[333922.386292]     bmAttributes         0x80
+[333922.386295]     Interface Association:
+[333922.386295]       bLength                 8
+[333922.386296]       bDescriptorType        11
+[333922.386296]       bFirstInterface         0
+[333922.386297]       bInterfaceCount         2
+[333922.386298]       bFunctionClass         14
+[333922.386298]       bFunctionSubClass       3
+[333922.386299]       bFunctionProtocol       0
+[333922.386299]       iFunction               2
+[333922.386302]     Interface Descriptor altsetting 0:
+[333922.386302]       bLength                 9
+[333922.386303]       bDescriptorType         4
+[333922.386303]       bInterfaceNumber        1
+[333922.386304]       bAlternateSetting       0
+[333922.386304]       bNumEndpoints           0
+[333922.386305]       bInterfaceClass        14
+[333922.386306]       bInterfaceSubClass      2
+[333922.386306]       bInterfaceProtocol      0
+[333922.386307]       iInterface              0
+[333922.386309]     Interface Descriptor altsetting 1:
+[333922.386310]       bLength                 9
+[333922.386310]       bDescriptorType         4
+[333922.386311]       bInterfaceNumber        1
+[333922.386311]       bAlternateSetting       1
+[333922.386312]       bNumEndpoints           1
+[333922.386312]       bInterfaceClass        14
+[333922.386313]       bInterfaceSubClass      2
+[333922.386313]       bInterfaceProtocol      0
+[333922.386314]       iInterface              0
+[333922.386316]     Interface Descriptor altsetting 2:
+[333922.386317]       bLength                 9
+[333922.386318]       bDescriptorType         4
+[333922.386318]       bInterfaceNumber        1
+[333922.386319]       bAlternateSetting       2
+[333922.386319]       bNumEndpoints           1
+[333922.386320]       bInterfaceClass        14
+[333922.386320]       bInterfaceSubClass      2
+[333922.386321]       bInterfaceProtocol      0
+[333922.386321]       iInterface              0
+[333922.386324]     Interface Descriptor altsetting 3:
+[333922.386324]       bLength                 9
+[333922.386325]       bDescriptorType         4
+[333922.386325]       bInterfaceNumber        1
+[333922.386326]       bAlternateSetting       3
+[333922.386326]       bNumEndpoints           1
+[333922.386327]       bInterfaceClass        14
+[333922.386327]       bInterfaceSubClass      2
+[333922.386328]       bInterfaceProtocol      0
+[333922.386329]       iInterface              0
+[333922.386331]     Interface Descriptor altsetting 4:
+[333922.386332]       bLength                 9
+[333922.386332]       bDescriptorType         4
+[333922.386333]       bInterfaceNumber        1
+[333922.386333]       bAlternateSetting       4
+[333922.386334]       bNumEndpoints           1
+[333922.386334]       bInterfaceClass        14
+[333922.386335]       bInterfaceSubClass      2
+[333922.386335]       bInterfaceProtocol      0
+[333922.386336]       iInterface              0
+[333922.386340]     Interface Descriptor altsetting 5:
+[333922.386341]       bLength                 9
+[333922.386341]       bDescriptorType         4
+[333922.386342]       bInterfaceNumber        1
+[333922.386342]       bAlternateSetting       5
+[333922.386343]       bNumEndpoints           1
+[333922.386343]       bInterfaceClass        14
+[333922.386344]       bInterfaceSubClass      2
+[333922.386344]       bInterfaceProtocol      0
+[333922.386345]       iInterface              0
+[333922.386347]     Interface Descriptor altsetting 6:
+[333922.386348]       bLength                 9
+[333922.386349]       bDescriptorType         4
+[333922.386349]       bInterfaceNumber        1
+[333922.386350]       bAlternateSetting       6
+[333922.386350]       bNumEndpoints           1
+[333922.386351]       bInterfaceClass        14
+[333922.386351]       bInterfaceSubClass      2
+[333922.386352]       bInterfaceProtocol      0
+[333922.386352]       iInterface              0
+[333922.386355]     Interface Descriptor altsetting 7:
+[333922.386355]       bLength                 9
+[333922.386356]       bDescriptorType         4
+[333922.386356]       bInterfaceNumber        1
+[333922.386357]       bAlternateSetting       7
+[333922.386357]       bNumEndpoints           1
+[333922.386358]       bInterfaceClass        14
+[333922.386358]       bInterfaceSubClass      2
+[333922.386359]       bInterfaceProtocol      0
+[333922.386359]       iInterface              0
+[333922.386362]     Interface Descriptor altsetting 8:
+[333922.386363]       bLength                 9
+[333922.386363]       bDescriptorType         4
+[333922.386364]       bInterfaceNumber        1
+[333922.386364]       bAlternateSetting       8
+[333922.386365]       bNumEndpoints           1
+[333922.386365]       bInterfaceClass        14
+[333922.386366]       bInterfaceSubClass      2
+[333922.386366]       bInterfaceProtocol      0
+[333922.386367]       iInterface              0
+[333922.386369]     Interface Descriptor altsetting 9:
+[333922.386370]       bLength                 9
+[333922.386370]       bDescriptorType         4
+[333922.386371]       bInterfaceNumber        1
+[333922.386371]       bAlternateSetting       9
+[333922.386372]       bNumEndpoints           1
+[333922.386372]       bInterfaceClass        14
+[333922.386373]       bInterfaceSubClass      2
+[333922.386373]       bInterfaceProtocol      0
+[333922.386374]       iInterface              0
+[333922.386376]     Interface Descriptor altsetting 10:
+[333922.386377]       bLength                 9
+[333922.386378]       bDescriptorType         4
+[333922.386378]       bInterfaceNumber        1
+[333922.386379]       bAlternateSetting      10
+[333922.386379]       bNumEndpoints           1
+[333922.386380]       bInterfaceClass        14
+[333922.386380]       bInterfaceSubClass      2
+[333922.386381]       bInterfaceProtocol      0
+[333922.386381]       iInterface              0
+[333922.386384]     Interface Descriptor altsetting 11:
+[333922.386384]       bLength                 9
+[333922.386385]       bDescriptorType         4
+[333922.386385]       bInterfaceNumber        1
+[333922.386386]       bAlternateSetting      11
+[333922.386386]       bNumEndpoints           1
+[333922.386387]       bInterfaceClass        14
+[333922.386387]       bInterfaceSubClass      2
+[333922.386388]       bInterfaceProtocol      0
+[333922.386388]       iInterface              0
+[333922.386391]     Interface Descriptor altsetting 12:
+[333922.386392]       bLength                 9
+[333922.386392]       bDescriptorType         4
+[333922.386393]       bInterfaceNumber        1
+[333922.386393]       bAlternateSetting      12
+[333922.386394]       bNumEndpoints           1
+[333922.386394]       bInterfaceClass        14
+[333922.386395]       bInterfaceSubClass      2
+[333922.386395]       bInterfaceProtocol      0
+[333922.386412]       iInterface              0
+[333922.386414] extra buffer of interface 1:
+[333922.386415] extra desc 0: 0e 24 01 01 df 00 81 00 02 02 01 01 01 00 
+[333922.386420] extra desc 1: 1b 24 04 01 05 59 55 59 32 00 00 10 00 80 00 00 aa 00 38 9b 71 10 01 00 00 00 00 
+[333922.386427] extra desc 2: 1e 24 05 01 00 80 02 e0 01 00 00 ca 08 00 00 ca 08 00 60 09 00 15 16 05 00 01 15 16 05 00 
+[333922.386436] extra desc 3: 1e 24 05 02 00 60 01 20 01 00 80 e6 02 00 80 e6 02 00 18 03 00 15 16 05 00 01 15 16 05 00 
+[333922.386444] extra desc 4: 1e 24 05 03 00 40 01 f0 00 00 80 32 02 00 80 32 02 00 58 02 00 15 16 05 00 01 15 16 05 00 
+[333922.386453] extra desc 5: 1e 24 05 04 00 b0 00 90 00 00 a0 b9 00 00 a0 b9 00 00 c6 00 00 15 16 05 00 01 15 16 05 00 
+[333922.386461] extra desc 6: 1e 24 05 05 00 a0 00 78 00 00 a0 8c 00 00 a0 8c 00 00 96 00 00 15 16 05 00 01 15 16 05 00 
+[333922.386469] extra desc 7: 1a 24 03 00 05 80 02 e0 01 60 01 20 01 40 01 f0 00 b0 00 90 00 a0 00 78 00 00 
+[333922.386477] extra desc 8: 06 24 0d 01 01 04 
+[333922.386479]       VideoStreaming Interface Descriptor:
+[333922.386480]         bLength                            14
+[333922.386481]         bDescriptorType                    36
+[333922.386481]         bDescriptorSubtype                  1 (INPUT_HEADER)
+[333922.386484]         bNumFormats                         1
+[333922.386485]         wTotalLength                      223
+[333922.386485]         bEndPointAddress                  129
+[333922.386486]         bmInfo                              0
+[333922.386486]         bTerminalLink                       2
+[333922.386487]         bStillCaptureMethod                 2
+[333922.386488]         bTriggerSupport                     1
+[333922.386488]         bTriggerUsage                       1
+[333922.386489]         bControlSize                        1
+[333922.386491]         bmaControls( 0)                    27
+[333922.386492]       VideoStreaming Interface Descriptor:
+[333922.386493]         bLength                            27
+[333922.386493]         bDescriptorType                    36
+[333922.386494]         bDescriptorSubtype                  4 (FORMAT_UNCOMPRESSED)
+[333922.386498]         bFormatIndex                        1
+[333922.386498]         bNumFrameDescriptors                5
+[333922.386499]         guidFormat                            {59555932-0000-1000-8000-00aa00389b71}
+[333922.386500]         bBitsPerPixel                      16
+[333922.386500]         bDefaultFrameIndex                  1
+[333922.386501]         bAspectRatioX                       0
+[333922.386501]         bAspectRatioY                       0
+[333922.386502]         bmInterlaceFlags                 0x00
+[333922.386504]           Interlaced stream or variable: No
+[333922.386505]           Fields per frame: 2 fields
+[333922.386506]           Field 1 first: No
+[333922.386507]           Field pattern: Field 1 only
+[333922.386508]           bCopyProtect                      0
+[333922.386509]       VideoStreaming Interface Descriptor:
+[333922.386510]         bLength                            30
+[333922.386510]         bDescriptorType                    36
+[333922.386511]         bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
+[333922.386513]         bFrameIndex                         1
+[333922.386514]         bmCapabilities                   0x00
+[333922.386515]           Still image unsupported
+[333922.386516]         wWidth                            640
+[333922.386517]         wHeight                           480
+[333922.386518]         dwMinBitRate                147456000
+[333922.386518]         dwMaxBitRate                147456000
+[333922.386520]         dwMaxVideoFrameBufferSize      614400
+[333922.386520]         dwDefaultFrameInterval         333333
+[333922.386521]         bFrameIntervalType                  1
+[333922.386522]         dwFrameInterval( 0)            333333
+[333922.386526]       VideoStreaming Interface Descriptor:
+[333922.386527]         bLength                            30
+[333922.386527]         bDescriptorType                    36
+[333922.386528]         bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
+[333922.386530]         bFrameIndex                         2
+[333922.386530]         bmCapabilities                   0x00
+[333922.386532]           Still image unsupported
+[333922.386533]         wWidth                            352
+[333922.386534]         wHeight                           288
+[333922.386534]         dwMinBitRate                 48660480
+[333922.386535]         dwMaxBitRate                 48660480
+[333922.386537]         dwMaxVideoFrameBufferSize      202752
+[333922.386537]         dwDefaultFrameInterval         333333
+[333922.386538]         bFrameIntervalType                  1
+[333922.386539]         dwFrameInterval( 0)            333333
+[333922.386541]       VideoStreaming Interface Descriptor:
+[333922.386541]         bLength                            30
+[333922.386542]         bDescriptorType                    36
+[333922.386542]         bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
+[333922.386544]         bFrameIndex                         3
+[333922.386545]         bmCapabilities                   0x00
+[333922.386546]           Still image unsupported
+[333922.386547]         wWidth                            320
+[333922.386548]         wHeight                           240
+[333922.386549]         dwMinBitRate                 36864000
+[333922.386549]         dwMaxBitRate                 36864000
+[333922.386551]         dwMaxVideoFrameBufferSize      153600
+[333922.386551]         dwDefaultFrameInterval         333333
+[333922.386552]         bFrameIntervalType                  1
+[333922.386553]         dwFrameInterval( 0)            333333
+[333922.386555]       VideoStreaming Interface Descriptor:
+[333922.386555]         bLength                            30
+[333922.386556]         bDescriptorType                    36
+[333922.386557]         bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
+[333922.386558]         bFrameIndex                         4
+[333922.386559]         bmCapabilities                   0x00
+[333922.386560]           Still image unsupported
+[333922.386562]         wWidth                            176
+[333922.386562]         wHeight                           144
+[333922.386563]         dwMinBitRate                 12165120
+[333922.386563]         dwMaxBitRate                 12165120
+[333922.386565]         dwMaxVideoFrameBufferSize       50688
+[333922.386566]         dwDefaultFrameInterval         333333
+[333922.386566]         bFrameIntervalType                  1
+[333922.386568]         dwFrameInterval( 0)            333333
+[333922.386569]       VideoStreaming Interface Descriptor:
+[333922.386569]         bLength                            30
+[333922.386570]         bDescriptorType                    36
+[333922.386571]         bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
+[333922.386572]         bFrameIndex                         5
+[333922.386573]         bmCapabilities                   0x00
+[333922.386574]           Still image unsupported
+[333922.386576]         wWidth                            160
+[333922.386576]         wHeight                           120
+[333922.386577]         dwMinBitRate                  9216000
+[333922.386578]         dwMaxBitRate                  9216000
+[333922.386579]         dwMaxVideoFrameBufferSize       38400
+[333922.386580]         dwDefaultFrameInterval         333333
+[333922.386581]         bFrameIntervalType                  1
+[333922.386582]         dwFrameInterval( 0)            333333
+[333922.386583]       VideoStreaming Interface Descriptor:
+[333922.386584]         bLength                            26
+[333922.386584]         bDescriptorType                    36
+[333922.386587]         bDescriptorSubtype                  3 (STILL_IMAGE_FRAME)
+[333922.386589]         bEndpointAddress                    0
+[333922.386589]         bNumImageSizePatterns               5
+[333922.386591]         wWidth( 0)                        640
+[333922.386591]         wHeight( 0)                       480
+[333922.386593]         wWidth( 1)                        352
+[333922.386593]         wHeight( 1)                       288
+[333922.386595]         wWidth( 2)                        320
+[333922.386595]         wHeight( 2)                       240
+[333922.386597]         wWidth( 3)                        176
+[333922.386598]         wHeight( 3)                       144
+[333922.386599]         wWidth( 4)                        160
+[333922.386600]         wHeight( 4)                       120
+[333922.386601]         bNumCompressionPatterns             5
+[333922.386602]       VideoStreaming Interface Descriptor:
+[333922.386603]         bLength                             6
+[333922.386603]         bDescriptorType                    36
+[333922.386604]         bDescriptorSubtype                 13 (COLORFORMAT)
+[333922.386606]         bColorPrimaries                     1 (BT.709,sRGB)
+[333922.386607]         bTransferCharacteristics            1 (BT.709)
+[333922.386608]         bMatrixCoefficients                 4 (SMPTE 170M (BT.601))
+[333922.386620] usbcore: registered new interface driver myuvc
+[335053.438232] usbcore: deregistering interface driver myuvc
+[335053.438290] myuvc_disconnect : cnt = 0
+[335053.438308] myuvc_disconnect : cnt = 1
+[335057.795808] myuvc_probe : cnt = 0
+[335057.795812] Device Descriptor:
+[335057.795813]   bLength                18
+[335057.795813]   bDescriptorType         1
+[335057.795814]   bcdUSB               2.00
+[335057.795814]   bDeviceClass          239 
+[335057.795815]   bDeviceSubClass         2 
+[335057.795815]   bDeviceProtocol         1 
+[335057.795816]   bMaxPacketSize0        64
+[335057.795816]   idVendor           0x1e4e 
+[335057.795817]   idProduct          0x0102 
+[335057.795817]   bcdDevice            0.02
+[335057.795818]   iManufacturer           1
+[335057.795818]   iProduct                2
+[335057.795819]   iSerial                 0
+[335057.795819]   bNumConfigurations      1
+[335057.795822]   Configuration Descriptor 0:
+[335057.795823]     bLength                 9
+[335057.795823]     bDescriptorType         2
+[335057.795824]     wTotalLength          539
+[335057.795824]     bNumInterfaces          2
+[335057.795825]     bConfigurationValue     1
+[335057.795825]     iConfiguration          0
+[335057.795826]     bmAttributes         0x80
+[335057.795831]     Interface Association:
+[335057.795831]       bLength                 8
+[335057.795832]       bDescriptorType        11
+[335057.795832]       bFirstInterface         0
+[335057.795833]       bInterfaceCount         2
+[335057.795833]       bFunctionClass         14
+[335057.795834]       bFunctionSubClass       3
+[335057.795835]       bFunctionProtocol       0
+[335057.795835]       iFunction               2
+[335057.795838]     Interface Descriptor altsetting 0:
+[335057.795838]       bLength                 9
+[335057.795839]       bDescriptorType         4
+[335057.795839]       bInterfaceNumber        0
+[335057.795840]       bAlternateSetting       0
+[335057.795840]       bNumEndpoints           1
+[335057.795841]       bInterfaceClass        14
+[335057.795841]       bInterfaceSubClass      1
+[335057.795842]       bInterfaceProtocol      0
+[335057.795842]       iInterface              2
+[335057.795846]       Endpoint Descriptor:
+[335057.795846]         bLength                 7
+[335057.795847]         bDescriptorType         5
+[335057.795848]         bEndpointAddress     0x82  EP 2 IN
+[335057.795848]         bmAttributes            3
+[335057.795849]           Transfer Type            Interrupt
+[335057.795851]           Synch Type               None
+[335057.795852]           Usage Type               Data
+[335057.795853]         wMaxPacketSize     0x0040  1x 64 bytes
+[335057.795853]         bInterval               4
+[335057.795855] extra buffer of interface 0:
+[335057.795856] extra desc 0: 0d 24 01 00 01 4d 00 80 c3 c9 01 01 01 
+[335057.795861] extra desc 1: 12 24 02 01 01 02 00 00 00 00 00 00 00 00 03 0e 00 00 
+[335057.795866] extra desc 2: 09 24 03 02 01 01 00 04 00 
+[335057.795869] extra desc 3: 0b 24 05 03 01 00 00 02 7f 14 00 
+[335057.795873] extra desc 4: 1a 24 06 04 ad cc b1 c2 f6 ab b8 48 8e 37 32 d4 f3 a3 fe ec 08 01 03 01 3f 00 
+[335057.795881]       VideoControl Interface Descriptor:
+[335057.795881]         bLength                13
+[335057.795882]         bDescriptorType        36
+[335057.795883]         bDescriptorSubtype      1 (HEADER)
+[335057.795885]         bcdUVC               1.00
+[335057.795885]         wTotalLength           77
+[335057.795886]         dwClockFrequency       30.000000MHz
+[335057.795886]         bInCollection           1
+[335057.795888]         baInterfaceNr( 0)       1
+[335057.795889]       VideoControl Interface Descriptor:
+[335057.795890]         bLength                18
+[335057.795890]         bDescriptorType        36
+[335057.795891]         bDescriptorSubtype      2 (INPUT_TERMINAL)
+[335057.795892]         bTerminalID             1
+[335057.795893]         wTerminalType      0x0201
+[335057.795894]         bAssocTerminal          0
+[335057.795895]         iTerminal               0
+[335057.795896]         wObjectiveFocalLengthMin      0
+[335057.795897]         wObjectiveFocalLengthMax      0
+[335057.795897]         wOcularFocalLength            0
+[335057.795898]         bControlSize                  3
+[335057.795899]         bmControls           0x0000000e
+[335057.795900]           Auto-Exposure Mode
+[335057.795901]           Auto-Exposure Priority
+[335057.795902]           Exposure Time (Absolute)
+[335057.795903]       VideoControl Interface Descriptor:
+[335057.795904]         bLength                 9
+[335057.795904]         bDescriptorType        36
+[335057.795905]         bDescriptorSubtype      3 (OUTPUT_TERMINAL)
+[335057.795907]         bTerminalID             2
+[335057.795907]         wTerminalType      0x0101
+[335057.795908]         bAssocTerminal          0
+[335057.795909]         bSourceID               4
+[335057.795909]         iTerminal               0
+[335057.795911]       VideoControl Interface Descriptor:
+[335057.795911]         bLength                11
+[335057.795912]         bDescriptorType        36
+[335057.795912]         bDescriptorSubtype      5 (PROCESSING_UNIT)
+[335057.795914]       Warning: Descriptor too short
+[335057.795915]         bUnitID                 3
+[335057.795916]         bSourceID               1
+[335057.795916]         wMaxMultiplier          0
+[335057.795917]         bControlSize            2
+[335057.795918]         bmControls     0x0000147f
+[335057.795919]           Brightness
+[335057.795920]           Contrast
+[335057.795921]           Hue
+[335057.795921]           Saturation
+[335057.795922]           Sharpness
+[335057.795923]           Gamma
+[335057.795924]           White Balance Temperature
+[335057.795925]           Power Line Frequency
+[335057.795926]           White Balance Temperature, Auto
+[335057.795927]         iProcessing             0
+[335057.795927]         bmVideoStandards     0x1a
+[335057.795929]           NTSC - 525/60
+[335057.795930]           SECAM - 625/50
+[335057.795930]           NTSC - 625/50
+[335057.795932]       VideoControl Interface Descriptor:
+[335057.795932]         bLength                26
+[335057.795933]         bDescriptorType        36
+[335057.795933]         bDescriptorSubtype      6 (EXTENSION_UNIT)
+[335057.795936]         bUnitID                 4
+[335057.795938]         guidExtensionCode         {adccb1c2-f6ab-b848-8e37-32d4f3a3feec}
+[335057.795939]         bNumControl             8
+[335057.795940]         bNrPins                 1
+[335057.795941]         baSourceID( 0)          3
+[335057.795942]         bControlSize            1
+[335057.795943]         bmControls( 0)       0x3f
+[335057.795944]         iExtension              0
+[335057.795952] myuvc_probe : cnt = 1
+[335057.795954] Device Descriptor:
+[335057.795955]   bLength                18
+[335057.795955]   bDescriptorType         1
+[335057.795956]   bcdUSB               2.00
+[335057.795957]   bDeviceClass          239 
+[335057.795957]   bDeviceSubClass         2 
+[335057.795958]   bDeviceProtocol         1 
+[335057.795958]   bMaxPacketSize0        64
+[335057.795959]   idVendor           0x1e4e 
+[335057.795959]   idProduct          0x0102 
+[335057.795960]   bcdDevice            0.02
+[335057.795960]   iManufacturer           1
+[335057.795961]   iProduct                2
+[335057.795962]   iSerial                 0
+[335057.795962]   bNumConfigurations      1
+[335057.795965]   Configuration Descriptor 0:
+[335057.795965]     bLength                 9
+[335057.795966]     bDescriptorType         2
+[335057.795967]     wTotalLength          539
+[335057.795967]     bNumInterfaces          2
+[335057.795968]     bConfigurationValue     1
+[335057.795968]     iConfiguration          0
+[335057.795969]     bmAttributes         0x80
+[335057.795971]     Interface Association:
+[335057.795972]       bLength                 8
+[335057.795972]       bDescriptorType        11
+[335057.795973]       bFirstInterface         0
+[335057.795973]       bInterfaceCount         2
+[335057.795974]       bFunctionClass         14
+[335057.795975]       bFunctionSubClass       3
+[335057.795975]       bFunctionProtocol       0
+[335057.795976]       iFunction               2
+[335057.795978]     Interface Descriptor altsetting 0:
+[335057.795979]       bLength                 9
+[335057.795979]       bDescriptorType         4
+[335057.795980]       bInterfaceNumber        1
+[335057.795980]       bAlternateSetting       0
+[335057.795981]       bNumEndpoints           0
+[335057.795982]       bInterfaceClass        14
+[335057.795982]       bInterfaceSubClass      2
+[335057.795983]       bInterfaceProtocol      0
+[335057.795983]       iInterface              0
+[335057.795986]     Interface Descriptor altsetting 1:
+[335057.795986]       bLength                 9
+[335057.795987]       bDescriptorType         4
+[335057.795988]       bInterfaceNumber        1
+[335057.795988]       bAlternateSetting       1
+[335057.795989]       bNumEndpoints           1
+[335057.795989]       bInterfaceClass        14
+[335057.795990]       bInterfaceSubClass      2
+[335057.795990]       bInterfaceProtocol      0
+[335057.795991]       iInterface              0
+[335057.795994]       Endpoint Descriptor:
+[335057.795995]         bLength                 7
+[335057.795995]         bDescriptorType         5
+[335057.795996]         bEndpointAddress     0x81  EP 1 IN
+[335057.795996]         bmAttributes            5
+[335057.795997]           Transfer Type            Isochronous
+[335057.795998]           Synch Type               Asynchronous
+[335057.795998]           Usage Type               Data
+[335057.795999]         wMaxPacketSize     0x00a0  1x 160 bytes
+[335057.796000]         bInterval               1
+[335057.796002]     Interface Descriptor altsetting 2:
+[335057.796003]       bLength                 9
+[335057.796003]       bDescriptorType         4
+[335057.796004]       bInterfaceNumber        1
+[335057.796005]       bAlternateSetting       2
+[335057.796005]       bNumEndpoints           1
+[335057.796006]       bInterfaceClass        14
+[335057.796006]       bInterfaceSubClass      2
+[335057.796007]       bInterfaceProtocol      0
+[335057.796007]       iInterface              0
+[335057.796013]       Endpoint Descriptor:
+[335057.796013]         bLength                 7
+[335057.796014]         bDescriptorType         5
+[335057.796014]         bEndpointAddress     0x81  EP 1 IN
+[335057.796015]         bmAttributes            5
+[335057.796016]           Transfer Type            Isochronous
+[335057.796016]           Synch Type               Asynchronous
+[335057.796017]           Usage Type               Data
+[335057.796018]         wMaxPacketSize     0x00d0  1x 208 bytes
+[335057.796018]         bInterval               1
+[335057.796021]     Interface Descriptor altsetting 3:
+[335057.796021]       bLength                 9
+[335057.796022]       bDescriptorType         4
+[335057.796023]       bInterfaceNumber        1
+[335057.796023]       bAlternateSetting       3
+[335057.796024]       bNumEndpoints           1
+[335057.796024]       bInterfaceClass        14
+[335057.796025]       bInterfaceSubClass      2
+[335057.796025]       bInterfaceProtocol      0
+[335057.796026]       iInterface              0
+[335057.796029]       Endpoint Descriptor:
+[335057.796029]         bLength                 7
+[335057.796030]         bDescriptorType         5
+[335057.796030]         bEndpointAddress     0x81  EP 1 IN
+[335057.796031]         bmAttributes            5
+[335057.796031]           Transfer Type            Isochronous
+[335057.796032]           Synch Type               Asynchronous
+[335057.796033]           Usage Type               Data
+[335057.796033]         wMaxPacketSize     0x0300  1x 768 bytes
+[335057.796034]         bInterval               1
+[335057.796036]     Interface Descriptor altsetting 4:
+[335057.796037]       bLength                 9
+[335057.796037]       bDescriptorType         4
+[335057.796038]       bInterfaceNumber        1
+[335057.796039]       bAlternateSetting       4
+[335057.796039]       bNumEndpoints           1
+[335057.796040]       bInterfaceClass        14
+[335057.796040]       bInterfaceSubClass      2
+[335057.796041]       bInterfaceProtocol      0
+[335057.796041]       iInterface              0
+[335057.796044]       Endpoint Descriptor:
+[335057.796045]         bLength                 7
+[335057.796045]         bDescriptorType         5
+[335057.796046]         bEndpointAddress     0x81  EP 1 IN
+[335057.796046]         bmAttributes            5
+[335057.796047]           Transfer Type            Isochronous
+[335057.796048]           Synch Type               Asynchronous
+[335057.796048]           Usage Type               Data
+[335057.796049]         wMaxPacketSize     0x030c  1x 780 bytes
+[335057.796049]         bInterval               1
+[335057.796052]     Interface Descriptor altsetting 5:
+[335057.796052]       bLength                 9
+[335057.796053]       bDescriptorType         4
+[335057.796054]       bInterfaceNumber        1
+[335057.796054]       bAlternateSetting       5
+[335057.796055]       bNumEndpoints           1
+[335057.796055]       bInterfaceClass        14
+[335057.796056]       bInterfaceSubClass      2
+[335057.796056]       bInterfaceProtocol      0
+[335057.796057]       iInterface              0
+[335057.796060]       Endpoint Descriptor:
+[335057.796060]         bLength                 7
+[335057.796061]         bDescriptorType         5
+[335057.796061]         bEndpointAddress     0x81  EP 1 IN
+[335057.796062]         bmAttributes            5
+[335057.796062]           Transfer Type            Isochronous
+[335057.796063]           Synch Type               Asynchronous
+[335057.796064]           Usage Type               Data
+[335057.796064]         wMaxPacketSize     0x032c  1x 812 bytes
+[335057.796065]         bInterval               1
+[335057.796067]     Interface Descriptor altsetting 6:
+[335057.796068]       bLength                 9
+[335057.796069]       bDescriptorType         4
+[335057.796069]       bInterfaceNumber        1
+[335057.796071]       bAlternateSetting       6
+[335057.796072]       bNumEndpoints           1
+[335057.796072]       bInterfaceClass        14
+[335057.796073]       bInterfaceSubClass      2
+[335057.796073]       bInterfaceProtocol      0
+[335057.796074]       iInterface              0
+[335057.796077]       Endpoint Descriptor:
+[335057.796078]         bLength                 7
+[335057.796078]         bDescriptorType         5
+[335057.796079]         bEndpointAddress     0x81  EP 1 IN
+[335057.796079]         bmAttributes            5
+[335057.796080]           Transfer Type            Isochronous
+[335057.796081]           Synch Type               Asynchronous
+[335057.796081]           Usage Type               Data
+[335057.796082]         wMaxPacketSize     0x03d0  1x 976 bytes
+[335057.796082]         bInterval               1
+[335057.796085]     Interface Descriptor altsetting 7:
+[335057.796086]       bLength                 9
+[335057.796086]       bDescriptorType         4
+[335057.796087]       bInterfaceNumber        1
+[335057.796087]       bAlternateSetting       7
+[335057.796088]       bNumEndpoints           1
+[335057.796088]       bInterfaceClass        14
+[335057.796089]       bInterfaceSubClass      2
+[335057.796089]       bInterfaceProtocol      0
+[335057.796090]       iInterface              0
+[335057.796093]       Endpoint Descriptor:
+[335057.796093]         bLength                 7
+[335057.796094]         bDescriptorType         5
+[335057.796094]         bEndpointAddress     0x81  EP 1 IN
+[335057.796095]         bmAttributes            5
+[335057.796096]           Transfer Type            Isochronous
+[335057.796096]           Synch Type               Asynchronous
+[335057.796097]           Usage Type               Data
+[335057.796097]         wMaxPacketSize     0x03fc  1x 1020 bytes
+[335057.796098]         bInterval               1
+[335057.796101]     Interface Descriptor altsetting 8:
+[335057.796101]       bLength                 9
+[335057.796102]       bDescriptorType         4
+[335057.796102]       bInterfaceNumber        1
+[335057.796103]       bAlternateSetting       8
+[335057.796103]       bNumEndpoints           1
+[335057.796104]       bInterfaceClass        14
+[335057.796104]       bInterfaceSubClass      2
+[335057.796105]       bInterfaceProtocol      0
+[335057.796105]       iInterface              0
+[335057.796108]       Endpoint Descriptor:
+[335057.796109]         bLength                 7
+[335057.796109]         bDescriptorType         5
+[335057.796110]         bEndpointAddress     0x81  EP 1 IN
+[335057.796111]         bmAttributes            5
+[335057.796111]           Transfer Type            Isochronous
+[335057.796112]           Synch Type               Asynchronous
+[335057.796112]           Usage Type               Data
+[335057.796113]         wMaxPacketSize     0x0400  1x 1024 bytes
+[335057.796113]         bInterval               1
+[335057.796116]     Interface Descriptor altsetting 9:
+[335057.796117]       bLength                 9
+[335057.796117]       bDescriptorType         4
+[335057.796118]       bInterfaceNumber        1
+[335057.796118]       bAlternateSetting       9
+[335057.796119]       bNumEndpoints           1
+[335057.796119]       bInterfaceClass        14
+[335057.796120]       bInterfaceSubClass      2
+[335057.796120]       bInterfaceProtocol      0
+[335057.796121]       iInterface              0
+[335057.796124]       Endpoint Descriptor:
+[335057.796124]         bLength                 7
+[335057.796125]         bDescriptorType         5
+[335057.796126]         bEndpointAddress     0x81  EP 1 IN
+[335057.796126]         bmAttributes            5
+[335057.796127]           Transfer Type            Isochronous
+[335057.796128]           Synch Type               Asynchronous
+[335057.796128]           Usage Type               Data
+[335057.796129]         wMaxPacketSize     0x0a58  2x 600 bytes
+[335057.796131]         bInterval               1
+[335057.796134]     Interface Descriptor altsetting 10:
+[335057.796135]       bLength                 9
+[335057.796135]       bDescriptorType         4
+[335057.796136]       bInterfaceNumber        1
+[335057.796136]       bAlternateSetting      10
+[335057.796137]       bNumEndpoints           1
+[335057.796137]       bInterfaceClass        14
+[335057.796138]       bInterfaceSubClass      2
+[335057.796139]       bInterfaceProtocol      0
+[335057.796139]       iInterface              0
+[335057.796142]       Endpoint Descriptor:
+[335057.796143]         bLength                 7
+[335057.796143]         bDescriptorType         5
+[335057.796144]         bEndpointAddress     0x81  EP 1 IN
+[335057.796145]         bmAttributes            5
+[335057.796145]           Transfer Type            Isochronous
+[335057.796146]           Synch Type               Asynchronous
+[335057.796146]           Usage Type               Data
+[335057.796147]         wMaxPacketSize     0x0b00  2x 768 bytes
+[335057.796148]         bInterval               1
+[335057.796150]     Interface Descriptor altsetting 11:
+[335057.796151]       bLength                 9
+[335057.796152]       bDescriptorType         4
+[335057.796152]       bInterfaceNumber        1
+[335057.796153]       bAlternateSetting      11
+[335057.796153]       bNumEndpoints           1
+[335057.796154]       bInterfaceClass        14
+[335057.796154]       bInterfaceSubClass      2
+[335057.796155]       bInterfaceProtocol      0
+[335057.796155]       iInterface              0
+[335057.796159]       Endpoint Descriptor:
+[335057.796159]         bLength                 7
+[335057.796160]         bDescriptorType         5
+[335057.796160]         bEndpointAddress     0x81  EP 1 IN
+[335057.796161]         bmAttributes            5
+[335057.796161]           Transfer Type            Isochronous
+[335057.796162]           Synch Type               Asynchronous
+[335057.796163]           Usage Type               Data
+[335057.796163]         wMaxPacketSize     0x1334  3x 820 bytes
+[335057.796164]         bInterval               1
+[335057.796167]     Interface Descriptor altsetting 12:
+[335057.796167]       bLength                 9
+[335057.796168]       bDescriptorType         4
+[335057.796168]       bInterfaceNumber        1
+[335057.796169]       bAlternateSetting      12
+[335057.796170]       bNumEndpoints           1
+[335057.796170]       bInterfaceClass        14
+[335057.796171]       bInterfaceSubClass      2
+[335057.796171]       bInterfaceProtocol      0
+[335057.796172]       iInterface              0
+[335057.796175]       Endpoint Descriptor:
+[335057.796175]         bLength                 7
+[335057.796176]         bDescriptorType         5
+[335057.796177]         bEndpointAddress     0x81  EP 1 IN
+[335057.796177]         bmAttributes            5
+[335057.796178]           Transfer Type            Isochronous
+[335057.796178]           Synch Type               Asynchronous
+[335057.796179]           Usage Type               Data
+[335057.796180]         wMaxPacketSize     0x13fc  3x 1020 bytes
+[335057.796180]         bInterval               1
+[335057.796182] extra buffer of interface 1:
+[335057.796183] extra desc 0: 0e 24 01 01 df 00 81 00 02 02 01 01 01 00 
+[335057.796188] extra desc 1: 1b 24 04 01 05 59 55 59 32 00 00 10 00 80 00 00 aa 00 38 9b 71 10 01 00 00 00 00 
+[335057.796195] extra desc 2: 1e 24 05 01 00 80 02 e0 01 00 00 ca 08 00 00 ca 08 00 60 09 00 15 16 05 00 01 15 16 05 00 
+[335057.796204] extra desc 3: 1e 24 05 02 00 60 01 20 01 00 80 e6 02 00 80 e6 02 00 18 03 00 15 16 05 00 01 15 16 05 00 
+[335057.796212] extra desc 4: 1e 24 05 03 00 40 01 f0 00 00 80 32 02 00 80 32 02 00 58 02 00 15 16 05 00 01 15 16 05 00 
+[335057.796220] extra desc 5: 1e 24 05 04 00 b0 00 90 00 00 a0 b9 00 00 a0 b9 00 00 c6 00 00 15 16 05 00 01 15 16 05 00 
+[335057.796230] extra desc 6: 1e 24 05 05 00 a0 00 78 00 00 a0 8c 00 00 a0 8c 00 00 96 00 00 15 16 05 00 01 15 16 05 00 
+[335057.796238] extra desc 7: 1a 24 03 00 05 80 02 e0 01 60 01 20 01 40 01 f0 00 b0 00 90 00 a0 00 78 00 00 
+[335057.796246] extra desc 8: 06 24 0d 01 01 04 
+[335057.796249]       VideoStreaming Interface Descriptor:
+[335057.796249]         bLength                            14
+[335057.796250]         bDescriptorType                    36
+[335057.796251]         bDescriptorSubtype                  1 (INPUT_HEADER)
+[335057.796254]         bNumFormats                         1
+[335057.796254]         wTotalLength                      223
+[335057.796255]         bEndPointAddress                  129
+[335057.796255]         bmInfo                              0
+[335057.796256]         bTerminalLink                       2
+[335057.796257]         bStillCaptureMethod                 2
+[335057.796257]         bTriggerSupport                     1
+[335057.796258]         bTriggerUsage                       1
+[335057.796258]         bControlSize                        1
+[335057.796260]         bmaControls( 0)                    27
+[335057.796262]       VideoStreaming Interface Descriptor:
+[335057.796262]         bLength                            27
+[335057.796263]         bDescriptorType                    36
+[335057.796263]         bDescriptorSubtype                  4 (FORMAT_UNCOMPRESSED)
+[335057.796267]         bFormatIndex                        1
+[335057.796268]         bNumFrameDescriptors                5
+[335057.796268]         guidFormat                            {59555932-0000-1000-8000-00aa00389b71}
+[335057.796269]         bBitsPerPixel                      16
+[335057.796270]         bDefaultFrameIndex                  1
+[335057.796270]         bAspectRatioX                       0
+[335057.796271]         bAspectRatioY                       0
+[335057.796272]         bmInterlaceFlags                 0x00
+[335057.796273]           Interlaced stream or variable: No
+[335057.796274]           Fields per frame: 2 fields
+[335057.796275]           Field 1 first: No
+[335057.796276]           Field pattern: Field 1 only
+[335057.796277]           bCopyProtect                      0
+[335057.796279]       VideoStreaming Interface Descriptor:
+[335057.796279]         bLength                            30
+[335057.796280]         bDescriptorType                    36
+[335057.796280]         bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
+[335057.796282]         bFrameIndex                         1
+[335057.796283]         bmCapabilities                   0x00
+[335057.796284]           Still image unsupported
+[335057.796286]         wWidth                            640
+[335057.796286]         wHeight                           480
+[335057.796287]         dwMinBitRate                147456000
+[335057.796287]         dwMaxBitRate                147456000
+[335057.796289]         dwMaxVideoFrameBufferSize      614400
+[335057.796290]         dwDefaultFrameInterval         333333
+[335057.796290]         bFrameIntervalType                  1
+[335057.796292]         dwFrameInterval( 0)            333333
+[335057.796293]       VideoStreaming Interface Descriptor:
+[335057.796294]         bLength                            30
+[335057.796294]         bDescriptorType                    36
+[335057.796295]         bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
+[335057.796297]         bFrameIndex                         2
+[335057.796297]         bmCapabilities                   0x00
+[335057.796299]           Still image unsupported
+[335057.796300]         wWidth                            352
+[335057.796301]         wHeight                           288
+[335057.796302]         dwMinBitRate                 48660480
+[335057.796302]         dwMaxBitRate                 48660480
+[335057.796304]         dwMaxVideoFrameBufferSize      202752
+[335057.796306]         dwDefaultFrameInterval         333333
+[335057.796307]         bFrameIntervalType                  1
+[335057.796308]         dwFrameInterval( 0)            333333
+[335057.796310]       VideoStreaming Interface Descriptor:
+[335057.796310]         bLength                            30
+[335057.796311]         bDescriptorType                    36
+[335057.796312]         bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
+[335057.796314]         bFrameIndex                         3
+[335057.796314]         bmCapabilities                   0x00
+[335057.796315]           Still image unsupported
+[335057.796317]         wWidth                            320
+[335057.796318]         wHeight                           240
+[335057.796318]         dwMinBitRate                 36864000
+[335057.796319]         dwMaxBitRate                 36864000
+[335057.796320]         dwMaxVideoFrameBufferSize      153600
+[335057.796321]         dwDefaultFrameInterval         333333
+[335057.796322]         bFrameIntervalType                  1
+[335057.796323]         dwFrameInterval( 0)            333333
+[335057.796324]       VideoStreaming Interface Descriptor:
+[335057.796325]         bLength                            30
+[335057.796326]         bDescriptorType                    36
+[335057.796326]         bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
+[335057.796328]         bFrameIndex                         4
+[335057.796329]         bmCapabilities                   0x00
+[335057.796330]           Still image unsupported
+[335057.796332]         wWidth                            176
+[335057.796332]         wHeight                           144
+[335057.796333]         dwMinBitRate                 12165120
+[335057.796333]         dwMaxBitRate                 12165120
+[335057.796335]         dwMaxVideoFrameBufferSize       50688
+[335057.796336]         dwDefaultFrameInterval         333333
+[335057.796336]         bFrameIntervalType                  1
+[335057.796338]         dwFrameInterval( 0)            333333
+[335057.796339]       VideoStreaming Interface Descriptor:
+[335057.796340]         bLength                            30
+[335057.796340]         bDescriptorType                    36
+[335057.796341]         bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
+[335057.796343]         bFrameIndex                         5
+[335057.796344]         bmCapabilities                   0x00
+[335057.796345]           Still image unsupported
+[335057.796346]         wWidth                            160
+[335057.796347]         wHeight                           120
+[335057.796348]         dwMinBitRate                  9216000
+[335057.796348]         dwMaxBitRate                  9216000
+[335057.796350]         dwMaxVideoFrameBufferSize       38400
+[335057.796350]         dwDefaultFrameInterval         333333
+[335057.796351]         bFrameIntervalType                  1
+[335057.796352]         dwFrameInterval( 0)            333333
+[335057.796354]       VideoStreaming Interface Descriptor:
+[335057.796354]         bLength                            26
+[335057.796355]         bDescriptorType                    36
+[335057.796356]         bDescriptorSubtype                  3 (STILL_IMAGE_FRAME)
+[335057.796358]         bEndpointAddress                    0
+[335057.796358]         bNumImageSizePatterns               5
+[335057.796360]         wWidth( 0)                        640
+[335057.796360]         wHeight( 0)                       480
+[335057.796362]         wWidth( 1)                        352
+[335057.796362]         wHeight( 1)                       288
+[335057.796364]         wWidth( 2)                        320
+[335057.796365]         wHeight( 2)                       240
+[335057.796366]         wWidth( 3)                        176
+[335057.796367]         wHeight( 3)                       144
+[335057.796368]         wWidth( 4)                        160
+[335057.796368]         wHeight( 4)                       120
+[335057.796370]         bNumCompressionPatterns             5
+[335057.796371]       VideoStreaming Interface Descriptor:
+[335057.796372]         bLength                             6
+[335057.796372]         bDescriptorType                    36
+[335057.796373]         bDescriptorSubtype                 13 (COLORFORMAT)
+[335057.796375]         bColorPrimaries                     1 (BT.709,sRGB)
+[335057.796376]         bTransferCharacteristics            1 (BT.709)
+[335057.796377]         bMatrixCoefficients                 4 (SMPTE 170M (BT.601))
+[335057.796390] usbcore: registered new interface driver myuvc

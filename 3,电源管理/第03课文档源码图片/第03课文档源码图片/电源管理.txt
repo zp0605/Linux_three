@@ -1,0 +1,316 @@
+
+一. 电源管理：在不影响使用电子设备的前提下尽可能让它省电
+
+8051:
+无电源管理：灭灯6.1MA 亮灯32.2MA
+有电源管理：灭灯0.27uA 亮灯26.7MA
+MCU全速运行时耗电6.1ma, led耗电26ma
+
+Linux更加复杂:
+1. 硬件更复杂：外接更多设备，这些设备也需要单独供电，休眠前可能需要单独设置
+2. 软件更复杂：需要有统一的框架，唤醒后可能需要重新初始化
+
+
+二. 给u-boot添加suspend命令
+u-boot全速运行,耗电83ma
+u-boot suspend:耗电33ma ==>外设备没有完全关闭，比如声卡、网卡
+
+进入休眠模式的方法：
+	/* 1. 配置GPIO: 比如想维持LED亮或灭, 用于唤醒CPU的引脚要设为中断功能 */
+	/* 2. 设置INTMSK屏蔽所有中断: 在sleep模式下,这些引脚只是用于唤醒系统,当CPU正常运行时可以重新设置INTMSK让这些引脚用于中断功能 */	
+	/* 3. 配置唤醒源 */
+	/* 4. 设置MISCCR[13:12]=11b, 使得USB模块进入休眠 */
+	/* 5. 在GSTATUS[4:3]保存某值, 它们可以在系统被唤醒时使用 */
+	/* 6. 设置 MISCCR[1:0] 使能数据总线的上拉电阻 */
+	/* 7. 清除 LCDCON1.ENVID 以停止LCD */
+	/* 8. 读这2个寄存器: rREFRESH and rCLKCON, 以便填充TLB
+	 *    如果不使用MMU的话,这个目的可以忽略 
+	 */
+	/* 9. 设置 REFRESH[22]=1b,让SDRAM进入self-refresh mode */
+	/* 10. 等待SDRAM成功进入self-refresh mode  */
+	/* 11.设置 MISCCR[19:17]=111b以保护SDRAM信号(SCLK0,SCLK1 and SCKE) */
+	/* 12. 设置CLKCON的SLEEP位让系统进入sleep mode */	
+
+
+唤醒系统的方法：
+	/* 1. 按下按键 */
+	/* 2. 根据 GSTATUS2[1]判断是复位还是唤醒 */	
+	/* 3. 设置 MISCCR[19:17]=000b, 以释放SDRAM信号 */
+	/* 4. 配置s3c2440的memory controller */
+	/* 5. 等待SDRAM退出self-refresh mode */
+	/* 6. 根据GSTATUS[3:4]的值来运行休眠前的函数 */
+
+u-boot-1.1.6_jz2440_suspend.patch
+
+
+nfs 30000000 192.168.1.124:/work/nfs_root/u-boot.bin;protect off all;erase 0 3ffff;cp.b 30000000 0 40000
+nfs 30000000 192.168.1.124:/work/nfs_root/u-boot.bin;nand erase bootloader; nand write.jffs2 30000000 bootloader
+
+
+三. Linux系统suspend的实现
+1. suspend流程
+启动 suspend to ram:
+echo mem > /sys/power/state
+
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
+state_store (kernel/power/main.c)
+	pm_suspend (kernel/power/suspend.c)
+		enter_state (kernel/power/suspend.c)
+			suspend_prepare (kernel/power/suspend.c)
+				pm_prepare_console (kernel/power/console.c)
+					pm_notifier_call_chain(PM_SUSPEND_PREPARE); (kernel/power/main.c)  // 通知所有关心"休眠消息"的驱动程序
+					suspend_freeze_processes (kernel/power/power.h) // 冻结APP和内核线程
+			suspend_devices_and_enter (kernel/power/suspend.c) // 让设备进入休眠状态
+				suspend_ops->begin  // 如果平台相关的代码有begin函数就去调用它			
+				suspend_console (kernel/power/suspend.c)
+				dpm_suspend_start(PMSG_SUSPEND); (drivers/base/power/main.c)
+					dpm_prepare(state);  (drivers/base/power/main.c)
+						对于dmp_list链表中的每一个设备,都调用device_prepare(dev, state);
+								对于该设备,调用它的dev->pm_domain->ops->prepare 或
+								                   dev->type->pm->prepare       或
+								                   dev->class->pm->prepare      或
+								                   dev->bus->pm->prepare        或
+								                   dev->driver->pm->prepare
+					dpm_suspend(state); (drivers/base/power/main.c)  // 让各类设备休眠
+						对于dpm_prepared_list链表中的每一个设备,都调用device_suspend(dev);
+							__device_suspend(dev, pm_transition, false);
+								对于该设备,调用它的dev->pm_domain->ops->suspend	或
+								                   dev->type->pm->suspend       或
+								                   dev->class->pm->suspend      或
+								                   dev->bus->pm->suspend        或
+								                   dev->driver->pm->suspend
+
+					suspend_enter(state, &wakeup) (kernel/power/suspend.c)
+						suspend_ops->prepare // 即s3c_pm_prepare
+						dpm_suspend_end(PMSG_SUSPEND);		 (drivers/base/power/main.c) 
+							dpm_suspend_late(state); (drivers/base/power/main.c) 
+								对于dpm_suspended_list链表中的每一个设备,都调用device_suspend_late(dev, state);
+								   对于该设备,调用它的dev->pm_domain->ops->suspend_late      或
+										                   dev->type->pm->suspend_late      或
+										                   dev->class->pm->suspend_late     或
+										                   dev->bus->pm->suspend_late       或
+										                   dev->driver->pm->suspend_late
+							dpm_suspend_noirq
+								对于dpm_late_early_list链表中的每一个设备,都调用device_suspend_noirq(dev, state);
+								   对于该设备,调用它的dev->pm_domain->ops->suspend_noirq      或
+										                   dev->type->pm->suspend_noirq      或
+										                   dev->class->pm->suspend_noirq     或
+										                   dev->bus->pm->suspend_noirq       或
+										                   dev->driver->pm->suspend_noirq										                   
+						suspend_ops->prepare_late() // 		   
+						disable_nonboot_cpus();  	
+						arch_suspend_disable_irqs();
+						syscore_suspend
+						suspend_ops->enter(state);  // s3c_pm_enter (arch\arm\plat-samsung\pm.c)								                   
+							......
+							pm_cpu_prep // s3c2410_pm_prepare (arch\arm\mach-s3c24xx\pm-s3c2410.c)
+								GSTATUS3 = s3c_cpu_resume
+								
+							......	
+							cpu_suspend(0, pm_cpu_sleep); // arch\arm\kernel\sleep.S
+								pm_cpu_sleep (arch\arm\mach-s3c24xx\pm-s3c2410.c) // s3c2410_cpu_suspend
+									s3c2410_cpu_suspend (arch\arm\mach-s3c24xx\sleep-s3c2410.S)
+							以上是休眠过程		
+							＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+							下面开始唤醒过程
+							按键, 导致u-boot运行, 读取GSTATUS3, 执行s3c_cpu_resume 
+							.....
+							s3c_pm_restore_core
+						syscore_resume
+						arch_suspend_enable_irqs
+						enable_nonboot_cpus
+						suspend_ops->wake
+						dpm_resume_start(PMSG_RESUME);	
+							dpm_resume_noirq(state);
+								对于dpm_noirq_list链表中的每一个设备,调用device_resume_noirq(dev, state);
+									对于该设备,调用它的dev->pm_domain->ops->resume_noirq      或
+										                   dev->type->pm->resume_noirq       或
+										                   dev->class->pm->resume_noirq      或
+										                   dev->bus->pm->resume_noirq        或
+										                   dev->driver->pm->resume_noirq
+							dpm_resume_early(state);
+								对于dpm_late_early_list链表中的每一个设备,调用device_resume_early(dev, state);
+									对于该设备,调用它的dev->pm_domain->ops->resume_early      或
+										                   dev->type->pm->resume_early       或
+										                   dev->class->pm->resume_early      或
+										                   dev->bus->pm->resume_early        或
+										                   dev->driver->pm->resume_early
+							suspend_ops->finish()
+								s3c_pm_finish
+											
+				dpm_resume_end(PMSG_RESUME);
+				resume_console();
+			suspend_finish();
+				suspend_thaw_processes();
+				pm_notifier_call_chain(PM_POST_SUSPEND);
+				pm_restore_console();
+			//返回用户空间	
+
+
+驱动程序里相关的电源管理函数的调用过程:
+休眠: prepare—>suspend—>suspend_late—>suspend_noirq
+唤醒: resume_noirq—>resume_early—>resume-->complete
+
+	
+参考文章:
+实现流程: Linux电源管理(6)_Generic PM之Suspend功能 
+http://www.wowotech.net/linux_kenrel/suspend_and_resume.html
+
+驱动所涉及的接口: Linux电源管理(4)_Power Management Interface
+http://www.wowotech.net/linux_kenrel/pm_interface.html
+		
+					
+								
+
+power_attr(state);
+
+static struct kobj_attribute state_attr = {	\
+	.attr	= {				\
+		.name = __stringify("state"),	\
+		.mode = 0644,			\
+	},					\
+	.show	= state_show,			\
+	.store	=state_store,		\
+}
+
+
+
+arch\arm\plat-samsung\pm.c
+s3c_pm_init
+	suspend_set_ops(&s3c_pm_ops);
+		suspend_ops = ops	
+
+
+2. 修改内核或驱动以使用suspend功能
+设置唤醒源: 配置GPIO引脚工作于中断功能, 设置它的触发方式
+
+怎样修改内核:
+a. 通过调用s3c_irq_wake来修改s3c_irqwake_intmask、s3c_irqwake_eintmask用来表示唤醒源是哪个
+b. 需要自己设置GPIO用于中断功能,并设置它的触发方式
+
+int0,1,2,3
+eint4,5,...15
+
+在我们的按键驱动中: request_irq之后调用s3c_irq_wake或s3c_irqext_wake
+
+2.1 直接修改内核: s3c_irqwake_intmask、s3c_irqwake_eintmask, 并且配置GPIO
+或
+2.2 修改按键驱动,在request_irq之后调用irq_set_irq_wake
+
+2.1
+解压新工具链并设置PATH
+sudo tar xjf arm-linux-gcc-4.3.2.tar.bz2 -C /
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/usr/local/arm/4.3.2/bin
+
+编译内核:
+tar xjf linux-3.4.2.tar.bz2 
+cd linux-3.4.2
+patch -p1 < ../linux-3.4.2_alsa_wm8976_uda1341_jz2440_mini2440_tq2440.patch
+cp config_wm8976_jz2440 .config
+make menuconfig
+
+修改arch\arm\plat-samsung\pm.c
+
+unsigned long s3c_irqwake_intmask	= 0xfffffffa;
+unsigned long s3c_irqwake_eintmask	= 0xfffff7ff;
+
+修改arch\arm\plat-s3c24xx\pm.c  /* 实验发现不修改这个文件也成功,原因在于UBOOT已经配置了GPIO,设置了中断触发类型 */
+	if (!irqstate) {
+		if (pinstate == S3C2410_GPIO_IRQ)
+			S3C_PMDBG("Leaving IRQ %d (pin %d) as is\n", irq, pin);
++		else{			
++			s3c_gpio_cfgpin(pin, S3C2410_GPIO_IRQ);
++		}
+		/* 配置触发方式 */
+	} else {
+
+make uImage && cp arch/arm/boot/uImage /work/nfs_root
+
+sudo tar xjf fs_mini_mdev_new.tar.bz2 -C /work/nfs_root/
+
+使用新内核启动
+set bootcmd 'nfs 30000000 192.168.1.124:/work/nfs_root/uImage; bootm 30000000'
+set bootargs console=ttySAC0,115200 root=/dev/nfs nfsroot=192.168.1.124:/work/nfs_root/fs_mini_mdev_new ip=192.168.1.17
+
+测试：
+cat /sys/power/state
+echo mem > /sys/power/state
+按键换醒
+
+
+2.2 在驱动程序中, request_irq后调用irq_set_irq_wake来指定唤醒源
+
+3. 修改驱动程序支持电源管理
+a. 通知notifier:
+在冻结APP之前,使用pm_notifier_call_chain(PM_SUSPEND_PREPARE)来通知驱动程序
+在重启APP之后,使用pm_notifier_call_chain(PM_POST_SUSPEND)来通知驱动程序
+
+如果驱动程序有事情在上述时机要处理,可以使用register_pm_notifier注册一个notifier
+
+b. 添加suspend, resume函数
+b.1 添加一个同名platform_device, platform_driver
+b.2 老方法:在platform_driver里实现suspend,resume成员
+    新方法:在platform_driver里的driver里的pm结构体, 实现suspend,resume成员
+
+对于LCD, 配置内核去掉 CONFIG_FRAMEBUFFER_CONSOLE, 可以在休眠-唤醒后保留LCD上的图像
+应该也可以通过APP禁止Framebuffer用作console 
+
+系统处于运行状态并且LCD打开时, 耗电240mA
+休眠时, 耗电50mA
+
+
+
+两篇文章:
+http://blog.csdn.net/bingqingsuimeng/article/details/7935414
+http://www.wowotech.net/linux_kenrel/suspend_and_resume.html
+
+
+
+
+
+
+
+
+资料:
+http://blog.csdn.net/bingqingsuimeng/article/category/1228414
+http://os.chinaunix.net/a2006/0519/1002/000001002210.shtml
+http://www.ednchina.com/ART_44010_29_0_TA_eeda337e_3.HTM?jumpto=view_welcomead_1408610592294
+
+好文：
+http://blog.csdn.net/bingqingsuimeng/article/details/7935414
+http://blog.csdn.net/bingqingsuimeng/article/details/8197912
+http://blog.sina.com.cn/s/blog_a6559d920101i52j.html
+
+Linux电源管理(1)_整体架构
+http://www.wowotech.net/linux_kenrel/pm_architecture.html
+
+Linux电源管理(4)_Power Management Interface
+http://www.wowotech.net/linux_kenrel/pm_interface.html
+
+Linux电源管理(6)_Generic PM之Suspend功能
+http://www.wowotech.net/linux_kenrel/suspend_and_resume.html
+
+
+Linux运行时IO设备电源管理框架---PM  (runtime power manager)
+http://blog.sina.com.cn/s/blog_533074eb0101dnm2.html
+
+
+Run-time PM 详解
+http://blog.csdn.net/bingqingsuimeng/article/details/7935440
+
+电源管理之regulator机制流程 
+http://blog.csdn.net/bingqingsuimeng/article/details/8216782
+
+
+linux内核对S3C2410睡眠模式的支持 (讲得很好!)
+http://blog.csdn.net/hongtao_liu/article/details/4208988
+
+s3c2440 省电模式开发详解(讲得很好!)
+http://blog.chinaunix.net/uid-517401-id-1641576.html
+
+http://www.linuxforum.net/forum/showflat.php?Board=embedded&Number=725416
+
+ s3c2440 省电模式开发详解
+http://blog.chinaunix.net/uid-517401-id-1641576.html
+
+      

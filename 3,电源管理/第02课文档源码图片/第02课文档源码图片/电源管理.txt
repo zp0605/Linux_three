@@ -1,0 +1,169 @@
+
+一. 电源管理：在不影响使用电子设备的前提下尽可能让它省电
+
+8051:
+无电源管理：灭灯6.1MA 亮灯32.2MA
+有电源管理：灭灯0.27uA 亮灯26.7MA
+MCU全速运行时耗电6.1ma, led耗电26ma
+
+Linux更加复杂:
+1. 硬件更复杂：外接更多设备，这些设备也需要单独供电，休眠前可能需要单独设置
+2. 软件更复杂：需要有统一的框架，唤醒后可能需要重新初始化
+
+
+二. 给u-boot添加suspend命令
+u-boot全速运行,耗电83ma
+u-boot suspend:耗电33ma ==>外设备没有完全关闭，比如声卡、网卡
+
+进入休眠模式的方法：
+	/* 1. 配置GPIO: 比如想维持LED亮或灭, 用于唤醒CPU的引脚要设为中断功能 */
+	/* 2. 设置INTMSK屏蔽所有中断: 在sleep模式下,这些引脚只是用于唤醒系统,当CPU正常运行时可以重新设置INTMSK让这些引脚用于中断功能 */	
+	/* 3. 配置唤醒源 */
+	/* 4. 设置MISCCR[13:12]=11b, 使得USB模块进入休眠 */
+	/* 5. 在GSTATUS[4:3]保存某值, 它们可以在系统被唤醒时使用 */
+	/* 6. 设置 MISCCR[1:0] 使能数据总线的上拉电阻 */
+	/* 7. 清除 LCDCON1.ENVID 以停止LCD */
+	/* 8. 读这2个寄存器: rREFRESH and rCLKCON, 以便填充TLB
+	 *    如果不使用MMU的话,这个目的可以忽略 
+	 */
+	/* 9. 设置 REFRESH[22]=1b,让SDRAM进入self-refresh mode */
+	/* 10. 等待SDRAM成功进入self-refresh mode  */
+	/* 11.设置 MISCCR[19:17]=111b以保护SDRAM信号(SCLK0,SCLK1 and SCKE) */
+	/* 12. 设置CLKCON的SLEEP位让系统进入sleep mode */	
+
+
+唤醒系统的方法：
+	/* 1. 按下按键 */
+	/* 2. 根据 GSTATUS2[1]判断是复位还是唤醒 */	
+	/* 3. 设置 MISCCR[19:17]=000b, 以释放SDRAM信号 */
+	/* 4. 配置s3c2440的memory controller */
+	/* 5. 等待SDRAM退出self-refresh mode */
+	/* 6. 根据GSTATUS[3:4]的值来运行休眠前的函数 */
+
+u-boot-1.1.6_jz2440_suspend.patch
+
+
+nfs 30000000 192.168.1.124:/work/nfs_root/u-boot.bin;protect off all;erase 0 3ffff;cp.b 30000000 0 40000
+nfs 30000000 192.168.1.124:/work/nfs_root/u-boot.bin;nand erase bootloader; nand write.jffs2 30000000 bootloader
+
+
+
+
+
+
+
+
+
+
+
+资料:
+http://blog.csdn.net/bingqingsuimeng/article/category/1228414
+http://os.chinaunix.net/a2006/0519/1002/000001002210.shtml
+http://www.ednchina.com/ART_44010_29_0_TA_eeda337e_3.HTM?jumpto=view_welcomead_1408610592294
+
+好文：
+http://blog.csdn.net/bingqingsuimeng/article/details/7935414
+http://blog.csdn.net/bingqingsuimeng/article/details/8197912
+http://blog.sina.com.cn/s/blog_a6559d920101i52j.html
+
+Linux电源管理(1)_整体架构
+http://www.wowotech.net/linux_kenrel/pm_architecture.html
+
+Linux电源管理(4)_Power Management Interface
+http://www.wowotech.net/linux_kenrel/pm_interface.html
+
+Linux电源管理(6)_Generic PM之Suspend功能
+http://www.wowotech.net/linux_kenrel/suspend_and_resume.html
+
+
+Linux运行时IO设备电源管理框架---PM  (runtime power manager)
+http://blog.sina.com.cn/s/blog_533074eb0101dnm2.html
+
+
+Run-time PM 详解
+http://blog.csdn.net/bingqingsuimeng/article/details/7935440
+
+电源管理之regulator机制流程 
+http://blog.csdn.net/bingqingsuimeng/article/details/8216782
+
+
+linux内核对S3C2410睡眠模式的支持 (讲得很好!)
+http://blog.csdn.net/hongtao_liu/article/details/4208988
+
+s3c2440 省电模式开发详解(讲得很好!)
+http://blog.chinaunix.net/uid-517401-id-1641576.html
+
+http://www.linuxforum.net/forum/showflat.php?Board=embedded&Number=725416
+
+ s3c2440 省电模式开发详解
+http://blog.chinaunix.net/uid-517401-id-1641576.html
+
+
+state_store
+    pm_suspend
+        enter_state
+            error = suspend_prepare();
+                        pm_prepare_console();
+                        pm_notifier_call_chain(PM_SUSPEND_PREPARE);
+                        suspend_freeze_processes
+            error = suspend_devices_and_enter(state);
+						error = suspend_ops->begin(state);
+						suspend_console();
+						dpm_suspend_start(PMSG_SUSPEND);
+							dpm_prepare
+								device_prepare(dev, state);
+									if (dev->pm_domain) {
+										info = "preparing power domain ";
+										callback = dev->pm_domain->ops.prepare;
+									} else if (dev->type && dev->type->pm) {
+										info = "preparing type ";
+										callback = dev->type->pm->prepare;
+									} else if (dev->class && dev->class->pm) {
+										info = "preparing class ";
+										callback = dev->class->pm->prepare;
+									} else if (dev->bus && dev->bus->pm) {
+										info = "preparing bus ";
+										callback = dev->bus->pm->prepare;
+									}
+									
+							dpm_suspend(state);
+								device_suspend(dev);
+									__device_suspend(dev, pm_transition, false);
+										
+						suspend_enter
+							suspend_ops->prepare	
+							dpm_suspend_end(PMSG_SUSPEND);
+							suspend_ops->prepare_late
+							disable_nonboot_cpus();
+							arch_suspend_disable_irqs();
+							syscore_suspend();
+							suspend_ops->enter(state);
+								s3c_pm_enter
+										
+						            
+            suspend_finish();
+
+
+
+所涉及的device:
+
+int dpm_prepare(pm_message_t state)
+{
+	int error = 0;
+
+	might_sleep();
+
+	mutex_lock(&dpm_list_mtx);
+	while (!list_empty(&dpm_list)) {
+		struct device *dev = to_device(dpm_list.next);
+
+		get_device(dev);
+		mutex_unlock(&dpm_list_mtx);
+
+		error = device_prepare(dev, state);
+
+
+
+device_add
+	device_pm_add
+		list_add_tail(&dev->power.entry, &dpm_list);            

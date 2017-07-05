@@ -1,0 +1,11 @@
+document.writeln("<div id=\"ckepop\">");
+document.writeln("	<span class=\"jiathis_txt\">分享到：</span>");
+document.writeln("	<a class=\"jiathis_button_qzone\">QQ空间</a>");
+document.writeln("	<a class=\"jiathis_button_tsina\">新浪微博</a>");
+document.writeln("	<a class=\"jiathis_button_tqq\">腾讯微博</a>");
+document.writeln("	<a class=\"jiathis_button_renren\">人人网</a>");
+document.writeln("	<a class=\"jiathis_button_douban\">豆瓣网</a>");
+document.writeln("	<a class=\"jiathis_button_kaixin001\">开心网</a>");
+document.writeln("	<a href=\"http://www.jiathis.com/share?uid=1531230\" class=\"jiathis jiathis_txt jiathis_separator jtico jtico_jiathis\" target=\"_blank\">更多</a>");
+document.writeln("	<a class=\"jiathis_counter_style\"></a>");
+document.writeln("</div>");

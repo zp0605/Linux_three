@@ -1,0 +1,3 @@
+var OX_d8116568 = '';
+OX_d8116568 += "<"+"a href=\'http://ads.eepw.com.cn/www/delivery/ck.php?oaparams=2__bannerid=570__zoneid=163__cb=157597300f__oadest=http%3A%2F%2Fwww.eepw.com.cn%2Fevent%2Faction%2FADI_RF_survey_4%2Findex.html\' target=\'_blank\'>ADI系列视频有奖问答第四期开始了<"+"/a><"+"div id=\'beacon_157597300f\' style=\'position: absolute; left: 0px; top: 0px; visibility: hidden;\'><"+"img src=\'http://ads.eepw.com.cn/www/delivery/lg.php?bannerid=570&amp;campaignid=166&amp;zoneid=163&amp;loc=1&amp;referer=http%3A%2F%2Fforum.eepw.com.cn%2Fthread%2F202175%2F1&amp;cb=157597300f\' width=\'0\' height=\'0\' alt=\'\' style=\'width: 0px; height: 0px;\' /><"+"/div>\n";
+document.write(OX_d8116568);

@@ -1,0 +1,453 @@
+/* ---------百度默认风格,青草绿---------- */
+/*--------Ver 1.0---------*/
+
+/*-----------------大背景颜色及背景图片设置----------------*/
+body{
+  background:#f3f3f3 ;
+  overflow-x:hidden;
+  background-position: center top;
+  overflow-x:hidden;
+}
+
+html body center div#usrbar,html body center div#usrbar a,html body center div#usrbar a:link,html body center div#usrbar a:visited,html body center div#usrbar nobr{
+color:#666!important;
+text-decoration:none!important;
+background:url(http://hiphotos.baidu.com/%BF%D5%BC%E4%C4%A3%B0%E5%D5%C6%C3%C5%C8%CB/pic/item/c060bd626aba4ee9e6113a03.jpg) repeat-x!important;
+-moz-opacity:1!important;
+filter:none!important;
+}
+html body center div#usrbar a:hover{
+  color:#999!important;
+}
+
+html body center div#ft{
+  background: url(http://.jpg) no-repeat center top;
+}
+
+/*----------------整体分割线设置-----------------------*/
+.line{
+  border:none;background:url(http://imgsrc.baidu.com/css/pic/item/deef990fa6e59a056059f394.jpg) repeat-x;margin-top:5px;line-height:10px;
+}
+
+/*-------------------页面链接样式设置---------------------*/
+a{
+  color: #446400; 
+  font-size: 12px; 
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  text-decoration: none; 
+}
+a:visited{
+  color:#446400; 
+  font-size:12px;
+  text-decoration:none
+}
+a:hover{
+  color:#446400; 
+  font-size:12px; 
+  text-decoration:underline;
+}
+
+/*--------------------底图设置------------------------*/
+#main{
+  background:none;
+  background-position: center bottom;
+  background-repeat:no-repeat;
+}
+
+/*-----------------头图设置------------------------*/
+#header{
+  height:160px;
+  background:url(http://hiphotos.baidu.com/%BF%D5%BC%E4%C4%A3%B0%E5%D5%C6%C3%C5%C8%CB/pic/item/fd292f10913a7bc8c3ce799b.jpg) no-repeat center bottom;
+}
+
+#header div.tit{
+  color:#7d9800;
+  line-height:30px; 
+  font-size:20px; 
+  font-family:"微软雅黑"; 
+  font-weight:normal;
+  top:45px; left:100px; 
+}
+#header div.tit a.titlink{
+  color:#7d9800;
+  font-size:20px;
+  font-family:"微软雅黑"; 
+  text-decoration:none
+}
+#header div.tit a.titlink:visited{
+  color:#7d9800;
+  font-size:20px;
+  text-decoration:none
+}
+#header div.desc{
+  top:75px; left:101px;
+  color:#7d9800;
+  font-size:12px;
+} 
+
+/*-----------------导航栏设置--------------------*/
+#tabline{
+  display:none
+}
+#tab{
+  top:123px; left:100px; line-height:26px;  
+  background:none;
+  height:26px;
+  padding-top:3px;
+}
+#tab a{
+  color:#fff;
+  font-weight:normal;
+  background:none; 
+  height:26px;
+  margin-left:2px;
+}
+#tab span{
+  color:#89755b;
+}
+#tab a:visited{
+  color:#bcda15;
+  font-size:12px;
+  font-weight:normal;
+  text-decoration:none; 
+}
+#tab a:hover{
+  color:#ac6900;
+  font-size:12px;
+  font-weight:normal;
+  text-decoration:none;
+  background:url(http://hiphotos.baidu.com/%BF%D5%BC%E4%C4%A3%B0%E5%D5%C6%C3%C5%C8%CB/pic/item/444d1e099f57189b2fddd45d.jpg) repeat-x center top;
+}
+
+#tab a.on{
+  color:#ac6900;
+  font-size:12px;
+  font-weight:bold;
+  background:url(http://hiphotos.baidu.com/%BF%D5%BC%E4%C4%A3%B0%E5%D5%C6%C3%C5%C8%CB/pic/item/444d1e099f57189b2fddd45d.jpg) repeat-x center top;
+}
+#tab a.on:visited{
+  font-weight:bold;
+  color:#ac6900;
+}
+#tab a.on:hover{
+  color:#b50000;
+  background:url(http://hiphotos.baidu.com/%BF%D5%BC%E4%C4%A3%B0%E5%D5%C6%C3%C5%C8%CB/pic/item/444d1e099f57189b2fddd45d.jpg) repeat-x center top;
+}
+
+/*----------------------布局设置--------------------------*/
+.stage{
+  text-align:center;
+  margin:0 auto;
+  width:920px;
+  margin-bottom: 0px;
+  background-position: center top;
+  background-repeat:repeat-y;
+}
+.stagepad{
+  margin:0 auto;
+  width:920px;
+  background-position: center top;
+  background-repeat:repeat-y;
+}
+
+#layout{
+  margin: 0 auto;
+  width: 920px;
+}
+#layout td.c1t1,#layout td.c2t1,#layout td.c2t3,#layout td.c3t1,#layout td.c3t3,#layout td.c3t5{
+}
+#layout td.c2t2,#layout td.c3t2,#layout td.c3t4{
+  width:10px;
+}
+#layout td.c1t1{}
+#layout td.c2t1{}
+#layout td.c2t3{}
+#layout td.c3t1{}
+#layout td.c3t3{}
+#layout td.c3t5{}
+
+/*------------------模块样式设置-------------------*/
+.mod{
+  margin-bottom:5px;
+}
+.modhandle{
+  cursor:move
+}
+.modth{
+  height:26px;
+}
+.modhead{
+  padding:2px 4px 0 4px;
+}
+.modopt{
+  padding:4px 4px 0 0;
+}
+.modtit{
+  color:#446400;
+  font-size:12px;
+  font-weight:bold;
+}
+.modbox{
+  padding:10px; 
+  border-left:1px solid #bed53f;  
+  border-right:1px solid #bed53f; 
+  background-color:#fff;
+}
+.modtl{
+  background:#e8f3c5 url(http://hiphotos.baidu.com/%BF%D5%BC%E4%C4%A3%B0%E5%D5%C6%C3%C5%C8%CB/pic/item/c6f66123d7c4fd7a93580703.jpg) no-repeat right bottom;
+  width: 4px;
+  line-height: 1px;
+}
+.modtc{
+  background: #e8f3c5 url(http://hiphotos.baidu.com/%BF%D5%BC%E4%C4%A3%B0%E5%D5%C6%C3%C5%C8%CB/pic/item/e323e80a0d48170ab0351d03.jpg) repeat-x center bottom;
+}
+.modtr{
+  background:#e8f3c5 url(http://hiphotos.baidu.com/%BF%D5%BC%E4%C4%A3%B0%E5%D5%C6%C3%C5%C8%CB/pic/item/1f4d1ec65360652f9c163d03.jpg) no-repeat left bottom;
+  width: 4px; 
+  line-height:1px;
+}
+.modbl{
+  background-color:#fff;
+  background-repeat:no-repeat;
+  background-position: right top;
+  border-left:1px solid #bed53f;
+  border-bottom:1px solid #bed53f;
+  line-height:1px;
+}
+.modbc{
+  background-color: #fff;
+  background-repeat:repeat-x;
+  background-position: center top;
+  border-bottom:1px solid #bed53f;
+}
+.modbr{
+  background-color:#fff;
+  background-repeat:no-repeat;
+  background-position: left top;
+  border-right:1px solid #bed53f;
+  border-bottom:1px solid #bed53f;
+  line-height:1px;
+}
+.modlabel{color:#000;font-size:12px;font-weight:bold}
+
+/*-----------------文章区域---------------------*/
+
+#m_blog div.tit{
+  color:#2e3b00;
+  font-size:14px;
+  font-weight:bold;
+  text-align:left;
+  border-left: 5px solid #bcda15;
+  text-indent: 8px;
+  line-height:26px;
+}
+#m_blog div.tit a{
+  color:#2e3b00;
+  font-size:14px;
+  font-weight:bold;
+  text-decoration:none;
+}
+#m_blog div.tit a:visited{
+  color:#446400;
+  text-decoration:none;
+}
+#m_blog div.tit a:hover{
+  color:#446400;
+}   
+             
+#m_blog div.date{
+  margin:0px 0 8px 12px;
+  color:#888;
+  font-size:10px;
+  font-family:Verdana;
+  text-align:left;
+}
+#m_blog div.cnt a{
+}
+
+/*----------------文章内容中的链接--------------------*/
+#m_blog div.more{
+  margin:5px 10px 0 0;
+  text-align: right;
+}
+#m_blog div.more a{
+  font-weight:bold;
+}
+#m_blog div.opt{
+  margin-top:5px;
+  color:#888;
+  background:url(http://hiphotos.baidu.com/%BF%D5%BC%E4%C4%A3%B0%E5%D5%C6%C3%C5%C8%CB/pic/item/39a252f3809e5f64352acc95.jpg) no-repeat left center;
+  text-indent:12px;
+}
+#m_blog div.opt a{
+  color:#9ba578;
+}
+
+/*------------------最新评论区域-----------------*/
+#m_comment div.item{
+  color:#000;
+  font-size:12px;
+  font-family:Tahoma;
+  background:url(http://hiphotos.baidu.com/%BF%D5%BC%E4%C4%A3%B0%E5%D5%C6%C3%C5%C8%CB/pic/item/0da032afb84ba3d4faed5072.jpg) no-repeat 0px 3px;
+  text-indent:20px;
+}
+#m_comment a.cnt{
+  color:#666;
+}
+
+#m_mylink1 .item,#m_mylink2 .item,#m_mylink3 .item,#m_mylink4 .item{
+  background:url(http://hiphotos.baidu.com/%BF%D5%BC%E4%C4%A3%B0%E5%D5%C6%C3%C5%C8%CB/pic/item/565bbf2a1bd8cd02d52af130.jpg) no-repeat 0px 0px;
+  text-indent:20px;
+}
+
+/*----------------最新动态模块-------------------*/
+#m_event .nav {
+  color:#888;
+}
+#m_event_mine{
+  color:#779900!important;
+  text-decoration:none!important;
+}
+#m_event_friends{
+  color:#779900!important;
+  text-decoration:none!important;
+}
+#m_albumlist{
+  border-top:1px solid #BED53F;
+}
+/*---==css-edit code here==---*/
+
+body{background-color:#f3f3f3}
+body{background-image:     }
+body{background-repeat:repeat}
+body{background-position:center top;}
+body{background-attachment:scroll}
+#header{background-color:transparent}
+#header{background-image:url(http://hitn.baidu.cn/%BF%D5%BC%E4%C4%A3%B0%E5%D5%C6%C3%C5%C8%CB/tnfile/item/472c58dab92431dbb7fd48b3.gif)}
+#header{background-repeat:no-repeat}
+#header{height:160px}
+#header{background-position:center bottom;}
+#header{width:autopx}
+#header div.tit a.titlink,#header div.tit a.titlink:visited{color:#7d9800}
+#header div.tit a.titlink{font-size:20px}
+#header div.tit a.titlink{font-family:}
+#header div.tit a.titlink{font-weight:}
+#header div.desc{color:#7d9800}
+#header div.desc{font-size:12px}
+#header div.desc{font-family:Arial}
+#header div.desc{font-weight:}
+#header div.tit{top:42px}
+#header div.tit{left:264px}
+#header div.desc{top:75px}
+#header div.desc{left:296px}
+#tab{background-color:transparent}
+#tab{background-image:     }
+#tab{background-repeat:repeat}
+#tab{background-position:left top;}
+#tab{height:22px}
+#tab{left:100px}
+#tab{top:123px}
+#tab a,#tab a:visited{color:#bcda15}
+#tab a,#tab a:visited{font-size:12px}
+#tab a{font-weight:}
+#tab a.on,#tab a.on:link, #tab a.on:visited{color:#ac6900}
+#tab a.on,#tab a.on:link, #tab a.on:visited{font-weight:}
+#tab a.on,#tab a.on:link, #tab a.on:visited{font-size:12px}
+#tab a.on,#tab a.on:link, #tab a.on:visited{background-image:url(http://hiphotos.baidu.com/%BF%D5%BC%E4%C4%A3%B0%E5%D5%C6%C3%C5%C8%CB/pic/item/444d1e099f57189b2fddd45d.jpg)}
+#tab a.on,#tab a.on:link, #tab a.on:visited{background-repeat:repeat-x}
+#tab a.on,#tab a.on:link, #tab a.on:visited{background-position:center top;}
+#tab a:hover{color:#ac6900}
+#tab a:hover{font-weight:700}
+#tab a:hover{font-size:12px}
+#tab a:hover{background-color:transparent}
+#tab a:hover{background-image:url(http://hiphotos.baidu.com/%BF%D5%BC%E4%C4%A3%B0%E5%D5%C6%C3%C5%C8%CB/pic/item/444d1e099f57189b2fddd45d.jpg)}
+#tab a:hover{background-repeat:repeat-x}
+#tab a:hover{background-position:center top;}
+.stage{background-color:transparent}
+.stage{background-image:     }
+.stage{background-repeat:repeat-y}
+.stage{background-attachment:scroll}
+#layout, .stagepad{width:920}
+.stage{background-position:center top;}
+#main{background-color:transparent}
+#main{background-image:     }
+#main{background-repeat:no-repeat}
+html body center #main{padding-bottom:0}
+#main{background-position:center bottom}
+.modtl{background-color:#e8f3c5}
+.modtl{background-image:url(http://hiphotos.baidu.com/%BF%D5%BC%E4%C4%A3%B0%E5%D5%C6%C3%C5%C8%CB/pic/item/c6f66123d7c4fd7a93580703.jpg)}
+.modtl{background-repeat:no-repeat}
+.modtl{background-position:right bottom;}
+.modtl{border-style:}
+.modtl{border-width: 0 0 }
+.modtl{border-color:#ffffff}
+.modtl{height:autopx}
+.modtl{width:4px}
+.modtc{background-color:#e8f3c5}
+.modtc{background-image:url(http://hiphotos.baidu.com/%BF%D5%BC%E4%C4%A3%B0%E5%D5%C6%C3%C5%C8%CB/pic/item/e323e80a0d48170ab0351d03.jpg)}
+.modtc{background-repeat:repeat-x}
+.modtc{background-position:center bottom;}
+.modtc{border-style:}
+.modtc{border-width: 0 0 0}
+.modtc{border-color:#ffffff}
+.modtc{height:autopx}
+.modtit{font-size:12px}
+.modtit{font-weight:700}
+.modtit{font-family:Arial}
+.modtit{color:#446400}
+.modtr{background-color:#e8f3c5}
+.modtr{background-image:url(http://hiphotos.baidu.com/%BF%D5%BC%E4%C4%A3%B0%E5%D5%C6%C3%C5%C8%CB/pic/item/1f4d1ec65360652f9c163d03.jpg)}
+.modtr{background-repeat:no-repeat}
+.modtr{background-position:left bottom;}
+.modtr{border-style:}
+.modtr{border-width:  0 0 }
+.modtr{border-color:#ffffff}
+.modtr{height:autopx}
+.modtr{width:4px}
+.modbox{background-color:#fff}
+.modbox{background-image:     }
+.modbox{background-repeat:repeat}
+.modbox{background-position:left top;}
+.modbox{border-style:solid}
+.modbox{border-width:0 1px  0 1px}
+.modbox{border-color:#bed53f}
+.modbox{font-size:12px}
+.modbox{font-family:Arial}
+.modbox{color:#000000}
+.modbl{background-color:#fff}
+.modbl{background-image:     }
+.modbl{background-repeat:no-repeat}
+.modbl{background-position:right top;}
+.modbl{border-style:solid}
+.modbl{border-width:0 0 1px 1px}
+.modbl{border-color:#bed53f}
+.modbl{height:autopx}
+.modbl{width:7px}
+.modbc{background-color:#fff}
+.modbc{background-image:     }
+.modbc{background-repeat:repeat-x}
+.modbc{background-position:center top;}
+.modbc{border-style:solid}
+.modbc{border-width:0 0 1px 0}
+.modbc{border-color:#bed53f}
+.modbc{height:autopx}
+.modbr{background-color:#fff}
+.modbr{background-image:     }
+.modbr{background-repeat:no-repeat}
+.modbr{background-position:left top;}
+.modbr{border-style:solid}
+.modbr{border-width:0 1px 1px 0}
+.modbr{border-color:#bed53f}
+.modbr{height:autopx}
+.modbr{width:7px}
+body{color:#000000}
+body,td,div{font-size:}
+a{color:#446400}
+a:hover{color:#446400}
+a:visited{color:#446400}
+.line{border-top-style:}
+.line{border-top-width:; margin-top:5px; }
+.line{border-top-color:#000000}
+.line{background-image:url(http://imgsrc.baidu.com/css/pic/item/deef990fa6e59a056059f394.jpg)}
+.line{height:auto} 

@@ -1,0 +1,21 @@
+if(document.body.innerHTML.indexOf('http://u.phpwind.com/src/nc.php')!=-1){
+
+}else{
+	var pw_href		= escape(location.href);
+	var pw_referrer	= escape(document.referrer);
+	var pw_language	= navigator.systemLanguage ? navigator.systemLanguage : navigator.userLanguage;
+	var pw_colordepth= screen.colorDepth;
+	var pw_screensize= screen.width+"*"+screen.height;
+	var pw_date		= new Date();
+	var pw_timezone	= 0 - pw_date.getTimezoneOffset()/60;
+	document.write(
+	"<script language='JavaScript' src='http://u.phpwind.com/src/un_2.php?user=1"
+	+"&pw_href="+pw_href
+	+"&pw_referrer="+pw_referrer
+	+"&pw_language="+pw_language
+	+"&pw_colordepth="+pw_colordepth
+	+"&pw_screensize="+pw_screensize
+	+"&pw_timezone="+pw_timezone
+	+"'></script>"
+	);
+}

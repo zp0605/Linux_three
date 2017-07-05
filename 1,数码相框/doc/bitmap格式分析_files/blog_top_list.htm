@@ -1,0 +1,55 @@
+
+var start = 1;
+
+var _html = '<div class="blogpopMain"><div class="l">'
+          + '<a href="http://blog.51cto.com/zt/423" target="_blank"><img src="http://blog.51cto.com/image/blog_top/upload/1355276040_index.jpg" width="105" height="105" /></a>'
+          + '<p><a href="http://blog.51cto.com/zt/423" target="_blank">vSphere学习手册</a></p></div>'
+          + '<div class="r"><h4 style="text-align:left;"><a href="http://xjsunjie.blog.51cto.com/999372/1085214" target="_blank">做一个有思想的技术人</a></h4>'
+          + '<ul>'
+          + '<li><a href="http://dgd2010.blog.51cto.com/1539422/1085690" target="_blank">面对争议，息事宁人还是据理力争？</a></li>'
+          + '<li><a href="http://dgd2010.blog.51cto.com/1539422/1085025" target="_blank">毕业生、待业毕业生应该做的几件事</a></li>'
+          + '<li><a href="http://aiilive.blog.51cto.com/1925756/1086076" target="_blank">驳！永远不要对一个外行聊你的专业</a></li>'
+          + '<li><a href="http://51ctoblog.blog.51cto.com/26414/1076929" target="_blank"style="color:red;">有奖！我身边的戴尔企业级解决方案</a></li>'
+          + '</ul>'
+          + '</div></div>'
+          + '';
+
+jQuery('#showMessagerDim').show();
+
+jQuery(function(){
+//window.onload=function(){
+   if(get_cookie('blog_top')==''&&start==1){
+//	 show_pop();
+	    jQuery.messager.showblogtop('', _html);
+        var date=new Date();
+	    var day = 1355673600000;//
+	    date.setTime(day);
+	    var test = date.getTime();
+	    document.cookie="blog_top=yes;domain=.blog.51cto.com;expires="+date.toGMTString()+";path=/;";
+    }
+	jQuery("#showMessagerDim").click(function(){
+		jQuery.messager.showblogtop('', _html);
+		//removeIframe();
+	});
+//}
+});
+
+
+function get_cookie(Name) {
+    var search = Name + "=";
+    var returnvalue = "";
+    if (document.cookie.length > 0) {
+        offset = document.cookie.indexOf(search);
+        if (offset != -1) {
+            offset += search.length;
+
+            end1 = document.cookie.indexOf(";", offset);
+
+            if (end1 == -1)
+            end1 = document.cookie.length;
+            returnvalue=unescape(document.cookie.substring(offset, end1));
+        }
+    }
+    return returnvalue;
+}
+
